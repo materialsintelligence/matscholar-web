@@ -1,0 +1,135 @@
+body{
+	background: whitesmoke;
+}
+
+.main-container {
+    background: white;
+    padding: 40px;
+    max-width: 1200px;
+	box-shadow: rgb(240, 240, 240) 5px 5px 5px 0px;
+}
+
+#page-content {
+    padding: 0px 15px;
+}
+
+p{
+	overflow-x: hidden;
+}
+
+td{
+    font-size: 12px;
+}
+
+table{
+	width: 100%;
+}
+
+a {
+    cursor: pointer;
+}
+
+.summary-div {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    max-height: 300px;
+    overflow: scroll;
+}
+
+.summary-div td {
+    padding: 4px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.summary-div .summary-header {
+    background-color: #ceeaea;
+}
+
+.summary-div .summary-header th {
+    padding: 10px;
+    border-bottom: 1px solid #aaa;
+}
+
+.summary-div a {
+    color: black;
+}
+
+.summary-table {
+    border-collapse: collapse;
+}
+
+.summary-div table {
+    margin-bottom: 15px;
+}
+
+#material_summary_div .summary-div {
+    max-height: 200px;
+    overflow: scroll;
+}
+
+#view_abstracts {
+    cursor: pointer;
+    color: #1EAEDB;
+}
+#view_abstracts:hover {
+    color:#0FA0CE;
+}
+
+#has_elements, #n_has_elements {
+    display: inline-grid;
+    width: 170px;
+    margin: 0px 3px;
+}
+
+#matsearch_input, #matsearch_negative_input {
+    width: 170px;
+}
+
+
+/* For the new front page */
+
+h4.headline {
+    color: #128E91;
+    font-size: 21pt;
+}
+
+.button-search {
+    background-color: #16ADAF;
+    border-color: #16ADAF;
+    color: white;
+}
+
+.button-search:hover {
+    background-color: #128E91;
+    border-color: #128E91;
+    color: white;
+}
+
+input.filter-value {
+    width: 200px;
+    height: 36px;
+}
+
+.remove-filter {
+    line-height: 34px;
+    height: 36px;
+    padding: 0px 15px;
+    text-transform: none;
+}
+
+.Select--multi .Select-value {
+    background-color: #ceeaea;
+    color: black;
+}
+
+#nav_bar a {
+    color: #16ADAF;
+}
+
+#nav_bar a:hover {
+    color: #128E91;
+}
+
+
