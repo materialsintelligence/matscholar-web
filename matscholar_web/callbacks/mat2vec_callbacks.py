@@ -1,5 +1,6 @@
 from dash.dependencies import Input, Output, State
 from matscholar import Rester
+from matscholar.utils import parse_word_expression
 import dash_table as dt
 
 
@@ -15,11 +16,20 @@ def bind(app):
 
             r = Rester()
 
-            result = r.close_words(word.strip(), top_k=8)
+            positive, negative = parse_word_expression(word.strip())
+            result = r.close_words(positive=positive, negative=negative, top_k=8, ignore_missing=True)
+
             close_words = result["close_words"]
             scores = result["scores"]
-            title = "Closest words to {}".format(" + ".join(['"'+w.replace("_", " ")+'"'
-                                                             for w in result["sentence"]]))
+            if negative:
+                title = "Closest words to {} - {}".format(
+                    " + ".join(['"'+w.replace("_", " ")+'"' for w in result["positive"]]),
+                    " - ".join(['"' + w.replace("_", " ") + '"' for w in result["negative"]])
+                )
+            else:
+                title = "Closest words to {}".format(
+                    " + ".join(['"' + w.replace("_", " ") + '"' for w in result["positive"]])
+                )
 
             return dt.DataTable(
                         data=[{"wordphrase": "{}. {}".format(i+1, w.replace("_", " ")),
