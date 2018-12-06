@@ -17,8 +17,8 @@ def serve_close_words():
                 id="close_words_input",
                 type="text",
                 autofocus=True,
-                placeholder="a single word / phrase, e.g. Fe2O3, thermoelectric, band gap, ... " +
-                            "or an expression, e.g. LiCoO2 - cathode + anode (COMING SOON)",
+                placeholder="a single word or phrase, e.g. Fe2O3, thermoelectric, band gap, ... " +
+                            "or an expression, e.g. thermoelectric - PbTe + LiFePO4",
                 style={"width": "100%"}),
                 style={"display": "table-cell", "width": "100%"}),
             html.Div(html.Button(
