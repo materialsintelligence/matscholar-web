@@ -34,21 +34,13 @@ VIEW
 header = html.Div([
     dcc.Location(id="url", refresh=False),
     html.Img(
-        src="https://s3-us-west-1.amazonaws.com/matstract/matstract_with_text.png",
+        src="https://s3-us-west-1.amazonaws.com/matstract/matscholar_logo.png",
         style={
          'height': '50px',
-         'float': 'right',
+         "display": "block",
          'max-width': "100%",
-         "margin": "5px 3px 20px 5px",
-         "clear": "both"
+         "margin": "5px auto",
         }),
-    html.H4(
-        "Rediscovering Materials",
-        className="headline",
-        style={
-            "float": "left",
-            "margin": "15px 5px 10px 1px",
-            "whiteSpace": "nowrap"})
 ], className="row")
 
 nav = html.Nav(
