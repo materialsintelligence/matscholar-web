@@ -1,5 +1,15 @@
 body{
-	background: whitesmoke;
+	background: #000;
+	height: 100vh;
+}
+#react-entry-point, #data-reactroot, #_dash-app-content,
+#app_container, [data-reactroot], #materials_map {
+    height: 100%;
+}
+
+input.dark-input-box {
+    background-color: #000;
+    color: whitesmoke;
 }
 
 .main-container {
@@ -132,4 +142,7 @@ input.filter-value {
     color: #128E91;
 }
 
+._dash-undo-redo {
+  display: none;
+}
 
