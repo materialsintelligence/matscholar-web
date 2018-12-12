@@ -8,10 +8,10 @@ from dash.dependencies import Input, Output
 from flask import send_from_directory
 
 # apps
-from matscholar_web.view import mat2vec_app
+from matscholar_web.view import mat2vec_app, materials_map_app
 
 # callbacks
-from matscholar_web.callbacks import mat2vec_callbacks
+from matscholar_web.callbacks import mat2vec_callbacks, materials_map_callbacks
 
 """
 APP CONFIG
@@ -34,9 +34,9 @@ VIEW
 header = html.Div([
     dcc.Location(id="url", refresh=False),
     html.Img(
-        src="https://s3-us-west-1.amazonaws.com/matstract/matscholar_logo.png",
+        src="https://s3.amazonaws.com/matscholar/matscholar_logo.png",
         style={
-         'height': '50px',
+         'width': '250px',
          "display": "block",
          'max-width': "100%",
          "margin": "5px auto",
@@ -44,17 +44,28 @@ header = html.Div([
 ], className="row")
 
 nav = html.Nav(
-        style={"margin": "10px 1px", "borderBottom": "1px solid #eee"},
+        style={
+            "margin": "3px 1px",
+            "padding": "3px 1px",
+            "textAlign": "center"},
         children=[
-            dcc.Link("explore embeddings", href="/explore")
+            dcc.Link("explore embeddings", href="/explore"),
+            html.Span(" | ", style={"color": "whitesmoke"}),
+            dcc.Link("materials map", href="/materials_map"),
         ],
         id="nav_bar")
 
 app.layout = html.Div([
-    html.Div(stylesheets_links, style={"display": "none"}),
-    header,
-    nav,
-    html.Div("", id="app_container")], className='container main-container')
+        html.Div(stylesheets_links, style={"display": "none"}),
+        header,
+        nav,
+        html.Div("", id="app_container")],
+    className='container',
+    style={
+        "maxWidth": "1600px",
+        "height": "100%",
+        "width": "100%",
+        "padding": "0px 5px"})
 
 """
 CALLBACKS
@@ -69,6 +80,8 @@ def display_page(path):
     path = str(path)
     if path.startswith("/explore"):
         return mat2vec_app.serve_layout()
+    if path.startswith("/materials_map"):
+        return materials_map_app.layout
     else:
         return mat2vec_app.serve_layout()
 
@@ -81,3 +94,4 @@ def get_stylesheet(path):
 
 
 mat2vec_callbacks.bind(app)
+materials_map_callbacks.bind(app)

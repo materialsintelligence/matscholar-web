@@ -4,4 +4,4 @@ dash-html-components
 dash-table
 flask
 
--e git+https://github.com/materialsintelligence/matscholar.git@master#egg=matscholar
+-e git+https://github.com/vtshitoyan/matscholar.git@vtshitoyan-dev#egg=matscholar

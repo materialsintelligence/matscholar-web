@@ -37,8 +37,14 @@ def bind(app):
                               for i, w in enumerate(close_words)],
                         columns=[{"name": title, "id": "wordphrase"},
                                  {"name": "Score", "id": "Score"}],
+                        style_as_list_view=True,
+                        style_header={
+                            'backgroundColor': 'rgb(0, 0, 0)',
+                            'color': '#16ADAF'},
                         style_cell={
+                            'backgroundColor': 'rgb(0, 0, 0)',
                             'textAlign': 'left',
+                            'color': 'whitesmoke',
                             'padding': "2px 10px",
                             "whiteSpace": "normal"},
                         style_cell_conditional=[
