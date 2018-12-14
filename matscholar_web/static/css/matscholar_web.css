@@ -134,11 +134,11 @@ input.filter-value {
     color: black;
 }
 
-#nav_bar a {
+a {
     color: #16ADAF;
 }
 
-#nav_bar a:hover {
+a:hover {
     color: #128E91;
 }
 

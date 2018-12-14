@@ -21,7 +21,7 @@ app = dash.Dash()
 app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
 app.config.suppress_callback_exceptions = True
-app.title = "MatScholar - Rediscovering Materials"
+app.title = "matscholar - rediscover materials"
 
 # loading css files
 css_files = ["skeleton.min.css", "matscholar_web.css",]
@@ -55,17 +55,34 @@ nav = html.Nav(
         ],
         id="nav_bar")
 
+footer = html.Div(
+    [
+        html.Span(
+            "Copyright © 2018 - "),
+        html.A(
+            "Materials Scholar Development Team",
+            href="https://github.com/materialsintelligence",
+            target="_blank")
+    ],
+    className="row",
+    style={
+        "color": "grey",
+        "textAlign": "center"
+    }
+)
+
 app.layout = html.Div([
         html.Div(stylesheets_links, style={"display": "none"}),
         header,
         nav,
-        html.Div("", id="app_container")],
+        html.Div("", id="app_container"),
+        footer],
     className='container',
     style={
         "maxWidth": "1600px",
         "height": "100%",
         "width": "100%",
-        "padding": "0px 5px"})
+        "padding": "0px 20px"})
 
 """
 CALLBACKS
@@ -83,7 +100,7 @@ def display_page(path):
     if path.startswith("/materials_map"):
         return materials_map_app.layout
     else:
-        return mat2vec_app.serve_layout()
+        return materials_map_app.layout
 
 
 # setting the static path for loading css files
