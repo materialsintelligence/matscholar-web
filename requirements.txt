@@ -3,5 +3,6 @@ dash-core-components
 dash-html-components
 dash-table
 flask
+matplotlib
 
 -e git+https://github.com/materialsintelligence/matscholar.git@master#egg=matscholar

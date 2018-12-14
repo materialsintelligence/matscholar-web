@@ -1,9 +1,6 @@
 import dash_html_components as html
 import dash_core_components as dcc
-from matscholar import Rester
 
-rester = Rester()
-response = rester.materials_map(limit=None, highlight=None)
 
 fig_layout = {
     'hovermode': 'closest',
@@ -19,7 +16,8 @@ fig_layout = {
         "zeroline": False,
         "showline": False,
         "ticks": '',
-        "showticklabels": False
+        "showticklabels": False,
+        "title": "",
     },
     'yaxis': {
         "autorange": True,
@@ -27,11 +25,18 @@ fig_layout = {
         "zeroline": False,
         "showline": False,
         "ticks": '',
-        "showticklabels": False
+        "showticklabels": False,
+        "title": "",
     }
 }
 
-fig = dict(data=[response["plot_data"]], layout=fig_layout)
+fig_layout["scene"] = dict(
+    xaxis=fig_layout["xaxis"],
+    yaxis=fig_layout["yaxis"],
+    zaxis=fig_layout["xaxis"],
+)
+
+fig = dict(data=[], layout=fig_layout)
 layout = [
     html.Div([
         html.Div(dcc.Input(

@@ -1,4 +1,5 @@
 from dash.dependencies import Input, Output, State
+import dash_html_components as html
 from matscholar import Rester
 from matscholar.utils import parse_word_expression
 import dash_table as dt
@@ -18,6 +19,13 @@ def bind(app):
 
             positive, negative = parse_word_expression(word.strip())
             result = r.close_words(positive=positive, negative=negative, top_k=8, ignore_missing=True)
+
+            # TODO get rid of this when the combined embeddings are handled well
+            if len(result["positive"]) > 1 or len(result["negative"]) > 0:
+                return html.Span(
+                    'No single word or phrase found for "{}" in the vocabulary'.format(word.strip()),
+                    style={"color": "#16ADAF"}
+                )
 
             close_words = result["close_words"]
             scores = result["scores"]

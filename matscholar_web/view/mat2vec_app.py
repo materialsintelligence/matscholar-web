@@ -22,7 +22,7 @@ def serve_close_words():
                 style={"width": "100%"}),
                 style={"display": "table-cell", "width": "100%"}),
             html.Div(html.Button(
-                "Close words",
+                "Similar words",
                 className="button-search",
                 id="close_words_button"),
                 style={"display": "table-cell", "verticalAlign": "top", "paddingLeft": "10px"})],
