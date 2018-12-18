@@ -4,5 +4,6 @@ dash-html-components
 dash-table
 flask
 matplotlib
+gunicorn
 
 -e git+https://github.com/materialsintelligence/matscholar.git@master#egg=matscholar
