@@ -1,7 +1,6 @@
 from dash.dependencies import Input, Output, State
 from matscholar_web.view.materials_map_app import fig
 from matscholar import Rester
-import matplotlib.colors as colors
 import matplotlib.pyplot as plt
 
 rester = Rester()
