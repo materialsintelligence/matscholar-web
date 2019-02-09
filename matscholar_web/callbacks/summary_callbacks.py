@@ -20,7 +20,7 @@ def gen_output(most_common, entity_type, material = None, class_name="four colum
         [html.Tr([html.Th(entity_type), html.Th("score", style={"textAlign": "right", "fontWeight": "normal"})], className="summary-header")] +
         [html.Tr([
             html.Td(prop),
-            html.Td('{:.2f}'.format(score), style={"textAlign": "right"})], style={'color':'white'}) for prop, count, score in most_common],
+            html.Td('{:.2f}'.format(100*score), style={"textAlign": "right"})], style={'color':'white'}) for prop, count, score in most_common],
         className="summary-table")
     return html.Div(table, className="summary-div " + class_name, style={"width": "20%"})
 
@@ -60,9 +60,10 @@ def bind(app):
                     if not all(summary[key] for key in summary): #If this isnt true the material doesn't exist
                         rester = Rester()
                         similar_mats = rester.get_similar_materials(query['material'][0])
+                        mats_as_string = ('{}, '*9 + '{}.').format(*similar_mats)
                         return html.Div('{} is not present in our database. '
-                                            'Try these similar materials: {}'.format(query['material'][0],
-                                                                                     str(similar_mats)),
+                                            'Try these similar materials: {}' .format(query['material'][0],
+                                                                                      mats_as_string),
                                                                                      style={'color':'white'})
                     else:
                         return html.Div('There are no results to match this query...', style={'color':'white'})
