@@ -8,10 +8,10 @@ from dash.dependencies import Input, Output
 from flask import send_from_directory
 
 # apps
-from matscholar_web.view import mat2vec_app, materials_map_app
+from matscholar_web.view import mat2vec_app, materials_map_app, summary_app, search_app
 
 # callbacks
-from matscholar_web.callbacks import mat2vec_callbacks, materials_map_callbacks
+from matscholar_web.callbacks import mat2vec_callbacks, materials_map_callbacks, summary_callbacks
 
 """
 APP CONFIG
@@ -52,6 +52,10 @@ nav = html.Nav(
             dcc.Link("explore embeddings", href="/explore"),
             html.Span(" | ", style={"color": "whitesmoke"}),
             dcc.Link("materials map", href="/materials_map"),
+            html.Span(" | ", style={"color": "whitesmoke"}),
+            dcc.Link("search", href="/search"),
+            html.Span(" | ", style={"color": "whitesmoke"}),
+            dcc.Link("summary", href="/summary"),
         ],
         id="nav_bar")
 
@@ -97,8 +101,12 @@ def display_page(path):
     path = str(path)
     if path.startswith("/explore"):
         return mat2vec_app.serve_layout()
-    if path.startswith("/materials_map"):
+    elif path.startswith("/materials_map"):
         return materials_map_app.layout
+    elif path.startswith("/search"):
+        return search_app.serve_layout()
+    elif path.startswith("/summary"):
+        return summary_app.serve_layout()
     else:
         return materials_map_app.layout
 
@@ -112,3 +120,5 @@ def get_stylesheet(path):
 
 mat2vec_callbacks.bind(app)
 materials_map_callbacks.bind(app)
+summary_callbacks.bind(app)
+search_app.bind(app)

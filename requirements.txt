@@ -6,4 +6,5 @@ flask
 matplotlib
 gunicorn
 
+-e git://github.com/vtshitoyan/dash-materialsintelligence#egg=dash_materialsintelligence
 -e git+https://github.com/vtshitoyan/matscholar.git@master#egg=matscholar
