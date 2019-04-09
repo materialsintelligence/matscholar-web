@@ -13,6 +13,7 @@ def bind(app):
         r = Rester()
 
         journals = r.get_journals(text)
+        print(journals)
         return html.Table(
             # Header
             [html.Tr([html.Th('Suggested Journals'), html.Th('Cosine Similarity')])] +
