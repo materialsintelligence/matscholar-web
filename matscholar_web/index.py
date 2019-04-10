@@ -8,10 +8,10 @@ from dash.dependencies import Input, Output
 from flask import send_from_directory
 
 # apps
-from matscholar_web.view import mat2vec_app, materials_map_app, summary_app, search_app, extract_app
+from matscholar_web.view import mat2vec_app, materials_map_app, journal_suggestion_app, summary_app, search_app, extract_app
 
 # callbacks
-from matscholar_web.callbacks import mat2vec_callbacks, materials_map_callbacks, summary_callbacks, extract_callbacks
+from matscholar_web.callbacks import mat2vec_callbacks, materials_map_callbacks, summary_callbacks, journal_suggestion_callbacks, extract_callbacks
 
 """
 APP CONFIG
@@ -52,6 +52,8 @@ nav = html.Nav(
             dcc.Link("explore embeddings", href="/explore"),
             html.Span(" | ", style={"color": "whitesmoke"}),
             dcc.Link("materials map", href="/materials_map"),
+            html.Span(" | ", style={"color": "whitesmoke"}),
+            dcc.Link("journal suggestion", href="/journal_suggestion"),
             html.Span(" | ", style={"color": "whitesmoke"}),
             dcc.Link("search", href="/search"),
             html.Span(" | ", style={"color": "whitesmoke"}),
@@ -105,6 +107,8 @@ def display_page(path):
         return mat2vec_app.serve_layout()
     elif path.startswith("/materials_map"):
         return materials_map_app.layout
+    if path.startswith("/journal_suggestion"):
+        return journal_suggestion_app.layout
     elif path.startswith("/search"):
         return search_app.serve_layout()
     elif path.startswith("/summary"):
@@ -124,6 +128,7 @@ def get_stylesheet(path):
 
 mat2vec_callbacks.bind(app)
 materials_map_callbacks.bind(app)
+journal_suggestion_callbacks.bind(app)
 summary_callbacks.bind(app)
 search_app.bind(app)
 extract_callbacks.bind(app)
