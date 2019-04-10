@@ -146,3 +146,44 @@ a:hover {
   display: none;
 }
 
+/* Entity highlighting */
+.highlighted.MAT {
+    background-color: #FF851B; /* orange */
+}
+
+.highlighted.DSC {
+    background-color: #FF4136; /* red */
+    color: white;
+}
+
+.highlighted.PRO {
+    background-color: #0074D9; /* blue */
+    color: white;
+}
+
+.highlighted.PVL {
+    background-color: #7FDBFF; /* aqua */
+}
+
+.highlighted.PUT {
+    background-color: #39CCCC; /* teal */
+}
+
+.highlighted.SPL {
+    background-color: #85144b; /* maroon */
+    color: white;
+}
+
+.highlighted.SMT {
+    background-color: #001f3f; /* navy */
+    color: white;
+}
+
+.highlighted.CMT {
+    background-color: #F012BE; /* fuchsia */
+    color: white;
+}
+
+.highlighted.APL {
+    background-color: #AAAAAA; /* gray */
+}

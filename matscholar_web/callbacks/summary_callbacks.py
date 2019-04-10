@@ -1,6 +1,6 @@
 from dash.dependencies import Input, Output, State
 import json
-from matscholar.rest import Rester, MatScholarRestError
+from matscholar.rest import Rester
 from collections import defaultdict
 import dash_html_components as html
 
@@ -15,12 +15,11 @@ FILTER_DICT = {'Material': 'material',
                'Sample descriptor': 'descriptor'}
 
 def gen_output(most_common, entity_type, material = None, class_name="four columns"):
-    # print([(prop, score) for prop, score in most_common])
     table = html.Table(
         [html.Tr([html.Th(entity_type), html.Th("score", style={"textAlign": "right", "fontWeight": "normal"})], className="summary-header")] +
         [html.Tr([
             html.Td(prop),
-            html.Td('{:.2f}'.format(100*score), style={"textAlign": "right"})], style={'color':'white'}) for prop, count, score in most_common],
+            html.Td('{:.2f}'.format(100*score), style={"textAlign": "right"})], style={'color': 'black'}) for prop, count, score in most_common],
         className="summary-table")
     return html.Div(table, className="summary-div " + class_name, style={"width": "20%"})
 
