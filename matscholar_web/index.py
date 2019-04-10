@@ -8,10 +8,10 @@ from dash.dependencies import Input, Output
 from flask import send_from_directory
 
 # apps
-from matscholar_web.view import mat2vec_app, materials_map_app, summary_app, search_app
+from matscholar_web.view import mat2vec_app, materials_map_app, summary_app, search_app, extract_app
 
 # callbacks
-from matscholar_web.callbacks import mat2vec_callbacks, materials_map_callbacks, summary_callbacks
+from matscholar_web.callbacks import mat2vec_callbacks, materials_map_callbacks, summary_callbacks, extract_callbacks
 
 """
 APP CONFIG
@@ -56,6 +56,8 @@ nav = html.Nav(
             dcc.Link("search", href="/search"),
             html.Span(" | ", style={"color": "whitesmoke"}),
             dcc.Link("summary", href="/summary"),
+            html.Span(" | ", style={"color": "whitesmoke"}),
+            dcc.Link("extract", href="/extract"),
         ],
         id="nav_bar")
 
@@ -107,6 +109,8 @@ def display_page(path):
         return search_app.serve_layout()
     elif path.startswith("/summary"):
         return summary_app.serve_layout()
+    elif path.startswith("/extract"):
+        return extract_app.serve_layout()
     else:
         return materials_map_app.layout
 
@@ -122,3 +126,4 @@ mat2vec_callbacks.bind(app)
 materials_map_callbacks.bind(app)
 summary_callbacks.bind(app)
 search_app.bind(app)
+extract_callbacks.bind(app)

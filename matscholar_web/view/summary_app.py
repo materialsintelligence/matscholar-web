@@ -1,6 +1,5 @@
 import dash_html_components as html
 import dash_materialsintelligence as dmi
-import dash_core_components as dcc
 
 VALID_FILTERS = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
 
