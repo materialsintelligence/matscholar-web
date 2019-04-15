@@ -8,10 +8,12 @@ from dash.dependencies import Input, Output
 from flask import send_from_directory
 
 # apps
-from matscholar_web.view import mat2vec_app, materials_map_app, journal_suggestion_app, summary_app, search_app, extract_app
+from matscholar_web.view import mat2vec_app, materials_map_app, journal_suggestion_app, summary_app, \
+    search_app, extract_app, material_search_app
 
 # callbacks
-from matscholar_web.callbacks import mat2vec_callbacks, materials_map_callbacks, summary_callbacks, journal_suggestion_callbacks, extract_callbacks
+from matscholar_web.callbacks import mat2vec_callbacks, materials_map_callbacks, summary_callbacks, \
+    material_search_callbacks, extract_callbacks, journal_suggestion_callbacks
 
 """
 APP CONFIG
@@ -60,6 +62,8 @@ nav = html.Nav(
             dcc.Link("summary", href="/summary"),
             html.Span(" | ", style={"color": "whitesmoke"}),
             dcc.Link("extract", href="/extract"),
+            html.Span(" | ", style={"color": "whitesmoke"}),
+            dcc.Link("material search", href="/material_search"),
         ],
         id="nav_bar")
 
@@ -115,9 +119,10 @@ def display_page(path):
         return summary_app.serve_layout()
     elif path.startswith("/extract"):
         return extract_app.serve_layout()
+    elif path.startswith("/material_search"):
+        return material_search_app.serve_layout()
     else:
         return materials_map_app.layout
-
 
 # setting the static path for loading css files
 @app.server.route('/static/css/<path:path>')
@@ -132,3 +137,4 @@ journal_suggestion_callbacks.bind(app)
 summary_callbacks.bind(app)
 search_app.bind(app)
 extract_callbacks.bind(app)
+material_search_callbacks.bind(app)
