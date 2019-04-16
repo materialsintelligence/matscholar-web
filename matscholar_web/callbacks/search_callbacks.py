@@ -5,7 +5,7 @@ from dash.dependencies import Input, Output, State
 from matscholar import Rester
 import pandas as pd
 
-rester = Rester(endpoint="http://127.0.0.1:5000")
+rester = Rester()
 VALID_FILTERS = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
 
 def highlight_material(body, material):
