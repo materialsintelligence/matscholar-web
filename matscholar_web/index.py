@@ -62,6 +62,8 @@ nav = html.Nav(
             html.Span(" | ", style={"color": "whitesmoke"}),
             dcc.Link("materials map", href="/materials_map"),
             html.Span(" | ", style={"color": "whitesmoke"}),
+            dcc.Link("journal suggestion", href="/journal_suggestion"),
+            html.Span(" | ", style={"color": "whitesmoke"}),
             dcc.Link("search", href="/search"),
             html.Span(" | ", style={"color": "whitesmoke"}),
             dcc.Link("summary", href="/summary"),
@@ -124,6 +126,8 @@ def display_page(path):
         return extract_app.serve_layout()
     elif path.startswith("/material_search"):
         return material_search_app.serve_layout()
+    elif path.startswith("/journal_suggestion"):
+        return journal_suggestion_app.layout
     else:
         return materials_map_app.layout
 
@@ -140,3 +144,4 @@ summary_callbacks.bind(app)
 search_callbacks.bind(app)
 extract_callbacks.bind(app)
 material_search_callbacks.bind(app)
+journal_suggestion_callbacks.bind(app)
