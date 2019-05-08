@@ -64,6 +64,6 @@ def bind(app):
     def show_results(*args,**kwargs):
         if list(args)[0] is not None:
             text = str(args[1])
-            filters = {f: list(args)[i+2] for i,f in enumerate(VALID_FILTERS) if list(args)[i+2] is not None}
+            filters = {f: args[i+2].split(', ') for i,f in enumerate(VALID_FILTERS) if list(args)[i+2] is not None}
             results = rester.search_text_with_ents(text,filters)
             return results_html(results)
