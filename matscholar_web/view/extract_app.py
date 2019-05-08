@@ -23,7 +23,7 @@ def serve_layout():
                       labelStyle={'display': 'inline-block'}
                   )]),
         html.Div([html.Button("EXTRACT", id="extract-button")], style={"padding-top": "0px", "padding-bottom": "15px"}),
-        html.Div(id="extract-highlighted"),
+        html.Div(id="extract-highlighted", style={"width": "90vw", "word-wrap": "break-word", "word-break": "break-all"}),
         html.Div(id="extracted")
-    ], className="twelve columns"),
+    ]),
 ])

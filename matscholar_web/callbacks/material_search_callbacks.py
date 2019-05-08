@@ -45,7 +45,7 @@ def bind(app):
             elements = split_inputs(elements)
             result = rester.materials_search_ents(entities, elements)
             result = [( mat, count, dois) for mat, count, dois in result
-                      if (not mat.isupper()) and len(mat) > 2]
+                      if (not mat.isupper()) and len(mat) > 2 and "oxide" not in mat]
             return html.Div([html.A(
                             "Download data as csv",
                             id="download-link",
@@ -64,7 +64,7 @@ def bind(app):
             elements = split_inputs(elements)
             result = rester.materials_search_ents(entities, elements)
             result = [(mat, count, dois) for mat, count, dois in result
-                      if (not mat.isupper()) and len(mat) > 2]
+                      if (not mat.isupper()) and len(mat) > 2 and "oxide" not in mat]
             df = gen_df(result)
             csv_string = df.to_csv(index=False, encoding='utf-8')
             csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
