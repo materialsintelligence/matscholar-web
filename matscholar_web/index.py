@@ -1,4 +1,4 @@
-import os
+import os, json
 
 # dash
 import dash
@@ -13,7 +13,7 @@ from matscholar_web.view import mat2vec_app, materials_map_app, journal_suggesti
 
 # callbacks
 from matscholar_web.callbacks import mat2vec_callbacks, materials_map_callbacks, summary_callbacks, \
-    material_search_callbacks, extract_callbacks, journal_suggestion_callbacks
+    material_search_callbacks, extract_callbacks, journal_suggestion_callbacks, search_callbacks
 
 """
 APP CONFIG
@@ -28,6 +28,13 @@ app.title = "matscholar - rediscover materials"
 # loading css files
 css_files = ["skeleton.min.css", "matscholar_web.css",]
 stylesheets_links = [html.Link(rel='stylesheet', href='/static/css/' + css) for css in css_files]
+
+# load json of entities, build dropdown_options dictionary
+with open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'matscholar_web','static','data','entities.json'),'r') as f:
+    entities_dict = json.load(f)
+valid_filters = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
+filters_to_keys = {"material": "MAT", "property":"PRO", "application": "APL", "synthesis": "SMT", "characterization": "CMT", "descriptor": "DSC", "phase": "SPL"}
+dropdown_options = {label: [{'label': x, 'value': x} for x in sorted(entities_dict[filters_to_keys[label]], key=str.lower)] for label in valid_filters}
 
 """
 VIEW
@@ -111,16 +118,16 @@ def display_page(path):
         return mat2vec_app.serve_layout()
     elif path.startswith("/materials_map"):
         return materials_map_app.layout
-    if path.startswith("/journal_suggestion"):
-        return journal_suggestion_app.layout
     elif path.startswith("/search"):
-        return search_app.serve_layout()
+        return search_app.serve_layout(valid_filters,dropdown_options)
     elif path.startswith("/summary"):
         return summary_app.serve_layout()
     elif path.startswith("/extract"):
         return extract_app.serve_layout()
     elif path.startswith("/material_search"):
         return material_search_app.serve_layout()
+    elif path.startswith("/journal_suggestion"):
+        return journal_suggestion_app.layout
     else:
         return materials_map_app.layout
 
@@ -133,8 +140,8 @@ def get_stylesheet(path):
 
 mat2vec_callbacks.bind(app)
 materials_map_callbacks.bind(app)
-journal_suggestion_callbacks.bind(app)
 summary_callbacks.bind(app)
-search_app.bind(app)
+search_callbacks.bind(app)
 extract_callbacks.bind(app)
 material_search_callbacks.bind(app)
+journal_suggestion_callbacks.bind(app)
