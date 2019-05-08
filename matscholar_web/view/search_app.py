@@ -4,23 +4,21 @@ import dash_core_components as dcc
 from dash.dependencies import Input
 import json, os
 
-placeholders = {"material": "Si2Ti, graphite,...", "property": "dielectric constant, melting point,...", "application": "cathode, catalyst,...", "descriptor": "ceramics, disordered,...", "characterization": "mathematical model, x-ray diffraction,...","synthesis":"sol - gel, firing,...", "phase": "perovskite, spinel,..."}
+valid_filters = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
 
-
-def filters_html(label, placeholder,dropdown_options):
-    return html.Div([
-        html.Label('{}:'.format(label)),
-         dcc.Dropdown(
-            options=dropdown_options[label],
-            id=label+'-filters'
-            ,
-        multi=True,
-        placeholder=placeholder,
-        style={"width": "100%"}
-        ),
-    ],
-    style={'padding':5}
-)
+def search_filter_box_html(label):
+    placeholders = {"material": "Si2Ti, graphite,...", "property": "dielectric constant, melting point,...", "application": "cathode, catalyst,...", "descriptor": "ceramics, disordered,...", "characterization": "mathematical model, x-ray diffraction,...","synthesis":"sol - gel, firing,...", "phase": "perovskite, spinel,..."}
+    textbox = html.Div([html.Label('{}:'.format(label)),
+        dcc.Input(
+            id=label+"-filters",
+            type="text",
+            autofocus=True,
+            placeholder=placeholders[label],
+            style={"width": "100%"})
+        ],
+        style={'padding':5}
+        )
+    return textbox
 
 def search_bar_html():
     return html.Div([
@@ -39,12 +37,12 @@ def search_bar_html():
             className="row", style={"display": "table", "marginTop": "10px"}
         )
 
-def serve_layout(valid_filters,dropdown_options):
+def serve_layout():
     search_bar = search_bar_html()
-    buttons = [html.Div(html.Label("Filters"))]
-    for f in valid_filters:
-        buttons.append(filters_html(f,placeholders[f],dropdown_options))
-    buttons_and_results = html.Div([html.Div(buttons,style={'width': '25%', 'float': 'left', 'display': 'inline-block'}),html.Div(id='results',style={'width': '75%', 'float': 'right', 'display': 'inline-block'})])
-    layout = html.Div([search_bar, buttons_and_results])
+    filter_boxes = [html.Div(html.Label("Filters"))]
+    filter_boxes += [search_filter_box_html(label) for label in valid_filters]
+
+    filter_boxes_and_results = html.Div([html.Div(filter_boxes,style={'width': '25%', 'float': 'left', 'display': 'inline-block'}),html.Div(id='results',style={'width': '75%', 'float': 'right', 'display': 'inline-block'})])
+    layout = html.Div([search_bar, filter_boxes_and_results])
     return layout
 
