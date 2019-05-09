@@ -52,13 +52,13 @@ nav = html.Nav(
             "padding": "3px 1px",
             "textAlign": "center"},
         children=[
-            dcc.Link("explore embeddings", href="/explore"),
+            dcc.Link("search", href="/search"),
             html.Span(" | ", style={"color": "whitesmoke"}),
+            #dcc.Link("explore embeddings", href="/explore"),
+            #html.Span(" | ", style={"color": "whitesmoke"}),
             dcc.Link("materials map", href="/materials_map"),
             html.Span(" | ", style={"color": "whitesmoke"}),
             dcc.Link("journal suggestion", href="/journal_suggestion"),
-            html.Span(" | ", style={"color": "whitesmoke"}),
-            dcc.Link("search", href="/search"),
             html.Span(" | ", style={"color": "whitesmoke"}),
             dcc.Link("summary", href="/summary"),
             html.Span(" | ", style={"color": "whitesmoke"}),
@@ -113,7 +113,7 @@ def display_page(path):
     elif path.startswith("/materials_map"):
         return materials_map_app.layout
     elif path.startswith("/search"):
-        return search_app.serve_layout()
+        return search_app.serve_layout(path)
     elif path.startswith("/summary"):
         return summary_app.serve_layout()
     elif path.startswith("/extract"):
@@ -123,7 +123,7 @@ def display_page(path):
     elif path.startswith("/journal_suggestion"):
         return journal_suggestion_app.layout
     else:
-        return materials_map_app.layout
+        return search_app.serve_layout(path)
 
 # setting the static path for loading css files
 @app.server.route('/static/css/<path:path>')
