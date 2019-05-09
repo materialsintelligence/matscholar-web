@@ -34,10 +34,8 @@ def highlight_entities(tagged_doc):
         span = html.Span(token,
                          className="highlighted {}".format(tag),
                          style={"padding-right": "0px" if next_token_punct else "4px",
-                                "background-clip": "content-box", "white-space": "nowrap"})
+                                "background-clip": "content-box"}) #"white-space": "nowrap"
         highlighted_doc.append(span)
-        if (idx+1) % 20 == 0:
-            highlighted_doc.append(html.Br())
     return highlighted_doc
 
 def get_labels():

@@ -14,26 +14,26 @@ FILTER_DICT = {'Material': 'material',
                'Synthesis': 'synthesis',
                'Sample descriptor': 'descriptor'}
 
-def gen_output(most_common, entity_type, material = None, class_name="four columns"):
+def gen_output(most_common, entity_type, material, class_name="three column"):
     table = html.Table(
         [html.Tr([html.Th(entity_type), html.Th("score", style={"textAlign": "right", "fontWeight": "normal"})], className="summary-header")] +
         [html.Tr([
-            html.Td(prop),
+            html.Td(html.A(prop, href="/search/{}/{}/{}".format(FILTER_DICT[entity_type], prop, material))),
             html.Td('{:.2f}'.format(100*score), style={"textAlign": "right"})], style={'color': 'black'}) for prop, count, score in most_common],
         className="summary-table")
     return html.Div(table, className="summary-div " + class_name, style={"width": "20%"})
 
-def gen_table(results_dict, class_name = 'three column'):
+def gen_table(results_dict, material=""):
     return html.Div([
                 html.Div([
-                    gen_output(results_dict['PRO'],'Property', class_name=class_name),
-                    gen_output(results_dict['APL'],'Application', class_name=class_name),
-                    gen_output(results_dict['CMT'], 'Characterization', class_name=class_name),
-                    gen_output(results_dict['SMT'], 'Synthesis', class_name=class_name)],  className="row"),
+                    gen_output(results_dict['PRO'],'Property', material),
+                    gen_output(results_dict['APL'],'Application', material),
+                    gen_output(results_dict['CMT'], 'Characterization', material),
+                    gen_output(results_dict['SMT'], 'Synthesis', material)],  className="row"),
                 html.Div([
-                    gen_output(results_dict['DSC'], 'Sample descriptor', class_name=class_name),
-                    gen_output(results_dict['SPL'], 'Phase', class_name=class_name),
-                    gen_output(results_dict['MAT'], 'Material', class_name=class_name)], className="row"),
+                    gen_output(results_dict['DSC'], 'Sample descriptor', material),
+                    gen_output(results_dict['SPL'], 'Phase', material),
+                    gen_output(results_dict['MAT'], 'Material', material)], className="row"),
             ])
 
 def bind(app):
@@ -68,6 +68,6 @@ def bind(app):
                         return html.Div('There are no results to match this query...', style={'color':'white'})
                 return html.Div('There are no results to match this query...', style={'color':'white'})
             else:
-                return gen_table(summary)
+                return gen_table(summary) if "material" not in query else gen_table(summary, material=query['material'])
         else:
             return ''
