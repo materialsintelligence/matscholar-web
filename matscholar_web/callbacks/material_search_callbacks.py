@@ -3,6 +3,8 @@ import urllib
 import pandas as pd
 from dash.dependencies import Input, Output, State
 from matscholar.rest import Rester
+from matscholar_web.static.periodic_table.periodic_table import build_periodic_table
+import json
 
 # Get the rester on import
 rester = Rester()
@@ -69,3 +71,23 @@ def bind(app):
             csv_string = df.to_csv(index=False, encoding='utf-8')
             csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
             return csv_string
+    @app.callback(
+        Output("element_filters_input", 'value'),
+        [Input('heatmap', 'clickData')],
+        [State("element_filters_input", 'value'),
+         State("include-radio", "value")])
+    def display_hoverdata(clickData, value1, value2):
+        if clickData is not None:
+            x = clickData["points"][0]["x"]
+            y = clickData["points"][0]["y"]
+            element = clickData["points"][0]["text"].split("<br>")[1]
+            element = element.split(":")[1].strip()
+            if value1:
+                if value2 == "exclude":
+                    return "{}, -{}".format(value1, element)
+                else:
+                    return "{}, {}".format(value1, element)
+            else:
+                return element if value2 != "exclude" else "-{}".format(element)
+
+
