@@ -1,5 +1,5 @@
 import plotly.figure_factory as ff
-import plotly.graph_objs as go
+import copy
 
 # Add Periodic Table Data
 symbol = [['H', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'He'],
@@ -67,13 +67,20 @@ z = z[::-1]
 # Set Colorscale
 colorscale=[[0.0, 'rgb(255,255,255)'], [.2, 'rgb(255, 255, 153)'],
             [.4, 'rgb(153, 255, 204)'], [.6, 'rgb(179, 217, 255)'],
-            [.8, 'rgb(240, 179, 255)'],[1.0, 'rgb(255, 77, 148)']]
+            [.8, 'rgb(240, 179, 255)'], [0.95, 'rgb(0, 0, 255)'],
+             [0.99, 'rgb(255, 0, 0)'], [1.0, 'rgb(255, 77, 148)']]
 
-def build_periodic_table(positive_idx=None):
-    if positive_idx:
-        x, y = positive_idx
-        x[x][y] = 0.0
-    pt = ff.create_annotated_heatmap(z, annotation_text=symbol, text=hover,
+def build_periodic_table(positive=None, negative=None):
+    colors = copy.deepcopy(z)
+    if positive:
+        for item in positive:
+            element, x, y = item
+            colors[x][y] = 0.95
+    if negative:
+        for item in negative:
+            element, x, y = item
+            colors[x][y] = 0.99
+    pt = ff.create_annotated_heatmap(colors, annotation_text=symbol, text=hover,
                                      colorscale=colorscale, font_colors=['black'], hoverinfo='text')
     pt.layout.margin.update({
         "l": 60,
