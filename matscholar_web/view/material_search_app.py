@@ -1,5 +1,15 @@
 import dash_html_components as html
 import dash_core_components as dcc
+from matscholar_web.static.periodic_table.periodic_table import build_periodic_table
+
+
+def graph():
+    return html.Div([
+        dcc.Graph(
+            id='heatmap',
+            figure=build_periodic_table()
+        )
+    ], style={"padding-top": "-80px"})
 
 def serve_layout():
     return html.Div([
@@ -17,8 +27,22 @@ def serve_layout():
                     type="text",
                     autofocus=True,
                     placeholder="E.g., O, -Pb",
+                    value=None,
                     style={"width": "50%"})],
             style={"width": "250px", "display": "inline-block"}),
+        html.Div(["Include/exclude?",
+                  dcc.RadioItems(id="include-radio",
+                                 options=[
+                                     {'label': "include", 'value': "include"},
+                                     {"label": "exclude", "value": "exclude"}
+                                 ],
+                                 value='include',
+                                 labelStyle={'display': 'inline-block'}
+                                 ),
+                  html.Button("Clear", id="clear-btn", style={"float": "right"}),
+                  html.Div(id="hidden-div", style={"display": None})],
+                 style={"padding-top": "30px"}),
+        html.Div(children=graph(), style={"width": "90%"}, id="periodic-table"),
     html.Div(
         html.Button(
             "Material Search",

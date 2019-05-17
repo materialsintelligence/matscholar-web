@@ -2,6 +2,7 @@ import dash_html_components as html
 import string
 import os
 import json
+import urllib
 import numpy as np
 from dash.dependencies import Input, Output, State
 from matscholar.rest import Rester
@@ -34,7 +35,7 @@ def highlight_entities(tagged_doc):
         span = html.Span(token,
                          className="highlighted {}".format(tag),
                          style={"padding-right": "0px" if next_token_punct else "4px",
-                                "background-clip": "content-box"}) #"white-space": "nowrap"
+                                "background-clip": "content-box"})
         highlighted_doc.append(span)
     return highlighted_doc
 
@@ -53,13 +54,33 @@ def bind(app):
          State("normalize-radio", "value")])
     def highlight_extracted(n_clicks, text, normalize):
         if n_clicks is not None:
+            # Extract highlighted
             return_type = "normalized" if normalize == "yes" else "concatenated"
             tagged_doc = rester.get_ner_tags([text], return_type=return_type)
             highlighted = highlight_entities(tagged_doc)
+
+            # Update download link
+            doc = {"sentences": []}
+            for sent in tagged_doc[0]:
+                new_sent = []
+                for token, tag in sent:
+                    new_sent.append({
+                        "token": token,
+                        "tag": tag
+                    })
+                doc["sentences"].append(new_sent)
+            json_string = json.dumps(doc)
+            json_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(json_string)
             return html.Div([html.Div(html.Label("Extracted Entity Tags:")),
                              html.Div(highlighted),
                              html.Div(html.Label("Labels"), style={"padding-top": "15px"}),
-                             html.Div(get_labels())])
+                             html.Div(get_labels()),
+                             html.Div(html.A("Download entities as json",
+                                      id="entity-download-link",
+                                      href=json_string,
+                                      download="tagged_docs.json",
+                                      target="_blank"),
+                                      style={"padding-top": "15px"})])
     @app.callback(
         Output('extract-textarea', 'value'),
         [Input("extract-random", 'n_clicks')])

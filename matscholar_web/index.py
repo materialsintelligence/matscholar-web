@@ -57,8 +57,8 @@ nav = html.Nav(
             #dcc.Link("explore embeddings", href="/explore"),
             #html.Span(" | ", style={"color": "whitesmoke"}),
             dcc.Link("materials map", href="/materials_map"),
-            html.Span(" | ", style={"color": "whitesmoke"}),
-            dcc.Link("journal suggestion", href="/journal_suggestion"),
+            # html.Span(" | ", style={"color": "whitesmoke"}),
+            # dcc.Link("journal suggestion", href="/journal_suggestion"),
             html.Span(" | ", style={"color": "whitesmoke"}),
             dcc.Link("summary", href="/summary"),
             html.Span(" | ", style={"color": "whitesmoke"}),
@@ -120,8 +120,8 @@ def display_page(path):
         return extract_app.serve_layout()
     elif path.startswith("/material_search"):
         return material_search_app.serve_layout()
-    elif path.startswith("/journal_suggestion"):
-        return journal_suggestion_app.layout
+    # elif path.startswith("/journal_suggestion"):
+    #     return journal_suggestion_app.layout
     else:
         return search_app.serve_layout(path)
 
