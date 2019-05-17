@@ -81,34 +81,24 @@ def bind(app):
          State("element_filters_input", "value")])
     def get_materials(n_clicks, entities, elements):
         if n_clicks is not None:
+            # Extract the data
             entities = split_inputs(entities)
             elements = split_inputs(elements)
             result = rester.materials_search_ents(entities, elements)
             result = [( mat, count, dois) for mat, count, dois in result
                       if (not mat.isupper()) and len(mat) > 2 and "oxide" not in mat]
+
+            # Update the download link
+            df = gen_df(result)
+            csv_string = df.to_csv(index=False, encoding='utf-8')
+            csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
             return html.Div([html.A(
                             "Download data as csv",
                             id="download-link",
                             download="matscholar_data.csv",
-                            href="",
+                            href=csv_string,
                             target="_blank"),
                 gen_output(result)])
-    @app.callback(
-        Output("download-link", "href"),
-        [Input("material_search_btn", "n_clicks")],
-        [State("material_search_input", "value"),
-         State("element_filters_input", "value")])
-    def update_download_link(n_clicks, entities, elements):
-        if n_clicks is not None:
-            entities = split_inputs(entities)
-            elements = split_inputs(elements)
-            result = rester.materials_search_ents(entities, elements)
-            result = [(mat, count, dois) for mat, count, dois in result
-                      if (not mat.isupper()) and len(mat) > 2 and "oxide" not in mat]
-            df = gen_df(result)
-            csv_string = df.to_csv(index=False, encoding='utf-8')
-            csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
-            return csv_string
     @app.callback(
         [Output("element_filters_input", 'value'), Output("heatmap", "figure")],
         [Input("heatmap", "clickData"),
