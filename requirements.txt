@@ -7,4 +7,4 @@ matplotlib
 gunicorn
 
 -e git://github.com/vtshitoyan/dash-materialsintelligence#egg=dash_materialsintelligence
--e git+https://github.com/materialsintelligence/matscholar.git@master#egg=matscholar
+-e git://github.com/materialsintelligence/matscholar#egg=matscholar
