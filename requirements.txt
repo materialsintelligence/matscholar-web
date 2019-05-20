@@ -5,6 +5,7 @@ dash-table
 flask
 matplotlib
 gunicorn
+pandas
 
 -e git://github.com/vtshitoyan/dash-materialsintelligence#egg=dash_materialsintelligence
 -e git+https://github.com/materialsintelligence/matscholar.git#egg=matscholar
