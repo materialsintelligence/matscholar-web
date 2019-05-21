@@ -59,7 +59,7 @@ class PeriodicTable(object):
             neg_el = ""
         pos_string = ",".join(pos_el)
         neg_string = ",".join(neg_el)
-        if pos_string:
+        if pos_string and neg_string:
             return "{},{}".format(pos_string, neg_string)
         else:
             return pos_string + neg_string

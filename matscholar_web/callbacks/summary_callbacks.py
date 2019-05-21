@@ -3,16 +3,9 @@ import json
 from matscholar.rest import Rester
 from collections import defaultdict
 import dash_html_components as html
+from matscholar_web.view.summary_app import VALID_FILTERS
 
 rest = Rester()
-
-# FILTER_DICT = {'Material': 'material',
-#                'Property': 'property',
-#                'Application': 'application',
-#                'Phase': 'phase',
-#                'Characterization': 'characterization',
-#                'Synthesis': 'synthesis',
-#                'Sample descriptor': 'descriptor'}
 
 def gen_output(most_common, entity_type, material, class_name="three column"):
     table = html.Table(
@@ -40,16 +33,16 @@ def gen_table(results_dict, material=""):
 
 def bind(app):
     @app.callback(
-        Output("search_results", "children"),
-        [Input("search_btn", "n_clicks")],
-        [State("search_filters", "value")])
-    def show_filters(n_clicks, filter_val):
-        if n_clicks is not None and filter_val:
-            filter_vals = [val["value"] for val in filter_val] if filter_val else None
+        Output("summary-results", "children"),
+        [Input("summary-btn", "n_clicks")],
+        [State(f+'-summary', 'value') for f in VALID_FILTERS])
+    def show_filters(n_clicks, *args):
+        if n_clicks is not None and any(args):
             query = defaultdict(list)
-            for filter in filter_vals:
-                key, value = filter.split(':')
-                query[key].append(value)
+            for filter, ents in zip(VALID_FILTERS, args):
+                if ents:
+                    ents = [ent.strip() for ent in ents.split(",")]
+                    query[filter] += ents
             dumped = json.dumps(query)
             summary = rest.get_summary(dumped)
             if not all(summary[key] for key in summary):
@@ -65,11 +58,11 @@ def bind(app):
                         return html.Div("{} is not present in our database. "
                                             "Try these similar materials: {}".format(query["material"][0],
                                                                                       mats_as_string),
-                                                                                     style={"color":"white"})
+                                                                                     style={"color": "black"})
                     else:
-                        return html.Div("There are no results to match this query...", style={"color":"white"})
-                return html.Div("There are no results to match this query...", style={"color":"white"})
+                        return html.Div("There are no results to match this query...", style={"color": "black"})
+                return html.Div("There are no results to match this query...", style={"color": "black"})
             else:
                 return gen_table(summary) if "material" not in query else gen_table(summary, material=query["material"])
         else:
-            return ''
+            return ""
