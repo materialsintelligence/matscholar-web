@@ -1,39 +1,40 @@
 import dash_html_components as html
-import dash_materialsintelligence as dmi
+import dash_core_components as dcc
+from matscholar_web.view.search_app import search_filter_box_html
 
 VALID_FILTERS = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
 
-def serve_layout(path=None):
-    if path is not None and len(path) > len("/search"):
-        path = path[len("/search")+1::]
-        path = path.replace("%20", " ")
-    options = []
-    value = options
-    if path is not None:
-        filter_value_material = path.split("/")
-        if len(filter_value_material) == 3:
-            options = [{'label': 'material:' + filter_value_material[2],
-                        'value': 'material:' + filter_value_material[2]},
-                       {'label': filter_value_material[0] + ':' + filter_value_material[1],
-                        'value': filter_value_material[0] + ':' + filter_value_material[1]}]
-            value = options
-    return html.Div([html.Div(dmi.DropdownCreatable(
-        options=options,
-        multi=True,
-        promptText="Add filter ",
-        className="search-filters",
-        placeholder="filter:value1,value2",
-        value=value,
-        id='search_filters'),
-    ),
-    html.Div(
-        'Valid filters: ' + ', '.join(VALID_FILTERS),
-        style={"color": "grey", "padding": "10px 1px", "fontSize": "10pt"},
-        className="row"),
-    html.Div(html.Button(
-        "Generate summary",
-        className="button-search",
-        id="search_btn"),
-        style={"display": "table-cell", "verticalAlign": "top", "paddingLeft": "10px"}),
-    html.Div("", id="search_results", className="row")],
-    )
+def search_filter_box_html(label):
+    placeholders = {"material": "PbTe, graphite,...",
+                    "property": "dielectric constant, melting point,...",
+                    "application": "cathode, catalyst,...",
+                    "descriptor": "thin film, nanoparticle,...",
+                    "characterization": "photoluminescence, x-ray diffraction,...",
+                    "synthesis":"sol - gel, firing,...",
+                    "phase": "perovskite, wurtzite,..."}
+    textbox = html.Div([html.Label('{}:'.format(label)),
+        dcc.Input(
+            id="{}-summary".format(label),
+            type="text",
+            autofocus=True,
+            placeholder=placeholders[label],
+            style={"width": "100%"})
+        ],
+        style={'padding': 5}
+        )
+    return textbox
+
+def serve_layout():
+    filter_boxes = html.Div([html.Div(search_filter_box_html(label), style={"width": "25%"})
+                             for label in VALID_FILTERS], style={"width:":"100%",
+                                                                 "display": "flex",
+                                                                 "flex-direction": "row",
+                                                                 "flex-wrap": "wrap"})
+    return html.Div([filter_boxes,
+                     html.Div(html.Button(
+                              "Generate summary",
+                              className="button-search",
+                              id="summary-btn"),
+                              style={"display": "table-cell", "verticalAlign": "top", "paddingLeft": "10px"}),
+                    html.Div("", id="summary-results", className="row")]
+                    )

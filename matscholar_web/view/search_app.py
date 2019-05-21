@@ -1,13 +1,16 @@
 import dash_html_components as html
-import dash_materialsintelligence as dmi
 import dash_core_components as dcc
-from dash.dependencies import Input
-import json, os
 
 valid_filters = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
 
 def search_filter_box_html(label, filters=None, material=False):
-    placeholders = {"material": "Si2Ti, graphite,...", "property": "dielectric constant, melting point,...", "application": "cathode, catalyst,...", "descriptor": "ceramics, disordered,...", "characterization": "mathematical model, x-ray diffraction,...","synthesis":"sol - gel, firing,...", "phase": "perovskite, spinel,..."}
+    placeholders = {"material": "PbTe, graphite,...",
+                    "property": "dielectric constant, melting point,...",
+                    "application": "cathode, catalyst,...",
+                    "descriptor": "thin film, nanoparticle,...",
+                    "characterization": "photoluminescence, x-ray diffraction,...",
+                    "synthesis":"sol - gel, firing,...",
+                    "phase": "perovskite, wurtzite,..."}
     if not filters:
         value = None
     else:
