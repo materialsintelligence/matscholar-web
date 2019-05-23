@@ -3,10 +3,12 @@ import dash_materialsintelligence as dmi
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 from matscholar import Rester
+import matscholar
 import pandas as pd
 
 rester = Rester()
 VALID_FILTERS = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
+max_results = 10000
 
 def highlight_material(body, material):
     highlighted_phrase = html.Mark(material)
@@ -23,14 +25,14 @@ def highlight_material(body, material):
 def generate_nr_results(n, search=None, material=None, filters=None):
     if n == 0:
         return "No Results"
-    elif n == 1000:
-        return 'Showing {} of >{:,} results'.format(100, n)
+    elif n == max_results:
+        return 'Showing {} of >{:,} results'.format(max_results, n)
     else:
-        return 'Showing {} of {:,} results'.format(min(100, n), n)
+        return 'Showing {} of {:,} results'.format(min(max_results, n), n)
 
 def results_html(results,
                    columns=('title', 'authors', 'year', 'journal', 'abstract'),
-                   max_rows=100):
+                   max_rows=max_results):
     if results is not None:
         print("{} search results".format(len(results)))
         print(results)
@@ -40,6 +42,12 @@ def results_html(results,
     if not df.empty:
         format_authors = lambda author_list: ", ".join(author_list)
         df['authors'] = df['authors'].apply(format_authors)
+        def word_limit(abstract):
+            try:
+                return abstract[:200]
+            except IndexError:
+                return abstract
+        df['abstract'] = df['abstract'].apply(word_limit)
         hm = highlight_material
         return [html.Label(generate_nr_results(len(results)), id="number_results"), html.Table(
             # Header
