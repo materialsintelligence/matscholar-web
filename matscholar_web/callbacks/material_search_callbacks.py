@@ -15,12 +15,19 @@ def split_inputs(input):
     else:
         return []
 
+def get_details(dois):
+    return html.Details([
+        html.Summary('Show dois?'),
+        html.Span([html.A("{}; ".format(doi), href="http://www.doi.org/{}".format(doi)) for doi in dois],
+                  style={"white-space": "nowrap"})
+        ])
+
 def gen_output(result):
     table = html.Table(
         [html.Tr([html.Th("Material"), html.Th("counts"), html.Th("dois")])] +
         [html.Tr([
             html.Td(mat),
-            html.Td(count), html.Td(html.Span("; ".join(dois), style={"white-space": "nowrap"}))])
+            html.Td(count), html.Td(get_details(dois))])
             for mat, count, dois in result],
         style={"width": "100px"})
     return html.Div(table, style={"width": "100px"})
