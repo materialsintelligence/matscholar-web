@@ -1,4 +1,5 @@
 import os, json
+import dash_auth
 
 # dash
 import dash
@@ -6,6 +7,9 @@ import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
 from flask import send_from_directory
+
+# Authorization
+from matscholar_core.database.connections import AtlasConnection
 
 # apps
 from matscholar_web.view import mat2vec_app, materials_map_app, journal_suggestion_app, summary_app, \
@@ -24,6 +28,15 @@ app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
 app.config.suppress_callback_exceptions = True
 app.title = "matscholar - rediscover materials"
+
+# Authentication
+db = AtlasConnection().db
+pairs = list(db.web_credentials.find())
+VALID_USERNAME_PASSWORD_PAIRS = [[doc["user"], doc["pass"]] for doc in pairs]
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
 
 # loading css files
 css_files = ["skeleton.min.css", "matscholar_web.css",]

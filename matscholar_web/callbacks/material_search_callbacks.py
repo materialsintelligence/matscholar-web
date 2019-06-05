@@ -58,6 +58,14 @@ class PeriodicTable(object):
         self.negative_elements.append(el)
         self.periodic_table = build_periodic_table(self.positive_elements, self.negative_elements)
 
+    def del_positive_element(self, el):
+        self.positive_elements = [(e, x, y) for e, x, y in self.positive_elements if e != el]
+        self.periodic_table = build_periodic_table(self.positive_elements, self.negative_elements)
+
+    def del_negative_element(self, el):
+        self.negative_elements = [(e, x, y) for e, x, y in self.negative_elements if e != el]
+        self.periodic_table = build_periodic_table(self.positive_elements, self.negative_elements)
+
     def get_element_string(self):
         pos_el = [el for el, _, _ in self.positive_elements]
         if self.negative_elements:
@@ -122,13 +130,18 @@ def bind(app):
             # Extract the new element and and update pt
             element = clickData["points"][0]["text"].split("<br>")[1]
             element = element.split(":")[1].strip()
-            x = clickData["points"][0]["y"]
-            y = clickData["points"][0]["x"]
-            if value == "include":
-                pt.add_positive_element((element, x, y))
+            # If element already present, remove
+            if element in {el for el, _, _ in pt.positive_elements}:
+                pt.del_positive_element(element)
+            elif element in {el for el, _, _ in pt.negative_elements}:
+                pt.del_negative_element(element)
             else:
-                pt.add_negative_element((element, x, y))
-
+                x = clickData["points"][0]["y"]
+                y = clickData["points"][0]["x"]
+                if value == "include":
+                    pt.add_positive_element((element, x, y))
+                else:
+                    pt.add_negative_element((element, x, y))
             return pt.get_element_string(), pt.periodic_table
 
         return pt.get_element_string(), pt.periodic_table
