@@ -57,7 +57,8 @@ z = [[.8, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, .0, 1.],
 # Display element name and atomic mass on hover
 hover=list(range(len(symbol)))
 for x in range(len(symbol)):
-    hover[x] = [i + '<br>' + "symbol: {}".format(j) + '<br>' + 'Atomic Mass: ' + str(k) for i, j, k in zip(element[x], symbol[x], atomic_mass[x])]
+    hover[x] = [i + '<br>' + "symbol: {}".format(j) + '<br>' + 'Atomic Mass: ' + str(k)
+                for i, j, k in zip(element[x], symbol[x], atomic_mass[x])]
 
 # Invert Matrices
 symbol = symbol[::-1]
@@ -70,18 +71,27 @@ colorscale=[[0.0, 'rgb(255,255,255)'], [.2, 'rgb(255, 255, 153)'],
             [.8, 'rgb(240, 179, 255)'], [0.95, 'rgb(0, 0, 255)'],
              [0.99, 'rgb(255, 0, 0)'], [1.0, 'rgb(255, 77, 148)']]
 
-def build_periodic_table(positive=None, negative=None):
+el2coor = {s: (arr_idx, s_idx) for arr_idx, arr in enumerate(symbol)
+           for s_idx, s in enumerate(arr) if s and 1 <= len(s) <= 2}
+
+def build_periodic_table(elements=None):
     colors = copy.deepcopy(z)
-    if positive:
-        for item in positive:
-            element, x, y = item
-            colors[x][y] = 0.95
-    if negative:
-        for item in negative:
-            element, x, y = item
-            colors[x][y] = 0.99
+
+    if elements:
+        for el in elements:
+            if not (el in el2coor or el[1:] in el2coor):
+                continue
+
+            if el[0] == "-":
+                x, y = el2coor[el[1:]]
+                colors[x][y] = 0.99
+            else:
+                x, y = el2coor[el]
+                colors[x][y] = 0.95
+
     pt = ff.create_annotated_heatmap(colors, annotation_text=symbol, text=hover,
                                      colorscale=colorscale, font_colors=['black'], hoverinfo='text')
+
     pt.layout.margin.update({
         "l": 60,
         "r": 0,
@@ -90,5 +100,8 @@ def build_periodic_table(positive=None, negative=None):
         "pad": 4
     })
     return pt
+
+if __name__ == "__main__":
+    build_periodic_table()
 
 
