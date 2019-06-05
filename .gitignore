@@ -107,3 +107,6 @@ venv.bak/
 # pycharm
 */.idea/**
 .idea/**
+.DS_Store
+matscholar_web/.DS_Store
+matscholar_web/static/.DS_Store
