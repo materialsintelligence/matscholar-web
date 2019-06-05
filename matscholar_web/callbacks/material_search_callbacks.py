@@ -42,51 +42,6 @@ def gen_df(result):
     df["dois"] = dois
     return df
 
-class PeriodicTable(object):
-
-    def __init__(self):
-        self.periodic_table = build_periodic_table()
-        self.positive_elements = []
-        self.negative_elements = []
-        self.clicks = None
-
-    def add_positive_element(self, el):
-        self.positive_elements.append(el)
-        self.periodic_table = build_periodic_table(self.positive_elements, self.negative_elements)
-
-    def add_negative_element(self, el):
-        self.negative_elements.append(el)
-        self.periodic_table = build_periodic_table(self.positive_elements, self.negative_elements)
-
-    def del_positive_element(self, el):
-        self.positive_elements = [(e, x, y) for e, x, y in self.positive_elements if e != el]
-        self.periodic_table = build_periodic_table(self.positive_elements, self.negative_elements)
-
-    def del_negative_element(self, el):
-        self.negative_elements = [(e, x, y) for e, x, y in self.negative_elements if e != el]
-        self.periodic_table = build_periodic_table(self.positive_elements, self.negative_elements)
-
-    def get_element_string(self):
-        pos_el = [el for el, _, _ in self.positive_elements]
-        if self.negative_elements:
-            neg_el = ["-{}".format(el) for el, _, _ in self.negative_elements]
-        else:
-            neg_el = ""
-        pos_string = ",".join(pos_el)
-        neg_string = ",".join(neg_el)
-        if pos_string and neg_string:
-            return "{},{}".format(pos_string, neg_string)
-        else:
-            return pos_string + neg_string
-
-    def clear_table(self):
-        self.positive_elements = []
-        self.negative_elements = []
-        self.periodic_table = build_periodic_table()
-
-# Build the periodic table
-pt = PeriodicTable()
-
 def bind(app):
     ### Material Search App Callbacks ###
     @app.callback(
@@ -116,39 +71,37 @@ def bind(app):
                 gen_output(result)])
     @app.callback(
         [Output("element_filters_input", 'value'), Output("heatmap", "figure")],
-        [Input("heatmap", "clickData"),
-         Input("clear-btn", "n_clicks")],
-        [State("include-radio", "value")])
-    def add_element(clickData, n_clicks, value):
-
-        if n_clicks is not None and n_clicks != pt.clicks:
-            pt.clicks = n_clicks
-            pt.clear_table()
-            return pt.get_element_string(), pt.periodic_table
+        [Input("heatmap", "clickData")],
+        [State("element_filters_input", 'value'), State("include-radio", "value")])
+    def add_element(clickData, elements, value):
 
         if clickData is not None:
-            # Extract the new element and and update pt
-            element = clickData["points"][0]["text"].split("<br>")[1]
-            element = element.split(":")[1].strip()
-            # If element already present, remove
-            if element in {el for el, _, _ in pt.positive_elements}:
-                pt.del_positive_element(element)
-            elif element in {el for el, _, _ in pt.negative_elements}:
-                pt.del_negative_element(element)
+            # Extract the new element and add
+            prefix = "" if value == "include" else "-"
+            new_el = clickData["points"][0]["text"].split("<br>")[1]
+            new_el = prefix + new_el.split(":")[1].strip()
+
+            # Check for previous elements
+            if elements:
+                prev_el = elements.split(",")
             else:
-                x = clickData["points"][0]["y"]
-                y = clickData["points"][0]["x"]
-                if value == "include":
-                    pt.add_positive_element((element, x, y))
+                prev_el = []
+
+            # Add the new element
+            if prev_el:
+                if new_el in prev_el:
+                    prev_el.remove(new_el)
+                elif "-"+new_el in prev_el:
+                    prev_el.remove("-"+new_el)
+                    prev_el.append(new_el)
+                elif new_el[0] == "-" and any(el == new_el[1:] for el in prev_el):
+                    prev_el.remove(new_el[1:])
+                    prev_el.append(new_el)
                 else:
-                    pt.add_negative_element((element, x, y))
-            return pt.get_element_string(), pt.periodic_table
+                    prev_el.append(new_el)
+            else:
+                prev_el = [new_el]
 
-        return pt.get_element_string(), pt.periodic_table
+            return ",".join(prev_el), build_periodic_table(prev_el)
 
-
-
-
-
-
-
+        return "", build_periodic_table()

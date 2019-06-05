@@ -39,7 +39,6 @@ def serve_layout():
                                  value='include',
                                  labelStyle={'display': 'inline-block'}
                                  ),
-                  html.Button("Clear", id="clear-btn", style={"float": "right"}),
                   html.Div(id="hidden-div", style={"display": None})],
                  style={"padding-top": "30px"}),
         html.Div(children=graph(), style={"width": "90%"}, id="periodic-table"),
