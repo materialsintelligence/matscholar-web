@@ -53,9 +53,10 @@ def bind(app):
         if n_clicks is not None:
             # Extract the data
             entities = split_inputs(entities)
+            elements = elements if elements != "" else None
             elements = split_inputs(elements)
             result = rester.materials_search_ents(entities, elements)
-            result = [( mat, count, dois) for mat, count, dois in result
+            result = [(mat, count, dois) for mat, count, dois in result
                       if (not mat.isupper()) and len(mat) > 2 and "oxide" not in mat]
 
             # Update the download link
@@ -76,6 +77,7 @@ def bind(app):
     def add_element(clickData, elements, value):
 
         if clickData is not None:
+
             # Extract the new element and add
             prefix = "" if value == "include" else "-"
             new_el = clickData["points"][0]["text"].split("<br>")[1]
@@ -86,6 +88,9 @@ def bind(app):
                 prev_el = elements.split(",")
             else:
                 prev_el = []
+
+            if not new_el or new_el == "-" or len(new_el) > 3:
+                return ",".join(prev_el), build_periodic_table(prev_el)
 
             # Add the new element
             if prev_el:

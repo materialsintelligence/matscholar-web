@@ -96,7 +96,7 @@ def build_periodic_table(elements=None):
         "l": 60,
         "r": 0,
         "b": 30,
-        "t": 0,
+        "t": 30,
         "pad": 4
     })
     return pt
