@@ -34,8 +34,6 @@ def results_html(results,
                    columns=('title', 'authors', 'year', 'journal', 'abstract'),
                    max_rows=max_results):
     if results is not None:
-        print("{} search results".format(len(results)))
-        print(results)
         df = pd.DataFrame(results)
     else:
         pd.DataFrame()
