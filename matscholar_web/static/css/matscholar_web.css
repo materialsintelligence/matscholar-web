@@ -8,8 +8,8 @@ body{
 }
 
 input.dark-input-box {
-    background-color: #000;
-    color: whitesmoke;
+    background-color: white;
+    color: black;
 }
 
 .main-container {
