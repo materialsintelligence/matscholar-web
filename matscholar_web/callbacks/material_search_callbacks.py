@@ -53,9 +53,10 @@ def bind(app):
         if n_clicks is not None:
             # Extract the data
             entities = split_inputs(entities)
+            elements = elements if elements != "" else None
             elements = split_inputs(elements)
             result = rester.materials_search_ents(entities, elements)
-            result = [( mat, count, dois) for mat, count, dois in result
+            result = [(mat, count, dois) for mat, count, dois in result
                       if (not mat.isupper()) and len(mat) > 2 and "oxide" not in mat]
 
             # Update the download link
