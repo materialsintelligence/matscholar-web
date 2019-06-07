@@ -74,7 +74,7 @@ def serve_layout(path):
             else:
                 filter_boxes.append(search_filter_box_html(label))
 
-    filter_boxes_and_results = html.Div([html.Div(filter_boxes,style={'width': '25%', 'float': 'left', 'display': 'inline-block'}),html.Div(id='results',style={'width': '75%', 'float': 'right', 'display': 'inline-block'})])
+    filter_boxes_and_results = html.Div([html.Div(filter_boxes,style={'width': '25%', 'float': 'left', 'display': 'inline-block'}),dcc.Loading(id="loading-1", children=[html.Div(id='results',style={'width': '75%', 'float': 'right', 'display': 'inline-block'})], type="default")])
     layout = html.Div([search_bar, filter_boxes_and_results])
     return layout
 
