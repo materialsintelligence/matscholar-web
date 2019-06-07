@@ -7,8 +7,9 @@ import matscholar
 import pandas as pd
 
 rester = Rester()
+print(matscholar.__file__)
 VALID_FILTERS = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
-max_results = 1000
+max_results = 100
 
 def highlight_material(body, material):
     highlighted_phrase = html.Mark(material)
@@ -25,14 +26,15 @@ def highlight_material(body, material):
 def generate_nr_results(n, search=None, material=None, filters=None):
     if n == 0:
         return "No Results"
-    elif n == max_results:
-        return 'Showing {} of >{:,} results'.format(max_results, n)
+    elif n > max_results:
+        return ['Showing {} of > {:,} results. For full results, use the '.format(max_results, n), html.A('Matscholar API.', href='https://github.com/materialsintelligence/matscholar')]
     else:
         return 'Showing {} of {:,} results'.format(min(max_results, n), n)
 
 def results_html(results,
-                   columns=('title', 'authors', 'year', 'journal', 'abstract'),
                    max_rows=max_results):
+    columns=['title', 'authors', 'year', 'journal', 'abstract']
+    formattedColumns = ['Title', 'Authors', 'Year', 'Journal', 'Abstract (preview)']
     if results is not None:
         df = pd.DataFrame(results)
     else:
@@ -42,14 +44,14 @@ def results_html(results,
         df['authors'] = df['authors'].apply(format_authors)
         def word_limit(abstract):
             try:
-                return abstract[:200]
+                return abstract[:200]+"..."
             except IndexError:
                 return abstract
         df['abstract'] = df['abstract'].apply(word_limit)
         hm = highlight_material
         return [html.Label(generate_nr_results(len(results)), id="number_results"), html.Table(
             # Header
-            [html.Tr([html.Th(col) for col in columns])] +
+            [html.Tr([html.Th(formattedColumns[i]) for i,col in enumerate(columns)])] +
             # Body
             [html.Tr([
                 html.Td(html.A(str(df.iloc[i][col]),
