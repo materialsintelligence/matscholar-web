@@ -9,7 +9,7 @@ import pandas as pd
 rester = Rester()
 print(matscholar.__file__)
 VALID_FILTERS = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
-max_results = 100
+max_results = 50
 
 def highlight_material(body, material):
     highlighted_phrase = html.Mark(material)
