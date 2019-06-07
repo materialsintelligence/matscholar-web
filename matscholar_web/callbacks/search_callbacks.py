@@ -5,6 +5,7 @@ from dash.dependencies import Input, Output, State
 from matscholar import Rester
 import matscholar
 import pandas as pd
+import datetime
 
 rester = Rester()
 VALID_FILTERS = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
@@ -25,7 +26,7 @@ def highlight_material(body, material):
 def generate_nr_results(n, search=None, material=None, filters=None):
     if n == 0:
         return "No Results"
-    elif n > max_results:
+    elif n >= max_results:
         return ['Showing {} of > {:,} results. For full results, use the '.format(max_results, n), html.A('Matscholar API.', href='https://github.com/materialsintelligence/matscholar')]
     else:
         return 'Showing {} of {:,} results'.format(min(max_results, n), n)
@@ -72,5 +73,5 @@ def bind(app):
         if list(args)[0] is not None:
             text = str(args[1])
             filters = {f: [s.strip() for s in args[i+2].split(',')] for i,f in enumerate(VALID_FILTERS) if ((list(args)[i+2] is not None) and (args[i+2].split(',') != ['']))}
-            results = rester.search_text_with_ents(text,filters)
+            results = rester.search_text_with_ents(text,filters,cutoff=max_results)
             return results_html(results)
