@@ -48,4 +48,4 @@ def serve_layout():
             className="button-search",
             id="material_search_btn"),
     ),
-    dcc.Loading(id="loading-1", children=[html.Div(id="material_search_output")])]
+    dcc.Loading(id="loading-1", children=[html.Div(id="material_search_output")])])
