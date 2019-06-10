@@ -36,5 +36,5 @@ def serve_layout():
                               className="button-search",
                               id="summary-btn"),
                               style={"display": "table-cell", "verticalAlign": "top", "paddingLeft": "10px"}),
-                    html.Div("", id="summary-results", className="row")]
+                    dcc.Loading(id="loading-1", children=[html.Div("", id="summary-results", className="row")])]
                     )
