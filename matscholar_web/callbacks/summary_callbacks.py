@@ -3,32 +3,34 @@ import json
 from matscholar.rest import Rester
 from collections import defaultdict
 import dash_html_components as html
+from pymatgen.core.composition import Composition, reduce_formula
 from matscholar_web.view.summary_app import VALID_FILTERS
 
 rest = Rester()
 
-def gen_output(most_common, entity_type, material, class_name="three column"):
+def gen_output(most_common, entity_type, query, class_name="three column"):
+    query = [(key, value) for key, value in query.items()]
     table = html.Table(
         [html.Tr([html.Th(entity_type), html.Th("score", style={"textAlign": "right", "fontWeight": "normal"})],
                  className="summary-header")] +
         [html.Tr([
-            html.Td(html.A(prop, href="/search/{}/{}/{}".format(entity_type.lower(), prop, material))),
+            html.Td(html.A(ent, href="/search/{}/{}/{}".format(entity_type.lower(), ent, query))),
             html.Td('{:.2f}'.format(100*score), style={"textAlign": "right"})], style={'color': 'black'})
-            for prop, count, score in most_common],
+            for ent, count, score in most_common],
         className="summary-table")
     return html.Div(table, className="summary-div " + class_name, style={"width": "20%"})
 
-def gen_table(results_dict, material=""):
+def gen_table(results_dict, query=None):
     return html.Div([
                 html.Div([
-                    gen_output(results_dict["PRO"], "Property", material),
-                    gen_output(results_dict["APL"], "Application", material),
-                    gen_output(results_dict["CMT"], "Characterization", material),
-                    gen_output(results_dict["SMT"], "Synthesis", material)],  className="row"),
+                    gen_output(results_dict["PRO"], "Property", query),
+                    gen_output(results_dict["APL"], "Application", query),
+                    gen_output(results_dict["CMT"], "Characterization", query),
+                    gen_output(results_dict["SMT"], "Synthesis", query)],  className="row"),
                 html.Div([
-                    gen_output(results_dict["DSC"], "Sample descriptor", material),
-                    gen_output(results_dict["SPL"], "Phase", material),
-                    gen_output(results_dict["MAT"], "Material", material)], className="row"),
+                    gen_output(results_dict["DSC"], "Sample descriptor", query),
+                    gen_output(results_dict["SPL"], "Phase", query),
+                    gen_output(results_dict["MAT"], "Material", query)], className="row"),
             ])
 
 def bind(app):
@@ -54,7 +56,9 @@ def bind(app):
                     if not all(summary[key] for key in summary): #If this isnt true the material doesn't exist
                         rester = Rester()
                         similar_mats = rester.get_similar_materials(query['material'][0])
-                        mats_as_string = ("{}, "*9 + "{}.").format(*similar_mats)
+                        pretty = [Composition(mat).get_reduced_formula_and_factor(iupac_ordering=True)[0]
+                                  for mat in similar_mats]
+                        mats_as_string = ("{}, "*9 + "{}.").format(*pretty)
                         return html.Div("{} is not present in our database. "
                                             "Try these similar materials: {}".format(query["material"][0],
                                                                                       mats_as_string),
@@ -63,6 +67,6 @@ def bind(app):
                         return html.Div("There are no results to match this query...", style={"color": "black"})
                 return html.Div("There are no results to match this query...", style={"color": "black"})
             else:
-                return gen_table(summary) if "material" not in query else gen_table(summary, material=query["material"])
+                return gen_table(summary, query=query)
         else:
             return ""

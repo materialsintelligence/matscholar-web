@@ -1,9 +1,10 @@
 import dash_html_components as html
 import dash_core_components as dcc
+from collections import defaultdict
 
 valid_filters = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
 
-def search_filter_box_html(label, filters=None, material=False):
+def search_filter_box_html(label, filters=None):
     placeholders = {"material": "PbTe, graphite,...",
                     "property": "dielectric constant, melting point,...",
                     "application": "cathode, catalyst,...",
@@ -14,11 +15,7 @@ def search_filter_box_html(label, filters=None, material=False):
     if not filters:
         value = None
     else:
-        if not material:
-            value = filters["ent"]
-        else:
-            materials = eval(filters["materials"])
-            value = ",".join(materials) if len(materials) > 1 else materials[0]
+        value = ",".join(filters) if len(filters) > 1 else filters[0]
     textbox = html.Div([html.Label('{}:'.format(label)),
         dcc.Input(
             id=label+"-filters",
@@ -54,12 +51,11 @@ def serve_layout(path):
     if path is not None and len(path) > len("/search"):
         path = path[len("/search")+1::]
         path = path.replace("%20", " ")
-        ent_type, ent, materials = path.split("/")
-        filters = {
-            "ent_type": ent_type,
-            "ent": ent,
-            "materials": materials
-        }
+        ent_type, ent, query = path.split("/")
+        filters = defaultdict(list)
+        filters[ent_type].append(ent)
+        for key, value in eval(query):
+            filters[key] += value
 
     search_bar = search_bar_html()
     filter_boxes = [html.Div(html.Label("Filters"))]
@@ -67,10 +63,8 @@ def serve_layout(path):
         filter_boxes += [search_filter_box_html(label) for label in valid_filters]
     else:
         for label in valid_filters:
-            if label == filters["ent_type"]:
-                filter_boxes.append(search_filter_box_html(label, filters))
-            elif label == "material":
-                filter_boxes.append(search_filter_box_html(label, filters, material=True))
+            if label in filters:
+                filter_boxes.append(search_filter_box_html(label, filters[label]))
             else:
                 filter_boxes.append(search_filter_box_html(label))
 
