@@ -40,7 +40,7 @@ def results_html(results,
     else:
         pd.DataFrame()
     if not df.empty:
-        format_authors = lambda author_list: ", ".join(author_list)
+        format_authors = lambda author_list: ", ".join(author_list) if isinstance(author_list, (list, tuple)) else author_list
         df['authors'] = df['authors'].apply(format_authors)
         def word_limit(abstract):
             try:
