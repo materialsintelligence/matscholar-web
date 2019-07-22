@@ -18,13 +18,15 @@ def split_inputs(input):
 def get_details(dois):
     return html.Details([
         html.Summary('Show dois?'),
-        html.Span([html.A("{}; ".format(doi), href="http://www.doi.org/{}".format(doi)) for doi in dois],
+        html.Span([html.A("{}; ".format(doi), href="http://www.doi.org/{}".format(doi), target="_blank")
+                   for doi in dois[:20]],
                   style={"white-space": "nowrap"})
         ])
 
 def gen_output(result):
     table = html.Table(
-        [html.Tr([html.Th("Material"), html.Th("counts"), html.Th("dois")])] +
+        [html.Tr([html.Th("Material"), html.Th("Counts"), html.Th("Clickable doi links",
+                                                                  style={"white-space": "nowrap"})])] +
         [html.Tr([
             html.Td(mat),
             html.Td(count), html.Td(get_details(dois))])
@@ -63,13 +65,13 @@ def bind(app):
             df = gen_df(result)
             csv_string = df.to_csv(index=False, encoding='utf-8')
             csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
-            return html.Div([html.A(
-                            "Download data as csv",
+            return html.Div([html.Label("Showing top 20 materials - download csv for full results"),
+                        html.A("Download data as csv",
                             id="download-link",
                             download="matscholar_data.csv",
                             href=csv_string,
                             target="_blank"),
-                gen_output(result)])
+                gen_output(result[:20])])
     @app.callback(
         [Output("element_filters_input", 'value'), Output("heatmap", "figure")],
         [Input("heatmap", "clickData")],
