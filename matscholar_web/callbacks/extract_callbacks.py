@@ -56,8 +56,17 @@ def bind(app):
         if n_clicks is not None:
             # Extract highlighted
             return_type = "normalized" if normalize == "yes" else "concatenated"
-            tagged_doc = rester.get_ner_tags([text], return_type=return_type)
+            result = rester.get_ner_tags([text], return_type=return_type)
+            tagged_doc = result["tags"]
+            relevance = result["relevance"][0]
             highlighted = highlight_entities(tagged_doc)
+
+            #Add the warning
+            if not relevance:
+                warning = "WARNING!!! Our classifier has flagged this document as not relevant" \
+                          " to inorganic materials science. Expect lower than optimum performance."
+            else:
+                warning = ""
 
             # Update download link
             doc = {"sentences": []}
@@ -72,6 +81,7 @@ def bind(app):
             json_string = json.dumps(doc)
             json_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(json_string)
             return html.Div([html.Div(html.Label("Extracted Entity Tags:")),
+                             html.Div(warning, style={"padding-bottom": "20px", "color": "red"}),
                              html.Div(highlighted),
                              html.Div(html.Label("Labels"), style={"padding-top": "15px"}),
                              html.Div(get_labels()),
