@@ -24,7 +24,7 @@ def search_filter_box_html(label, filters=None):
     textbox = html.Div([html.Label('{}:'.format(label)),
         ESAutosuggest(
             fields=['original','normalized'],
-            endpoint="https://7092c099e3d606dec7363473782f6e83.us-west-1.aws.found.io:9243/"+ES_field_dict[label]+"/_search",
+            endpoint=environ['ELASTIC_HOST']+"/"+ES_field_dict[label]+"/_search",
             defaultField='original',
             id=label+"-filters",
             placeholder=placeholders[label],
