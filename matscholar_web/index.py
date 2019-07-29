@@ -44,10 +44,10 @@ stylesheets_links = [html.Link(rel='stylesheet', href='/static/css/' + css) for 
 """
 VIEW
 """
-try:
-    abstract_count = Rester().get_abstract_count()
-except MatScholarRestError:
-    abstract_count = 0
+# try:
+#     abstract_count = Rester().get_abstract_count()
+# except MatScholarRestError:
+#     abstract_count = 0
 
 
 header = html.Div([
@@ -60,7 +60,7 @@ header = html.Div([
          'max-width': "100%",
          "margin": "5px auto",
         }),
-    html.Label(str(abstract_count)+" Abstracts Analyzed!",style={"textAlign": "center"})
+    # html.Label(str(abstract_count)+" Abstracts Analyzed!",style={"textAlign": "center"})
 ], className="row")
 
 nav = html.Nav(
