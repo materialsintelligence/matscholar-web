@@ -1,8 +1,13 @@
 import dash_html_components as html
 import dash_core_components as dcc
 from matscholar_web.view.search_app import search_filter_box_html
+from dash_elasticsearch_autosuggest import ESAutosuggest
+from os import environ
+
 
 VALID_FILTERS = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
+ES_field_dict = {"material": "materials","property":"properties","application":"applications","descriptor":"descriptors","characterization":"characterization methods","synthesis":"synthesis methods","phase":"structure phase labels"}
+
 
 def search_filter_box_html(label):
     placeholders = {"material": "PbTe, graphite,...",
@@ -13,12 +18,16 @@ def search_filter_box_html(label):
                     "synthesis":"sol - gel, firing,...",
                     "phase": "perovskite, wurtzite,..."}
     textbox = html.Div([html.Label('{}:'.format(label)),
-        dcc.Input(
-            id="{}-summary".format(label),
-            type="text",
-            autofocus=True,
+         ESAutosuggest(
+            fields=['original','normalized'],
+            endpoint="https://7092c099e3d606dec7363473782f6e83.us-west-1.aws.found.io:9243/"+ES_field_dict[label]+"/_search",
+            defaultField='original',
+            id=label+"-summary",
             placeholder=placeholders[label],
-            style={"width": "100%"})
+            authUser=environ['ELASTIC_USER'],
+            authPass=environ['ELASTIC_PASS'],
+            searchField="original.edgengram",
+            value="")
         ],
         style={'padding': 5}
         )
@@ -30,7 +39,7 @@ def serve_layout():
                                                                  "display": "flex",
                                                                  "flex-direction": "row",
                                                                  "flex-wrap": "wrap"})
-    return html.Div([filter_boxes,
+    return html.Div([html.Div([html.Label("Press Enter On Each Filter Box To Submit",style={"color":"red"})]),filter_boxes,
                      html.Div(html.Button(
                               "Generate summary",
                               className="button-search",

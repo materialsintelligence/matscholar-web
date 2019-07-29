@@ -4,7 +4,6 @@ from dash_elasticsearch_autosuggest import ESAutosuggest
 from os import environ
 from collections import defaultdict
 
-ES_endpoint = environ['ELASTIC_HOST']
 #Entity categories
 valid_filters = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
 #Corresponding elasticsearch indices for entity categories
