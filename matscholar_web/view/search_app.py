@@ -1,8 +1,14 @@
 import dash_html_components as html
 import dash_core_components as dcc
+from dash_elasticsearch_autosuggest import ESAutosuggest
+from os import environ
 from collections import defaultdict
 
+ES_endpoint = environ['ELASTIC_HOST']
+#Entity categories
 valid_filters = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
+#Corresponding elasticsearch indices for entity categories
+ES_field_dict = {"material": "materials","property":"properties","application":"applications","descriptor":"descriptors","characterization":"characterization methods","synthesis":"synthesis methods","phase":"structure phase labels"}
 
 def search_filter_box_html(label, filters=None):
     placeholders = {"material": "PbTe, graphite,...",
@@ -13,17 +19,20 @@ def search_filter_box_html(label, filters=None):
                     "synthesis":"sol - gel, firing,...",
                     "phase": "perovskite, wurtzite,..."}
     if not filters:
-        value = None
+        value = ""
     else:
         value = ",".join(filters) if len(filters) > 1 else filters[0]
     textbox = html.Div([html.Label('{}:'.format(label)),
-        dcc.Input(
+        ESAutosuggest(
+            fields=['original','normalized'],
+            endpoint="https://7092c099e3d606dec7363473782f6e83.us-west-1.aws.found.io:9243/"+ES_field_dict[label]+"/_search",
+            defaultField='original',
             id=label+"-filters",
-            type="text",
-            autofocus=True,
             placeholder=placeholders[label],
-            value=value,
-            style={"width": "100%"})
+            authUser=environ['ELASTIC_USER'],
+            authPass=environ['ELASTIC_PASS'],
+            searchField="original.edgengram",
+            value=value)
         ],
         style={'padding':5}
         )
@@ -58,7 +67,7 @@ def serve_layout(path):
             filters[key] += value
 
     search_bar = search_bar_html()
-    filter_boxes = [html.Div(html.Label("Filters"))]
+    filter_boxes = [html.Div([html.Label("Filters"),html.Label("Press Enter On Each Filter Box To Submit",style={"color":"red"})])]
     if not filters:
         filter_boxes += [search_filter_box_html(label) for label in valid_filters]
     else:
