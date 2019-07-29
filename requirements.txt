@@ -14,4 +14,4 @@ pymatgen
 
 -e git://github.com/vtshitoyan/dash-materialsintelligence#egg=dash_materialsintelligence
 -e git+https://github.com/materialsintelligence/matscholar.git#egg=matscholar
--e git://github.com/jdagdelen/dash_elasticsearch_autosuggest
+-e git://github.com/jdagdelen/dash_elasticsearch_autosuggest#egg=dash_elasticsearch_autosuggest
