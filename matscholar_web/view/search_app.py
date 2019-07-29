@@ -7,7 +7,7 @@ from collections import defaultdict
 #Entity categories
 valid_filters = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
 #Corresponding elasticsearch indices for entity categories
-ES_field_dict = {"material": "materials","property":"properties","application":"applications","descriptor":"descriptors","characterization":"characterization methods","synthesis":"synthesis methods","phase":"structure phase labels"}
+ES_field_dict = {"material": "materials","property":"properties","application":"applications","descriptor":"descriptors","characterization":"characterization_methods","synthesis":"synthesis_methods","phase":"structure_phase_labels"}
 
 def search_filter_box_html(label, filters=None):
     placeholders = {"material": "PbTe, graphite,...",
