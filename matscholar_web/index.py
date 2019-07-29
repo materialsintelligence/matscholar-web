@@ -8,6 +8,8 @@ import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
 from flask import send_from_directory
+from matscholar.rest import Rester
+from matscholar.rest import MatScholarRestError
 
 # apps
 from matscholar_web.view import mat2vec_app, materials_map_app, journal_suggestion_app, summary_app, \
@@ -42,6 +44,11 @@ stylesheets_links = [html.Link(rel='stylesheet', href='/static/css/' + css) for 
 """
 VIEW
 """
+try:
+    abstract_count = Rester().get_abstract_count()
+except MatScholarRestError:
+    abstract_count = 0
+
 
 header = html.Div([
     dcc.Location(id="url", refresh=False),
@@ -53,6 +60,7 @@ header = html.Div([
          'max-width': "100%",
          "margin": "5px auto",
         }),
+    html.Label(str(abstract_count)+" Abstracts Analyzed!",style={"textAlign": "center"})
 ], className="row")
 
 nav = html.Nav(
