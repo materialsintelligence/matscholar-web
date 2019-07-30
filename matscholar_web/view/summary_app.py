@@ -39,7 +39,7 @@ def serve_layout():
                                                                  "display": "flex",
                                                                  "flex-direction": "row",
                                                                  "flex-wrap": "wrap"})
-    return html.Div([html.Div([html.Label("Press Enter On Each Filter Box To Submit",style={"color":"red"})]),filter_boxes,
+    return html.Div([filter_boxes,
                      html.Div(html.Button(
                               "Generate summary",
                               className="button-search",
