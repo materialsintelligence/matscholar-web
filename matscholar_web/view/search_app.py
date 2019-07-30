@@ -66,7 +66,7 @@ def serve_layout(path):
             filters[key] += value
 
     search_bar = search_bar_html()
-    filter_boxes = [html.Div([html.Label("Filters"),html.Label("Press Enter On Each Filter Box To Submit",style={"color":"red"})])]
+    filter_boxes = [html.Div([html.Label("Filters")])]
     if not filters:
         filter_boxes += [search_filter_box_html(label) for label in valid_filters]
     else:
