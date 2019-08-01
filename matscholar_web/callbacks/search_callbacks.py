@@ -1,11 +1,9 @@
 import dash_html_components as html
-import dash_materialsintelligence as dmi
-import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 from matscholar import Rester
-import matscholar
+from collections import defaultdict
+import json
 import pandas as pd
-import datetime
 
 rester = Rester()
 VALID_FILTERS = ["material", "property", "application", "descriptor", "characterization", "synthesis", "phase"]
@@ -64,14 +62,51 @@ def results_html(results,
     return html.Div([html.Label(generate_nr_results(len(results)), id="number_results"),
             html.Table(id="table-element")])
 
+def gen_output(most_common, entity_type, query, class_name="three column"):
+    query = [(key, value) for key, value in query.items()]
+    table = html.Table(
+        [html.Tr([html.Th(entity_type), html.Th("score", style={"textAlign": "right", "fontWeight": "normal"})],
+                 className="summary-header")] +
+        [html.Tr([
+            html.Td(html.A(ent, href="/search/{}/{}/{}".format(entity_type.lower(), ent, query))),
+            html.Td('{:.2f}'.format(100*score), style={"textAlign": "right"})], style={'color': 'black'})
+            for ent, count, score in most_common],
+        className="summary-table")
+    return html.Div(table, className="summary-div " + class_name, style={"width": "20%"})
+
+def gen_table(results_dict, query=None):
+    return html.Div([
+                html.Div([
+                    gen_output(results_dict["PRO"], "Property", query),
+                    gen_output(results_dict["APL"], "Application", query),
+                    gen_output(results_dict["CMT"], "Characterization", query),
+                    gen_output(results_dict["SMT"], "Synthesis", query)],  className="row"),
+                html.Div([
+                    gen_output(results_dict["DSC"], "Sample descriptor", query),
+                    gen_output(results_dict["SPL"], "Phase", query),
+                    gen_output(results_dict["MAT"], "Material", query)], className="row"),
+            ])
+
 def bind(app):
     @app.callback(
         Output('results', 'children'),
         [Input('search-btn','n_clicks')],
-        [State('search-input','value')]+[State(f+'-filters', 'value') for f in VALID_FILTERS])
+        [State('search-input','value')]+[State(f+'-filters', 'value') for f in VALID_FILTERS]+[State("search-radio", "value")])
     def show_results(*args,**kwargs):
         if list(args)[0] is not None:
-            text = str(args[1])
-            filters = {f: [s.strip() for s in args[i+2].split(',')] for i,f in enumerate(VALID_FILTERS) if ((list(args)[i+2] is not None) and (args[i+2].split(',') != ['']))}
-            results = rester.search_text_with_ents(text,filters,cutoff=max_results)
-            return results_html(results)
+            print(list(args))
+            if list(args)[-1] == "search":
+                text = str(args[1])
+                filters = {f: [s.strip() for s in args[i+2].split(',')] for i,f in enumerate(VALID_FILTERS) if ((list(args)[i+2] is not None) and (args[i+2].split(',') != ['']))}
+                results = rester.search_text_with_ents(text,filters,cutoff=max_results)
+                return results_html(results)
+            elif list(args)[-1] == "summary":
+                query = defaultdict(list)
+                for filter, ents in zip(VALID_FILTERS, args[2:-1]):
+                    if ents:
+                        ents = [ent.strip() for ent in ents.split(",")]
+                        query[filter] += ents
+                dumped = json.dumps(query)
+                summary = rester.get_summary(dumped)
+                return gen_table(summary, query=query)
+

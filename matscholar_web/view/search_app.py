@@ -38,7 +38,7 @@ def search_filter_box_html(label, filters=None):
     return textbox
 
 def search_bar_html():
-    return html.Div([
+    return html.Div([html.Div([
         html.Div(dcc.Input(
             id="search-input",
             type="text",
@@ -52,7 +52,16 @@ def search_bar_html():
             id="search-btn"),
             style={"display": "table-cell", "verticalAlign": "top", "paddingLeft": "10px"})],
             className="row", style={"display": "table", "marginTop": "10px"}
-        )
+        ),
+        dcc.RadioItems(id="search-radio",
+                       options=[
+                           {'label': "Search", 'value': "search"},
+                           {"label": "Summary", "value": "summary"}
+                       ],
+                       value='search',
+                       labelStyle={'display': 'inline-block'}
+                       )
+    ])
 
 def serve_layout(path):
     filters = None
