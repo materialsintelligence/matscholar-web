@@ -38,30 +38,27 @@ def search_filter_box_html(label, filters=None):
     return textbox
 
 def search_bar_html():
-    return html.Div([html.Div([
+    return html.Div([
         html.Div(dcc.Input(
             id="search-input",
             type="text",
             autofocus=True,
             placeholder="Text search...",
             style={"width": "100%"}),
-            style={"display": "table-cell", "width": "100%"}),
-        html.Div(html.Button(
-            "Search",
-            className="button-search",
-            id="search-btn"),
-            style={"display": "table-cell", "verticalAlign": "top", "paddingLeft": "10px"})],
+            style={"display": "table-cell", "width": "100%"})],
             className="row", style={"display": "table", "marginTop": "10px"}
-        ),
-        dcc.RadioItems(id="search-radio",
-                       options=[
-                           {'label': "Search", 'value': "search"},
-                           {"label": "Summary", "value": "summary"}
-                       ],
-                       value='search',
-                       labelStyle={'display': 'inline-block'}
-                       )
-    ])
+        )
+
+def element_filters():
+    return html.Div([html.Label("Element filters:"),
+              dcc.Input(
+                  id="element_filters_input",
+                  type="text",
+                  autofocus=True,
+                  placeholder="E.g., O, -Pb",
+                  value=None,
+                  style={"width": "50%"})],
+             style={"width": "250px", "display": "inline-block"})
 
 def serve_layout(path):
     filters = None
@@ -86,6 +83,20 @@ def serve_layout(path):
                 filter_boxes.append(search_filter_box_html(label))
 
     filter_boxes_and_results = html.Div([html.Div(filter_boxes,style={'width': '25%', 'float': 'left', 'display': 'inline-block'}),dcc.Loading(id="loading-1", children=[html.Div(id='results',style={'width': '75%', 'float': 'right', 'display': 'inline-block'})], type="default")])
-    layout = html.Div([search_bar, filter_boxes_and_results])
+    radio = html.Div(dcc.RadioItems(id="search-radio",
+                       options=[
+                           {'label': "Search", 'value': "search"},
+                           {"label": "Summary", "value": "summary"}
+                       ],
+                       value='search',
+                       labelStyle={'display': 'inline-block'}
+                       ), style={"display": "table-cell", "verticalAlign": "top", "paddingLeft": "10px", "float": "left"})
+    button = html.Div(html.Button(
+            "Search",
+            className="button-search",
+            id="search-btn", style={"height": "50px", "width": "150px", "font-size": 16}),
+            style={"display": "table-cell", "verticalAlign": "top", "paddingLeft": "10px", "float": "right"})
+    top = html.Div([radio, button], className="row", style={"display": "table", "marginTop": "10px", "width": "100%"})
+    layout = html.Div([top, html.Div([search_bar, filter_boxes_and_results], id="search-layout")])
     return layout
 

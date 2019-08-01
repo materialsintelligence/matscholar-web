@@ -2,6 +2,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from matscholar import Rester
 from collections import defaultdict
+from matscholar_web.view.search_app import serve_layout
 import json
 import pandas as pd
 
@@ -109,4 +110,16 @@ def bind(app):
                 dumped = json.dumps(query)
                 summary = rester.get_summary(dumped)
                 return gen_table(summary, query=query)
+
+    @app.callback(
+        Output("search-input", "style"),
+        [Input("search-radio", "value")],
+        [State("search-radio", "value")]
+    )
+    def toggle_inputs(radio_in, radio_val):
+        if radio_val == "search":
+            return {"display": "table-cell", "width": "100%"}
+        else:
+            return {"display": "none"}
+
 
