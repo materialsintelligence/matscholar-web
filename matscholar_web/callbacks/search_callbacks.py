@@ -145,7 +145,6 @@ def bind(app):
                         query[filter] += ents
                 dumped = json.dumps(query)
                 summary = rester.get_summary(dumped)
-                print(summary)
                 return gen_table(summary, query=query)
             else:
                 entities = list(args)[-3]
