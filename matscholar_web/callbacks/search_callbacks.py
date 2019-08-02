@@ -71,7 +71,7 @@ def gen_output(most_common, entity_type, query, class_name="three column"):
                  className="summary-header")] +
         [html.Tr([
             html.Td(html.A(ent, href="/search/{}/{}/{}".format(entity_type.lower(), ent, query))),
-            html.Td('{:.2f}'.format(100*score), style={"textAlign": "right"})], style={'color': 'black'})
+            html.Td('{:.2f}'.format(score), style={"textAlign": "right"})], style={'color': 'black'})
             for ent, count, score in most_common],
         className="summary-table")
     return html.Div(table, className="summary-div " + class_name, style={"width": "20%"})
@@ -81,12 +81,12 @@ def gen_table(results_dict, query=None):
                 html.Div([
                     gen_output(results_dict["PRO"], "Property", query),
                     gen_output(results_dict["APL"], "Application", query),
-                    gen_output(results_dict["CMT"], "Characterization", query),
-                    gen_output(results_dict["SMT"], "Synthesis", query)],  className="row"),
+                    gen_output(results_dict["SMT"], "Synthesis", query)],  className="row", style={"width": "130%"}),
                 html.Div([
                     gen_output(results_dict["DSC"], "Sample descriptor", query),
-                    gen_output(results_dict["SPL"], "Phase", query),
-                    gen_output(results_dict["MAT"], "Material", query)], className="row"),
+                    gen_output(results_dict["MAT"], "Material", query),
+                    gen_output(results_dict["CMT"], "Characterization", query)], className="row", style={"width": "130%"}),
+                html.Div([gen_output(results_dict["SPL"], "Phase", query)], className="row", style={"width": "130%"})
             ])
 
 def split_inputs(input):
@@ -145,6 +145,7 @@ def bind(app):
                         query[filter] += ents
                 dumped = json.dumps(query)
                 summary = rester.get_summary(dumped)
+                print(summary)
                 return gen_table(summary, query=query)
             else:
                 entities = list(args)[-3]

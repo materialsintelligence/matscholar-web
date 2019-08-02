@@ -91,7 +91,7 @@ def serve_layout(path):
             else:
                 filter_boxes.append(search_filter_box_html(label))
 
-    filter_boxes_and_results = html.Div([html.Div(filter_boxes,style={'width': '25%', 'float': 'left', 'display': 'inline-block'}, id="filter-boxes"),dcc.Loading(id="loading-1", children=[html.Div(id='results',style={'width': '75%', 'float': 'right', 'display': 'inline-block'})], type="default")])
+    filter_boxes_and_results = html.Div([html.Div(filter_boxes,style={'width': '20%', 'float': 'left', 'display': 'inline-block'}, id="filter-boxes"),dcc.Loading(id="loading-1", children=[html.Div(id='results',style={'width': '75%', 'float': 'right', 'display': 'inline-block'})], type="default")])
     radio = html.Div(dcc.RadioItems(id="search-radio",
                        options=[
                            {'label': "Search", 'value': "search"},
