@@ -49,16 +49,25 @@ def search_bar_html():
             className="row", style={"display": "table", "marginTop": "10px"}
         )
 
-def element_filters():
-    return html.Div([html.Label("Element filters:"),
-              dcc.Input(
-                  id="element_filters_input",
-                  type="text",
-                  autofocus=True,
-                  placeholder="E.g., O, -Pb",
-                  value=None,
-                  style={"width": "50%"})],
-             style={"width": "250px", "display": "inline-block"})
+def material_search_panel():
+    return html.Div([
+        html.Div([html.Label("Enter a property/application to find associated materials:"),
+                dcc.Input(
+                    id="material-search-input",
+                    type="text",
+                    autofocus=True,
+                    placeholder="E.g., ferroelectric, Li-ion batteries",
+                    style={"width": "95%"})],
+            style={"width": "500px", "display": "inline-block"}),
+        html.Div([html.Label("Element filters:"),
+                dcc.Input(
+                    id="element-filters-input",
+                    type="text",
+                    autofocus=True,
+                    placeholder="E.g., O, -Pb",
+                    value=None,
+                    style={"width": "50%"})],
+            style={"width": "250px", "display": "inline-block"})], id="material-search-panel")
 
 def serve_layout(path):
     filters = None
@@ -82,11 +91,12 @@ def serve_layout(path):
             else:
                 filter_boxes.append(search_filter_box_html(label))
 
-    filter_boxes_and_results = html.Div([html.Div(filter_boxes,style={'width': '25%', 'float': 'left', 'display': 'inline-block'}),dcc.Loading(id="loading-1", children=[html.Div(id='results',style={'width': '75%', 'float': 'right', 'display': 'inline-block'})], type="default")])
+    filter_boxes_and_results = html.Div([html.Div(filter_boxes,style={'width': '25%', 'float': 'left', 'display': 'inline-block'}, id="filter-boxes"),dcc.Loading(id="loading-1", children=[html.Div(id='results',style={'width': '75%', 'float': 'right', 'display': 'inline-block'})], type="default")])
     radio = html.Div(dcc.RadioItems(id="search-radio",
                        options=[
                            {'label': "Search", 'value': "search"},
-                           {"label": "Summary", "value": "summary"}
+                           {"label": "Summary", "value": "summary"},
+                           {"label": "Material Search", "value": "material-search"}
                        ],
                        value='search',
                        labelStyle={'display': 'inline-block'}
@@ -97,6 +107,7 @@ def serve_layout(path):
             id="search-btn", style={"height": "50px", "width": "150px", "font-size": 16}),
             style={"display": "table-cell", "verticalAlign": "top", "paddingLeft": "10px", "float": "right"})
     top = html.Div([radio, button], className="row", style={"display": "table", "marginTop": "10px", "width": "100%"})
-    layout = html.Div([top, html.Div([search_bar, filter_boxes_and_results], id="search-layout")])
+    mat_search = material_search_panel()
+    layout = html.Div([top, html.Div([search_bar, mat_search, filter_boxes_and_results], id="search-layout")])
     return layout
 
