@@ -46,7 +46,7 @@ def search_bar_html():
             placeholder="Text search...",
             style={"width": "100%"}),
             style={"display": "table-cell", "width": "100%"})],
-            className="row", style={"display": "table", "marginTop": "10px"}
+            className="row", style={"display": "table", "marginTop": "10px", "width": "100%"}
         )
 
 def material_search_panel():
