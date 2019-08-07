@@ -1,0 +1,42 @@
+{
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "env": {
+    "ELASTIC_HOST": {
+      "required": true
+    },
+    "ELASTIC_PASS": {
+      "required": true
+    },
+    "ELASTIC_USER": {
+      "required": true
+    },
+    "MATERIALS_SCHOLAR_API_KEY": {
+      "required": true
+    },
+    "MATERIALS_SCHOLAR_ENDPOINT": {
+      "required": true
+    },
+    "MATERIALS_SCHOLAR_WEB_PASS": {
+      "required": true
+    },
+    "MATERIALS_SCHOLAR_WEB_USER": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "matscholar-web",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
