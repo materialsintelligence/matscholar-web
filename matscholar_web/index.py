@@ -116,7 +116,8 @@ def get_stylesheet(path):
 # setting the static path for robots.txt
 @app.server.route('/robots.txt')
 def get_robots():
-    static_folder = os.path.join(os.getcwd(), 'matscholar_web/static/robots.txt')
+    static_folder = os.path.join(os.getcwd(), 'matscholar_web/static')
+    path = "robots.txt"
     return send_from_directory(static_folder, path)
 
 
