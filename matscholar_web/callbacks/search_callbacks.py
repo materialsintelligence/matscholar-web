@@ -31,8 +31,7 @@ def generate_nr_results(n, search=None, material=None, filters=None):
     else:
         return 'Showing {} of {:,} results'.format(min(max_results, n), n)
 
-def results_html(results,
-                   max_rows=max_results):
+def results_html(results, max_rows=max_results):
     columns=['title', 'authors', 'year', 'journal', 'abstract']
     formattedColumns = ['Title', 'Authors', 'Year', 'Journal', 'Abstract (preview)']
     if results is not None:
@@ -49,7 +48,7 @@ def results_html(results,
                 return abstract
         df['abstract'] = df['abstract'].apply(word_limit)
         hm = highlight_material
-        return [html.Label(generate_nr_results(len(results)), id="number_results"), html.Table(
+        return html.Div([html.Label(generate_nr_results(len(results)), id="number_results"), html.Table(
             # Header
             [html.Tr([html.Th(formattedColumns[i]) for i,col in enumerate(columns)])] +
             # Body
@@ -60,7 +59,7 @@ def results_html(results,
                 #     hm(str(df.iloc[i][col]), df.iloc[i]['to_highlight'] if materials else search)) if col == "abstract"
                 else html.Td(df.iloc[i][col]) for col in columns])
                 for i in range(min(len(df), max_rows))],
-            id="table-element")]
+            id="table-element")])
     return html.Div([html.Label(generate_nr_results(len(results)), id="number_results"),
             html.Table(id="table-element")])
 
