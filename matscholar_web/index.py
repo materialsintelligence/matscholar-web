@@ -44,7 +44,7 @@ stylesheets_links = [html.Link(rel='stylesheet', href='/static/css/' + css) for 
 VIEW
 """
 
-header = html.Div([
+header_contianer = html.Div([
     dcc.Location(id="url", refresh=False),
     html.Img(
         src="https://matscholar-web.s3-us-west-1.amazonaws.com/matscholar_logo+alpha.png",
@@ -53,11 +53,11 @@ header = html.Div([
             "display": "block",
             'max-width': "100%",
             "margin": "5px auto",
-        }),
-], className="row")
+        })],
+    id="header_container",
+    className="row")
 
-footer = html.Div([
-    html.Div(),
+footer_contianer = html.Div([
     html.Div(
         [html.Span(
             "Copyright © 2019 - "),
@@ -73,6 +73,7 @@ footer = html.Div([
     html.Div(html.A("Privacy Policy",
                     href='https://www.iubenda.com/privacy-policy/55585319',
                     target="_blank"))],
+    id="footer_container",
     className="row",
     style={
         "color": "grey",
@@ -81,10 +82,10 @@ footer = html.Div([
 
 app.layout = html.Div([
     html.Div(stylesheets_links, style={"display": "none"}),
-    header,
+    header_contianer,
     # nav,
     html.Div("", id="app_container"),
-    footer],
+    footer_contianer],
     className='container',
     style={
         "maxWidth": "1600px",
