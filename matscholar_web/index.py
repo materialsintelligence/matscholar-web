@@ -47,7 +47,7 @@ VIEW
 header = html.Div([
     dcc.Location(id="url", refresh=False),
     html.Img(
-        src="https://s3.amazonaws.com/matscholar/matscholar_logo.png",
+        src="https://matscholar-web.s3-us-west-1.amazonaws.com/matscholar_logo+alpha.png",
         style={
             'width': '350px',
             "display": "block",
