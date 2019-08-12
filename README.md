@@ -7,3 +7,16 @@ This is the repo that contains the code for the [Materials Scholar website](http
 If you would like to submit feedback to help us improve the app, please create a [new issue](https://github.com/materialsintelligence/matscholar-web/issues/new) on this repository. If you have any other questions you can reach the Matscholar team at [help@matscholar.com](mailto:help@matscholar.com).
 
 Matscholar is supported by Toyota Research Institute through the Accelerated Materials Design and Discovery program. Abstract data was downloaded from the ScienceDirect API between October 2017 and September 2018, and the Scopus API in July 2019 via http://api.elsevier.com and http://www.scopus.com. Abstract data was also downloaded from the SpringerNature API and Royal Society of Chemistry sources. 
+
+## Citation
+
+If you use any of the API functionality in your research, please cite the following papers
+where relevent:
+
+[1] L. Weston et al., Submitted to J. Chem. Inf. Model., https://doi.org/10.26434/chemrxiv.8226068.v1
+
+[2] V. Tshitoyan et al., Nature 571, 95 (2019).
+
+
+## Contributors
+@jdagdelen, @lweston, @AmalieT, @vtshitoyan, @computron
