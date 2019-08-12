@@ -8,10 +8,7 @@ If you would like to submit feedback to help us improve the app, please create a
 
 Matscholar is supported by Toyota Research Institute through the Accelerated Materials Design and Discovery program. Abstract data was downloaded from the ScienceDirect API between October 2017 and September 2018, and the Scopus API in July 2019 via http://api.elsevier.com and http://www.scopus.com. Abstract data was also downloaded from the SpringerNature API and Royal Society of Chemistry sources. 
 
-## Citation
-
-If you use any of the API functionality in your research, please cite the following papers
-where relevent:
+## References
 
 [1] Weston, L., Tshitoyan, V., Dagdelen, J., Kononova, O., Trewartha, A., Persson, K., Ceder, G., Jain, A. (2019) Named Entity Recognition and Normalization Applied to Large-Scale Information Extraction from the Materials Science Literature. J. Chem. Inf. Model.
 
