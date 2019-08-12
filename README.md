@@ -13,9 +13,9 @@ Matscholar is supported by Toyota Research Institute through the Accelerated Mat
 If you use any of the API functionality in your research, please cite the following papers
 where relevent:
 
-[1] L. Weston et al., Submitted to J. Chem. Inf. Model., https://doi.org/10.26434/chemrxiv.8226068.v1
+[1] Weston, Leigh, Tshitoyan, Vahe, Dagdelen, John, Kononova, Olga, Trewartha, Amalie, Persson, Kristin, Ceder, Gerbrand, Jain, Anubhav. Named Entity Recognition and Normalization Applied to Large-Scale Information Extraction from the Materials Science Literature. J. Chem. Inf. Model.
 
-[2] V. Tshitoyan et al., Nature 571, 95 (2019).
+[2] Tshitoyan, V., Dagdelen, J., Weston, L., Dunn, A., Rong, Z., Kononova, O., … Jain, A. (2019). Unsupervised word embeddings capture latent knowledge from materials science literature. Nature, 571(7763), 95–98. https://doi.org/10.1038/s41586-019-1335-8
 
 
 ## Contributors
