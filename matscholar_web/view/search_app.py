@@ -36,7 +36,7 @@ def search_filter_box_html(label, filters=None):
                             searchField="original.edgengram",
                             value=value)
                         ],
-                       style={'padding': 5, 'width':'25%'}
+                       style={'padding': 5, 'width': '25%'}
                        )
     return textbox
 

@@ -23,13 +23,97 @@ def highlight_material(body, material):
         return newtext
     return body
 
-def generate_nr_results(n, search=None, material=None, filters=None):
+def generate_nr_results(n):
+    """
+    Generates a message to be displayed at top of results page.
+    Args:
+        n (int): Number of results returned.
+
+    Returns:
+        (str or list) Message to be displayed.
+
+    """
     if n == 0:
         return "No Results"
     elif n >= max_results:
-        return ['Showing {} of > {:,} results. For full results, use the '.format(max_results, n), html.A('Matscholar API.', href='https://github.com/materialsintelligence/matscholar')]
+        return ['Showing {} of > {:,} results. For full results, use the '.format(max_results, n),
+                html.A('Matscholar API.', href='https://github.com/materialsintelligence/matscholar')]
     else:
         return 'Showing {} of {:,} results'.format(min(max_results, n), n)
+
+def format_result(result):
+    """
+    Takes in one row of a dataframe and formats it for display in the
+    search results table.
+
+    Title of the paper is the first line
+    Author 1, Author 2... - Title of Journal, Year - Publisher
+    First 200 characters of abstract.
+    Entities
+
+    Args:
+        result: Row of dataframe to be formatted for display.
+
+    Returns:
+        html.Div of formatted result
+    """
+
+    columns = ['title', 'authors', 'year', 'journal', 'abstract', ]
+
+    title = html.Div(html.A(result['title'],
+                            href=result["link"],
+                            target="_blank",
+                            style={"font-size":"120%"}
+                            )
+                     )
+
+    # Format the 2nd line "authors - journal, year" with ellipses for overflow
+    characters_remaining = 90 # max line length
+    characters_remaining -= 5 # spaces, '-', and ','
+
+    year = result['year']
+    characters_remaining -= 4
+
+    journal = result['journal']
+    if len(journal) > 20:
+        journal = journal if len(journal) < 33 else journal[0:30] +"..."
+    characters_remaining -= len(journal)
+
+    authors = result["authors"]
+    full_author_list = authors.split(", ")
+    num_authors = len(full_author_list)
+    reduced_author_list = []
+    while len(full_author_list) > 0:
+        author = full_author_list.pop(0)
+        if characters_remaining > len(author):
+            reduced_author_list.append(author)
+            characters_remaining -= len(author) + 2
+    authors = ", ".join(reduced_author_list)
+    if len(reduced_author_list) < num_authors:
+        authors += "..."
+
+    ajy = "{} - {}, {}".format(authors, journal, year)
+    authors_journal_and_year = html.Div(ajy, style={"color":"green"})
+    abstract = html.Div(result["abstract"])
+    return html.Tr(html.Td(html.Div([title,
+                                     authors_journal_and_year,
+                                     abstract])))
+
+
+def format_authors(author_list):
+    if isinstance(author_list, (list, tuple)):
+        return(", ".join([format_authors(author) for author in author_list]))
+    else:
+        if ", " in author_list:
+            author_list = author_list.split(", ")
+            author_list.reverse()
+            author_list = " ".join(author_list)
+        elif "," in author_list:
+            author_list = author_list.split(",")
+            author_list.reverse()
+            author_list = " ".join(author_list)
+        return author_list
+
 
 def results_html(results, max_rows=max_results):
     columns=['title', 'authors', 'year', 'journal', 'abstract']
@@ -39,7 +123,6 @@ def results_html(results, max_rows=max_results):
     else:
         pd.DataFrame()
     if not df.empty:
-        format_authors = lambda author_list: ", ".join(author_list) if isinstance(author_list, (list, tuple)) else author_list
         df['authors'] = df['authors'].apply(format_authors)
         def word_limit(abstract):
             try:
@@ -48,17 +131,13 @@ def results_html(results, max_rows=max_results):
                 return abstract
         df['abstract'] = df['abstract'].apply(word_limit)
         hm = highlight_material
+
+        results = [format_result(df.iloc[i]) for i in range(min(len(df), max_rows))]
         return html.Div([html.Label(generate_nr_results(len(results)), id="number_results"), html.Table(
             # Header
-            [html.Tr([html.Th(formattedColumns[i]) for i,col in enumerate(columns)])] +
+            # [html.Tr([html.Th(formattedColumns[i]) for i,col in enumerate(columns)])] +
             # Body
-            [html.Tr([
-                html.Td(html.A(str(df.iloc[i][col]),
-                               href=df.iloc[i]["link"], target="_blank")) if col == "title"
-                # else html.Td(
-                #     hm(str(df.iloc[i][col]), df.iloc[i]['to_highlight'] if materials else search)) if col == "abstract"
-                else html.Td(df.iloc[i][col]) for col in columns])
-                for i in range(min(len(df), max_rows))],
+            results,
             id="table-element")])
     return html.Div([html.Label(generate_nr_results(len(results)), id="number_results"),
             html.Table(id="table-element")])
@@ -129,7 +208,7 @@ def bind(app):
         [Input('search-btn','n_clicks')],
         [State('search-input','value')]+[State(f+'-filters', 'value') for f in VALID_FILTERS]+
         [State("material-search-input", "value"), State("element-filters-input", "value"), State("search-radio", "value")])
-    def show_results(*args,**kwargs):
+    def show_results(*args, **kwargs):
         if list(args)[0] is not None:
             if list(args)[-1] == "search":
                 text = str(args[1])
