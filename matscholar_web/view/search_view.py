@@ -3,13 +3,21 @@ import dash_core_components as dcc
 from dash_elasticsearch_autosuggest import ESAutosuggest
 from matscholar_web.base import *
 from os import environ
-
+import urllib
+import json
+from collections import defaultdict
 import dash_elasticsearch_autosuggest
+import ast
 
 
-def serve_layout():
+def serve_layout(search):
+    if search:
+        search_dict = urllib.parse.parse_qs(
+            search[1:])
+    else:
+        search_dict = dict()    # print(urllib.parse.parse_qs(path))
 
-    return html.Div([search_bar_and_button_html(), advanced_search_boxes_html(), advanced_search_types_html(), results_html()])
+    return html.Div([search_bar_and_button_html(search_dict), advanced_search_boxes_html(search_dict), advanced_search_types_html(), results_html()])
     """
     Basic view: search bar with 'go' button. Advanced search hidden somewhere.
 
@@ -21,7 +29,7 @@ def serve_layout():
     """
 
 
-def search_bar_and_button_html():
+def search_bar_and_button_html(search_dict):
     """Returns the html div for the main search bar and search button
     """
 
@@ -29,6 +37,7 @@ def search_bar_and_button_html():
         id="text_input",
         type="text",
         autofocus=True,
+        value=search_dict.get('text'),
         placeholder="Enter search terms...",
         style={"width": "100%"}),
         style={"display": "table-cell", "width": "100%"})
@@ -40,7 +49,7 @@ def search_bar_and_button_html():
         style={"display": "table-cell", "verticalAlign": "top", "paddingLeft": "10px"})
 
     search_bar_and_button = html.Div([search_bar_html, search_button_html], className="row", style={
-                                     "display": "table", "marginTop": "10px"})
+        "display": "table", "marginTop": "10px"})
 
     return search_bar_and_button
 
@@ -83,7 +92,7 @@ def advanced_search_types_html():
     return advanced_search_types
 
 
-def advanced_search_boxes_html():
+def advanced_search_boxes_html(search_dict):
     """
     Html for the advanced search boxes.
     Element filters, entity filters, anonymous formula searches
@@ -97,7 +106,7 @@ def advanced_search_boxes_html():
         type="text",
         autofocus=True,
         placeholder="ABC3, AB2O4,...",
-        value=None)],
+        value=search_dict.get('anonymous_formula'))],
         style={'width': '240px'}
     )
 
@@ -107,12 +116,12 @@ def advanced_search_boxes_html():
         type="text",
         autofocus=True,
         placeholder="O, -Pb,...",
-        value=None)],
+        value=search_dict.get('element_filters'))],
         style={'width': '240px'}
     )
 
     entity_filters_html = [_entity_filter_box_html(
-        f) for f in valid_entity_filters]
+        f, search_dict) for f in valid_entity_filters]
 
     advanced_search_boxes = html.Div(
         [filters_label_html, anonymous_formula_filter_html,
@@ -122,7 +131,7 @@ def advanced_search_boxes_html():
     return advanced_search_boxes
 
 
-def _entity_filter_box_html(entity, prefill_filters=None):
+def _entity_filter_box_html(entity, search_dict):
     """
     Text filter boxes with ES autosuggest for entity filters.
 
@@ -141,13 +150,14 @@ def _entity_filter_box_html(entity, prefill_filters=None):
     ES_field_dict = {"material": "materials", "property": "properties", "application": "applications", "descriptor": "descriptors",
                      "characterization": "characterization methods", "synthesis": "synthesis methods", "phase": "structure phase labels"}
 
-    if not prefill_filters:
-        value = ""
-    else:
-        value = ",".join(prefill_filters) if len(
-            prefill_filters) > 1 else prefill_filters[0]
-    textbox = html.Div([html.Label('{}:'.format(entity.capitalize())),
-                        ESAutosuggest(
+    try:
+        prefill = str(search_dict.get(entity)[0])
+    except TypeError:
+        prefill = None
+    textbox = html.Div([html.Label('{}:'.format(entity.capitalize()),
+                                   className="highlighted {}".format(
+        highlight_mapping[entity])),
+        ESAutosuggest(
         fields=['original', 'normalized'],
         endpoint=environ['ELASTIC_HOST'] + "/" +
         ES_field_dict[entity] + "/_search",
@@ -157,7 +167,7 @@ def _entity_filter_box_html(entity, prefill_filters=None):
         authUser=environ['ELASTIC_USER'],
         authPass=environ['ELASTIC_PASS'],
         searchField="original.edgengram",
-        value=value)
+        value=prefill)
     ],
         style={'padding': 5, 'width': '25%'}
     )
