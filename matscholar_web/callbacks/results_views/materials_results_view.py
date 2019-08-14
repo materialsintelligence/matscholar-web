@@ -42,13 +42,14 @@ def gen_df(result):
 def materials_results_html(*args, **kwargs):
     text = str(args[0][0])
     anonymous_formula = args[0][1]
-    element_filters = str(args[0][2])
-    entities = {f: [s.strip() for s in args[i + 2].split(',')] for i, f in enumerate(
-        valid_entity_filters) if ((list(args)[i + 2] is not None) and (args[i + 2].split(',') != ['']))}
+    element_filters = [s.strip() for s in args[0][2].split(
+        ',')] if not args[0][2] in [None, ''] else []
+    entities = {f: [s.strip() for s in args[0][i + 3].split(',')] for i, f in enumerate(
+        valid_entity_filters) if ((args[0][i + 3] is not None) and (args[0][i + 3].split(',') != ['']))}
     results = rester.materials_search(
-        entities, text=text, elements=element_filters)
-    result = [(mat, count, dois) for mat, count, dois in result
-              if (not mat.isupper()) and len(mat) > 2 and "oxide" not in mat]
+        entities, text=text, elements=element_filters, top_k=None)
+    result = [(r['material'], r['count'], r['dois']) for r in results
+              if (not r['material'].isupper()) and len(r['material']) > 2 and "oxide" not in r['material']]
 
     # Update the download link
     df = gen_df(result)

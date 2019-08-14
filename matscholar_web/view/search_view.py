@@ -6,8 +6,6 @@ from os import environ
 
 import dash_elasticsearch_autosuggest
 
-print(dash_elasticsearch_autosuggest.__file__)
-
 
 def serve_layout():
 
@@ -44,13 +42,7 @@ def search_bar_and_button_html():
     search_bar_and_button = html.Div([search_bar_html, search_button_html], className="row", style={
                                      "display": "table", "marginTop": "10px"})
 
-    advanced_search_and_analysis_links = html.Div([html.Button(
-        "Advanced Search",
-        className="button-search",
-        id="advanced-search-btn"),
-        dcc.Link("Text Analysis with NLP", href="/analysis")],
-        style={"display": "table-cell", "verticalAlign": "top", "paddingLeft": "10px", "paddingRight": "20px"})
-    return html.Div([search_bar_and_button, advanced_search_and_analysis_links])
+    return search_bar_and_button
 
 
 def results_html():
@@ -76,12 +68,12 @@ def advanced_search_types_html():
     advanced_search_types = dcc.RadioItems(
         id='advanced_search_types_radio',
         options=[
+            {'label': 'Statistics', 'value': 'entities'},
             {'label': 'Papers', 'value': 'abstracts'},
-            {'label': 'Materials', 'value': 'materials'},
-            {'label': 'Statistics', 'value': 'entities'}
+            {'label': 'Materials', 'value': 'materials'}
         ],
         labelStyle={'display': 'inline-block'},
-        value='abstracts'
+        value='entities'
     )
 
     advanced_search_types = html.Div(
@@ -106,6 +98,7 @@ def advanced_search_boxes_html():
         autofocus=True,
         placeholder="ABC3, AB2O4,...",
         value=None)],
+        style={'width': '240px'}
     )
 
     element_filter_html = html.Div([html.Label("Elements:"),
@@ -115,6 +108,7 @@ def advanced_search_boxes_html():
         autofocus=True,
         placeholder="O, -Pb,...",
         value=None)],
+        style={'width': '240px'}
     )
 
     entity_filters_html = [_entity_filter_box_html(
@@ -152,7 +146,6 @@ def _entity_filter_box_html(entity, prefill_filters=None):
     else:
         value = ",".join(prefill_filters) if len(
             prefill_filters) > 1 else prefill_filters[0]
-    print(entity)
     textbox = html.Div([html.Label('{}:'.format(entity.capitalize())),
                         ESAutosuggest(
         fields=['original', 'normalized'],
@@ -166,6 +159,6 @@ def _entity_filter_box_html(entity, prefill_filters=None):
         searchField="original.edgengram",
         value=value)
     ],
-        style={'padding': 5}
+        style={'padding': 5, 'width': '25%'}
     )
     return textbox
