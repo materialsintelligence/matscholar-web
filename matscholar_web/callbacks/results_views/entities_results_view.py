@@ -6,143 +6,6 @@ import pandas as pd
 import urllib
 from matscholar_web.base import *
 
-rester = Rester()
-valid_entity_filters = ["material", "property", "application",
-                        "descriptor", "characterization", "synthesis", "phase"]
-max_results = 50
-
-
-def highlight_material(body, material):
-    highlighted_phrase = html.Mark(material)
-    if len(material) > 0 and material in body:
-        chopped = body.split(material)
-        newtext = []
-        for piece in chopped[:-1]:
-            newtext.append(piece)
-            newtext.append(highlighted_phrase)
-        newtext.append(chopped[-1])
-        return newtext
-    return body
-
-
-def generate_nr_results(n):
-    """
-    Generates a message to be displayed at top of results page.
-    Args:
-        n (int): Number of results returned.
-    Returns:
-        (str or list) Message to be displayed.
-    """
-    if n == 0:
-        return "No Results"
-    elif n >= max_results:
-        return ['Showing {} of > {:,} results. For full results, use the '.format(max_results, n),
-                html.A('Matscholar API.', href='https://github.com/materialsintelligence/matscholar')]
-    else:
-        return 'Showing {} of {:,} results'.format(min(max_results, n), n)
-
-
-def format_result(result):
-    """
-    Takes in one row of a dataframe and formats it for display in the
-    search results table.
-    Title of the paper is the first line
-    Author 1, Author 2... - Title of Journal, Year - Publisher
-    First 200 characters of abstract.
-    Entities
-    Args:
-        result: Row of dataframe to be formatted for display.
-    Returns:
-        html.Div of formatted result
-    """
-
-    columns = ['title', 'authors', 'year', 'journal', 'abstract', ]
-
-    title = html.Div(html.A(result['title'],
-                            href=result["link"],
-                            target="_blank",
-                            style={"font-size": "120%"}
-                            )
-                     )
-
-    # Format the 2nd line "authors - journal, year" with ellipses for overflow
-    characters_remaining = 90  # max line length
-    characters_remaining -= 5  # spaces, '-', and ','
-
-    year = result['year']
-    characters_remaining -= 4
-
-    journal = result['journal']
-    if len(journal) > 20:
-        journal = journal if len(journal) < 33 else journal[0:30] + "..."
-    characters_remaining -= len(journal)
-
-    authors = result["authors"]
-    full_author_list = authors.split(", ")
-    num_authors = len(full_author_list)
-    reduced_author_list = []
-    while len(full_author_list) > 0:
-        author = full_author_list.pop(0)
-        if characters_remaining > len(author):
-            reduced_author_list.append(author)
-            characters_remaining -= len(author) + 2
-    authors = ", ".join(reduced_author_list)
-    if len(reduced_author_list) < num_authors:
-        authors += "..."
-
-    ajy = "{} - {}, {}".format(authors, journal, year)
-    authors_journal_and_year = html.Div(ajy, style={"color": "green"})
-    abstract = html.Div(result["abstract"])
-    return html.Tr(html.Td(html.Div([title,
-                                     authors_journal_and_year,
-                                     abstract])))
-
-
-def format_authors(author_list):
-    if isinstance(author_list, (list, tuple)):
-        return(", ".join([format_authors(author) for author in author_list]))
-    else:
-        if ", " in author_list:
-            author_list = author_list.split(", ")
-            author_list.reverse()
-            author_list = " ".join(author_list)
-        elif "," in author_list:
-            author_list = author_list.split(",")
-            author_list.reverse()
-            author_list = " ".join(author_list)
-        return author_list
-
-
-def results_html(results, max_rows=max_results):
-    columns = ['title', 'authors', 'year', 'journal', 'abstract']
-    formattedColumns = ['Title', 'Authors',
-                        'Year', 'Journal', 'Abstract (preview)']
-    if results is not None:
-        df = pd.DataFrame(results)
-    else:
-        pd.DataFrame()
-    if not df.empty:
-        df['authors'] = df['authors'].apply(format_authors)
-
-        def word_limit(abstract):
-            try:
-                return abstract[:200] + "..."
-            except IndexError:
-                return abstract
-        df['abstract'] = df['abstract'].apply(word_limit)
-        hm = highlight_material
-
-        results = [format_result(df.iloc[i])
-                   for i in range(min(len(df), max_rows))]
-        return html.Div([html.Label(generate_nr_results(len(results)), id="number_results"), html.Table(
-            # Header
-            # [html.Tr([html.Th(formattedColumns[i]) for i,col in enumerate(columns)])] +
-            # Body
-            results,
-            id="table-element")])
-    return html.Div([html.Label(generate_nr_results(len(results)), id="number_results"),
-                     html.Table(id="table-element")])
-
 
 def gen_output(most_common, entity_type, query, class_name="three column"):
     query = [(key, value) for key, value in query.items()]
@@ -159,66 +22,39 @@ def gen_output(most_common, entity_type, query, class_name="three column"):
 
 
 def gen_table(results_dict, query=None):
+    # return html.Div([
+    #     html.Div([
+    #                 gen_output(results_dict["PRO"], "Property", query),
+    #                 gen_output(results_dict["APL"], "Application", query),
+    #                 gen_output(results_dict["SMT"], "Synthesis", query)], className="row", style={"width": "130%"}),
+    #     html.Div([
+    #         gen_output(results_dict["DSC"],
+    #                    "Sample descriptor", query),
+    #         gen_output(results_dict["MAT"], "Material", query),
+    #         gen_output(results_dict["CMT"], "Characterization", query)], className="row", style={"width": "130%"}),
+    #     html.Div([gen_output(results_dict["SPL"], "Phase", query)],
+    #              className="row", style={"width": "130%"})
+    # ])
+
     return html.Div([
-        html.Div([
-                    gen_output(results_dict["PRO"], "Property", query),
-                    gen_output(results_dict["APL"], "Application", query),
-                    gen_output(results_dict["SMT"], "Synthesis", query)], className="row", style={"width": "130%"}),
-        html.Div([
-            gen_output(results_dict["DSC"],
-                       "Sample descriptor", query),
-            gen_output(results_dict["MAT"], "Material", query),
-            gen_output(results_dict["CMT"], "Characterization", query)], className="row", style={"width": "130%"}),
-        html.Div([gen_output(results_dict["SPL"], "Phase", query)],
-                 className="row", style={"width": "130%"})
+        gen_output(results_dict["PRO"], "Property", query),
+        gen_output(results_dict["APL"], "Application", query),
+        gen_output(results_dict["SMT"], "Synthesis", query),
+        gen_output(results_dict["DSC"], "Sample descriptor", query),
+        gen_output(results_dict["MAT"], "Material", query),
+        gen_output(results_dict["CMT"], "Characterization", query),
+        gen_output(results_dict["SPL"], "Phase", query)
     ])
-
-
-def split_inputs(input):
-    if input is not None:
-        return [inp.strip() for inp in input.split(",")]
-    else:
-        return []
-
-
-def get_details(dois):
-    return html.Details([
-        html.Summary('Show dois?'),
-        html.Span([html.A("{}; ".format(doi), href="http://www.doi.org/{}".format(doi), target="_blank")
-                   for doi in dois[:20]],
-                  style={"white-space": "nowrap"})
-    ])
-
-
-def gen_output_matsearch(result):
-    table = html.Table(
-        [html.Tr([html.Th("Material"), html.Th("Counts"), html.Th("Clickable doi links",
-                                                                  style={"white-space": "nowrap"})])] +
-        [html.Tr([
-            html.Td(mat),
-            html.Td(count), html.Td(get_details(dois))])
-            for mat, count, dois in result],
-        style={"width": "100px"})
-    return html.Div(table, style={"width": "100px"})
-
-
-def gen_df(result):
-    mats = [mat for mat, _, _ in result]
-    counts = [count for _, count, _ in result]
-    dois = [" ".join(dois) for _, _, dois in result]
-    df = pd.DataFrame()
-    df["Material"] = mats
-    df["counts"] = counts
-    df["dois"] = dois
-    return df
 
 
 def entities_results_html(*args, **kwargs):
     text = str(args[0][0])
     anonymous_formula = args[0][1]
-    element_filters = str(args[0][2])
-    entities = {f: [s.strip() for s in args[i + 2].split(',')] for i, f in enumerate(
-        valid_entity_filters) if ((list(args)[i + 2] is not None) and (args[i + 2].split(',') != ['']))}
+    element_filters = [s.strip() for s in args[0][2].split(
+        ',')] if not args[0][2] in [None, ''] else []
+    entities = {f: [s.strip() for s in args[0][i + 3].split(',')] for i, f in enumerate(
+        valid_entity_filters) if ((args[0][i + 3] is not None) and (args[0][i + 3].split(',') != ['']))}
     results = rester.entities_search(
-        entities, text=text, elements=element_filters, top_k=max_results)
+        entities, text=text, elements=element_filters, top_k=None)
+    query = {**entities, **{'element_filters': element_filters}, **{"anonymous_formula": anonymous_formula}, **{"text": text}}
     return gen_table(results, query=query)

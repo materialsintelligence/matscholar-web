@@ -42,8 +42,6 @@ def bind(app):
         """
         Perform a search for abstracts and display the results
         """
-        print(args)
-        print(kwargs)
         if args[0] is not None:
             if args[1] == 'abstracts':
                 return abstracts_results_html(list(args)[2:])

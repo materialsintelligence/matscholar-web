@@ -41,72 +41,52 @@ css_files = ["skeleton.min.css", "matscholar_web.css", ]
 stylesheets_links = [
     html.Link(rel='stylesheet', href='/static/css/' + css) for css in css_files]
 
-
 """
 VIEW
 """
-# try:
-#     abstract_count = Rester().get_abstract_count()
-# except MatScholarRestError:
-#     abstract_count = 0
 
-
-header = html.Div([
+header_contianer = html.Div([
     dcc.Location(id="url", refresh=False),
     html.Img(
-        src="https://s3.amazonaws.com/matscholar/matscholar_logo.png",
+        src="https://matscholar-web.s3-us-west-1.amazonaws.com/matscholar_logo+alpha.png",
         style={
-            'width': '250px',
+            'width': '350px',
             "display": "block",
             'max-width': "100%",
             "margin": "5px auto",
+        })],
+    id="header_container",
+    className="row")
+
+footer_contianer = html.Div([
+    html.Div(
+        [html.Span(
+            "Copyright © 2019 - "),
+            html.A("Materials Scholar Development Team ",
+                   href="https://github.com/materialsintelligence",
+                   target="_blank")],
+        className="row",
+        style={
+            "color": "grey",
+            "textAlign": "center"
         }),
-    # html.Label(str(abstract_count)+" Abstracts Analyzed!",style={"textAlign": "center"})
-], className="row")
-
-# nav = html.Nav(
-#     style={
-#         "margin": "3px 1px",
-#         "padding": "3px 1px",
-#         "textAlign": "center"},
-#     children=[
-#         dcc.Link("search", href="/search"),
-#         html.Span(" | ", style={"color": "whitesmoke"}),
-#         #dcc.Link("explore embeddings", href="/explore"),
-#         #html.Span(" | ", style={"color": "whitesmoke"}),
-#         dcc.Link("materials map", href="/materials_map"),
-#         # html.Span(" | ", style={"color": "whitesmoke"}),
-#         # dcc.Link("journal suggestion", href="/journal_suggestion"),
-#         html.Span(" | ", style={"color": "whitesmoke"}),
-#         dcc.Link("summary", href="/summary"),
-#         html.Span(" | ", style={"color": "whitesmoke"}),
-#         dcc.Link("extract", href="/extract"),
-#         html.Span(" | ", style={"color": "whitesmoke"}),
-#         dcc.Link("material search", href="/material_search"),
-#     ],
-#     id="nav_bar")
-
-footer = html.Div(
-    [
-        html.Span(
-            "Copyright © 2018 - "),
-        html.A(
-            "Materials Scholar Development Team",
-            href="https://github.com/materialsintelligence",
-            target="_blank")
-    ],
+    html.Span("Note: This is a pre-release alpha of Matscholar. "),
+    html.Div(html.A("Privacy Policy",
+                    href='https://www.iubenda.com/privacy-policy/55585319',
+                    target="_blank"))],
+    id="footer_container",
     className="row",
     style={
         "color": "grey",
-        "textAlign": "center"
-    }
-)
+        "textAlign": "center",
+        "width": "100%"}, )
 
 app.layout = html.Div([
     html.Div(stylesheets_links, style={"display": "none"}),
-    header,
+    header_contianer,
+    # nav,
     html.Div("", id="app_container"),
-    footer],
+    footer_contianer],
     className='container',
     style={
         "maxWidth": "1600px",
@@ -125,11 +105,11 @@ CALLBACKS
     [Input('url', 'pathname')])
 def display_page(path):
     path = str(path)
+
     if path.startswith("/analysis"):
         return analysis_view.serve_layout()
     else:
         return search_view.serve_layout()
-
 # setting the static path for loading css files
 
 
@@ -140,3 +120,11 @@ def get_stylesheet(path):
 
 
 search_view_callbacks.bind(app)
+# setting the static path for robots.txt
+
+
+@app.server.route('/robots.txt')
+def get_robots():
+    static_folder = os.path.join(os.getcwd(), 'matscholar_web/static')
+    path = "robots.txt"
+    return send_from_directory(static_folder, path)
