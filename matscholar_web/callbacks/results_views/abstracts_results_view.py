@@ -9,6 +9,15 @@ from matscholar_web.base import *
 
 max_results = 50
 
+label_mapping = {
+    "material": "MAT_summary",
+    "application": "APL_summary",
+    "property": "PRO_summary",
+    "phase": "SPL_summary",
+    "synthesis": "SMT_summary",
+    "characterization": "CMT_summary",
+    "descriptor": "DSC_summary"}
+
 
 def abstracts_results_html(*args, **kwargs):
     text = str(args[0][0])
@@ -103,9 +112,21 @@ def format_result(result):
     ajy = "{} - {}, {}".format(authors, journal, year)
     authors_journal_and_year = html.Div(ajy, style={"color": "green"})
     abstract = html.Div(result["abstract"])
+
+    entities = []
+    for f in valid_entity_filters:
+        for e in result[label_mapping[f]]:
+            entities.append(html.Span(e,
+                                      className="highlighted {}".format(
+                                          highlight_mapping[f]),
+                                      style={"padding-right": "4px",
+                                             "background-clip": "content-box"}))
+    entities = html.Div(entities)
+
     return html.Tr(html.Td(html.Div([title,
                                      authors_journal_and_year,
-                                     abstract])))
+                                     abstract,
+                                     entities])))
 
 
 def format_authors(author_list):
@@ -124,9 +145,11 @@ def format_authors(author_list):
 
 
 def results_html(results, max_rows=max_results):
-    columns = ['title', 'authors', 'year', 'journal', 'abstract']
+    columns = ['title', 'authors', 'year',
+               'journal', 'abstract']
     formattedColumns = ['Title', 'Authors',
                         'Year', 'Journal', 'Abstract (preview)']
+    print(results)
     if results is not None:
         df = pd.DataFrame(results)
     else:

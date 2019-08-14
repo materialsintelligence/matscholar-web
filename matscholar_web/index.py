@@ -115,14 +115,14 @@ CALLBACKS
 # callbacks for loading different apps
 @app.callback(
     Output('app_container', 'children'),
-    [Input('url', 'pathname')])
-def display_page(path):
+    [Input('url', 'pathname'), Input('url', 'search')])
+def display_page(path, search):
     path = str(path)
 
     if path.startswith("/analyze"):
         return analysis_view.serve_layout()
     else:
-        return search_view.serve_layout()
+        return search_view.serve_layout(search)
 # setting the static path for loading css files
 
 
