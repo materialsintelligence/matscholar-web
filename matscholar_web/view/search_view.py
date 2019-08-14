@@ -1,7 +1,12 @@
 import dash_html_components as html
 import dash_core_components as dcc
 from dash_elasticsearch_autosuggest import ESAutosuggest
+from matscholar_web.base import *
 from os import environ
+
+import dash_elasticsearch_autosuggest
+
+print(dash_elasticsearch_autosuggest.__file__)
 
 
 def serve_layout():
@@ -80,7 +85,7 @@ def advanced_search_types_html():
     )
 
     advanced_search_types = html.Div(
-        advanced_search_types, style={'display': 'none'},
+        advanced_search_types,
         id='advanced_search_types')
 
     return advanced_search_types
@@ -111,15 +116,14 @@ def advanced_search_boxes_html():
         placeholder="O, -Pb,...",
         value=None)],
     )
-    entity_filters = ["material", "property", "application",
-                      "descriptor", "characterization", "synthesis", "phase"]
 
-    entity_filters_html = [_entity_filter_box_html(f) for f in entity_filters]
+    entity_filters_html = [_entity_filter_box_html(
+        f) for f in valid_entity_filters]
 
     advanced_search_boxes = html.Div(
         [filters_label_html, anonymous_formula_filter_html,
             element_filter_html] + entity_filters_html,
-        style={'width': '25%', 'float': 'left', 'display': 'none'}, id='advanced_search_boxes')
+        style={'width': '25%', 'float': 'left', 'display': 'inline-block'}, id='advanced_search_boxes')
 
     return advanced_search_boxes
 
@@ -148,6 +152,7 @@ def _entity_filter_box_html(entity, prefill_filters=None):
     else:
         value = ",".join(prefill_filters) if len(
             prefill_filters) > 1 else prefill_filters[0]
+    print(entity)
     textbox = html.Div([html.Label('{}:'.format(entity.capitalize())),
                         ESAutosuggest(
         fields=['original', 'normalized'],

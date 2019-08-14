@@ -1,8 +1,10 @@
-
 from matscholar import Rester
+import dash_html_components as html
+import dash_core_components as dcc
 import json
 import pandas as pd
 import urllib
+from matscholar_web.base import *
 
 rester = Rester()
 valid_entity_filters = ["material", "property", "application",
@@ -215,7 +217,7 @@ def entities_results_html(*args, **kwargs):
     text = str(args[0][0])
     anonymous_formula = args[0][1]
     element_filters = str(args[0][2])
-    entity_filters = {f: [s.strip() for s in args[i + 2].split(',')] for i, f in enumerate(
+    entities = {f: [s.strip() for s in args[i + 2].split(',')] for i, f in enumerate(
         valid_entity_filters) if ((list(args)[i + 2] is not None) and (args[i + 2].split(',') != ['']))}
     results = rester.entities_search(
         entities, text=text, elements=element_filters, top_k=max_results)

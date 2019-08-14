@@ -1,21 +1,24 @@
 from matscholar import Rester
-from collections import defaultdict
+import dash_html_components as html
+import dash_core_components as dcc
 import json
 import pandas as pd
 import urllib
+from matscholar_web.base import *
 
-rester = Rester()
-valid_entity_filters = ["material", "property", "application",
-                        "descriptor", "characterization", "synthesis", "phase"]
+
 max_results = 50
 
 
 def abstracts_results_html(*args, **kwargs):
     text = str(args[0][0])
     anonymous_formula = args[0][1]
-    element_filters = str(args[0][2])
-    entity_filters = {f: [s.strip() for s in args[0][i + 3].split(',')] for i, f in enumerate(
+    element_filters = [s.strip() for s in args[0][2].split(
+        ',')] if args[0][2] is not None else []
+    print(args)
+    entities = {f: [s.strip() for s in args[0][i + 3].split(',')] for i, f in enumerate(
         valid_entity_filters) if ((args[0][i + 3] is not None) and (args[0][i + 3].split(',') != ['']))}
+    print(text, element_filters, entities)
     results = rester.abstracts_search(
         entities, text=text, elements=element_filters, top_k=max_results)
     return results_html(results)
