@@ -9,6 +9,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
 from flask import send_from_directory
+from flask_caching import Cache
 from matscholar.rest import Rester
 from matscholar.rest import MatScholarRestError
 
@@ -27,6 +28,7 @@ app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
 app.config.suppress_callback_exceptions = True
 app.title = "matscholar - rediscover materials"
+cache = Cache(app.server, config={'CACHE_TYPE': 'simple'})
 
 # Authentication
 VALID_USERNAME_PASSWORD_PAIRS = [
@@ -72,6 +74,7 @@ nav = html.Nav(
     id="nav_bar")
 
 footer_container = html.Div([
+    html.Div(className="row"),
     html.Div(
         [html.Span("Note: This is an alpha release of Matscholar for the purpose of collecting feedback.")],
         className="row"),
@@ -120,7 +123,6 @@ CALLBACKS
     [Input('url', 'pathname'), Input('url', 'search')])
 def display_page(path, search):
     path = str(path)
-
     if path.startswith("/analyze"):
         return analysis_view.serve_layout()
     else:
@@ -134,7 +136,7 @@ def get_stylesheet(path):
     return send_from_directory(static_folder, path)
 
 
-search_view_callbacks.bind(app)
+search_view_callbacks.bind(app, cache)
 analysis_callbacks.bind(app)
 
 # setting the static path for robots.txt

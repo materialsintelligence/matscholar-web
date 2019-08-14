@@ -8,7 +8,7 @@ from matscholar_web.callbacks.results_views.materials_results_view import materi
 from matscholar_web.callbacks.results_views.entities_results_view import entities_results_html
 
 
-def bind(app):
+def bind(app, cache):
     @app.callback(
         [Output("abstracts_results", "style"), Output(
             "materials_results", "style"), Output("statistics_results", "style")],
@@ -38,6 +38,7 @@ def bind(app):
          State("element_filters_input", "value")] +
         [State(f + '_filters_input', "value") for f in valid_entity_filters]
     )
+    @cache.memoize(timeout=TIMEOUT)  # in seconds
     def show_abstracts_results(*args, **kwargs):
         """
         Perform a search for abstracts and display the results
@@ -55,6 +56,7 @@ def bind(app):
          State("element_filters_input", "value")] +
         [State(f + '_filters_input', 'value') for f in valid_entity_filters]
     )
+    @cache.memoize(timeout=TIMEOUT)  # in seconds
     def show_materials_results(*args, **kwargs):
         if args[0] is not None:
             if args[1] == 'materials':
@@ -69,6 +71,7 @@ def bind(app):
          State("element_filters_input", "value")] +
         [State(f + '_filters_input', 'value') for f in valid_entity_filters]
     )
+    @cache.memoize(timeout=TIMEOUT)  # in seconds
     def show_entities_results(*args, **kwargs):
         if args[0] is not None:
             if args[1] == 'entities':

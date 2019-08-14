@@ -9,6 +9,7 @@ dash-table==4.1.0
 
 plotly
 flask
+Flask-Caching
 matplotlib
 gunicorn
 pandas
