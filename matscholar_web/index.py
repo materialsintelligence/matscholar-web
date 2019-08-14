@@ -101,7 +101,7 @@ app.layout = html.Div([
     header_contianer,
     nav,
     html.Div("", id="app_container"),
-    footer_contianer],
+    footer_container],
     className='container',
     style={
         "maxWidth": "1600px",
