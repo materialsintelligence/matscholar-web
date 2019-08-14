@@ -41,25 +41,33 @@ def gen_df(result):
 
 def materials_results_html(*args, **kwargs):
     text = str(args[0][0])
-    anonymous_formula = args[0][1]
+    anonymous_formula = [s.strip() for s in args[0][1].split(
+        ',')] if not args[0][1] in [None, ''] else []
     element_filters = [s.strip() for s in args[0][2].split(
         ',')] if not args[0][2] in [None, ''] else []
     entities = {f: [s.strip() for s in args[0][i + 3].split(',')] for i, f in enumerate(
         valid_entity_filters) if ((args[0][i + 3] is not None) and (args[0][i + 3].split(',') != ['']))}
+    try:
+        entities['material'] = entities['material'] + anonymous_formula
+    except KeyError:
+        entities['material'] = anonymous_formula
     results = rester.materials_search(
         entities, text=text, elements=element_filters, top_k=None)
-    result = [(r['material'], r['count'], r['dois']) for r in results
-              if (not r['material'].isupper()) and len(r['material']) > 2 and "oxide" not in r['material']]
+    if results is not None:
+        result = [(r['material'], r['count'], r['dois']) for r in results
+                  if (not r['material'].isupper()) and len(r['material']) > 2 and "oxide" not in r['material']]
 
-    # Update the download link
-    df = gen_df(result)
-    csv_string = df.to_csv(index=False, encoding='utf-8')
-    csv_string = "data:text/csv;charset=utf-8," + \
-        urllib.parse.quote(csv_string)
-    return html.Div([html.Label("Showing top 20 materials - download csv for full results" if df.shape[0] >= 20 else ""),
-                     html.A("Download data as csv",
-                            id="download-link",
-                            download="matscholar_data.csv",
-                            href=csv_string,
-                            target="_blank"),
-                     gen_output_matsearch(result[:20])])
+        # Update the download link
+        df = gen_df(result)
+        csv_string = df.to_csv(index=False, encoding='utf-8')
+        csv_string = "data:text/csv;charset=utf-8," + \
+            urllib.parse.quote(csv_string)
+        return html.Div([html.Label("Showing top 20 materials - download csv for full results" if df.shape[0] >= 20 else ""),
+                         html.A("Download data as csv",
+                                id="download-link",
+                                download="matscholar_data.csv",
+                                href=csv_string,
+                                target="_blank"),
+                         gen_output_matsearch(result[:20])])
+    else:
+        return "No Results"

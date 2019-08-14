@@ -105,7 +105,7 @@ def advanced_search_boxes_html(search_dict):
         id="anonymous_formula_input",
         type="text",
         autofocus=True,
-        placeholder="ABC3, AB2O4,...",
+        placeholder="*Te, *1*2O4,...",
         value=search_dict.get('anonymous_formula'))],
         style={'width': '240px'}
     )

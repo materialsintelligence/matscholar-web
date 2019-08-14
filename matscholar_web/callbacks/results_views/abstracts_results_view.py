@@ -21,11 +21,16 @@ label_mapping = {
 
 def abstracts_results_html(*args, **kwargs):
     text = str(args[0][0])
-    anonymous_formula = args[0][1]
+    anonymous_formula = [s.strip() for s in args[0][1].split(
+        ',')] if not args[0][1] in [None, ''] else []
     element_filters = [s.strip() for s in args[0][2].split(
         ',')] if not args[0][2] in [None, ''] else []
     entities = {f: [s.strip() for s in args[0][i + 3].split(',')] for i, f in enumerate(
         valid_entity_filters) if ((args[0][i + 3] is not None) and (args[0][i + 3].split(',') != ['']))}
+    try:
+        entities['material'] = entities['material'] + anonymous_formula
+    except KeyError:
+        entities['material'] = anonymous_formula
     results = rester.abstracts_search(
         entities, text=text, elements=element_filters, top_k=max_results)
     return results_html(results)
@@ -149,7 +154,6 @@ def results_html(results, max_rows=max_results):
                'journal', 'abstract']
     formattedColumns = ['Title', 'Authors',
                         'Year', 'Journal', 'Abstract (preview)']
-    print(results)
     if results is not None:
         df = pd.DataFrame(results)
     else:
