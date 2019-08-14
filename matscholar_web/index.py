@@ -71,28 +71,30 @@ nav = html.Nav(
     ],
     id="nav_bar")
 
-footer_contianer = html.Div([
+footer_container = html.Div([
     html.Div(
-        [html.Span(
-            "Copyright © 2019 - "),
-            html.A("Materials Scholar Development Team ",
-                   href="https://github.com/materialsintelligence",
-                   target="_blank")],
-        className="row",
-        style={
-            "color": "grey",
-            "textAlign": "center"
-        }),
-    html.Span("Note: This is a pre-release alpha of Matscholar. "),
-    html.Div(html.A("Privacy Policy",
-                    href='https://www.iubenda.com/privacy-policy/55585319',
-                    target="_blank"))],
+        [html.Span("Note: This is an alpha release of Matscholar for the purpose of collecting feedback.")],
+        className="row"),
+    html.Div([
+        html.A("About Matscholar",
+               href="https://github.com/materialsintelligence/matscholar-web",
+               target="_blank"),
+        html.Span(" | "),
+        html.A("Privacy Policy",
+               href='https://www.iubenda.com/privacy-policy/55585319',
+               target="_blank"),
+        html.Span(" | "),
+        html.A("Submit Feedback",
+               href='https://github.com/materialsintelligence/matscholar-web/issues',
+               target="_blank")],
+        className="row"),
+    html.Div(html.Span('Copyright © 2019 - Materials Intelligence'))],
     id="footer_container",
     className="row",
     style={
         "color": "grey",
         "textAlign": "center",
-        "width": "100%"}, )
+        "width": "100%"})
 
 app.layout = html.Div([
     html.Div(stylesheets_links, style={"display": "none"}),
