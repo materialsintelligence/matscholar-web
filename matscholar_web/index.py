@@ -16,7 +16,7 @@ from matscholar.rest import MatScholarRestError
 from matscholar_web.view import search_view, analysis_view
 
 # callbacks
-from matscholar_web.callbacks import search_view_callbacks
+from matscholar_web.callbacks import search_view_callbacks, analysis_callbacks
 
 """
 APP CONFIG
@@ -58,6 +58,19 @@ header_contianer = html.Div([
     id="header_container",
     className="row")
 
+nav = html.Nav(
+    style={
+        "margin": "3px 1px",
+        "padding": "3px 1px",
+        "textAlign": "center"},
+    children=[
+        dcc.Link("search", href="/search"),
+        html.Span(" | ", style={"color": "whitesmoke"}),
+        dcc.Link("analyze", href="/analyze"),
+        html.Span(" | ", style={"color": "whitesmoke"}),
+    ],
+    id="nav_bar")
+
 footer_contianer = html.Div([
     html.Div(
         [html.Span(
@@ -84,7 +97,7 @@ footer_contianer = html.Div([
 app.layout = html.Div([
     html.Div(stylesheets_links, style={"display": "none"}),
     header_contianer,
-    # nav,
+    nav,
     html.Div("", id="app_container"),
     footer_contianer],
     className='container',
@@ -106,7 +119,7 @@ CALLBACKS
 def display_page(path):
     path = str(path)
 
-    if path.startswith("/analysis"):
+    if path.startswith("/analyze"):
         return analysis_view.serve_layout()
     else:
         return search_view.serve_layout()
@@ -120,6 +133,8 @@ def get_stylesheet(path):
 
 
 search_view_callbacks.bind(app)
+analysis_callbacks.bind(app)
+
 # setting the static path for robots.txt
 
 
