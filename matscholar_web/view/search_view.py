@@ -36,7 +36,7 @@ def search_bar_and_button_html(search_dict):
     search_bar_html = html.Div(dcc.Input(
         id="text_input",
         type="text",
-        autofocus=True,
+        autoFocus=True,
         value=search_dict.get('text'),
         placeholder="Enter search terms...",
         style={"width": "100%"}),
@@ -104,7 +104,7 @@ def advanced_search_boxes_html(search_dict):
                                               dcc.Input(
         id="anonymous_formula_input",
         type="text",
-        autofocus=True,
+        autoFocus=True,
         placeholder="*Te, *1*2O4,...",
         value=search_dict.get('anonymous_formula'))],
         style={'width': '240px'}
@@ -114,7 +114,7 @@ def advanced_search_boxes_html(search_dict):
                                     dcc.Input(
         id="element_filters_input",
         type="text",
-        autofocus=True,
+        autoFocus=True,
         placeholder="O, -Pb,...",
         value=search_dict.get('element_filters'))],
         style={'width': '240px'}
