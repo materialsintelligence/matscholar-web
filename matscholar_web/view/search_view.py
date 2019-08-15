@@ -154,9 +154,9 @@ def _entity_filter_box_html(entity, search_dict):
         prefill = str(search_dict.get(entity)[0])
     except TypeError:
         prefill = None
-    textbox = html.Div([html.Label('{}:'.format(entity.capitalize()),
+    textbox = html.Div([html.Label(html.Span('{}:'.format(entity.capitalize()),
                                    className="highlighted {}".format(
-        highlight_mapping[entity])),
+        highlight_mapping[entity]))),
         ESAutosuggest(
         fields=['original', 'normalized'],
         endpoint=environ['ELASTIC_HOST'] + "/" +
