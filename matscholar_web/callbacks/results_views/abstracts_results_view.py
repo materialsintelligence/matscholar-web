@@ -154,6 +154,7 @@ def results_html(results, max_rows=max_results):
                'journal', 'abstract']
     formattedColumns = ['Title', 'Authors',
                         'Year', 'Journal', 'Abstract (preview)']
+
     if results is not None:
         df = pd.DataFrame(results)
     else:
@@ -161,7 +162,6 @@ def results_html(results, max_rows=max_results):
     if not df.empty:
         df['authors'] = df['authors'].apply(format_authors)
         hm = highlight_material
-
         results = [format_result(df.iloc[i])
                    for i in range(min(len(df), max_rows))]
         return html.Div([html.Label(generate_nr_results(len(results)), id="number_results"), html.Table(
