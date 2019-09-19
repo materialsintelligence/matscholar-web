@@ -3,15 +3,29 @@ import dash_materialsintelligence as dmi
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 from matscholar_web.base import *
-from matscholar_web.callbacks.results_views.abstracts_results_view import abstracts_results_html
-from matscholar_web.callbacks.results_views.materials_results_view import materials_results_html
-from matscholar_web.callbacks.results_views.entities_results_view import entities_results_html
+from matscholar_web.callbacks.results_views.abstracts_results_view import \
+    abstracts_results_html
+from matscholar_web.callbacks.results_views.materials_results_view import \
+    materials_results_html
+from matscholar_web.callbacks.results_views.entities_results_view import \
+    entities_results_html
+
+
+def get_entity_boxes_callback_args(as_type="state"):
+    type_dict = {
+        "state": State,
+        "output": Output,
+        "input": Input
+    }
+    t = type_dict[as_type]
+    return [t(f + '_filters_input', 'value') for f in valid_entity_filters]
 
 
 def bind(app, cache):
     @app.callback(
         [Output("abstracts_results", "style"), Output(
-            "materials_results", "style"), Output("statistics_results", "style")],
+            "materials_results", "style"),
+         Output("statistics_results", "style")],
         [Input("advanced_search_types_radio", "value")],
         [State("advanced_search_types_radio", "value")]
     )
@@ -36,7 +50,7 @@ def bind(app, cache):
          State("text_input", "value"),
          State("anonymous_formula_input", "value"),
          State("element_filters_input", "value")] +
-        [State(f + '_filters_input', "value") for f in valid_entity_filters]
+        get_entity_boxes_callback_args(as_type="state")
     )
     @cache.memoize(timeout=TIMEOUT)  # in seconds
     def show_abstracts_results(*args, **kwargs):
@@ -54,7 +68,7 @@ def bind(app, cache):
          State("text_input", "value"),
          State("anonymous_formula_input", "value"),
          State("element_filters_input", "value")] +
-        [State(f + '_filters_input', 'value') for f in valid_entity_filters]
+        get_entity_boxes_callback_args(as_type="state")
     )
     @cache.memoize(timeout=TIMEOUT)  # in seconds
     def show_materials_results(*args, **kwargs):
@@ -69,7 +83,7 @@ def bind(app, cache):
          State("text_input", "value"),
          State("anonymous_formula_input", "value"),
          State("element_filters_input", "value")] +
-        [State(f + '_filters_input', 'value') for f in valid_entity_filters]
+        get_entity_boxes_callback_args(as_type="state")
     )
     @cache.memoize(timeout=TIMEOUT)  # in seconds
     def show_entities_results(*args, **kwargs):
