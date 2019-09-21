@@ -40,7 +40,7 @@ def bind(app, cache):
         [Input("advanced_search_types_radio", "value")],
         [State("advanced_search_types_radio", "value")]
     )
-    def toggle_search_type(radio_val):
+    def toggle_search_type(radio_type, radio_val):
         """
         Toggle the search type using the search type buttons
         """
