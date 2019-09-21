@@ -35,26 +35,7 @@ def serve_layout(search):
 
 def entity_display_html(search_dict):
 
-    div = html.Div([html.H3(id='entity_search_display')])
-
-
-    material_entity = dcc.Textarea(
-        placeholder='material_entity',
-        value=search_dict.get('material', "no value"),
-        style={'width': '100%'}
-    )
-
-    material_entity_html = html.Div(material_entity, style={"width": "50%"})
-
-    print(search_dict)
-    print("updating entities display html")
-
-    # material = search_dict.get("material")
-    # material_entity_text = f"Ok {material}"
-    # material_entity_html = html.H3(material_entity_text, id="material_entity")
-    # material_entity_div_html = html.div
-
-    entity_html = html.Div([material_entity_html], className="row")
+    div = html.Div([html.H3(id='live_entity_display')], className="row")
     return div
 
 

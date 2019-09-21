@@ -115,8 +115,13 @@ def bind(app, cache):
 
 
     @app.callback(
-        Output('entity_search_display', 'children'),
-        [Input('material_filters_input', 'value')]
+        Output('live_entity_display', 'children'),
+        get_entity_boxes_callback_args(as_type="input")
     )
-    def update_output_div(input_value):
-        return f"material: {input_value}"
+    def live_display_entity_searches(*ent_txts):
+        live_search_display = ""
+        for i, ent in enumerate(valid_entity_filters):
+            ent_txt = ent_txts[i]
+            if ent_txt not in [None, "", " "]:
+                live_search_display += f"{ent}: {ent_txt}, "
+        return live_search_display
