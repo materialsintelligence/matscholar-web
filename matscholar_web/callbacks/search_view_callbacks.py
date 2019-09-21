@@ -104,11 +104,19 @@ def bind(app, cache):
 
 
     @app.callback(
-        Output('text_input', 'value'),
-        get_entity_boxes_callback_args(as_type="input"),
+        Output('material_entity', 'value'),
+        # get_entity_boxes_callback_args(as_type="input"),
+        [Input('material_filters_input', 'value')],
         [State('text_input', 'value')]
     )
-    def place_entities_in_search_box(*args):
-        for arg in args:
-            print(arg)
-        return
+    def place_entities_in_search_box(material_filters_input, text_state):
+        return material_filters_input
+
+
+
+    @app.callback(
+        Output('entity_search_display', 'children'),
+        [Input('material_filters_input', 'value')]
+    )
+    def update_output_div(input_value):
+        return f"material: {input_value}"

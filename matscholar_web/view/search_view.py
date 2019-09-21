@@ -18,8 +18,10 @@ def serve_layout(search):
         search_dict = dict()  # print(urllib.parse.parse_qs(path))
 
     return html.Div([search_bar_and_button_html(search_dict),
+                     entity_display_html(search_dict),
                      advanced_search_boxes_html(search_dict),
-                     advanced_search_types_html(), results_html()])
+                     advanced_search_types_html(),
+                     results_html()])
     """
     Basic view: search bar with 'go' button. Advanced search hidden somewhere.
 
@@ -32,17 +34,28 @@ def serve_layout(search):
 
 
 def entity_display_html(search_dict):
-    # material_entity = dcc.Textarea(
-    #     placeholder='material_entity',
-    #     value=search_dict.get('material_entity'),
-    #     style={'width': '100%'}
-    # )
-    # material_entity_html = html.Div(material_entity, style={"width": "50%"})
 
-    material_entity_html = html.H3('TEST TEXT', id="material_entity")
+    div = html.Div([html.H3(id='entity_search_display')])
+
+
+    material_entity = dcc.Textarea(
+        placeholder='material_entity',
+        value=search_dict.get('material', "no value"),
+        style={'width': '100%'}
+    )
+
+    material_entity_html = html.Div(material_entity, style={"width": "50%"})
+
+    print(search_dict)
+    print("updating entities display html")
+
+    # material = search_dict.get("material")
+    # material_entity_text = f"Ok {material}"
+    # material_entity_html = html.H3(material_entity_text, id="material_entity")
+    # material_entity_div_html = html.div
 
     entity_html = html.Div([material_entity_html], className="row")
-    return entity_html
+    return div
 
 
 def search_bar_and_button_html(search_dict):
@@ -77,6 +90,7 @@ def results_html():
     """
     Html placeholder for results
     """
+
     abstracts_results_html = html.Div(id='abstracts_results')
     materials_results_html = html.Div(id='materials_results')
     statistics_results_html = html.Div(id='entities_results')
