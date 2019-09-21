@@ -101,3 +101,14 @@ def bind(app, cache):
         if args[0] is not None:
             if args[1] == 'entities':
                 return entities_results_html(list(args)[2:])
+
+
+    @app.callback(
+        Output('text_input', 'value'),
+        get_entity_boxes_callback_args(as_type="input"),
+        [State('text_input', 'value')]
+    )
+    def place_entities_in_search_box(*args):
+        for arg in args:
+            print(arg)
+        return
