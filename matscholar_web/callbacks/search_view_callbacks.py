@@ -12,6 +12,17 @@ from matscholar_web.callbacks.results_views.entities_results_view import \
 
 
 def get_entity_boxes_callback_args(as_type="state"):
+    """
+    Return all available entity boxes as Inputs, Outputs, or States.
+
+    Args:
+        as_type (str): "state" for State, "input" for Input, or "output" for
+            Output
+
+    Returns:
+        (list): The list of inputs, states, or outputs plotly dash dependency
+            objects on the search page.
+    """
     type_dict = {
         "state": State,
         "output": Output,
@@ -29,7 +40,7 @@ def bind(app, cache):
         [Input("advanced_search_types_radio", "value")],
         [State("advanced_search_types_radio", "value")]
     )
-    def toggle_search_type(radio_in, radio_val):
+    def toggle_search_type(radio_val):
         """
         Toggle the search type using the search type buttons
         """
@@ -53,7 +64,7 @@ def bind(app, cache):
         get_entity_boxes_callback_args(as_type="state")
     )
     @cache.memoize(timeout=TIMEOUT)  # in seconds
-    def show_abstracts_results(*args, **kwargs):
+    def show_abstracts_results(*args):
         """
         Perform a search for abstracts and display the results
         """
@@ -71,7 +82,7 @@ def bind(app, cache):
         get_entity_boxes_callback_args(as_type="state")
     )
     @cache.memoize(timeout=TIMEOUT)  # in seconds
-    def show_materials_results(*args, **kwargs):
+    def show_materials_results(*args):
         if args[0] is not None:
             if args[1] == 'materials':
                 return materials_results_html(list(args)[2:])
@@ -86,7 +97,7 @@ def bind(app, cache):
         get_entity_boxes_callback_args(as_type="state")
     )
     @cache.memoize(timeout=TIMEOUT)  # in seconds
-    def show_entities_results(*args, **kwargs):
+    def show_entities_results(*args):
         if args[0] is not None:
             if args[1] == 'entities':
                 return entities_results_html(list(args)[2:])
