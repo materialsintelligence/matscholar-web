@@ -1,7 +1,7 @@
 import dash_html_components as html
 import dash_core_components as dcc
 from dash_elasticsearch_autosuggest import ESAutosuggest
-from matscholar_web.base import *
+from matscholar_web.base import valid_entity_filters, highlight_mapping
 from os import environ
 import urllib
 import json
@@ -15,9 +15,11 @@ def serve_layout(search):
         search_dict = urllib.parse.parse_qs(
             search[1:])
     else:
-        search_dict = dict()    # print(urllib.parse.parse_qs(path))
+        search_dict = dict()  # print(urllib.parse.parse_qs(path))
 
-    return html.Div([search_bar_and_button_html(search_dict), advanced_search_boxes_html(search_dict), advanced_search_types_html(), results_html()])
+    return html.Div([search_bar_and_button_html(search_dict),
+                     advanced_search_boxes_html(search_dict),
+                     advanced_search_types_html(), results_html()])
     """
     Basic view: search bar with 'go' button. Advanced search hidden somewhere.
 
@@ -27,6 +29,20 @@ def serve_layout(search):
     papers, materials, statistics bar
     results
     """
+
+
+def entity_display_html(search_dict):
+    # material_entity = dcc.Textarea(
+    #     placeholder='material_entity',
+    #     value=search_dict.get('material_entity'),
+    #     style={'width': '100%'}
+    # )
+    # material_entity_html = html.Div(material_entity, style={"width": "50%"})
+
+    material_entity_html = html.H3('TEST TEXT', id="material_entity")
+
+    entity_html = html.Div([material_entity_html], className="row")
+    return entity_html
 
 
 def search_bar_and_button_html(search_dict):
@@ -46,10 +62,13 @@ def search_bar_and_button_html(search_dict):
         "Search",
         className="button-search",
         id="search-btn"),
-        style={"display": "table-cell", "verticalAlign": "top", "paddingLeft": "10px"})
+        style={"display": "table-cell", "verticalAlign": "top",
+               "paddingLeft": "10px"})
 
-    search_bar_and_button = html.Div([search_bar_html, search_button_html], className="row", style={
-        "display": "table", "marginTop": "10px"})
+    search_bar_and_button = html.Div([search_bar_html,
+                                      search_button_html],
+                                     className="row", style={
+            "display": "table", "marginTop": "10px"})
 
     return search_bar_and_button
 
@@ -63,7 +82,9 @@ def results_html():
     statistics_results_html = html.Div(id='entities_results')
 
     results = dcc.Loading(
-        id="loading-1", children=[abstracts_results_html, materials_results_html, statistics_results_html])
+        id="loading-1",
+        children=[abstracts_results_html, materials_results_html,
+                  statistics_results_html])
 
     return results
 
@@ -102,31 +123,34 @@ def advanced_search_boxes_html(search_dict):
 
     anonymous_formula_filter_html = html.Div([html.Label("Anonymous Formula:"),
                                               dcc.Input(
-        id="anonymous_formula_input",
-        type="text",
-        autoFocus=True,
-        placeholder="*Te, *1*2O4,...",
-        value=search_dict.get('anonymous_formula'))],
-        style={'width': '240px'}
-    )
+                                                  id="anonymous_formula_input",
+                                                  type="text",
+                                                  autoFocus=True,
+                                                  placeholder="*Te, *1*2O4,...",
+                                                  value=search_dict.get(
+                                                      'anonymous_formula'))],
+                                             style={'width': '240px'}
+                                             )
 
     element_filter_html = html.Div([html.Label("Elements:"),
                                     dcc.Input(
-        id="element_filters_input",
-        type="text",
-        autoFocus=True,
-        placeholder="O, -Pb,...",
-        value=search_dict.get('element_filters'))],
-        style={'width': '240px'}
-    )
+                                        id="element_filters_input",
+                                        type="text",
+                                        autoFocus=True,
+                                        placeholder="O, -Pb,...",
+                                        value=search_dict.get(
+                                            'element_filters'))],
+                                   style={'width': '240px'}
+                                   )
 
     entity_filters_html = [_entity_filter_box_html(
         f, search_dict) for f in valid_entity_filters]
 
     advanced_search_boxes = html.Div(
         [filters_label_html, anonymous_formula_filter_html,
-            element_filter_html] + entity_filters_html,
-        style={'width': '25%', 'float': 'left', 'display': 'inline-block'}, id='advanced_search_boxes')
+         element_filter_html] + entity_filters_html,
+        style={'width': '25%', 'float': 'left', 'display': 'inline-block'},
+        id='advanced_search_boxes')
 
     return advanced_search_boxes
 
@@ -147,28 +171,31 @@ def _entity_filter_box_html(entity, search_dict):
                     "synthesis": "sol - gel, firing,...",
                     "phase": "perovskite, wurtzite,..."}
 
-    ES_field_dict = {"material": "materials", "property": "properties", "application": "applications", "descriptor": "descriptors",
-                     "characterization": "characterization methods", "synthesis": "synthesis methods", "phase": "structure phase labels"}
+    ES_field_dict = {"material": "materials", "property": "properties",
+                     "application": "applications", "descriptor": "descriptors",
+                     "characterization": "characterization methods",
+                     "synthesis": "synthesis methods",
+                     "phase": "structure phase labels"}
 
     try:
         prefill = str(search_dict.get(entity)[0])
     except TypeError:
         prefill = None
     textbox = html.Div([html.Label(html.Span('{}:'.format(entity.capitalize()),
-                                   className="highlighted {}".format(
-        highlight_mapping[entity]))),
-        ESAutosuggest(
-        fields=['original', 'normalized'],
-        endpoint=environ['ELASTIC_HOST'] + "/" +
-        ES_field_dict[entity] + "/_search",
-        defaultField='original',
-        id=entity + "_filters_input",
-        placeholder=placeholders[entity],
-        authUser=environ['ELASTIC_USER'],
-        authPass=environ['ELASTIC_PASS'],
-        searchField="original.edgengram",
-        value=prefill)
-    ],
-        style={'padding': 5, 'width': '25%'}
-    )
+                                             className="highlighted {}".format(
+                                                 highlight_mapping[entity]))),
+                        ESAutosuggest(
+                            fields=['original', 'normalized'],
+                            endpoint=environ['ELASTIC_HOST'] + "/" +
+                                     ES_field_dict[entity] + "/_search",
+                            defaultField='original',
+                            id=entity + "_filters_input",
+                            placeholder=placeholders[entity],
+                            authUser=environ['ELASTIC_USER'],
+                            authPass=environ['ELASTIC_PASS'],
+                            searchField="original.edgengram",
+                            value=prefill)
+                        ],
+                       style={'padding': 5, 'width': '25%'}
+                       )
     return textbox
