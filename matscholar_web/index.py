@@ -59,33 +59,48 @@ header_contianer = html.Div([
     dcc.Location(id="url", refresh=False),
     html.Img(
         src="https://matscholar-web.s3-us-west-1.amazonaws.com/matscholar_logo+alpha.png",
-        style={
-            'width': '350px',
-            "display": "block",
-            'max-width': "100%",
-            "margin": "5px auto",
-        })],
+        # style={
+        #     'width': '350px',
+        #     "display": "block",
+        #     'max-width': "100%",
+        #     "margin": "5px auto",
+        # }
+    )],
     id="header_container",
-    className="row")
+    # className="row"
+)
 
-nav = html.Nav(
-    style={
-        "margin": "3px 1px",
-        "padding": "3px 1px",
-        "textAlign": "center"},
-    children=[
-        dcc.Link("search", href="/search"),
-        html.Span(" | ", style={"color": "whitesmoke"}),
-        dcc.Link("analyze", href="/analyze"),
-        html.Span(" | ", style={"color": "whitesmoke"}),
-    ],
-    id="nav_bar")
+nav = html.Div(
+        html.Nav(
+        # style={
+        #     "margin": "3px 1px",
+        #     "padding": "3px 1px",
+        #     "textAlign": "center"},
+        children=[
+            dcc.Link("search", href="/search"),
+            html.Span(" | ",
+                      # style={"color": "whitesmoke"}
+                      ),
+            dcc.Link("analyze", href="/analyze"),
+            # html.Span(" | ",
+            #           # style={"color": "whitesmoke"}
+            #           ),
+        ],
+        className="column is-narrow",
+        # id="nav_bar",
+    ),
+    className="columns is-centered"
+)
+
 
 footer_container = html.Div([
-    html.Div(className="row"),
+    html.Div(
+        # className="row"
+             ),
     html.Div(
         [html.Span("Note: This is an alpha release of Matscholar for the purpose of collecting feedback.")],
-        className="row"),
+        # className="row"
+    ),
     html.Div([
         html.A("About Matscholar",
                href="https://github.com/materialsintelligence/matscholar-web",
@@ -98,32 +113,37 @@ footer_container = html.Div([
         html.A("Submit Feedback",
                href='https://github.com/materialsintelligence/matscholar-web/issues',
                target="_blank")],
-        className="row"),
+        # className="row"
+    ),
     html.Div(html.Span('Copyright © 2019 - Materials Intelligence'))],
     id="footer_container",
-    className="row",
-    style={
-        "color": "grey",
-        "textAlign": "center",
-        "width": "100%"})
+    # className="row",
+    # style={
+    #     "color": "grey",
+    #     "textAlign": "center",
+    #     "width": "100%"}
+)
 
 app.layout = html.Div([
-    html.Div(stylesheets_links, style={"display": "none"}),
+    html.Div(stylesheets_links,
+             # style={"display": "none"}
+             ),
     header_contianer,
     nav,
     html.Div("", id="app_container"),
     footer_container],
-    className='container',
-    style={
-        "maxWidth": "1600px",
-        "height": "100%",
-        "width": "100%",
-        # "margin-top": "10%",
-        # "margin-bottom": "20%",
-        # "margin-right": "20%",
-        # "margin-left": "20%",
-        "padding": "5px 5px",
-    })
+    # className='container',
+    # style={
+    #     "maxWidth": "1600px",
+    #     "height": "100%",
+    #     "width": "100%",
+    #     # "margin-top": "10%",
+    #     # "margin-bottom": "20%",
+    #     # "margin-right": "20%",
+    #     # "margin-left": "20%",
+    #     "padding": "5px 5px",
+    # }
+)
 
 """
 CALLBACKS
