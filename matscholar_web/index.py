@@ -23,7 +23,14 @@ from matscholar_web.callbacks import search_view_callbacks, analysis_callbacks
 APP CONFIG
 """
 
-app = dash.Dash()
+app = dash.Dash(
+    meta_tags=[
+        {
+            "name": "viewport",
+            "content": "width=device-width, initial-scale=1"
+        }
+    ]
+)
 app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
 app.config.suppress_callback_exceptions = True
@@ -39,7 +46,8 @@ auth = dash_auth.BasicAuth(
 )
 
 # loading css files
-css_files = ["skeleton.min.css", "matscholar_web.css", ]
+# css_files = ["skeleton.min.css", "matscholar_web.css", ]
+css_files = ["bulma.css"]
 stylesheets_links = [
     html.Link(rel='stylesheet', href='/static/css/' + css) for css in css_files]
 
@@ -110,7 +118,12 @@ app.layout = html.Div([
         "maxWidth": "1600px",
         "height": "100%",
         "width": "100%",
-        "padding": "0px 20px"})
+        # "margin-top": "10%",
+        # "margin-bottom": "20%",
+        # "margin-right": "20%",
+        # "margin-left": "20%",
+        "padding": "5px 5px",
+    })
 
 """
 CALLBACKS

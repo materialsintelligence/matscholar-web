@@ -104,17 +104,6 @@ def bind(app, cache):
 
 
     @app.callback(
-        Output('material_entity', 'value'),
-        # get_entity_boxes_callback_args(as_type="input"),
-        [Input('material_filters_input', 'value')],
-        [State('text_input', 'value')]
-    )
-    def place_entities_in_search_box(material_filters_input, text_state):
-        return material_filters_input
-
-
-
-    @app.callback(
         Output('live_entity_display', 'children'),
         get_entity_boxes_callback_args(as_type="input")
     )

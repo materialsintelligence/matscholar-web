@@ -18,9 +18,9 @@ def serve_layout(search):
         search_dict = dict()  # print(urllib.parse.parse_qs(path))
 
     return html.Div([search_bar_and_button_html(search_dict),
-                     entity_display_html(search_dict),
-                     advanced_search_boxes_html(search_dict),
                      advanced_search_types_html(),
+                     advanced_search_boxes_html(search_dict),
+                     entity_display_html(),
                      results_html()])
     """
     Basic view: search bar with 'go' button. Advanced search hidden somewhere.
@@ -33,8 +33,7 @@ def serve_layout(search):
     """
 
 
-def entity_display_html(search_dict):
-
+def entity_display_html():
     div = html.Div([html.H3(id='live_entity_display')], className="row")
     return div
 
@@ -59,12 +58,12 @@ def search_bar_and_button_html(search_dict):
         style={"display": "table-cell", "verticalAlign": "top",
                "paddingLeft": "10px"})
 
-    search_bar_and_button = html.Div([search_bar_html,
-                                      search_button_html],
-                                     className="row", style={
-            "display": "table", "marginTop": "10px"})
-
-    return search_bar_and_button
+    # search_bar_and_button = html.Div([search_bar_html,
+    #                                   search_button_html],
+    #                                  className="row", style={
+    #         "display": "table", "marginTop": "10px"})
+    # return search_bar_and_button
+    return search_button_html
 
 
 def results_html():
@@ -141,11 +140,19 @@ def advanced_search_boxes_html(search_dict):
     entity_filters_html = [_entity_filter_box_html(
         f, search_dict) for f in valid_entity_filters]
 
+    # advanced_search_boxes = html.Div(
+    #     [filters_label_html, anonymous_formula_filter_html,
+    #      element_filter_html] + entity_filters_html,
+    #     style={'width': '25%', 'float': 'left', 'display': 'inline-block'},
+    #     id='advanced_search_boxes')
+
     advanced_search_boxes = html.Div(
-        [filters_label_html, anonymous_formula_filter_html,
-         element_filter_html] + entity_filters_html,
-        style={'width': '25%', 'float': 'left', 'display': 'inline-block'},
-        id='advanced_search_boxes')
+        entity_filters_html,
+        # style={'width': '25%', 'float': 'left', 'display': 'inline-block'},
+        style={"display": "table", "align": "center"},
+        id='advanced_search_boxes',
+        className="row"
+    )
 
     return advanced_search_boxes
 
@@ -178,7 +185,9 @@ def _entity_filter_box_html(entity, search_dict):
         prefill = None
     textbox = html.Div([html.Label(html.Span('{}:'.format(entity.capitalize()),
                                              className="highlighted {}".format(
-                                                 highlight_mapping[entity]))),
+                                                 highlight_mapping[entity])),
+                                   style={"display": "table"},
+                                   className="row"),
                         ESAutosuggest(
                             fields=['original', 'normalized'],
                             endpoint=environ['ELASTIC_HOST'] + "/" +
@@ -191,6 +200,9 @@ def _entity_filter_box_html(entity, search_dict):
                             searchField="original.edgengram",
                             value=prefill)
                         ],
-                       style={'padding': 5, 'width': '25%'}
+                       style={"float": "left"}
+                       # style={'padding': 5, 'width': '25%'}
+                       # style={"diplay":"table", "padding": 5},
+                       # className="row"
                        )
     return textbox
