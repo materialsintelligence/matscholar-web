@@ -1,3 +1,6 @@
+import dash_html_components as html
+import dash_core_components as dcc
+
 from matscholar_web.constants import valid_entity_filters
 from matscholar_web.search.subviews.abstracts import \
     abstracts_results_html
@@ -44,9 +47,11 @@ def show_entities_results(*args):
 
 
 def live_display_entity_searches(*ent_txts):
-    live_search_display = ""
+    entry = ""
     for i, ent in enumerate(valid_entity_filters):
         ent_txt = ent_txts[i]
         if ent_txt not in [None, "", " "]:
-            live_search_display += f"{ent}: {ent_txt}, "
-    return live_search_display
+            entry += f"{ent}: {ent_txt}, "
+
+    print(entry)
+    return entry

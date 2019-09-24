@@ -19,18 +19,29 @@ import matscholar_web.analysis.view as analysis_view
 Declarations for the core dash app.
 """
 
-stylesheet = html.Link(rel='stylesheet', href='/static/css/bulma.css')
-stylesheet_div = html.Div(stylesheet, className="container is-hidden")
+bulma = html.Link(rel='stylesheet', href='/static/css/bulma.css')
+bulma_helper = html.Link(rel='stylesheet', href='/static/css/bulma-helpers.css')
+stylesheets = [bulma, bulma_helper]
+stylesheet_div = html.Div(stylesheets, className="container is-hidden")
 
-app_container = html.Div("", id="app_container")
 footer = get_footer()
 header = get_header()
 nav = get_nav()
+
+nav_and_header_section = html.Div([header, nav], className="section")
+
+app_container = html.Div("", id="app_container")
+
+
+# import dash_core_components as dcc
+# input_form = dcc.Input(className="input is-success")
+# test_div = html.Div("this is a test section", style={"font-size": "9px"})
+# t_search_container = html.Div()
+
 app.layout = html.Div(
     [
         stylesheet_div,
-        header,
-        nav,
+        nav_and_header_section,
         app_container,
         footer
     ],
@@ -70,7 +81,7 @@ def get_robots():
 # Search view callbacks
 #######################
 @app.callback(
-    Output('live_entity_display', 'children'),
+    Output('text_input', 'value'),
     get_entity_boxes_callback_args(as_type="input")
 )
 def live_display_entity_searches(*ent_txts):

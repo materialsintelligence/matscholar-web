@@ -1,5 +1,6 @@
 import dash_html_components as html
 import dash_core_components as dcc
+
 """
 Functions for defining navigation bar components.
 """
@@ -13,10 +14,24 @@ def get_nav():
         (dash_html_components.Div): The nav bar.
 
     """
-    search = dcc.Link("search", href="/search")
-    divider = html.Span(" | ")
-    analyze = dcc.Link("analyze", href="/analyze")
-    nav = html.Nav(children=[search, divider, analyze])
-    nav_columns=html.Div(nav, className="column is-narrow")
-    nav_container = html.Div(nav_columns, className="columns is-centered")
+    search_button = html.Button(
+        "search",
+        className="button is-primary is-size-6 has-margin-5"
+    )
+    analyze_button = html.Button(
+        "analyze",
+        className="button is-link is-size-6 has-margin-5"
+    )
+
+    search = dcc.Link(search_button, href="/search")
+    analyze = dcc.Link(analyze_button, href="/analyze")
+
+    search_container = html.Div(search)
+    analyze_container = html.Div(analyze)
+
+    nav = html.Nav(
+        children=[search_container, analyze_container],
+        className="columns is-centered"
+    )
+    nav_container = html.Div(nav, className="container has-margin-10")
     return nav_container

@@ -17,11 +17,12 @@ def serve_layout(search):
     else:
         search_dict = dict()  # print(urllib.parse.parse_qs(path))
 
-    return html.Div([search_bar_and_button_html(search_dict),
-                     advanced_search_types_html(),
-                     advanced_search_boxes_html(search_dict),
-                     entity_display_html(),
-                     results_html()])
+    return html.Div([
+        entity_display_html(),
+        search_bar_and_button_html(search_dict),
+        advanced_search_types_html(),
+        advanced_search_boxes_html(search_dict),
+        results_html()])
     """
     Basic view: search bar with 'go' button. Advanced search hidden somewhere.
 
@@ -34,22 +35,26 @@ def serve_layout(search):
 
 
 def entity_display_html():
-    div = html.Div([html.H3(id='live_entity_display')], className="row")
-    return div
+    live_entity_search = dcc.Input(
+        # placeholder="Enter some text here!",
+        id="text_input",
+        # className="input is-success has-max-width-350 has-min-width-100 align-center"
+    )
+    return live_entity_search
 
 
 def search_bar_and_button_html(search_dict):
     """Returns the html div for the main search bar and search button
     """
 
-    search_bar_html = html.Div(dcc.Input(
-        id="text_input",
-        type="text",
-        autoFocus=True,
-        value=search_dict.get('text'),
-        placeholder="Enter search terms...",
-        style={"width": "100%"}),
-        style={"display": "table-cell", "width": "100%"})
+    # search_bar_html = html.Div(dcc.Input(
+    #     id="text_input",
+    #     type="text",
+    #     autoFocus=True,
+    #     value=search_dict.get('text'),
+    #     placeholder="Enter search terms...",
+    #     style={"width": "100%"}),
+    #     style={"display": "table-cell", "width": "100%"})
 
     search_button_html = html.Div(html.Button(
         "Search",
