@@ -52,6 +52,4 @@ def live_display_entity_searches(*ent_txts):
         ent_txt = ent_txts[i]
         if ent_txt not in [None, "", " "]:
             entry += f"{ent}: {ent_txt}, "
-
-    print(entry)
     return entry

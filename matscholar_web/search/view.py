@@ -4,10 +4,6 @@ from dash_elasticsearch_autosuggest import ESAutosuggest
 from matscholar_web.constants import valid_entity_filters, entity_shortcode_map
 from os import environ
 import urllib
-import json
-from collections import defaultdict
-import dash_elasticsearch_autosuggest
-import ast
 
 
 def serve_layout(search):
@@ -23,24 +19,16 @@ def serve_layout(search):
         advanced_search_types_html(),
         advanced_search_boxes_html(search_dict),
         results_html()])
-    """
-    Basic view: search bar with 'go' button. Advanced search hidden somewhere.
-
-    On search:
-    Advanced search side bar
-
-    papers, materials, statistics bar
-    results
-    """
 
 
 def entity_display_html():
     live_entity_search = dcc.Input(
         placeholder="Enter some text here!",
         id="text_input",
-        className="input is-success has-max-width-350 has-min-width-100 align-center"
+        className="input is-success has-max-width-350 has-min-width-100 has-height-20 is-size-4"
     )
-    return live_entity_search
+    live_entity_search_container = html.Div(live_entity_search, className="columns is-centered")
+    return live_entity_search_container
 
 
 def search_bar_and_button_html(search_dict):
@@ -59,9 +47,9 @@ def search_bar_and_button_html(search_dict):
     search_button_html = html.Div(html.Button(
         "Search",
         className="button-search",
-        id="search-btn"),
-        style={"display": "table-cell", "verticalAlign": "top",
-               "paddingLeft": "10px"})
+        id="search-btn"))
+        # style={"display": "table-cell", "verticalAlign": "top",
+        #        "paddingLeft": "10px"})
 
     # search_bar_and_button = html.Div([search_bar_html,
     #                                   search_button_html],
@@ -128,7 +116,6 @@ def advanced_search_boxes_html(search_dict):
                                                   placeholder="*Te, *1*2O4,...",
                                                   value=search_dict.get(
                                                       'anonymous_formula'))],
-                                             style={'width': '240px'}
                                              )
 
     element_filter_html = html.Div([html.Label("Elements:"),
@@ -139,24 +126,21 @@ def advanced_search_boxes_html(search_dict):
                                         placeholder="O, -Pb,...",
                                         value=search_dict.get(
                                             'element_filters'))],
-                                   style={'width': '240px'}
+                                   className="column is-one-third"
                                    )
 
     entity_filters_html = [_entity_filter_box_html(
         f, search_dict) for f in valid_entity_filters]
 
-    # advanced_search_boxes = html.Div(
-    #     [filters_label_html, anonymous_formula_filter_html,
-    #      element_filter_html] + entity_filters_html,
-    #     style={'width': '25%', 'float': 'left', 'display': 'inline-block'},
-    #     id='advanced_search_boxes')
+    entity_filter_row_1 = html.Div(entity_filters_html[0:3], className="columns is-centered")
+    entity_filter_row_2 = html.Div(entity_filters_html[3:6], className="columns is-centered")
+    entity_filter_row_3 = html.Div(entity_filters_html[6:9], className="columns is-centered")
+    entity_filter_rows = [entity_filter_row_1, entity_filter_row_2, entity_filter_row_3]
+
 
     advanced_search_boxes = html.Div(
-        entity_filters_html,
-        # style={'width': '25%', 'float': 'left', 'display': 'inline-block'},
-        style={"display": "table", "align": "center"},
+        entity_filter_rows,
         id='advanced_search_boxes',
-        className="row"
     )
 
     return advanced_search_boxes
@@ -192,6 +176,7 @@ def _entity_filter_box_html(entity, search_dict):
     entity_name = html.Span('{}:'.format(entity.capitalize()))
     entity_label = html.Label(entity_name)
 
+    # Autosuggest is styled by CSS react classnames ONLY!
     esas = ESAutosuggest(
         fields=['original', 'normalized'],
         endpoint=environ['ELASTIC_HOST'] + "/" +
@@ -206,9 +191,5 @@ def _entity_filter_box_html(entity, search_dict):
         # className="input is-success has-max-width-350"
     )
 
-    # esas_formatted = html.Div(esas)
-    esas_formatted=esas
-
-
-    textbox = html.Div([entity_label, esas_formatted])
+    textbox = html.Div([entity_label, esas], className="has-margin-10")
     return textbox

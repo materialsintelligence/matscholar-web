@@ -534,6 +534,10 @@ table.is-completely-borderless tr {
   height: 50px !important;
 }
 
+.has-height-20 {
+  height: 20px !important;
+}
+
 .has-width-100 {
   width: 100px !important;
 }

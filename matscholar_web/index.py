@@ -31,14 +31,7 @@ header = get_header()
 nav = get_nav()
 
 nav_and_header_section = html.Div([header, nav], className="section")
-
 app_container = html.Div("", id="app_container")
-
-
-# import dash_core_components as dcc
-# input_form = dcc.Input(className="input is-success")
-# test_div = html.Div("this is a test section", style={"font-size": "9px"})
-# t_search_container = html.Div()
 
 app.layout = html.Div(
     [
