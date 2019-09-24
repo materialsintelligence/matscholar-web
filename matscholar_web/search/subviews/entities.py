@@ -27,20 +27,6 @@ def gen_output(most_common, entity_type, query, class_name="three column"):
 
 
 def gen_table(results_dict, query=None):
-    # return html.Div([
-    #     html.Div([
-    #                 gen_output(results_dict["PRO"], "Property", query),
-    #                 gen_output(results_dict["APL"], "Application", query),
-    #                 gen_output(results_dict["SMT"], "Synthesis", query)], className="row", style={"width": "130%"}),
-    #     html.Div([
-    #         gen_output(results_dict["DSC"],
-    #                    "Sample descriptor", query),
-    #         gen_output(results_dict["MAT"], "Material", query),
-    #         gen_output(results_dict["CMT"], "Characterization", query)], className="row", style={"width": "130%"}),
-    #     html.Div([gen_output(results_dict["SPL"], "Phase", query)],
-    #              className="row", style={"width": "130%"})
-    # ])
-
     return html.Div([
         html.Div([
             gen_output(results_dict["PRO"], "Property", query),

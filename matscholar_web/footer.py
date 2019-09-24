@@ -57,7 +57,7 @@ def get_footer():
             footer_copyright
         ],
         id="footer_container",
-        className="content has-text-centered"
+        className="content has-text-centered msweb-footer"
     )
 
     footer_container = html.Div(footer, className="footer")

@@ -15,11 +15,11 @@ def get_nav():
 
     """
     search_button = html.Button(
-        "search",
+        "Search For Materials",
         className="button is-primary is-size-6 has-margin-5"
     )
     analyze_button = html.Button(
-        "analyze",
+        "Analyze An Abstract",
         className="button is-link is-size-6 has-margin-5"
     )
 
@@ -33,5 +33,5 @@ def get_nav():
         children=[search_container, analyze_container],
         className="columns is-centered"
     )
-    nav_container = html.Div(nav, className="container has-margin-10")
+    nav_container = html.Div(nav, className="container has-margin-10 is-fluid")
     return nav_container

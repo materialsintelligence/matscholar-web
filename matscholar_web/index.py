@@ -31,7 +31,7 @@ header = get_header()
 nav = get_nav()
 
 nav_and_header_section = html.Div([header, nav], className="section")
-app_container = html.Div("", id="app_container")
+app_container = html.Div("", id="app_container", className="container is-fluid")
 
 app.layout = html.Div(
     [
@@ -40,7 +40,7 @@ app.layout = html.Div(
         app_container,
         footer
     ],
-    className="container"
+    # className="container"
 )
 
 
@@ -84,7 +84,7 @@ def live_display_entity_searches(*ent_txts):
 
 
 @app.callback(
-    Output('entities_results', 'children'),
+    Output('entities_results', 'value'),
     [Input('search-btn', 'n_clicks')],
     [State("advanced_search_types_radio", "value"),
      State("text_input", "value"),
@@ -126,8 +126,8 @@ def show_abstracts_results(*args):
 
 
 @app.callback(
-    [Output("abstracts_results", "style"), Output(
-        "materials_results", "style"),
+    [Output("abstracts_results", "style"),
+     Output("materials_results", "style"),
      Output("statistics_results", "style")],
     [Input("advanced_search_types_radio", "value")],
     [State("advanced_search_types_radio", "value")]

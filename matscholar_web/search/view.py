@@ -1,9 +1,10 @@
 import dash_html_components as html
 import dash_core_components as dcc
 from dash_elasticsearch_autosuggest import ESAutosuggest
-from matscholar_web.constants import valid_entity_filters, entity_shortcode_map
 from os import environ
 import urllib
+
+from matscholar_web.constants import valid_entity_filters, entity_shortcode_map
 
 
 def serve_layout(search):
@@ -15,8 +16,7 @@ def serve_layout(search):
 
     return html.Div([
         entity_display_html(),
-        search_bar_and_button_html(search_dict),
-        advanced_search_types_html(),
+        search_bar_and_button(search_dict),
         advanced_search_boxes_html(search_dict),
         results_html()])
 
@@ -25,45 +25,15 @@ def entity_display_html():
     live_entity_search = dcc.Input(
         placeholder="Enter some text here!",
         id="text_input",
-        className="input is-success has-max-width-350 has-min-width-100 has-height-20 is-size-4"
+        className="input is-success has-min-width-100 is-size-4"
     )
-    live_entity_search_container = html.Div(live_entity_search, className="columns is-centered")
+    live_entity_search_container = html.Div(live_entity_search, className="columns is-centered has-margin-right-50 has-margin-left-50")
     return live_entity_search_container
-
-
-def search_bar_and_button_html(search_dict):
-    """Returns the html div for the main search bar and search button
-    """
-
-    # search_bar_html = html.Div(dcc.Input(
-    #     id="text_input",
-    #     type="text",
-    #     autoFocus=True,
-    #     value=search_dict.get('text'),
-    #     placeholder="Enter search terms...",
-    #     style={"width": "100%"}),
-    #     style={"display": "table-cell", "width": "100%"})
-
-    search_button_html = html.Div(html.Button(
-        "Search",
-        className="button-search",
-        id="search-btn"))
-        # style={"display": "table-cell", "verticalAlign": "top",
-        #        "paddingLeft": "10px"})
-
-    # search_bar_and_button = html.Div([search_bar_html,
-    #                                   search_button_html],
-    #                                  className="row", style={
-    #         "display": "table", "marginTop": "10px"})
-    # return search_bar_and_button
-    return search_button_html
-
 
 def results_html():
     """
     Html placeholder for results
     """
-
     abstracts_results_html = html.Div(id='abstracts_results')
     materials_results_html = html.Div(id='materials_results')
     statistics_results_html = html.Div(id='entities_results')
@@ -75,29 +45,51 @@ def results_html():
 
     return results
 
+def go_button(search_dict):
+    """Returns the html div for the main search bar and search button
+    """
+    search_button_html = html.Div(html.Button(
+        "Go",
+        id="search-btn",
+        className="button is-warning is-focused is-size-6"
+    ),
+        className="column is-narrow"
+    )
+    return search_button_html
 
-def advanced_search_types_html():
+
+def search_type_dropdown():
     """
     Html for the advanced search types, e.g. sort by abstracts, materials, statistics
     """
 
     # Note that the values are correct input for the rester's group_by parameter on the search method
-    advanced_search_types = dcc.RadioItems(
+    advanced_search_types = dcc.Dropdown(
         id='advanced_search_types_radio',
         options=[
             {'label': 'Statistics', 'value': 'entities'},
             {'label': 'Papers', 'value': 'abstracts'},
             {'label': 'Materials', 'value': 'materials'}
         ],
-        labelStyle={'display': 'inline-block'},
         value='entities'
     )
 
     advanced_search_types = html.Div(
         advanced_search_types,
-        id='advanced_search_types')
+        id='advanced_search_types',
+        className="column is-one-fifth"
+    )
 
     return advanced_search_types
+
+def search_bar_and_button(search_dict):
+    button = go_button(search_dict)
+    dropdown = search_type_dropdown()
+    button_and_dropdown = html.Div(
+        [dropdown, button],
+        className="columns is-centered"
+    )
+    return button_and_dropdown
 
 
 def advanced_search_boxes_html(search_dict):
