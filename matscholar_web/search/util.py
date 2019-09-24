@@ -1,4 +1,5 @@
 from dash.dependencies import Input, Output, State
+from matscholar_web.constants import valid_entity_filters
 
 
 def get_entity_boxes_callback_args(as_type="state"):
