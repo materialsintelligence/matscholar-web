@@ -6,7 +6,7 @@ def get_footer():
     Make the plotly dash footer.
 
     Returns:
-        (dash_html_components.Div)
+        (dash_html_components.Div): The footer
 
     """
     note_div = html.Div(
