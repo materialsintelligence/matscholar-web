@@ -8,11 +8,11 @@ from matscholar_web.constants import TIMEOUT
 from matscholar_web.footer import get_footer
 from matscholar_web.header import get_header
 from matscholar_web.nav import get_nav
+from matscholar_web.search.util import get_entity_boxes_callback_args
 import matscholar_web.search.callbacks as search_callbacks
 import matscholar_web.search.view as search_view
 import matscholar_web.analysis.callbacks as analysis_callbacks
 import matscholar_web.analysis.view as analysis_view
-from matscholar_web.search.util import get_entity_boxes_callback_args
 
 """
 Declarations for the core dash app.
@@ -63,9 +63,9 @@ app.layout = html.Div(
 def display_page(path, search):
     path = str(path)
     if path.startswith("/analyze"):
-        return search_view.serve_layout()
+        return analysis_view.serve_layout()
     else:
-        return analysis_view.serve_layout(search)
+        return search_view.serve_layout(search)
 
 
 # setting the static path for loading css files
