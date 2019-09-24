@@ -1,4 +1,4 @@
-from matscholar_web.constants import *
+from matscholar_web.constants import valid_entity_filters
 from matscholar_web.search.subviews.abstracts import \
     abstracts_results_html
 from matscholar_web.search.subviews.materials import \
