@@ -1,26 +1,21 @@
 import os
-import json
 from os import environ
 
-# dash
 import dash
 import dash_auth
 import dash_html_components as html
-import dash_core_components as dcc
 from dash.dependencies import Input, Output
 from flask import send_from_directory
 from flask_caching import Cache
-from matscholar.rest import Rester
-from matscholar.rest import MatScholarRestError
 
-# apps
 from matscholar_web.view import search_view, analysis_view
 from matscholar_web.footer import get_footer
 from matscholar_web.header import get_header
 from matscholar_web.nav import get_nav
-
-# callbacks
 from matscholar_web.callbacks import search_view_callbacks, analysis_callbacks
+"""
+Declarations for the core dash app.
+"""
 
 """
 APP CONFIG
@@ -49,28 +44,14 @@ auth = dash_auth.BasicAuth(
     VALID_USERNAME_PASSWORD_PAIRS
 )
 
-# loading css files
-# css_files = ["skeleton.min.css", "matscholar_web.css", ]
-css_files = ["bulma.css"]
-stylesheets_links = [
-    html.Link(rel='stylesheet', href='/static/css/' + css) for css in css_files]
+stylesheet = html.Link(rel='stylesheet', href='/static/css/bulma.css')
+stylesheet_div = html.Div(stylesheet, className="container is-hidden")
 
 """
 VIEW
 """
 
-
-
-stylesheet_div = html.Div(
-    stylesheets_links,
-    className="container is-hidden"
-)
-
-app_container = html.Div(
-    "",
-    id="app_container"
-)
-
+app_container = html.Div("", id="app_container")
 footer = get_footer()
 header = get_header()
 nav = get_nav()
@@ -104,8 +85,6 @@ def display_page(path, search):
 
 
 # setting the static path for loading css files
-
-
 @app.server.route('/static/css/<path:path>')
 def get_stylesheet(path):
     static_folder = os.path.join(os.getcwd(), 'matscholar_web/static/css')
