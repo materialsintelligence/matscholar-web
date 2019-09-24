@@ -6,7 +6,7 @@ import json
 import urllib
 import numpy as np
 from dash.dependencies import Input, Output, State
-from matscholar_web.base import *
+from matscholar_web.base import rester, valid_entity_filters, highlight_mapping, TIMEOUT
 
 # Get the rester and random docs on import
 local_dir = os.path.dirname(__file__)
@@ -50,14 +50,13 @@ def get_labels():
           for key in label_mapping]
 
 
-def bind(app):
-  ### Extract App Callbacks ###
-  @app.callback(
-      Output("extract-highlighted", "children"),
-      [Input("extract-button", "n_clicks")],
-      [State("extract-textarea", "value"),
-       State("normalize-radio", "value")])
-  def highlight_extracted(n_clicks, text, normalize):
+### Extract App Callbacks ###
+@app.callback(
+  Output("extract-highlighted", "children"),
+  [Input("extract-button", "n_clicks")],
+  [State("extract-textarea", "value"),
+   State("normalize-radio", "value")])
+def highlight_extracted(n_clicks, text, normalize):
     if n_clicks is not None:
       # Extract highlighted
       return_type = "normalized" if normalize == "yes" else "concatenated"
