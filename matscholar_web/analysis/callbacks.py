@@ -6,8 +6,7 @@ import urllib
 import numpy as np
 from dash.dependencies import Input, Output, State
 
-from matscholar_web.app import app, cache
-from matscholar_web.base import rester
+from matscholar_web.constants import rester
 
 # Get the rester and random docs on import
 local_dir = os.path.dirname(__file__)
@@ -54,12 +53,6 @@ def get_labels():
             for key in label_mapping]
 
 
-# Extract app callbacks
-@app.callback(
-    Output("extract-highlighted", "children"),
-    [Input("extract-button", "n_clicks")],
-    [State("extract-textarea", "value"),
-     State("normalize-radio", "value")])
 def highlight_extracted(n_clicks, text, normalize):
     if n_clicks is not None:
         # Extract highlighted
@@ -104,10 +97,7 @@ def highlight_extracted(n_clicks, text, normalize):
                                   style={"padding-top": "15px"})])
 
 
-    @app.callback(
-        Output('extract-textarea', 'value'),
-        [Input("extract-random", 'n_clicks')])
-    def get_random(n_clicks):
-        if n_clicks is not None:
-            return np.random.choice(sample_docs)
-        return ""
+def get_random(n_clicks):
+    if n_clicks is not None:
+        return np.random.choice(sample_docs)
+    return ""

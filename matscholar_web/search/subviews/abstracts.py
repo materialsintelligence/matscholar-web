@@ -4,7 +4,7 @@ import dash_core_components as dcc
 import json
 import pandas as pd
 import urllib
-from matscholar_web.base import *
+from matscholar_web.constants import *
 
 
 max_results = 50

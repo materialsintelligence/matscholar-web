@@ -1,7 +1,7 @@
 import dash_html_components as html
 import dash_core_components as dcc
 from dash_elasticsearch_autosuggest import ESAutosuggest
-from matscholar_web.base import valid_entity_filters, highlight_mapping
+from matscholar_web.constants import valid_entity_filters, highlight_mapping
 from os import environ
 import urllib
 import json

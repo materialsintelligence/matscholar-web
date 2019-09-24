@@ -4,7 +4,7 @@ import dash_core_components as dcc
 import json
 import pandas as pd
 import urllib
-from matscholar_web.base import *
+from matscholar_web.constants import *
 
 
 def gen_output(most_common, entity_type, query, class_name="three column"):
