@@ -5,16 +5,16 @@ import json
 import pandas as pd
 import urllib
 from matscholar_web.constants import rester, valid_entity_filters, \
-    highlight_mapping
+    entity_shortcode_map
 
 
 def gen_output(most_common, entity_type, query, class_name="three column"):
     table = html.Table(
         [html.Tr([html.Th(entity_type, className="highlighted {}".format(
-            highlight_mapping[entity_type.lower()])),
+            entity_shortcode_map[entity_type.lower()])),
                   html.Th("score", style={"textAlign": "right", "fontWeight": "normal"},
                           className="highlighted {}".format(
-                              highlight_mapping[entity_type.lower()]))],
+                              entity_shortcode_map[entity_type.lower()]))],
                  className="summary-header")] +
         [html.Tr([
             html.Td(ent),

@@ -4,6 +4,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from flask import send_from_directory
 
+from matscholar_web.app import app, cache
 from matscholar_web.constants import TIMEOUT
 from matscholar_web.footer import get_footer
 from matscholar_web.header import get_header
@@ -17,23 +18,6 @@ import matscholar_web.analysis.view as analysis_view
 """
 Declarations for the core dash app.
 """
-
-import dash
-from flask_caching import Cache
-
-app = dash.Dash(
-    meta_tags=[
-        {
-            "name": "viewport",
-            "content": "width=device-width, initial-scale=1"
-        }
-    ]
-)
-app.css.config.serve_locally = True
-app.scripts.config.serve_locally = True
-app.config.suppress_callback_exceptions = True
-app.title = "matscholar - rediscover materials"
-cache = Cache(app.server, config={'CACHE_TYPE': 'simple'})
 
 stylesheet = html.Link(rel='stylesheet', href='/static/css/bulma.css')
 stylesheet_div = html.Div(stylesheet, className="container is-hidden")

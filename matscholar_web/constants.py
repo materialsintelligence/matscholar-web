@@ -1,11 +1,11 @@
+import os
 from matscholar import Rester
 
 # Define some variables of common interest
 rester = Rester(endpoint="https://staging.matscholar.com")
-valid_entity_filters = ["material", "property", "application",
-                        "descriptor", "characterization", "synthesis", "phase"]
 
-highlight_mapping = {
+# The mapping of entity type to shortcode
+entity_shortcode_map = {
     "material": "MAT",
     "application": "APL",
     "property": "PRO",
@@ -14,4 +14,11 @@ highlight_mapping = {
     "characterization": "CMT",
     "descriptor": "DSC"}
 
-TIMEOUT = 60 #in seconds
+# The valid entity types
+valid_entity_filters = list(entity_shortcode_map.keys())
+
+# the absolute path of this root directory
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# in seconds
+TIMEOUT = 60

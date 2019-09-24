@@ -1,7 +1,7 @@
 import dash_html_components as html
 import dash_core_components as dcc
 from dash_elasticsearch_autosuggest import ESAutosuggest
-from matscholar_web.constants import valid_entity_filters, highlight_mapping
+from matscholar_web.constants import valid_entity_filters, entity_shortcode_map
 from os import environ
 import urllib
 import json
@@ -185,7 +185,7 @@ def _entity_filter_box_html(entity, search_dict):
         prefill = None
     textbox = html.Div([html.Label(html.Span('{}:'.format(entity.capitalize()),
                                              className="highlighted {}".format(
-                                                 highlight_mapping[entity])),
+                                                 entity_shortcode_map[entity])),
                                    style={"display": "table"},
                                    className="row"),
                         ESAutosuggest(

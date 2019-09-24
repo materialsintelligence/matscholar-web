@@ -10597,3 +10597,10 @@ label.panel-block:hover {
   padding: 3rem 1.5rem 6rem;
 }
 /*# sourceMappingURL=bulma.css.map */
+
+
+/* Matscholar specific classes */
+.msweb-center-image {
+    width: 300;
+    align: center;
+}

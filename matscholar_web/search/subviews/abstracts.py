@@ -5,7 +5,7 @@ import json
 import pandas as pd
 import urllib
 from matscholar_web.constants import rester, valid_entity_filters, \
-    highlight_mapping
+    entity_shortcode_map
 
 
 max_results = 50
@@ -124,7 +124,7 @@ def format_result(result):
         for e in result[label_mapping[f]]:
             entities.append(html.Span(e,
                                       className="highlighted {}".format(
-                                          highlight_mapping[f]),
+                                          entity_shortcode_map[f]),
                                       style={"padding-right": "4px",
                                              "background-clip": "content-box"}))
     entities = html.Div(entities)
