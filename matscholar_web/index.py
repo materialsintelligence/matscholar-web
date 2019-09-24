@@ -21,7 +21,9 @@ Declarations for the core dash app.
 
 bulma = html.Link(rel='stylesheet', href='/static/css/bulma.css')
 bulma_helper = html.Link(rel='stylesheet', href='/static/css/bulma-helpers.css')
-stylesheets = [bulma, bulma_helper]
+# stylesheets = [bulma, bulma_helper]
+custom_css = html.Link(rel='stylesheet', href='/static/css/msweb.css')
+stylesheets = [bulma, bulma_helper, custom_css]
 stylesheet_div = html.Div(stylesheets, className="container is-hidden")
 
 footer = get_footer()

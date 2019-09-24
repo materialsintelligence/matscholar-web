@@ -36,9 +36,9 @@ def serve_layout(search):
 
 def entity_display_html():
     live_entity_search = dcc.Input(
-        # placeholder="Enter some text here!",
+        placeholder="Enter some text here!",
         id="text_input",
-        # className="input is-success has-max-width-350 has-min-width-100 align-center"
+        className="input is-success has-max-width-350 has-min-width-100 align-center"
     )
     return live_entity_search
 
@@ -188,26 +188,27 @@ def _entity_filter_box_html(entity, search_dict):
         prefill = str(search_dict.get(entity)[0])
     except TypeError:
         prefill = None
-    textbox = html.Div([html.Label(html.Span('{}:'.format(entity.capitalize()),
-                                             className="highlighted {}".format(
-                                                 entity_shortcode_map[entity])),
-                                   style={"display": "table"},
-                                   className="row"),
-                        ESAutosuggest(
-                            fields=['original', 'normalized'],
-                            endpoint=environ['ELASTIC_HOST'] + "/" +
-                                     ES_field_dict[entity] + "/_search",
-                            defaultField='original',
-                            id=entity + "_filters_input",
-                            placeholder=placeholders[entity],
-                            authUser=environ['ELASTIC_USER'],
-                            authPass=environ['ELASTIC_PASS'],
-                            searchField="original.edgengram",
-                            value=prefill)
-                        ],
-                       style={"float": "left"}
-                       # style={'padding': 5, 'width': '25%'}
-                       # style={"diplay":"table", "padding": 5},
-                       # className="row"
-                       )
+
+    entity_name = html.Span('{}:'.format(entity.capitalize()))
+    entity_label = html.Label(entity_name)
+
+    esas = ESAutosuggest(
+        fields=['original', 'normalized'],
+        endpoint=environ['ELASTIC_HOST'] + "/" +
+                 ES_field_dict[entity] + "/_search",
+        defaultField='original',
+        id=entity + "_filters_input",
+        placeholder=placeholders[entity],
+        authUser=environ['ELASTIC_USER'],
+        authPass=environ['ELASTIC_PASS'],
+        searchField="original.edgengram",
+        value=prefill,
+        # className="input is-success has-max-width-350"
+    )
+
+    # esas_formatted = html.Div(esas)
+    esas_formatted=esas
+
+
+    textbox = html.Div([entity_label, esas_formatted])
     return textbox
