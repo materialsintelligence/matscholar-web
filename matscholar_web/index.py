@@ -10,10 +10,10 @@ from matscholar_web.footer import get_footer
 from matscholar_web.header import get_header
 from matscholar_web.nav import get_nav
 from matscholar_web.search.util import get_entity_boxes_callback_args
-import matscholar_web.search.callbacks as search_callbacks
-import matscholar_web.search.view as search_view
-import matscholar_web.analysis.callbacks as analysis_callbacks
-import matscholar_web.analysis.view as analysis_view
+import matscholar_web.search.callbacks as scb
+import matscholar_web.search.view as sv
+import matscholar_web.analysis.callbacks as acb
+import matscholar_web.analysis.view as av
 
 """
 Declarations for the core dash app.
@@ -40,12 +40,12 @@ app.layout = html.Div(
         app_container,
         footer
     ],
-    # className="container"
 )
 
 
 # Top level callbacks
 #######################
+
 # callbacks for loading different apps
 @app.callback(
     Output('app_container', 'children'),
@@ -53,9 +53,9 @@ app.layout = html.Div(
 def display_page(path, search):
     path = str(path)
     if path.startswith("/analyze"):
-        return analysis_view.serve_layout()
+        return av.serve_layout()
     else:
-        return search_view.serve_layout(search)
+        return sv.serve_layout(search)
 
 
 # setting the static path for loading css files
@@ -79,40 +79,49 @@ def get_robots():
     Output('text_input', 'value'),
     get_entity_boxes_callback_args(as_type="input")
 )
-def live_display_entity_searches(*ent_txts):
-    return search_callbacks.live_display_entity_searches(*ent_txts)
+def search_bar_live_display(*ent_txts):
+    return scb.search_bar_live_display(*ent_txts)
 
+# @app.callback(
+#     Output('entities_results', 'children'),
+#     [Input('search-btn', 'n_clicks')],
+#     [State("search_type_dropdown", "value"),
+#      State("text_input", "value")]
+# )
+# @cache.memoize(timeout=TIMEOUT)  # in seconds
+# def show_entities_results(n_clicks, dropdown_value, search_text):
+#     return scb.show_entities_results(n_clicks, dropdown_value, search_text)
+#
+# @app.callback(
+#     Output('materials_results', 'children'),
+#     [Input('search-btn', 'n_clicks')],
+#     [State("search_type_dropdown", "value"),
+#      State("text_input", "value")]
+# )
+# @cache.memoize(timeout=TIMEOUT)  # in seconds
+# def show_materials_results(n_clicks, dropdown_value, search_text):
+#     return scb.show_materials_results(n_clicks, dropdown_value, search_text)
+#
+#
+# @app.callback(
+#     Output('abstracts_results', 'children'),
+#     [Input('search-btn', 'n_clicks')],
+#     [State("search_type_dropdown", "value"),
+#      State("text_input", "value")]
+# )
+# @cache.memoize(timeout=TIMEOUT)  # in seconds
+# def show_abstracts_results(n_clicks, dropdown_value, search_text):
+#     return scb.show_abstracts_results(n_clicks, dropdown_value, search_text)
 
 @app.callback(
-    Output('entities_results', 'children'),
+    Output('search_results', 'children'),
     [Input('search-btn', 'n_clicks')],
     [State("search_type_dropdown", "value"),
      State("text_input", "value")]
 )
 @cache.memoize(timeout=TIMEOUT)  # in seconds
-def show_entities_results(n_clicks, dropdown_value, search_text):
-    return search_callbacks.show_entities_results(n_clicks, dropdown_value, search_text)
-
-@app.callback(
-    Output('materials_results', 'children'),
-    [Input('search-btn', 'n_clicks')],
-    [State("search_type_dropdown", "value"),
-     State("text_input", "value")]
-)
-@cache.memoize(timeout=TIMEOUT)  # in seconds
-def show_materials_results(n_clicks, dropdown_value, search_text):
-    return search_callbacks.show_materials_results(n_clicks, dropdown_value, search_text)
-
-
-@app.callback(
-    Output('abstracts_results', 'children'),
-    [Input('search-btn', 'n_clicks')],
-    [State("search_type_dropdown", "value"),
-     State("text_input", "value")]
-)
-@cache.memoize(timeout=TIMEOUT)  # in seconds
-def show_materials_results(n_clicks, dropdown_value, search_text):
-    return search_callbacks.show_abstracts_results(n_clicks, dropdown_value, search_text)
+def show_search_results(n_clicks, dropdown_value, search_text):
+    return scb.show_results(n_clicks, dropdown_value, search_text)
 
 
 @app.callback(
@@ -120,9 +129,10 @@ def show_materials_results(n_clicks, dropdown_value, search_text):
      Output("materials_results", "style"),
      Output("statistics_results", "style")],
     [Input("search_type_dropdown", "value")],
+    # [State("search_type_dropdown", "value")],
 )
-def toggle_search_type(search_type):
-    return search_callbacks.dropdown_search_type(search_type)
+def dropdown_search_type(search_type):
+    return scb.dropdown_search_type(search_type)
 
 
 
@@ -136,11 +146,11 @@ def toggle_search_type(search_type):
     [State("extract-textarea", "value"),
      State("normalize-radio", "value")])
 def highlight_extracted(n_clicks, text, normalize):
-    return analysis_callbacks.highlight_extracted(n_clicks, text, normalize)
+    return acb.highlight_extracted(n_clicks, text, normalize)
 
 
 @app.callback(
   Output('extract-textarea', 'value'),
   [Input("extract-random", 'n_clicks')])
 def get_random(n_clicks):
-    return analysis_callbacks.get_random(n_clicks)
+    return acb.get_random(n_clicks)

@@ -9,7 +9,7 @@ from matscholar_web.constants import rester, valid_entity_filters, \
 from matscholar_web.search.util import parse_search_box
 
 
-MAX_N_ABSTRACTS = 50
+MAX_N_ABSTRACTS = 100
 
 label_mapping = {
     "material": "MAT_summary",
