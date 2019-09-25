@@ -6,7 +6,8 @@ import pandas as pd
 import urllib
 from matscholar_web.constants import rester, valid_entity_filters, \
     entity_shortcode_map, entity_color_map
-from matscholar_web.search.util import parse_search_box, no_results
+from matscholar_web.search.util import parse_search_box, no_results, \
+    results_container_class
 
 MAX_N_ROWS_FOR_EACH_ENTITY_TABLE = 10
 
@@ -18,7 +19,10 @@ def entities_results_html(search_text):
         return no_results()
     else:
         all_tables = get_all_score_tables(results)
-        all_tables_container = html.Div(all_tables, className="container has-margin-top-20 has-margin-bottom-20")
+        all_tables_container = html.Div(
+            all_tables,
+            className=results_container_class()
+        )
         return all_tables_container
 
 
@@ -63,9 +67,8 @@ def get_all_score_tables(results_dict):
 
 def get_score_table_for_entity(most_common, entity_type, width):
     n_results = len(most_common)
-    header_style = "msweb-entity-result-table-blue"
-    header_entity_type = html.Th(f"{entity_type}: ({n_results} entities)", className=header_style)
-    header_score = html.Th("score", className=header_style)
+    header_entity_type = html.Th(f"{entity_type}: ({n_results} entities)")
+    header_score = html.Th("score")
     header = html.Tr([header_entity_type, header_score])
 
     rows = [None] * n_results

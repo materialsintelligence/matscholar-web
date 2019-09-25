@@ -58,3 +58,6 @@ def parse_search_box(search_text):
 
 def no_results():
     return html.Div(f"No results found!", className="column is-size-2")
+
+def results_container_class():
+    return "container has-margin-top-20 has-margin-bottom-20"
