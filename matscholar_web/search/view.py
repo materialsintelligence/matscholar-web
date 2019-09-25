@@ -27,23 +27,28 @@ def entity_display_html():
         id="text_input",
         className="input is-success has-min-width-100 is-size-4"
     )
-    live_entity_search_container = html.Div(live_entity_search, className="columns is-centered has-margin-right-50 has-margin-left-50")
+    live_entity_search_container = html.Div(live_entity_search,
+                                            className="columns is-centered has-margin-right-50 has-margin-left-50")
     return live_entity_search_container
+
 
 def results_html():
     """
     Html placeholder for results
     """
-    abstracts_results_html = html.Div(id='abstracts_results')
-    materials_results_html = html.Div(id='materials_results')
-    statistics_results_html = html.Div(id='entities_results')
+    # abstracts_results_html = html.Div(id='abstracts_results')
+    # materials_results_html = html.Div(id='materials_results')
+    entities_results_html = html.Div(id='entities_results')
 
-    results = dcc.Loading(
-        id="loading-1",
-        children=[abstracts_results_html, materials_results_html,
-                  statistics_results_html])
+    # results = dcc.Loading(
+    #     children=[abstracts_results_html, materials_results_html,
+    #               statistics_results_html])
 
-    return results
+    print(f"returning results html {results_html}")
+
+
+    return entities_results_html
+
 
 def go_button(search_dict):
     """Returns the html div for the main search bar and search button
@@ -65,11 +70,11 @@ def search_type_dropdown():
 
     # Note that the values are correct input for the rester's group_by parameter on the search method
     advanced_search_types = dcc.Dropdown(
-        id='advanced_search_types_radio',
+        id='search_type_dropdown',
         options=[
             {'label': 'Statistics', 'value': 'entities'},
-            {'label': 'Papers', 'value': 'abstracts'},
-            {'label': 'Materials', 'value': 'materials'}
+            # {'label': 'Papers', 'value': 'abstracts'},
+            # {'label': 'Materials', 'value': 'materials'}
         ],
         value='entities'
     )
@@ -81,6 +86,7 @@ def search_type_dropdown():
     )
 
     return advanced_search_types
+
 
 def search_bar_and_button(search_dict):
     button = go_button(search_dict)
@@ -124,11 +130,14 @@ def advanced_search_boxes_html(search_dict):
     entity_filters_html = [_entity_filter_box_html(
         f, search_dict) for f in valid_entity_filters]
 
-    entity_filter_row_1 = html.Div(entity_filters_html[0:3], className="columns is-centered")
-    entity_filter_row_2 = html.Div(entity_filters_html[3:6], className="columns is-centered")
-    entity_filter_row_3 = html.Div(entity_filters_html[6:9], className="columns is-centered")
-    entity_filter_rows = [entity_filter_row_1, entity_filter_row_2, entity_filter_row_3]
-
+    entity_filter_row_1 = html.Div(entity_filters_html[0:3],
+                                   className="columns is-centered")
+    entity_filter_row_2 = html.Div(entity_filters_html[3:6],
+                                   className="columns is-centered")
+    entity_filter_row_3 = html.Div(entity_filters_html[6:9],
+                                   className="columns is-centered")
+    entity_filter_rows = [entity_filter_row_1, entity_filter_row_2,
+                          entity_filter_row_3]
 
     advanced_search_boxes = html.Div(
         entity_filter_rows,

@@ -84,56 +84,53 @@ def live_display_entity_searches(*ent_txts):
 
 
 @app.callback(
-    Output('entities_results', 'value'),
+    Output('entities_results', 'children'),
     [Input('search-btn', 'n_clicks')],
-    [State("advanced_search_types_radio", "value"),
-     State("text_input", "value"),
-     State("anonymous_formula_input", "value"),
-     State("element_filters_input", "value")] +
+    [State("search_type_dropdown", "value"),
+     State("text_input", "value")] +
     get_entity_boxes_callback_args(as_type="state")
 )
 @cache.memoize(timeout=TIMEOUT)  # in seconds
-def show_entities_results(*args):
-    return search_callbacks.show_entities_results(*args)
+def show_entities_results(n_clicks, dropdown_value, search_text, *entities):
+    print("from index callbacks, about to execute show_entities_results")
+    return search_callbacks.show_entities_results(n_clicks, dropdown_value, search_text, *entities)
 
 
-@app.callback(
-    Output('materials_results', 'children'),
-    [Input('search-btn', 'n_clicks')],
-    [State("advanced_search_types_radio", "value"),
-     State("text_input", "value"),
-     State("anonymous_formula_input", "value"),
-     State("element_filters_input", "value")] +
-    get_entity_boxes_callback_args(as_type="state")
-)
-@cache.memoize(timeout=TIMEOUT)  # in seconds
-def show_materials_results(*args):
-    return search_callbacks.show_materials_results(*args)
+# @app.callback(
+#     Output('materials_results', 'children'),
+#     [Input('search-btn', 'n_clicks')],
+#     [State("search_type_dropdown", "value"),
+#      State("text_input", "value")] +
+#     get_entity_boxes_callback_args(as_type="state")
+# )
+# @cache.memoize(timeout=TIMEOUT)  # in seconds
+# def show_materials_results(*args):
+#     return search_callbacks.show_materials_results(*args)
 
 
-@app.callback(
-    Output('abstracts_results', 'children'),
-    [Input('search-btn', 'n_clicks')],
-    [State("advanced_search_types_radio", "value"),
-     State("text_input", "value"),
-     State("anonymous_formula_input", "value"),
-     State("element_filters_input", "value")] +
-    get_entity_boxes_callback_args(as_type="state")
-)
-@cache.memoize(timeout=TIMEOUT)  # in seconds
-def show_abstracts_results(*args):
-    return search_callbacks.show_abstracts_results(*args)
+# @app.callback(
+#     Output('abstracts_results', 'children'),
+#     [Input('search-btn', 'n_clicks')],
+#     [State("search_type_dropdown", "value"),
+#      State("text_input", "value")] +
+#     get_entity_boxes_callback_args(as_type="state")
+# )
+# @cache.memoize(timeout=TIMEOUT)  # in seconds
+# def show_abstracts_results(*args):
+#     return search_callbacks.show_abstracts_results(*args)
 
 
 @app.callback(
     [Output("abstracts_results", "style"),
      Output("materials_results", "style"),
      Output("statistics_results", "style")],
-    [Input("advanced_search_types_radio", "value")],
-    [State("advanced_search_types_radio", "value")]
+    [Input("search_type_dropdown", "value")],
 )
 def toggle_search_type(radio_type, radio_val):
     return search_callbacks.toggle_search_type(radio_type, radio_val)
+
+
+
 
 
 # Analyze callbacks

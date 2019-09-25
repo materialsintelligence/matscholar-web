@@ -25,25 +25,27 @@ def toggle_search_type(radio_type, radio_val):
         return hidden_style, hidden_style, visible_style
 
 
-def show_abstracts_results(*args):
-    """
-    Perform a search for abstracts and display the results
-    """
-    if args[0] is not None:
-        if args[1] == 'abstracts':
-            return abstracts_results_html(list(args)[2:])
-
-
-def show_materials_results(*args):
-    if args[0] is not None:
-        if args[1] == 'materials':
-            return materials_results_html(list(args)[2:])
+# def show_abstracts_results(*args):
+#     """
+#     Perform a search for abstracts and display the results
+#     """
+#     if args[0] is not None:
+#         if args[1] == 'abstracts':
+#             return abstracts_results_html(list(args)[2:])
+#
+#
+# def show_materials_results(*args):
+#     if args[0] is not None:
+#         if args[1] == 'materials':
+#             return materials_results_html(list(args)[2:])
 
 
 def show_entities_results(*args):
     if args[0] is not None:
         if args[1] == 'entities':
-            return entities_results_html(list(args)[2:])
+            print(f"From search callbacks: The args are {args}")
+            # return entities_results_html(list(args)[2:])
+            return html.Div("Test OUTPUT!", className="is-size-1")
 
 
 def live_display_entity_searches(*ent_txts):
@@ -53,3 +55,4 @@ def live_display_entity_searches(*ent_txts):
         if ent_txt not in [None, "", " "]:
             entry += f"{ent}: {ent_txt}, "
     return entry
+

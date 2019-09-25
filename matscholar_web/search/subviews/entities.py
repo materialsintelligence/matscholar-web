@@ -40,24 +40,28 @@ def gen_table(results_dict, query=None):
     ])
 
 
-def entities_results_html(*args, **kwargs):
+
+
+def entities_results_html(n_clicks, dropdown_value, search_text, *entities):
+    print(n_clicks, dropdown_value, search_text, *entities)
+    return "No results"
+
+def entities_results_html(*args):
+
+
+    print("Now we're in entities results html!")
     text = str(args[0][0])
-    anonymous_formula = [s.strip() for s in args[0][1].split(
-        ',')] if not args[0][1] in [None, ''] else []
-    element_filters = [s.strip() for s in args[0][2].split(
-        ',')] if not args[0][2] in [None, ''] else []
     entities = {f: [s.strip() for s in args[0][i + 3].split(',')] for i, f in enumerate(
         valid_entity_filters) if ((args[0][i + 3] is not None) and (args[0][i + 3].split(',') != ['']))}
-    try:
-        entities['material'] = entities['material'] + anonymous_formula
-    except KeyError:
-        entities['material'] = anonymous_formula
-    results = rester.entities_search(
-        entities, text=text, elements=element_filters, top_k=None)
+
+    print("We lookin for results!")
+    results = rester.entities_search(entities, text=text, top_k=None)
+
+    print(f"WE got some results baby!: {results}")
+
     if results is not None:
         query = dict()
-        for f, fname in [(text, 'text'), (anonymous_formula, 'anonymous_formula'),
-                         (element_filters, 'element_filters')]:
+        for f, fname in [(text, 'text')]:
             if f is not None and f != [] and f != 'None':
                 query[fname] = f
         for f in valid_entity_filters:
