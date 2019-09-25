@@ -16,4 +16,4 @@ Matscholar is supported by Toyota Research Institute through the Accelerated Mat
 
 
 ## Contributors
-@jdagdelen, @lweston, @AmalieT, @vtshitoyan, @computron
+@jdagdelen, @lweston, @AmalieT, @vtshitoyan, @computron, @ardunn
