@@ -14,14 +14,14 @@ entity_shortcode_map = {
     "characterization": "CMT",
     "descriptor": "DSC"}
 
-entity_color_map = {
-    "material": "orange",
-    "application": "grey",
-    "property": "blue",
-    "phase": "purple",
-    "synthesis": "black",
-    "characterization": "pink",
-    "descriptor": "red"}
+entitiy_color_map_bulma = {
+    "material": "primary",
+    "application": "info",
+    "property": "link",
+    "phase": "success",
+    "synthesis": "warning",
+    "characterization": "danger",
+    "descriptor": "dark"}
 
 # The valid entity types
 valid_entity_filters = list(entity_shortcode_map.keys())

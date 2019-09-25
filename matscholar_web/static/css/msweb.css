@@ -63,3 +63,7 @@
 .msweb-has-margin-0 {
   margin: 0px !important;
 }
+
+.msweb-is-green-text {
+    color: #5AC356 !important;
+}

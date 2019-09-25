@@ -5,7 +5,7 @@ import json
 import pandas as pd
 import urllib
 from matscholar_web.constants import rester, valid_entity_filters, \
-    entity_shortcode_map
+    entity_shortcode_map, entitiy_color_map_bulma
 from matscholar_web.search.util import parse_search_box, \
     results_container_class, no_results
 
@@ -24,6 +24,7 @@ def abstracts_results_html(search_text):
         return no_results()
     else:
         df = pd.DataFrame(results)
+        n_raw_results = df.shape[0]
 
         if df.empty:
             return no_results()
@@ -33,25 +34,34 @@ def abstracts_results_html(search_text):
         n_formatted_results = min(len(df), MAX_N_ABSTRACTS)
         formatted_results = [None] * n_formatted_results
 
-        if n_formatted_results > MAX_N_ABSTRACTS:
+        if n_raw_results >= MAX_N_ABSTRACTS:
             label_txt = \
-                f"Showing {n_formatted_results} of > {MAX_N_ABSTRACTS} " \
-                f"results. For full results, use the "
+                f"Showing {n_formatted_results} of many results. For full " \
+                f"results, use the "
             label_link = html.A(
                 'Matscholar API.',
                 href='https://github.com/materialsintelligence/matscholar'
             )
             label = html.Label([label_txt, label_link])
         else:
-            label_txt = f"Showing all {n_formatted_results} results."
+            label_txt = f"Showing all {n_raw_results} results."
             label = html.Label(label_txt)
+
+        entities_keys = []
+        for e in valid_entity_filters:
+            color = entitiy_color_map_bulma[e]
+            entity_key = html.Div(e, className=f"button is-{color}")
+            entity_key_container = html.Div(entity_key, className="flex-column is-narrow has-margin-5")
+            entities_keys.append(entity_key_container)
+        entity_key_container = html.Div(entities_keys, className="columns is-multiline has-margin-5")
+
 
         for i in range(n_formatted_results):
             formatted_results[i] = format_result(df.iloc[i])
         paper_table = html.Table(formatted_results, className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped")
 
         return html.Div(
-            [label, paper_table],
+            [label, entity_key_container, paper_table],
             className=results_container_class()
         )
 
@@ -78,7 +88,7 @@ def format_result(result):
 
     title = html.Div(
         title_link,
-        className="is-size-4 has-text-info"
+        className="is-size-4 has-text-link has-text-weight-bold"
     )
 
     # Format the 2nd line "authors - journal, year" with ellipses for overflow
@@ -109,7 +119,7 @@ def format_result(result):
     ajy = "{} - {}, {}".format(authors, journal, year)
     authors_journal_and_year = html.Div(
         ajy,
-        className="is-size-5 has-text-success"
+        className="is-size-5 has-text-info"
     )
 
     abstract_txt = result["abstract"]
@@ -127,21 +137,22 @@ def format_result(result):
     entities = []
     for f in valid_entity_filters:
         for e in result[label_mapping[f]]:
+            color = entitiy_color_map_bulma[f]
             entity = html.Div(
                 e,
-                className="button is-warning"
+                className=f"button is-{color}"
             )
             entity_container = html.Div(entity, className="flex-column is-narrow has-margin-5")
             entities.append(entity_container)
 
+    entities = html.Div(entities, className="columns is-multiline has-margin-5")
+
     entities_label = html.Div(
         "Extracted entities:",
-        className="flex-column is-narrow has-margin-5 has-text-weight-bold"
+        className="has-margin-5 has-text-weight-bold"
     )
-    entities = html.Div([entities_label] + entities, className="columns is-multiline has-margin-5")
-
     paper_div = html.Div(
-        [title, authors_journal_and_year, abstract, entities],
+        [title, authors_journal_and_year, abstract, entities_label, entities],
         className="has-margin-10"
     )
 
