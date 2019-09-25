@@ -53,3 +53,9 @@
   cursor: pointer;
   padding: 10px 20px;
 }
+
+
+.msweb-entity-result-table-blue{
+    color: white
+    background-color: #1086CA;
+}

@@ -14,6 +14,15 @@ entity_shortcode_map = {
     "characterization": "CMT",
     "descriptor": "DSC"}
 
+entity_color_map = {
+    "material": "orange",
+    "application": "grey",
+    "property": "blue",
+    "phase": "purple",
+    "synthesis": "black",
+    "characterization": "pink",
+    "descriptor": "red"}
+
 # The valid entity types
 valid_entity_filters = list(entity_shortcode_map.keys())
 
