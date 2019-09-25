@@ -3,73 +3,86 @@ import dash_html_components as html
 import dash_core_components as dcc
 import json
 import pandas as pd
+import copy
 import urllib
 from matscholar_web.constants import rester, valid_entity_filters, \
     entity_shortcode_map
 
+MAX_N_ROWS_FOR_EACH_ENTITY_TABLE = 10
 
-def gen_output(most_common, entity_type, query, class_name="three column"):
-    table = html.Table(
-        [html.Tr([html.Th(entity_type, className="highlighted {}".format(
-            entity_shortcode_map[entity_type.lower()])),
-                  html.Th("score", style={"textAlign": "right", "fontWeight": "normal"},
-                          className="highlighted {}".format(
-                              entity_shortcode_map[entity_type.lower()]))],
-                 className="summary-header")] +
-        [html.Tr([
-            html.Td(ent),
-            # html.A(ent, href="/search/?{}".format(query))),
-            html.Td('{:.2f}'.format(score), style={"textAlign": "right"})], style={'color': 'black'})
-            for ent, count, score in most_common],
-        className="summary-table")
-    return html.Div(html.Div(table, className="summary-div " + class_name,
-                             style={"width": "20%", "display":"block"}))
+def gen_output(most_common, entity_type, class_name="three column"):
+    entity_shortcode = entity_shortcode_map[entity_type.lower()]
+    header_entity_type = html.Th(entity_type, className="highlighted {}".format(entity_shortcode))
+    header_score = html.Th("score", className="highlighted {}".format(entity_shortcode))
+    header = html.Tr([header_entity_type, header_score])
+
+    rows = [None] * len(most_common)
+
+    row_number = 0
+    for ent, count, score in most_common:
+        entity = html.Td(ent)
+        score = html.Td('{:.2f}'.format(score))
+        rows[row_number] = [entity, score]
+        row_number += 1
+        if row_number == MAX_N_ROWS_FOR_EACH_ENTITY_TABLE - 1:
+            break
+
+    table = html.Table([header] + rows)
+    return html.Div(table)
 
 
-def gen_table(results_dict, query=None):
+def gen_table(results_dict):
     return html.Div([
         html.Div([
-            gen_output(results_dict["PRO"], "Property", query),
-            gen_output(results_dict["APL"], "Application", query),
-            gen_output(results_dict["CMT"], "Characterization", query),
-            gen_output(results_dict["SMT"], "Synthesis", query)]),
+            gen_output(results_dict["PRO"], "Property"),
+            gen_output(results_dict["APL"], "Application"),
+            gen_output(results_dict["CMT"], "Characterization"),
+            gen_output(results_dict["SMT"], "Synthesis")]),
         html.Div([
-            gen_output(results_dict["DSC"], "Descriptor", query),
-            gen_output(results_dict["SPL"], "Phase", query),
-            gen_output(results_dict["MAT"], "Material", query)]),
+            gen_output(results_dict["DSC"], "Descriptor"),
+            gen_output(results_dict["SPL"], "Phase"),
+            gen_output(results_dict["MAT"], "Material")]),
     ])
 
 
 
 
-def entities_results_html(n_clicks, dropdown_value, search_text, *entities):
-    print(n_clicks, dropdown_value, search_text, *entities)
-    return "No results"
-
-def entities_results_html(*args):
+# def entities_results_html(n_clicks, dropdown_value, search_text):
+#     print(n_clicks, dropdown_value, search_text)
+#     return "No results"
 
 
-    print("Now we're in entities results html!")
-    text = str(args[0][0])
-    entities = {f: [s.strip() for s in args[0][i + 3].split(',')] for i, f in enumerate(
-        valid_entity_filters) if ((args[0][i + 3] is not None) and (args[0][i + 3].split(',') != ['']))}
+def entities_results_html(n_clicks, dropdown_value, search_text):
 
-    print("We lookin for results!")
-    results = rester.entities_search(entities, text=text, top_k=None)
+    #{'material': ['PbTe'], 'property': ['dielectric constants'], 'application': ['cathode ray tube'], 'descriptor': ['thin film'], 'characterization': ['photoluminescence'], 'synthesis': ['firing'], 'phase': ['wurtzite']}
 
-    print(f"WE got some results baby!: {results}")
+    # n_clicks =
 
-    if results is not None:
-        query = dict()
-        for f, fname in [(text, 'text')]:
-            if f is not None and f != [] and f != 'None':
-                query[fname] = f
-        for f in valid_entity_filters:
-            try:
-                query[f] = entities[f]
-            except KeyError:
-                pass
-        query = urllib.parse.urlencode(query)
-        return gen_table(results, query=query)
+    entities_text_list = search_text.split(",")
+    entity_query = {k: [] for k in valid_entity_filters}
+    entities_as_text = []
+    for et in entities_text_list:
+        for k in valid_entity_filters:
+            entity_type_key = f"{k}:"
+            if entity_type_key in et:
+                query_entity_term = copy.deepcopy(et)
+                query_entity_term = query_entity_term.replace(entity_type_key, "").strip()
+                entity_query[k].append(query_entity_term)
+                entities_as_text.append(query_entity_term)
+    text = ", ".join(entities_as_text)
+
+    entity_query = {k: v for k, v in entity_query.items() if v}
+
+    print(entity_query)
+    print(text)
+
+    results = rester.entities_search(entity_query, text=None, top_k=None)
+
+    print(results)
+
+    if results is None or not any([v for v in results.values()]):
+        no_results = html.Div(f"No results found!", className="column is-size-2")
+        no_results_container = html.Div(no_results, className="columns is-centered")
+        return no_results_container
     else:
-        return "No Results"
+        return gen_table(results)
