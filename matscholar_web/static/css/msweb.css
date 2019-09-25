@@ -53,3 +53,13 @@
   cursor: pointer;
   padding: 10px 20px;
 }
+
+.msweb-is-tall {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.msweb-is-tall-container {
+    flex: 1;
+}

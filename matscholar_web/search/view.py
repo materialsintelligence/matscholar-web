@@ -46,7 +46,7 @@ def results_html():
         children=[my_results_html],
     )
 
-    results_container = html.Div(results, className="has-margin-20")
+    results_container = html.Div(results)
 
     return results_container
 
@@ -122,6 +122,7 @@ def advanced_search_boxes_html(search_dict):
     advanced_search_boxes = html.Div(
         entity_filter_rows,
         id='advanced_search_boxes',
+        className="has-margin-bottom-100"
     )
 
     return advanced_search_boxes
