@@ -70,3 +70,18 @@ def no_results():
 
 def results_container_class():
     return "container has-margin-top-20 has-margin-bottom-20"
+
+
+def get_results_label_html(result_type):
+    if result_type == "entities":
+        label_text = "Statistics (entities)"
+    elif result_type == "materials":
+        label_text = "Similar Materials"
+    elif result_type == "abstracts":
+        label_text = "Relevant Abstracts"
+    else:
+        raise ValueError(f"Result type {result_type} not valid!")
+
+    label = html.Label(label_text, className="is-size-2 has-margin-10")
+    container = html.Div(label, className="has-margin-top-50")
+    return container

@@ -178,3 +178,5 @@ def _entity_filter_box_html(entity, search_dict):
 
     textbox = html.Div([entity_label_container, esas], className="has-margin-10")
     return textbox
+
+

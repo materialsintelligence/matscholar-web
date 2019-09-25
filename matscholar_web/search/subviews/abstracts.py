@@ -7,7 +7,7 @@ import urllib
 from matscholar_web.constants import rester, valid_entity_filters, \
     entity_shortcode_map, entity_color_map_bulma
 from matscholar_web.search.util import parse_search_box, \
-    results_container_class, no_results
+    results_container_class, no_results, get_results_label_html
 
 MAX_N_ABSTRACTS = 100
 MAX_ENTITIES_PER_ROW = 3
@@ -60,8 +60,9 @@ def abstracts_results_html(search_text):
             formatted_results[i] = format_result(df.iloc[i])
         paper_table = html.Table(formatted_results, className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped")
 
+        big_results_label = get_results_label_html("abstracts")
         return html.Div(
-            [label, entity_key_container, paper_table],
+            [big_results_label, label, entity_key_container, paper_table],
             className=results_container_class()
         )
 

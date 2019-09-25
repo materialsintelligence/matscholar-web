@@ -6,7 +6,7 @@ import pandas as pd
 import urllib
 from matscholar_web.constants import rester, valid_entity_filters
 from matscholar_web.search.util import parse_search_box, no_results, \
-    results_container_class
+    results_container_class, get_results_label_html
 
 MAX_N_MATERIALS_IN_TABLE = 100
 MAX_N_DOIS_FOR_VIEWING = 5
@@ -53,8 +53,9 @@ def materials_results_html(search_text):
         # reformatted_result = [(materials[i], counts[i], dois[i]) for i in range(n_filtered_results)]
 
         materials_table = get_materials_table(df, MAX_N_MATERIALS_IN_TABLE)
+        big_results_label = get_results_label_html("materials")
         return html.Div(
-            [label, link, materials_table],
+            [big_results_label, label, link, materials_table],
             className=results_container_class()
         )
 

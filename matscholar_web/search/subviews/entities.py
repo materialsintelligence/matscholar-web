@@ -7,7 +7,7 @@ import urllib
 from matscholar_web.constants import rester, valid_entity_filters, \
     entity_shortcode_map, entity_color_map_bulma
 from matscholar_web.search.util import parse_search_box, no_results, \
-    results_container_class
+    results_container_class, get_results_label_html
 
 MAX_N_ROWS_FOR_EACH_ENTITY_TABLE = 10
 
@@ -19,8 +19,9 @@ def entities_results_html(search_text):
         return no_results()
     else:
         all_tables = get_all_score_tables(results)
+        big_results_label = get_results_label_html("entities")
         all_tables_container = html.Div(
-            all_tables,
+            [big_results_label, all_tables],
             className=results_container_class()
         )
         return all_tables_container
