@@ -26,20 +26,24 @@ custom_css = html.Link(rel='stylesheet', href='/static/css/msweb.css')
 stylesheets = [bulma, bulma_helper, custom_css]
 stylesheet_div = html.Div(stylesheets, className="container is-hidden")
 
-footer = get_footer()
+footer_interior = get_footer()
 header = get_header()
 nav = get_nav()
 
 nav_and_header_section = html.Div([header, nav], className="section")
-footer_section = html.Div(footer, className="section")
+footer_section = html.Div(footer_interior, className="section")
+footer = html.Footer(footer_section, className="footer")
+
 app_container = html.Div("", id="app_container", className="container is-fluid")
+app_expander = html.Div(app_container, className="msweb-is-tall")
+app_expander_container = html.Div(app_expander,  className="msweb-is-tall-container")
 
 app.layout = html.Div(
     [
         stylesheet_div,
         nav_and_header_section,
-        app_container,
-        footer_section,
+        app_expander_container,
+        footer,
     ],
 )
 

@@ -47,8 +47,8 @@ def serve_layout():
             html.Div(id="extract-highlighted"),
             html.Div(id="extracted")
         ],
-        type="graph"
-             # 'graph', 'cube', 'circle', 'dot'
+        type="cube",
+        color="red"
     )
 
     loading_container = html.Div(loading)

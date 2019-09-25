@@ -10598,9 +10598,16 @@ label.panel-block:hover {
 .footer {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem;
-
-
 }
 
 /*# sourceMappingURL=bulma.css.map */
 
+.msweb-is-tall {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.msweb-is-tall-container {
+    flex: 1;
+}
