@@ -19,7 +19,7 @@ entitiy_color_map_bulma = {
     "application": "info",
     "property": "link",
     "phase": "success",
-    "synthesis": "warning",
+    "synthesis": "black",
     "characterization": "danger",
     "descriptor": "dark"}
 
