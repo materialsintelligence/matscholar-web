@@ -15,6 +15,7 @@ def materials_results_html(search_text):
     if results is not None:
         result = [(r['material'], r['count'], r['dois']) for r in results
                   if (not r['material'].isupper()) and len(r['material']) > 2 and "oxide" not in r['material']]
+        print(result)
 
         # Update the download link
         df = gen_df(result)

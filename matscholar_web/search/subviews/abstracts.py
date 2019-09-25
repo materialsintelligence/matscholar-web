@@ -148,7 +148,6 @@ def results_html(results, max_rows=MAX_N_ABSTRACTS):
 
     if results is not None:
         df = pd.DataFrame(results)
-        print(df)
     else:
         pd.DataFrame()
     if not df.empty:

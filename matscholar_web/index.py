@@ -82,37 +82,6 @@ def get_robots():
 def search_bar_live_display(*ent_txts):
     return scb.search_bar_live_display(*ent_txts)
 
-# @app.callback(
-#     Output('entities_results', 'children'),
-#     [Input('search-btn', 'n_clicks')],
-#     [State("search_type_dropdown", "value"),
-#      State("text_input", "value")]
-# )
-# @cache.memoize(timeout=TIMEOUT)  # in seconds
-# def show_entities_results(n_clicks, dropdown_value, search_text):
-#     return scb.show_entities_results(n_clicks, dropdown_value, search_text)
-#
-# @app.callback(
-#     Output('materials_results', 'children'),
-#     [Input('search-btn', 'n_clicks')],
-#     [State("search_type_dropdown", "value"),
-#      State("text_input", "value")]
-# )
-# @cache.memoize(timeout=TIMEOUT)  # in seconds
-# def show_materials_results(n_clicks, dropdown_value, search_text):
-#     return scb.show_materials_results(n_clicks, dropdown_value, search_text)
-#
-#
-# @app.callback(
-#     Output('abstracts_results', 'children'),
-#     [Input('search-btn', 'n_clicks')],
-#     [State("search_type_dropdown", "value"),
-#      State("text_input", "value")]
-# )
-# @cache.memoize(timeout=TIMEOUT)  # in seconds
-# def show_abstracts_results(n_clicks, dropdown_value, search_text):
-#     return scb.show_abstracts_results(n_clicks, dropdown_value, search_text)
-
 @app.callback(
     Output('search_results', 'children'),
     [Input('search-btn', 'n_clicks')],
@@ -121,8 +90,7 @@ def search_bar_live_display(*ent_txts):
 )
 @cache.memoize(timeout=TIMEOUT)  # in seconds
 def show_search_results(n_clicks, dropdown_value, search_text):
-    return scb.show_results(n_clicks, dropdown_value, search_text)
-
+    return scb.show_results(n_clicks, dropdown_value, search_text)\
 
 @app.callback(
     [Output("abstracts_results", "style"),
@@ -133,8 +101,6 @@ def show_search_results(n_clicks, dropdown_value, search_text):
 )
 def dropdown_search_type(search_type):
     return scb.dropdown_search_type(search_type)
-
-
 
 
 

@@ -1,5 +1,6 @@
 import copy
 
+import dash_html_components as html
 from dash.dependencies import Input, Output, State
 
 from matscholar_web.constants import valid_entity_filters
@@ -53,3 +54,7 @@ def parse_search_box(search_text):
                 entity_query[k].append(query_entity_term)
     entity_query = {k: v for k, v in entity_query.items() if v}
     return entity_query
+
+
+def no_results():
+    return html.Div(f"No results found!", className="column is-size-2")
