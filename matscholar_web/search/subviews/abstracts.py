@@ -6,9 +6,10 @@ import pandas as pd
 import urllib
 from matscholar_web.constants import rester, valid_entity_filters, \
     entity_shortcode_map
+from matscholar_web.search.util import parse_search_box
 
 
-max_results = 50
+MAX_N_ABSTRACTS = 50
 
 label_mapping = {
     "material": "MAT_summary",
@@ -20,20 +21,9 @@ label_mapping = {
     "descriptor": "DSC_summary"}
 
 
-def abstracts_results_html(*args, **kwargs):
-    text = str(args[0][0])
-    anonymous_formula = [s.strip() for s in args[0][1].split(
-        ',')] if not args[0][1] in [None, ''] else []
-    element_filters = [s.strip() for s in args[0][2].split(
-        ',')] if not args[0][2] in [None, ''] else []
-    entities = {f: [s.strip() for s in args[0][i + 3].split(',')] for i, f in enumerate(
-        valid_entity_filters) if ((args[0][i + 3] is not None) and (args[0][i + 3].split(',') != ['']))}
-    try:
-        entities['material'] = entities['material'] + anonymous_formula
-    except KeyError:
-        entities['material'] = anonymous_formula
-    results = rester.abstracts_search(
-        entities, text=text, elements=element_filters, top_k=max_results)
+def abstracts_results_html(search_text):
+    entity_query = parse_search_box(search_text)
+    results = rester.abstracts_search(entity_query, text=None, top_k=MAX_N_ABSTRACTS)
     return results_html(results)
 
 
@@ -60,11 +50,11 @@ def generate_nr_results(n):
     """
     if n == 0:
         return "No Results"
-    elif n >= max_results:
-        return ['Showing {} of > {:,} results. For full results, use the '.format(max_results, n),
+    elif n >= MAX_N_ABSTRACTS:
+        return ['Showing {} of > {:,} results. For full results, use the '.format(MAX_N_ABSTRACTS, n),
                 html.A('Matscholar API.', href='https://github.com/materialsintelligence/matscholar')]
     else:
-        return 'Showing {} of {:,} results'.format(min(max_results, n), n)
+        return 'Showing {} of {:,} results'.format(min(MAX_N_ABSTRACTS, n), n)
 
 
 def format_result(result):
@@ -150,7 +140,7 @@ def format_authors(author_list):
         return author_list
 
 
-def results_html(results, max_rows=max_results):
+def results_html(results, max_rows=MAX_N_ABSTRACTS):
     columns = ['title', 'authors', 'year',
                'journal', 'abstract']
     formattedColumns = ['Title', 'Authors',
@@ -158,6 +148,7 @@ def results_html(results, max_rows=max_results):
 
     if results is not None:
         df = pd.DataFrame(results)
+        print(df)
     else:
         pd.DataFrame()
     if not df.empty:
@@ -166,9 +157,6 @@ def results_html(results, max_rows=max_results):
         results = [format_result(df.iloc[i])
                    for i in range(min(len(df), max_rows))]
         return html.Div([html.Label(generate_nr_results(len(results)), id="number_results"), html.Table(
-            # Header
-            # [html.Tr([html.Th(formattedColumns[i]) for i,col in enumerate(columns)])] +
-            # Body
             results,
             id="table-element")])
     return html.Div([html.Label(generate_nr_results(len(results)), id="number_results"),

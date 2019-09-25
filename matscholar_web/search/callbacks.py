@@ -24,15 +24,12 @@ def dropdown_search_type(search_type):
         return hidden_style, hidden_style, visible_style
 
 
-# def show_abstracts_results(*args):
-#     """
-#     Perform a search for abstracts and display the results
-#     """
-#     if args[0] is not None:
-#         if args[1] == 'abstracts':
-#             return abstracts_results_html(list(args)[2:])
-#
-#
+def show_abstracts_results(n_clicks, dropdown_value, search_text):
+    if n_clicks not in [None, 0]:
+        if dropdown_value == 'abstracts':
+            return abstracts_results_html(search_text)
+
+
 def show_materials_results(n_clicks, dropdown_value, search_text):
     if n_clicks not in [None, 0]:
         if dropdown_value == 'materials':

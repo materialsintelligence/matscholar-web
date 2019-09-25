@@ -91,7 +91,6 @@ def live_display_entity_searches(*ent_txts):
 )
 @cache.memoize(timeout=TIMEOUT)  # in seconds
 def show_entities_results(n_clicks, dropdown_value, search_text):
-    print("from index callbacks, about to execute show_entities_results")
     return search_callbacks.show_entities_results(n_clicks, dropdown_value, search_text)
 
 @app.callback(
@@ -102,20 +101,18 @@ def show_entities_results(n_clicks, dropdown_value, search_text):
 )
 @cache.memoize(timeout=TIMEOUT)  # in seconds
 def show_materials_results(n_clicks, dropdown_value, search_text):
-    print("from index callbacks, about to execute show_entities_results")
     return search_callbacks.show_materials_results(n_clicks, dropdown_value, search_text)
 
 
-# @app.callback(
-#     Output('abstracts_results', 'children'),
-#     [Input('search-btn', 'n_clicks')],
-#     [State("search_type_dropdown", "value"),
-#      State("text_input", "value")] +
-#     get_entity_boxes_callback_args(as_type="state")
-# )
-# @cache.memoize(timeout=TIMEOUT)  # in seconds
-# def show_abstracts_results(*args):
-#     return search_callbacks.show_abstracts_results(*args)
+@app.callback(
+    Output('abstracts_results', 'children'),
+    [Input('search-btn', 'n_clicks')],
+    [State("search_type_dropdown", "value"),
+     State("text_input", "value")]
+)
+@cache.memoize(timeout=TIMEOUT)  # in seconds
+def show_materials_results(n_clicks, dropdown_value, search_text):
+    return search_callbacks.show_abstracts_results(n_clicks, dropdown_value, search_text)
 
 
 @app.callback(

@@ -37,14 +37,14 @@ def results_html():
     """
     Html placeholder for results
     """
-    # abstracts_results_html = html.Div(id='abstracts_results')
+    abstracts_results_html = html.Div(id='abstracts_results')
     materials_results_html = html.Div(id='materials_results')
     entities_results_html = html.Div(id='entities_results')
 
     results = dcc.Loading(
         type="cube",
         children=[
-            # abstracts_results_html,
+            abstracts_results_html,
             materials_results_html,
             entities_results_html
         ],
