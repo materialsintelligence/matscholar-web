@@ -31,6 +31,7 @@ header = get_header()
 nav = get_nav()
 
 nav_and_header_section = html.Div([header, nav], className="section")
+footer_section = html.Div(footer, className="section")
 app_container = html.Div("", id="app_container", className="container is-fluid")
 
 app.layout = html.Div(
@@ -38,7 +39,7 @@ app.layout = html.Div(
         stylesheet_div,
         nav_and_header_section,
         app_container,
-        footer
+        footer_section,
     ],
 )
 
@@ -49,13 +50,17 @@ app.layout = html.Div(
 # callbacks for loading different apps
 @app.callback(
     Output('app_container', 'children'),
-    [Input('url', 'pathname'), Input('url', 'search')])
+    [Input('url', 'pathname'), Input('url', 'search')],
+    # [State('url', 'pathname'), State('app_container', "children")]
+)
 def display_page(path, search):
     path = str(path)
     if path.startswith("/analyze"):
         return av.serve_layout()
-    else:
+    elif path.startswith("/search"):
         return sv.serve_layout(search)
+    else:
+        return html.Div("404", className="has-text-centered")
 
 
 # setting the static path for loading css files

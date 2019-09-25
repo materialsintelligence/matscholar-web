@@ -23,9 +23,11 @@ def serve_layout(search):
 
 def entity_display_html():
     live_entity_search = dcc.Input(
-        placeholder="Enter some text here!",
+        placeholder="Enter a query here directly or with the entity search boxes below...",
         id="text_input",
-        className="input is-success has-min-width-100 is-size-4"
+        className="input is-success has-min-width-100 is-size-4",
+        autoFocus=True,
+        # n_submit=0
     )
     live_entity_search_container = html.Div(live_entity_search,
                                             className="columns is-centered has-margin-20")

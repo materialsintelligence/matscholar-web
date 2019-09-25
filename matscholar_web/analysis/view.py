@@ -11,9 +11,9 @@ def serve_layout():
         style={"width": "100%", "vertical-align": "bottom"}),
         html.Div([dcc.Textarea(id="extract-textarea",
                                style={"width": "100%"},
-                               autoFocus=True,
+                               # autoFocus=True,
                                spellCheck=True,
-                               wrap=True,
+                               # wrap=True,
                                placeholder="Paste abstract/other text here to extract named entity mentions."
                                )]),
         html.Div(["Convert synonyms?",

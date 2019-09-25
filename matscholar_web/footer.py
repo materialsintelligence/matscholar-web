@@ -60,5 +60,5 @@ def get_footer():
         className="content has-text-centered"
     )
 
-    footer_container = html.Div(footer, className="footer")
+    footer_container = html.Div(footer)
     return footer_container
