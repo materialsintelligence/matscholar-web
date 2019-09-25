@@ -10,6 +10,40 @@ from matscholar_web.constants import rester, valid_entity_filters, \
 
 MAX_N_ROWS_FOR_EACH_ENTITY_TABLE = 10
 
+
+def entities_results_html(n_clicks, dropdown_value, search_text):
+
+    entities_text_list = search_text.split(",")
+    entity_query = {k: [] for k in valid_entity_filters}
+    entities_as_text = []
+    for et in entities_text_list:
+        for k in valid_entity_filters:
+            entity_type_key = f"{k}:"
+            if entity_type_key in et:
+                query_entity_term = copy.deepcopy(et)
+                query_entity_term = query_entity_term.replace(entity_type_key, "").strip()
+                entity_query[k].append(query_entity_term)
+                entities_as_text.append(query_entity_term)
+    text = ", ".join(entities_as_text)
+
+    entity_query = {k: v for k, v in entity_query.items() if v}
+
+    print(entity_query)
+    print(text)
+
+    results = rester.entities_search(entity_query, text=None, top_k=None)
+
+    print(results)
+
+    if results is None or not any([v for v in results.values()]):
+        no_results = html.Div(f"No results found!", className="column is-size-2")
+        return no_results
+    else:
+        all_tables = get_all_score_tables(results)
+        all_tables_container = html.Div(all_tables, className="container has-margin-top-20")
+        return all_tables_container
+
+
 def get_score_table_for_entity(most_common, entity_type, width):
     n_results = len(most_common)
     header_entity_type = html.Th(f"{entity_type}: ({n_results} entities)")
@@ -69,44 +103,3 @@ def get_all_score_tables(results_dict):
     return html.Div([row1, row2, row3, row4])
 
 
-
-
-# def entities_results_html(n_clicks, dropdown_value, search_text):
-#     print(n_clicks, dropdown_value, search_text)
-#     return "No results"
-
-
-def entities_results_html(n_clicks, dropdown_value, search_text):
-
-    #{'material': ['PbTe'], 'property': ['dielectric constants'], 'application': ['cathode ray tube'], 'descriptor': ['thin film'], 'characterization': ['photoluminescence'], 'synthesis': ['firing'], 'phase': ['wurtzite']}
-
-    # n_clicks =
-
-    entities_text_list = search_text.split(",")
-    entity_query = {k: [] for k in valid_entity_filters}
-    entities_as_text = []
-    for et in entities_text_list:
-        for k in valid_entity_filters:
-            entity_type_key = f"{k}:"
-            if entity_type_key in et:
-                query_entity_term = copy.deepcopy(et)
-                query_entity_term = query_entity_term.replace(entity_type_key, "").strip()
-                entity_query[k].append(query_entity_term)
-                entities_as_text.append(query_entity_term)
-    text = ", ".join(entities_as_text)
-
-    entity_query = {k: v for k, v in entity_query.items() if v}
-
-    print(entity_query)
-    print(text)
-
-    results = rester.entities_search(entity_query, text=None, top_k=None)
-
-    print(results)
-
-    if results is None or not any([v for v in results.values()]):
-        no_results = html.Div(f"No results found!", className="column is-size-2")
-        no_results_container = html.Div(no_results, className="columns is-centered")
-        return no_results_container
-    else:
-        return get_all_score_tables(results)
