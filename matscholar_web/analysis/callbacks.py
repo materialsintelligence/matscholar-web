@@ -36,8 +36,10 @@ def highlight_extracted(n_clicks, text, normalize):
 
         # Add the warning
         if not relevance:
-            warning = "WARNING!!! Our classifier has flagged this document as not relevant" \
-                      " to inorganic materials science. Expect lower than optimum performance."
+            warning_txt = "Warning! Our classifier has flagged this " \
+                          "document as not relevant to inorganic materials " \
+                          "science. Expect lower than optimum performance."
+            warning = html.Div(warning_txt, className="notification is-danger")
         else:
             warning = ""
 
