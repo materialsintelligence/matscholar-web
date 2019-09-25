@@ -7,12 +7,14 @@ rester = Rester(endpoint="https://staging.matscholar.com")
 # The mapping of entity type to shortcode
 entity_shortcode_map = {
     "material": "MAT",
-    "application": "APL",
-    "property": "PRO",
-    "phase": "SPL",
-    "synthesis": "SMT",
     "characterization": "CMT",
-    "descriptor": "DSC"}
+    "property": "PRO",
+    "synthesis": "SMT",
+    "application": "APL",
+    "descriptor": "DSC",
+    "phase": "SPL",
+
+}
 
 entitiy_color_map_bulma = {
     "material": "primary",

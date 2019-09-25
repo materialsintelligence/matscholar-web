@@ -4,7 +4,7 @@ from dash_elasticsearch_autosuggest import ESAutosuggest
 from os import environ
 import urllib
 
-from matscholar_web.constants import valid_entity_filters, entity_shortcode_map
+from matscholar_web.constants import valid_entity_filters, entity_shortcode_map, entitiy_color_map_bulma
 
 
 def serve_layout(search):
@@ -27,7 +27,9 @@ def entity_display_html():
         id="text_input",
         className="input is-success has-min-width-100 is-size-4"
     )
-    live_entity_search_container = html.Div(live_entity_search,
+    live_entity_search_width_container = html.Div(live_entity_search,
+                                                  className="column is-one-half")
+    live_entity_search_container = html.Div(live_entity_search_width_container,
                                             className="columns is-centered has-margin-20")
     lesc2 = html.Div(live_entity_search_container, className="container")
     return lesc2
@@ -75,7 +77,8 @@ def search_type_dropdown():
             {'label': 'Materials', 'value': 'materials'},
             {'label': 'Everything', 'value': 'everything'}
         ],
-        value='entities'
+        value='entities',
+        placeholder="Select search type here"
     )
 
     advanced_search_types = html.Div(
@@ -150,7 +153,10 @@ def _entity_filter_box_html(entity, search_dict):
         prefill = None
 
     entity_name = html.Span('{}:'.format(entity.capitalize()))
+
+    color = entitiy_color_map_bulma[entity]
     entity_label = html.Label(entity_name)
+    entity_label_container = html.Div(entity_label, className=f"has-text-{color} is-size-5 has-text-weight-semibold")
 
     # Autosuggest is styled by CSS react classnames ONLY!
     esas = ESAutosuggest(
@@ -167,5 +173,5 @@ def _entity_filter_box_html(entity, search_dict):
         # className="input is-success has-max-width-350"
     )
 
-    textbox = html.Div([entity_label, esas], className="has-margin-10")
+    textbox = html.Div([entity_label_container, esas], className="has-margin-10")
     return textbox
