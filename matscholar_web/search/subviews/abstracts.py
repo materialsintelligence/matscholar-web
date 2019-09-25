@@ -6,8 +6,8 @@ import pandas as pd
 import urllib
 from matscholar_web.constants import rester, valid_entity_filters, \
     entity_shortcode_map
-from matscholar_web.search.util import parse_search_box
-
+from matscholar_web.search.util import parse_search_box, \
+    results_container_class, no_results
 
 MAX_N_ABSTRACTS = 100
 
@@ -20,11 +20,29 @@ label_mapping = {
     "characterization": "CMT_summary",
     "descriptor": "DSC_summary"}
 
-
 def abstracts_results_html(search_text):
     entity_query = parse_search_box(search_text)
-    results = rester.abstracts_search(entity_query, text=None, top_k=MAX_N_ABSTRACTS)
-    return results_html(results)
+    results = rester.abstracts_search(entity_query, text=None,
+                                      top_k=MAX_N_ABSTRACTS)
+    if not results:
+        return no_results()
+    else:
+        df = pd.DataFrame(results)
+
+        if df.empty:
+            return no_results()
+
+        df['authors'] = df['authors'].apply(format_authors)
+
+        formatted_results =
+        results = [format_result(df.iloc[i])
+                   for i in range(min(len(df), max_rows))]
+        return html.Div(
+            [html.Label(generate_nr_results(len(results)), id="number_results"),
+             html.Table(
+                 results,
+                 className=results_container_class())])
+
 
 
 def highlight_material(body, material):
@@ -51,8 +69,11 @@ def generate_nr_results(n):
     if n == 0:
         return "No Results"
     elif n >= MAX_N_ABSTRACTS:
-        return ['Showing {} of > {:,} results. For full results, use the '.format(MAX_N_ABSTRACTS, n),
-                html.A('Matscholar API.', href='https://github.com/materialsintelligence/matscholar')]
+        return [
+            'Showing {} of > {:,} results. For full results, use the '.format(
+                MAX_N_ABSTRACTS, n),
+            html.A('Matscholar API.',
+                   href='https://github.com/materialsintelligence/matscholar')]
     else:
         return 'Showing {} of {:,} results'.format(min(MAX_N_ABSTRACTS, n), n)
 
@@ -114,9 +135,7 @@ def format_result(result):
         for e in result[label_mapping[f]]:
             entities.append(html.Span(e,
                                       className="highlighted {}".format(
-                                          entity_shortcode_map[f]),
-                                      style={"padding-right": "4px",
-                                             "background-clip": "content-box"}))
+                                          entity_shortcode_map[f])))
     entities = html.Div(entities)
 
     return html.Tr(html.Td(html.Div([title,
@@ -127,7 +146,7 @@ def format_result(result):
 
 def format_authors(author_list):
     if isinstance(author_list, (list, tuple)):
-        return(", ".join([format_authors(author) for author in author_list]))
+        return ", ".join([format_authors(author) for author in author_list])
     else:
         if ", " in author_list:
             author_list = author_list.split(", ")
@@ -138,25 +157,3 @@ def format_authors(author_list):
             author_list.reverse()
             author_list = " ".join(author_list)
         return author_list
-
-
-def results_html(results, max_rows=MAX_N_ABSTRACTS):
-    columns = ['title', 'authors', 'year',
-               'journal', 'abstract']
-    formattedColumns = ['Title', 'Authors',
-                        'Year', 'Journal', 'Abstract (preview)']
-
-    if results is not None:
-        df = pd.DataFrame(results)
-    else:
-        pd.DataFrame()
-    if not df.empty:
-        df['authors'] = df['authors'].apply(format_authors)
-        hm = highlight_material
-        results = [format_result(df.iloc[i])
-                   for i in range(min(len(df), max_rows))]
-        return html.Div([html.Label(generate_nr_results(len(results)), id="number_results"), html.Table(
-            results,
-            id="table-element")])
-    return html.Div([html.Label(generate_nr_results(len(results)), id="number_results"),
-                     html.Table(id="table-element")])
