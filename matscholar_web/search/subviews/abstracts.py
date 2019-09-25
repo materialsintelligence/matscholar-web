@@ -10,6 +10,7 @@ from matscholar_web.search.util import parse_search_box, \
     results_container_class, no_results
 
 MAX_N_ABSTRACTS = 100
+MAX_ENTITIES_PER_ROW = 3
 
 def abstracts_results_html(search_text):
     entity_query = parse_search_box(search_text)
@@ -47,7 +48,7 @@ def abstracts_results_html(search_text):
 
         for i in range(n_formatted_results):
             formatted_results[i] = format_result(df.iloc[i])
-        paper_table = html.Table(formatted_results, className="table")
+        paper_table = html.Table(formatted_results, className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped")
 
         return html.Div(
             [label, paper_table],
@@ -126,19 +127,22 @@ def format_result(result):
     entities = []
     for f in valid_entity_filters:
         for e in result[label_mapping[f]]:
-            entity = html.Div(e, className="column is-narrow has-margin-5")
-            entities.append(entity)
+            entity = html.Div(
+                e,
+                className="button is-warning"
+            )
+            entity_container = html.Div(entity, className="flex-column is-narrow has-margin-5")
+            entities.append(entity_container)
 
     entities_label = html.Div(
         "Extracted entities:",
-        className="column is-narrow has-margin-5"
+        className="flex-column is-narrow has-margin-5 has-text-weight-bold"
     )
-    entities = html.Div([entities_label] + entities, className="columns has-max-width-350")
-    entities_container = html.Div(entities, className="container")
-
+    entities = html.Div([entities_label] + entities, className="columns is-multiline has-margin-5")
 
     paper_div = html.Div(
-        [title, authors_journal_and_year, abstract, entities_container]
+        [title, authors_journal_and_year, abstract, entities],
+        className="has-margin-10"
     )
 
     table_cell = html.Td(paper_div)

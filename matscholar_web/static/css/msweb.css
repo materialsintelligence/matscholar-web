@@ -59,3 +59,7 @@
     color: white
     background-color: #1086CA;
 }
+
+.msweb-has-margin-0 {
+  margin: 0px !important;
+}
