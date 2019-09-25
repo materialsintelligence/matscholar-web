@@ -74,9 +74,9 @@ def search_type_dropdown():
     advanced_search_types = dcc.Dropdown(
         id='search_type_dropdown',
         options=[
-            {'label': 'Statistics', 'value': 'entities'},
-            {'label': 'Papers', 'value': 'abstracts'},
-            {'label': 'Materials', 'value': 'materials'},
+            {'label': 'Statistics (on named entities/words)', 'value': 'entities'},
+            {'label': 'Relevant Papers', 'value': 'abstracts'},
+            {'label': 'Similar Materials', 'value': 'materials'},
             {'label': 'Everything', 'value': 'everything'},
             {'label': "Select a search type", "value": "no_selection"}
         ],
