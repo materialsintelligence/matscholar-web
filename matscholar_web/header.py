@@ -20,13 +20,13 @@ def get_header():
     # logo_link = "https://matscholar-web.s3-us-west-1.amazonaws.com/" \
     #             "matscholar_logo+alpha.png"
 
-    link = get_img_link_from_path("matscholar_logo_v2_smaller.png")
+    link = get_img_link_from_path("matscholar_logo_v3.png")
 
     logo = html.Img(
         src=link,
         className="has-ratio",
-        height=72,
-        width=369
+        height=95,
+        width=467
     )
 
     loc = dcc.Location(id="url", refresh=False)
