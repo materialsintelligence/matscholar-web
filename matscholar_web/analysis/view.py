@@ -1,35 +1,54 @@
-
 import dash_html_components as html
 import dash_core_components as dcc
 
 
 def serve_layout():
-    return html.Div([html.Div([
-        html.Label("Enter text for named entity extraction:",
-                   style={"float": "left"}),
-        html.Button("Choose a random abstract", id="extract-random", style={"float": "right"})],
-        style={"width": "100%", "vertical-align": "bottom"}),
-        html.Div([dcc.Textarea(id="extract-textarea",
-                               style={"width": "100%"},
-                               # autoFocus=True,
-                               spellCheck=True,
-                               # wrap=True,
-                               placeholder="Paste abstract/other text here to extract named entity mentions."
-                               )]),
-        html.Div(["Convert synonyms?",
-                  dcc.RadioItems(id="normalize-radio",
-                                 options=[
-                                     {'label': "No", 'value': "no"},
-                                     {"label": "Yes", "value": "yes"}
-                                 ],
-                                 value='no',
-                                 labelStyle={'display': 'inline-block'}
-                                 )]),
-        html.Div([html.Button("EXTRACT", className="button-search", id="extract-button")],
-                 style={"padding-top": "0px", "padding-bottom": "15px"}),
-        dcc.Loading(id="loading-extract",
-                    children=[
-                        html.Div(id="extract-highlighted",
-                                 style={"width": "90vw", "word-wrap": "break-word", "word-break": "break-all"}),
-                        html.Div(id="extracted")],
-                    type="default")])
+    label = html.Label("Enter text for named entity extraction:")
+
+    random_abstract_button = html.Button("Choose a random abstract",
+                                         id="extract-random")
+    label_and_random_abstract_button = html.Div([label, random_abstract_button])
+
+    text_area = dcc.Textarea(
+        id="extract-textarea",
+        style={"width": "100%"},
+        spellCheck=True,
+        placeholder="Paste abstract/other text here to extract named entities."
+    )
+    text_area_div = html.Div(text_area)
+
+    convert_synonyms = dcc.RadioItems(id="normalize-radio",
+                                      options=[
+                                          {'label': "No", 'value': "no"},
+                                          {"label": "Yes", "value": "yes"}
+                                      ],
+                                      value='no',
+                                      labelStyle={'display': 'inline-block'}
+                                      )
+    convert_synonyms_text = html.Div("Convert synonyms?")
+    convert_synonyms_container = html.Div(
+        [convert_synonyms_text, convert_synonyms])
+
+    extract_button = html.Button("EXTRACT", className="button-search",
+                                 id="extract-button")
+    loading = dcc.Loading(
+        id="loading-extract",
+        children=[
+            html.Div(id="extract-highlighted"),
+            html.Div(id="extracted")
+        ],
+        type="default"
+    )
+
+    loading_container = html.Div(loading)
+
+    layout = html.Div(
+        [
+            label_and_random_abstract_button,
+            text_area_div,
+            convert_synonyms_container,
+            extract_button,
+            loading_container
+        ]
+    )
+    return layout
