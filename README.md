@@ -33,11 +33,12 @@ our efforts:
 , Persson, K., Ceder, G., Jain, A. (2019) Named Entity Recognition and 
 Normalization Applied to Large-Scale Information Extraction from the 
 Materials Science Literature. J. Chem. Inf. Model.
+[link](https://doi.org/10.1021/acs.jcim.9b00470)
 
 [2] Tshitoyan, V., Dagdelen, J., Weston, L., Dunn, A., Rong, Z., 
 Kononova, O., … Jain, A. (2019). Unsupervised word embeddings capture 
 latent knowledge from materials science literature. Nature, 571(7763), 
-95–98. https://doi.org/10.1038/s41586-019-1335-8
+95–98. [link](https://doi.org/10.1038/s41586-019-1335-8)
 
 
 ## Contributors
