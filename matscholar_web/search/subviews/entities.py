@@ -22,7 +22,7 @@ def gen_output(most_common, entity_type, class_name="three column"):
     for ent, count, score in most_common:
         entity = html.Td(ent)
         score = html.Td('{:.2f}'.format(score))
-        rows[row_number] = [entity, score]
+        rows[row_number] = html.Tr([entity, score])
         row_number += 1
         if row_number == MAX_N_ROWS_FOR_EACH_ENTITY_TABLE - 1:
             break
