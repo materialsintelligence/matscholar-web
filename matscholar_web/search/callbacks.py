@@ -33,6 +33,8 @@ def show_results(n_clicks, dropdown_value, search_text):
             return entities_results_html(search_text)
         if dropdown_value == 'everything':
             return everything_results_html(search_text)
+        if dropdown_value == 'no_selection':
+            return None
 
 
 def search_bar_live_display(*ent_txts):

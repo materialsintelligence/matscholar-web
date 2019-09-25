@@ -19,7 +19,7 @@ def get_nav():
         className="button is-link is-size-6 has-margin-5"
     )
     analyze_button = html.Button(
-        "Analyze An Abstract",
+        "Analyze An Abstract App",
         className="button is-warning is-size-6 has-margin-5"
     )
 

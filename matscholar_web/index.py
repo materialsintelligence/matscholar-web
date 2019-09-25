@@ -82,6 +82,7 @@ def get_robots():
 def search_bar_live_display(*ent_txts):
     return scb.search_bar_live_display(*ent_txts)
 
+
 @app.callback(
     Output('search_results', 'children'),
     [Input('search-btn', 'n_clicks')],
@@ -90,7 +91,8 @@ def search_bar_live_display(*ent_txts):
 )
 @cache.memoize(timeout=TIMEOUT)  # in seconds
 def show_search_results(n_clicks, dropdown_value, search_text):
-    return scb.show_results(n_clicks, dropdown_value, search_text)\
+    return scb.show_results(n_clicks, dropdown_value, search_text)
+
 
 @app.callback(
     [Output("abstracts_results", "style"),
@@ -101,7 +103,6 @@ def show_search_results(n_clicks, dropdown_value, search_text):
 )
 def dropdown_search_type(search_type):
     return scb.dropdown_search_type(search_type)
-
 
 
 # Analyze callbacks
@@ -116,7 +117,7 @@ def highlight_extracted(n_clicks, text, normalize):
 
 
 @app.callback(
-  Output('extract-textarea', 'value'),
-  [Input("extract-random", 'n_clicks')])
+    Output('extract-textarea', 'value'),
+    [Input("extract-random", 'n_clicks')])
 def get_random(n_clicks):
     return acb.get_random(n_clicks)

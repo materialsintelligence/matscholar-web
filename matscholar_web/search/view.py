@@ -44,7 +44,9 @@ def results_html():
         children=[my_results_html],
     )
 
-    return results
+    results_container = html.Div(results, className="has-margin-20")
+
+    return results_container
 
 
 
@@ -73,10 +75,10 @@ def search_type_dropdown():
             {'label': 'Statistics', 'value': 'entities'},
             {'label': 'Papers', 'value': 'abstracts'},
             {'label': 'Materials', 'value': 'materials'},
-            {'label': 'Everything', 'value': 'everything'}
+            {'label': 'Everything', 'value': 'everything'},
+            {'label': "Select a search type", "value": "no_selection"}
         ],
-        value='entities',
-        placeholder="Select search type here"
+        value="no_selection"
     )
 
     advanced_search_types = html.Div(
