@@ -94,17 +94,16 @@ def show_entities_results(n_clicks, dropdown_value, search_text):
     print("from index callbacks, about to execute show_entities_results")
     return search_callbacks.show_entities_results(n_clicks, dropdown_value, search_text)
 
-
-# @app.callback(
-#     Output('materials_results', 'children'),
-#     [Input('search-btn', 'n_clicks')],
-#     [State("search_type_dropdown", "value"),
-#      State("text_input", "value")] +
-#     get_entity_boxes_callback_args(as_type="state")
-# )
-# @cache.memoize(timeout=TIMEOUT)  # in seconds
-# def show_materials_results(*args):
-#     return search_callbacks.show_materials_results(*args)
+@app.callback(
+    Output('materials_results', 'children'),
+    [Input('search-btn', 'n_clicks')],
+    [State("search_type_dropdown", "value"),
+     State("text_input", "value")]
+)
+@cache.memoize(timeout=TIMEOUT)  # in seconds
+def show_materials_results(n_clicks, dropdown_value, search_text):
+    print("from index callbacks, about to execute show_entities_results")
+    return search_callbacks.show_materials_results(n_clicks, dropdown_value, search_text)
 
 
 # @app.callback(
@@ -125,8 +124,8 @@ def show_entities_results(n_clicks, dropdown_value, search_text):
      Output("statistics_results", "style")],
     [Input("search_type_dropdown", "value")],
 )
-def toggle_search_type(radio_type, radio_val):
-    return search_callbacks.toggle_search_type(radio_type, radio_val)
+def toggle_search_type(search_type):
+    return search_callbacks.dropdown_search_type(search_type)
 
 
 

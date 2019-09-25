@@ -16,7 +16,7 @@ def serve_layout(search):
 
     return html.Div([
         entity_display_html(),
-        search_bar_and_button(search_dict),
+        search_bar_and_button(),
         advanced_search_boxes_html(search_dict),
         results_html()])
 
@@ -38,20 +38,22 @@ def results_html():
     Html placeholder for results
     """
     # abstracts_results_html = html.Div(id='abstracts_results')
-    # materials_results_html = html.Div(id='materials_results')
+    materials_results_html = html.Div(id='materials_results')
     entities_results_html = html.Div(id='entities_results')
 
-    # results = dcc.Loading(
-    #     children=[abstracts_results_html, materials_results_html,
-    #               statistics_results_html])
+    results = dcc.Loading(
+        type="cube",
+        children=[
+            # abstracts_results_html,
+            materials_results_html,
+            entities_results_html
+        ],
+    )
 
-    print(f"returning results html {results_html}")
+    return results
 
 
-    return entities_results_html
-
-
-def go_button(search_dict):
+def go_button():
     """Returns the html div for the main search bar and search button
     """
     search_button_html = html.Div(html.Button(
@@ -74,8 +76,8 @@ def search_type_dropdown():
         id='search_type_dropdown',
         options=[
             {'label': 'Statistics', 'value': 'entities'},
-            # {'label': 'Papers', 'value': 'abstracts'},
-            # {'label': 'Materials', 'value': 'materials'}
+            {'label': 'Papers', 'value': 'abstracts'},
+            {'label': 'Materials', 'value': 'materials'}
         ],
         value='entities'
     )
@@ -89,8 +91,8 @@ def search_type_dropdown():
     return advanced_search_types
 
 
-def search_bar_and_button(search_dict):
-    button = go_button(search_dict)
+def search_bar_and_button():
+    button = go_button()
     dropdown = search_type_dropdown()
     button_and_dropdown = html.Div(
         [dropdown, button],
@@ -104,30 +106,6 @@ def advanced_search_boxes_html(search_dict):
     Html for the advanced search boxes.
     Element filters, entity filters, anonymous formula searches
     """
-
-    filters_label_html = html.Label("Filter by...")
-
-    anonymous_formula_filter_html = html.Div([html.Label("Anonymous Formula:"),
-                                              dcc.Input(
-                                                  id="anonymous_formula_input",
-                                                  type="text",
-                                                  autoFocus=True,
-                                                  placeholder="*Te, *1*2O4,...",
-                                                  value=search_dict.get(
-                                                      'anonymous_formula'))],
-                                             )
-
-    element_filter_html = html.Div([html.Label("Elements:"),
-                                    dcc.Input(
-                                        id="element_filters_input",
-                                        type="text",
-                                        autoFocus=True,
-                                        placeholder="O, -Pb,...",
-                                        value=search_dict.get(
-                                            'element_filters'))],
-                                   className="column is-one-third"
-                                   )
-
     entity_filters_html = [_entity_filter_box_html(
         f, search_dict) for f in valid_entity_filters]
 

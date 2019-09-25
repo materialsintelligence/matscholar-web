@@ -11,7 +11,7 @@ from matscholar_web.constants import rester, valid_entity_filters, \
 MAX_N_ROWS_FOR_EACH_ENTITY_TABLE = 10
 
 
-def entities_results_html(n_clicks, dropdown_value, search_text):
+def entities_results_html(search_text):
 
     entities_text_list = search_text.split(",")
     entity_query = {k: [] for k in valid_entity_filters}

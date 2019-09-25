@@ -10,16 +10,15 @@ from matscholar_web.search.subviews.entities import \
     entities_results_html
 
 
-def toggle_search_type(radio_type, radio_val):
+def dropdown_search_type(search_type):
     """
     Toggle the search type using the search type buttons
     """
-    visible_style = {'width': '75%',
-                     'float': 'right', 'display': 'inline-block'}
+    visible_style = {}
     hidden_style = {"display": "none"}
-    if radio_val == "abstracts":
+    if search_type == "abstracts":
         return visible_style, hidden_style, hidden_style
-    elif radio_val == "materials":
+    elif search_type == "materials":
         return hidden_style, visible_style, hidden_style
     else:
         return hidden_style, hidden_style, visible_style
@@ -34,18 +33,17 @@ def toggle_search_type(radio_type, radio_val):
 #             return abstracts_results_html(list(args)[2:])
 #
 #
-# def show_materials_results(*args):
-#     if args[0] is not None:
-#         if args[1] == 'materials':
-#             return materials_results_html(list(args)[2:])
+def show_materials_results(n_clicks, dropdown_value, search_text):
+    if n_clicks not in [None, 0]:
+        if dropdown_value == 'materials':
+            # return materials_results_html(list(args)[2:])
+            return html.Div("Test OUTPUT!", className="is-size-1")
 
 
 def show_entities_results(n_clicks, dropdown_value, search_text):
     if n_clicks not in [None, 0]:
         if dropdown_value == 'entities':
-            print(f"From search callbacks: The args are {n_clicks, dropdown_value, search_text}")
-            return entities_results_html(n_clicks, dropdown_value, search_text)
-            # return html.Div("Test OUTPUT!", className="is-size-1")
+            return entities_results_html(search_text)
 
 
 def live_display_entity_searches(*ent_txts):
@@ -55,4 +53,3 @@ def live_display_entity_searches(*ent_txts):
         if ent_txt not in [None, "", " "]:
             entry += f"{ent}: {ent_txt}, "
     return entry
-
