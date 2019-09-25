@@ -36,8 +36,8 @@ def dropdown_search_type(search_type):
 def show_materials_results(n_clicks, dropdown_value, search_text):
     if n_clicks not in [None, 0]:
         if dropdown_value == 'materials':
-            # return materials_results_html(list(args)[2:])
-            return html.Div("Test OUTPUT!", className="is-size-1")
+            return materials_results_html(search_text)
+            # return html.Div("Test OUTPUT!", className="is-size-1")
 
 
 def show_entities_results(n_clicks, dropdown_value, search_text):
