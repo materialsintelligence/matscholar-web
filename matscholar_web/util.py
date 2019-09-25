@@ -24,3 +24,4 @@ def get_img_link_from_path(filename):
     encoded_image = base64.b64encode(open(img_path, 'rb').read())
     logo_link = 'data:image/png;base64,{}'.format(encoded_image.decode())
     return logo_link
+

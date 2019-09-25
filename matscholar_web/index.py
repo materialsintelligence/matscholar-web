@@ -116,7 +116,7 @@ def dropdown_search_type(search_type):
     Output("extract-highlighted", "children"),
     [Input("extract-button", "n_clicks")],
     [State("extract-textarea", "value"),
-     State("normalize-radio", "value")])
+     State("dropdown_normalize", "value")])
 def highlight_extracted(n_clicks, text, normalize):
     return acb.highlight_extracted(n_clicks, text, normalize)
 

@@ -25,6 +25,7 @@ entitiy_color_map_bulma = {
     "characterization": "danger",
     "descriptor": "dark"}
 
+
 # The valid entity types
 valid_entity_filters = list(entity_shortcode_map.keys())
 
