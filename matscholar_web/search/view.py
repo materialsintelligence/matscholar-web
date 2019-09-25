@@ -4,7 +4,7 @@ from dash_elasticsearch_autosuggest import ESAutosuggest
 from os import environ
 import urllib
 
-from matscholar_web.constants import valid_entity_filters, entity_shortcode_map, entitiy_color_map_bulma
+from matscholar_web.constants import valid_entity_filters, entity_shortcode_map, entity_color_map_bulma
 
 
 def serve_layout(search):
@@ -156,7 +156,7 @@ def _entity_filter_box_html(entity, search_dict):
 
     entity_name = html.Span('{}:'.format(entity.capitalize()))
 
-    color = entitiy_color_map_bulma[entity]
+    color = entity_color_map_bulma[entity]
     entity_label = html.Label(entity_name)
     entity_label_container = html.Div(entity_label, className=f"has-text-{color} is-size-5 has-text-weight-semibold")
 

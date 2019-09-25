@@ -3,29 +3,50 @@ import string
 import os
 import json
 import urllib
+import copy
 import numpy as np
-from dash.dependencies import Input, Output, State
 
-from matscholar_web.constants import rester
+from matscholar_web.constants import rester, entity_color_map_bulma
 
 # Get the rester and random docs on import
 local_dir = os.path.dirname(__file__)
-with open(os.path.join(local_dir, "../static/data/extract_app_sample_docs.json"), "r") as f:
+with open(
+        os.path.join(local_dir, "../static/data/extract_app_sample_docs.json"),
+        "r") as f:
     sample_docs = json.load(f)
 
 label_mapping = {
-    "MAT": "Material",
-    "APL": "Application",
-    "PRO": "Property",
-    "SPL": "Phase",
-    "SMT": "Synthesis",
-    "CMT": "Characterization",
-    "DSC": "Descriptor",
-    "PVL": "Property value",
-    "PUT": "Property unit"}
+    "MAT": "material",
+    "APL": "application",
+    "PRO": "property",
+    "SPL": "phase",
+    "SMT": "synthesis",
+    "CMT": "characterization",
+    "DSC": "descriptor",
+    "PVL": "property value",
+    "PUT": "property unit",
+    "O": 'other'
+}
+
+# "material": "primary",
+# "application": "info",
+# "property": "dark",
+# "phase": "success",
+# "synthesis": "link",
+# "characterization": "danger",
+# "descriptor": "light"
+
+entitiy_color_map_bulma_extension = {
+    "property value": "dark",
+    "property unit": "black",
+    "other": "white"
+}
+
+entity_color_map_bulma_extended = copy.deepcopy(entity_color_map_bulma)
+entity_color_map_bulma_extended.update(entitiy_color_map_bulma_extension)
 
 
-def highlight_extracted(n_clicks, text, normalize):
+def extracted_results(n_clicks, text, normalize):
     if n_clicks is not None:
         # Extract highlighted
         return_type = "normalized" if normalize == "yes" else "concatenated"
@@ -48,58 +69,100 @@ def highlight_extracted(n_clicks, text, normalize):
         for sent in tagged_doc[0]:
             new_sent = []
             for token, tag in sent:
-                new_sent.append({
-                    "token": token,
-                    "tag": tag
-                })
+                new_sent.append({"token": token, "tag": tag})
             doc["sentences"].append(new_sent)
         json_string = json.dumps(doc)
         json_string = "data:text/csv;charset=utf-8," + \
                       urllib.parse.quote(json_string)
-        return html.Div([html.Div(html.Label("Extracted Entity Tags:")),
-                         html.Div(warning, style={
-                             "padding-bottom": "20px", "color": "red"}),
-                         html.Div(highlighted),
-                         html.Div(html.Label("Labels"), style={
-                             "padding-top": "15px"}),
-                         html.Div(get_labels()),
-                         html.Div(html.A("Download entities as json",
-                                         id="entity-download-link",
-                                         href=json_string,
-                                         download="tagged_docs.json",
-                                         target="_blank"),
-                                  style={"padding-top": "15px"})])
+        download_link = html.A(
+            "Download entities as json",
+            id="entity-download-link",
+            href=json_string,
+            download="tagged_docs.json",
+            target="_blank"
+        )
+        download_container = html.Div(
+            download_link,
+            className="has-text-size-4 has-margin-top 10"
+        )
+
+        label = html.Label("Extracted Entity Tags:")
+        label_container = html.Div(label, className="is-size-4 has-margin-top-30")
+
+        warning_container = html.Div(warning)
+
+        highlighted_container = html.Div(highlighted)
+
+        label_label = html.Label("Labels:")
+        label_label_container = html.Div(label_label, className="is-size-4 has-margin-top-30")
+
+        entity_colormap_key = copy.deepcopy(entity_color_map_bulma_extended)
+        entities_keys = []
+        for e, color in entity_colormap_key.items():
+            entity_key = html.Div(e, className=f"button is-{color} is-active")
+            entity_key_container = html.Div(
+                entity_key,
+                className="flex-column is-narrow has-margin-5"
+            )
+            entities_keys.append(entity_key_container)
+
+        entity_key_container = html.Div(
+            entities_keys,
+            className="columns is-multiline has-margin-5"
+        )
+
+        results = html.Div(
+            [
+                label_container,
+                warning_container,
+                highlighted_container,
+                label_label_container,
+                entity_key_container,
+                download_container
+            ]
+        )
+        return results
+    else:
+        return None
+
 
 
 def highlight_entities(tagged_doc):
-    highlighted_doc = []
-    tagged_doc = [(token, tag) for sent in tagged_doc[0]
-                  for (token, tag) in sent]
-    for idx, (token, tag) in enumerate(tagged_doc):
-        if idx < len(tagged_doc) - 1:
-            next_token_punct = True if tagged_doc[idx +
-                                                  1][
-                                           0] in string.punctuation else False
+    tagged_flat1 = [i for sublist in tagged_doc for i in sublist]
+    tagged_flat2 = [j for sublist in tagged_flat1 for j in sublist]
+    tagged_doc = tagged_flat2
+
+    text_size = "is-size-6"
+
+    entities_containers = [None] * len(tagged_doc)
+
+    for i, tagged_token in enumerate(tagged_doc):
+        token, tag = tagged_token[0], tagged_token[1]
+        color = entity_color_map_bulma_extended[label_mapping[tag]]
+
+        if color == "white":
+            entity_styled = html.Div(f" {token} ", className=text_size)
+            entity_container = html.Div(
+                entity_styled,
+                className="flex-column is-narrow has-margin-5"
+            )
         else:
-            next_token_punct = False
-        span = html.Span(token,
-                         className="highlighted {}".format(tag),
-                         style={
-                             "padding-right": "0px" if next_token_punct else "4px",
-                             "background-clip": "content-box"})
-        highlighted_doc.append(span)
-    return highlighted_doc
+            # the entity is other and we need to not highlight it
+            entity_styled = html.Div(
+                token,
+                className=f"button is-{color} is-active {text_size}"
+            )
 
-
-def get_labels():
-    return [html.Span(label_mapping[key],
-                      className="highlighted {}".format(key),
-                      style={"padding-right": "10px",
-                             "background-clip": "content-box"})
-            for key in label_mapping]
-
-
-
+            entity_container = html.Div(
+                entity_styled,
+                className="flex-column is-narrow has-margin-5"
+            )
+        entities_containers[i] = entity_container
+    entities = html.Div(
+        entities_containers,
+        className="columns is-multiline has-margin-5"
+    )
+    return entities
 
 
 def get_random(n_clicks):

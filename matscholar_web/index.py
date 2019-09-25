@@ -118,7 +118,7 @@ def dropdown_search_type(search_type):
     [State("extract-textarea", "value"),
      State("dropdown_normalize", "value")])
 def highlight_extracted(n_clicks, text, normalize):
-    return acb.highlight_extracted(n_clicks, text, normalize)
+    return acb.extracted_results(n_clicks, text, normalize)
 
 
 @app.callback(

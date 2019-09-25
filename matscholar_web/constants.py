@@ -16,14 +16,15 @@ entity_shortcode_map = {
 
 }
 
-entitiy_color_map_bulma = {
+entity_color_map_bulma = {
     "material": "primary",
     "application": "info",
-    "property": "link",
+    "property": "dark",
     "phase": "success",
-    "synthesis": "black",
+    "synthesis": "link",
     "characterization": "danger",
-    "descriptor": "dark"}
+    "descriptor": "warning"
+}
 
 
 # The valid entity types

@@ -67,5 +67,6 @@ def no_results():
     )
     return no_results_container
 
+
 def results_container_class():
     return "container has-margin-top-20 has-margin-bottom-20"

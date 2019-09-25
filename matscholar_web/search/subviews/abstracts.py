@@ -5,7 +5,7 @@ import json
 import pandas as pd
 import urllib
 from matscholar_web.constants import rester, valid_entity_filters, \
-    entity_shortcode_map, entitiy_color_map_bulma
+    entity_shortcode_map, entity_color_map_bulma
 from matscholar_web.search.util import parse_search_box, \
     results_container_class, no_results
 
@@ -49,8 +49,8 @@ def abstracts_results_html(search_text):
 
         entities_keys = []
         for e in valid_entity_filters:
-            color = entitiy_color_map_bulma[e]
-            entity_key = html.Div(e, className=f"button is-{color} is-outlined")
+            color = entity_color_map_bulma[e]
+            entity_key = html.Div(e, className=f"button is-{color} is-active")
             entity_key_container = html.Div(entity_key, className="flex-column is-narrow has-margin-5")
             entities_keys.append(entity_key_container)
         entity_key_container = html.Div(entities_keys, className="columns is-multiline has-margin-5")
@@ -137,10 +137,10 @@ def format_result(result):
     entities = []
     for f in valid_entity_filters:
         for e in result[label_mapping[f]]:
-            color = entitiy_color_map_bulma[f]
+            color = entity_color_map_bulma[f]
             entity = html.Div(
                 e,
-                className=f"button is-{color} is-outlined"
+                className=f"button is-{color} is-active"
             )
             entity_container = html.Div(entity, className="flex-column is-narrow has-margin-5")
             entities.append(entity_container)
@@ -173,16 +173,3 @@ def format_authors(author_list):
             author_list.reverse()
             author_list = " ".join(author_list)
         return author_list
-
-
-def highlight_material(body, material):
-    highlighted_phrase = html.Mark(material)
-    if len(material) > 0 and material in body:
-        chopped = body.split(material)
-        newtext = []
-        for piece in chopped[:-1]:
-            newtext.append(piece)
-            newtext.append(highlighted_phrase)
-        newtext.append(chopped[-1])
-        return newtext
-    return body
