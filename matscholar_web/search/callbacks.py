@@ -2,6 +2,7 @@ from matscholar_web.constants import valid_entity_filters
 from matscholar_web.search.subviews.abstracts import abstracts_results_html
 from matscholar_web.search.subviews.materials import materials_results_html
 from matscholar_web.search.subviews.entities import entities_results_html
+from matscholar_web.search.subviews.everything import everything_results_html
 
 
 def dropdown_search_type(search_type):
@@ -14,8 +15,10 @@ def dropdown_search_type(search_type):
         return visible_style, hidden_style, hidden_style
     elif search_type == "materials":
         return hidden_style, visible_style, hidden_style
-    else:
+    elif search_type == "entities":
         return hidden_style, hidden_style, visible_style
+    elif search_type == "everything":
+        return visible_style, visible_style, visible_style
 
 
 def show_results(n_clicks, dropdown_value, search_text):
@@ -28,6 +31,8 @@ def show_results(n_clicks, dropdown_value, search_text):
             return materials_results_html(search_text)
         if dropdown_value == 'entities':
             return entities_results_html(search_text)
+        if dropdown_value == 'everything':
+            return everything_results_html(search_text)
 
 
 def search_bar_live_display(*ent_txts):

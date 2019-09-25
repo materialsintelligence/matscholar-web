@@ -37,10 +37,6 @@ def results_html():
     """
     Html placeholder for results
     """
-    # abstracts_results_html = html.Div(id='abstracts_results')
-    # materials_results_html = html.Div(id='materials_results')
-    # entities_results_html = html.Div(id='entities_results')
-
     my_results_html = html.Div(id="search_results")
 
     results = dcc.Loading(
@@ -49,6 +45,7 @@ def results_html():
     )
 
     return results
+
 
 
 def go_button():
@@ -75,7 +72,8 @@ def search_type_dropdown():
         options=[
             {'label': 'Statistics', 'value': 'entities'},
             {'label': 'Papers', 'value': 'abstracts'},
-            {'label': 'Materials', 'value': 'materials'}
+            {'label': 'Materials', 'value': 'materials'},
+            {'label': 'Everything', 'value': 'everything'}
         ],
         value='entities'
     )
