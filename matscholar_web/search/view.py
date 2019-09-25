@@ -27,9 +27,7 @@ def entity_display_html():
         id="text_input",
         className="input is-success has-min-width-100 is-size-4"
     )
-    live_entity_search_width_container = html.Div(live_entity_search,
-                                                  className="column is-one-half")
-    live_entity_search_container = html.Div(live_entity_search_width_container,
+    live_entity_search_container = html.Div(live_entity_search,
                                             className="columns is-centered has-margin-20")
     lesc2 = html.Div(live_entity_search_container, className="container")
     return lesc2

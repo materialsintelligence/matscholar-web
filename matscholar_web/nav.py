@@ -15,12 +15,12 @@ def get_nav():
 
     """
     search_button = html.Button(
-        "Search For Materials",
-        className="button is-primary is-size-6 has-margin-5"
+        "Search For Materials App",
+        className="button is-link is-size-6 has-margin-5"
     )
     analyze_button = html.Button(
         "Analyze An Abstract",
-        className="button is-link is-size-6 has-margin-5"
+        className="button is-warning is-size-6 has-margin-5"
     )
 
     search = dcc.Link(search_button, href="/search")
