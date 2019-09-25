@@ -70,8 +70,10 @@ def get_materials_table(df, limit):
         [header_material, header_counts, header_clickable, header_downloadable]
     )
 
-    rows = [None] * limit
-    for i in range(limit):
+    n_results = min(df.shape[0], limit)
+
+    rows = [None] * n_results
+    for i in range(n_results):
         material_cell = html.Td(df["material"].iloc[i])
         count_cell = html.Td(df["count"].iloc[i])
 
