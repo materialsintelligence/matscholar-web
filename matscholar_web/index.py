@@ -93,6 +93,14 @@ def search_bar_live_display(*ent_txts):
 
 
 @app.callback(
+    Output('search-btn', 'n_clicks'),
+    [Input('text_input', 'value')]
+)
+def void_n_clicks_on_search(search_txt):
+    return 0
+
+
+@app.callback(
     Output('search_results', 'children'),
     [Input('search-btn', 'n_clicks')],
     [State("search_type_dropdown", "value"),

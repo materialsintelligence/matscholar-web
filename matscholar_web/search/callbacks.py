@@ -26,6 +26,7 @@ def dropdown_search_type(search_type):
 
 
 def show_results(n_clicks, dropdown_value, search_text):
+    print(f"nclicks is {n_clicks}")
     if n_clicks in [None, 0]:
         return None
     else:
