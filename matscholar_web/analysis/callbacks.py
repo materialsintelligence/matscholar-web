@@ -1,11 +1,11 @@
 import dash_html_components as html
-import string
 import os
 import json
 import urllib
 import copy
 import numpy as np
 
+from matscholar_web.common import common_warning_html
 from matscholar_web.constants import rester, entity_color_map_bulma
 
 # Get the rester and random docs on import
@@ -57,12 +57,14 @@ def extracted_results(n_clicks, text, normalize):
 
         # Add the warning
         if not relevance:
-            warning_txt = "Warning! Our classifier has flagged this " \
-                          "document as not relevant to inorganic materials " \
-                          "science. Expect lower than optimum performance."
-            warning = html.Div(warning_txt, className="notification is-danger")
+            warning_header_txt = "Warning! Abstract not relevant."
+            warning_body_txt = \
+                "Our classifier has flagged this document as not relevant to " \
+                "inorganic materials science. Expect lower than optimum " \
+                "performance."
+            warning = common_warning_html(warning_header_txt, warning_body_txt)
         else:
-            warning = ""
+            warning = html.Div("")
 
         # Update download link
         doc = {"sentences": []}
@@ -87,14 +89,14 @@ def extracted_results(n_clicks, text, normalize):
         )
 
         label = html.Label("Extracted Entity Tags:")
-        label_container = html.Div(label, className="is-size-4 has-margin-top-30")
-
-        warning_container = html.Div(warning)
+        label_container = html.Div(label,
+                                   className="is-size-4 has-margin-top-30")
 
         highlighted_container = html.Div(highlighted)
 
         label_label = html.Label("Labels:")
-        label_label_container = html.Div(label_label, className="is-size-4 has-margin-top-30")
+        label_label_container = html.Div(label_label,
+                                         className="is-size-4 has-margin-top-30")
 
         entity_colormap_key = copy.deepcopy(entity_color_map_bulma_extended)
         entities_keys = []
@@ -113,8 +115,8 @@ def extracted_results(n_clicks, text, normalize):
 
         results = html.Div(
             [
+                warning,
                 label_container,
-                warning_container,
                 highlighted_container,
                 label_label_container,
                 entity_key_container,
@@ -124,7 +126,6 @@ def extracted_results(n_clicks, text, normalize):
         return results
     else:
         return None
-
 
 
 def highlight_entities(tagged_doc):

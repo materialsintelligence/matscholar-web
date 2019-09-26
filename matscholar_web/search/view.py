@@ -1,10 +1,10 @@
 import os
-import urllib
 
 import dash_html_components as html
 import dash_core_components as dcc
 from dash_elasticsearch_autosuggest import ESAutosuggest
 
+from matscholar_web.common import common_warning_html
 from matscholar_web.constants import valid_entity_filters, \
     entity_color_map_bulma
 
@@ -46,23 +46,11 @@ def no_query_warning_html():
 
 def malformed_query_warning_html(bad_search_txt):
     warning_header_txt = f'Oops, we didn\'t understand that search.'
-    warning_header = html.Div(warning_header_txt, className="is-size-3")
     warning_body_txt = \
         f'\n Your search was: "{bad_search_txt}"\n. Try the format entity1: ' \
         f'value1, entity2: value2. For example: "material: PbTe, ' \
         f'property: thermoelectric"'
-    warning_body = html.Div(warning_body_txt, className="is-size-6")
-    warning = html.Div(
-        [
-            warning_header,
-            warning_body
-        ],
-        className="notification is-danger"
-    )
-    warning_column = html.Div(warning, className="column is-half")
-    warning_columns = html.Div(warning_column, className="columns is-centered")
-    warning_container = html.Div(warning_columns, className="container")
-    return warning_container
+    return common_warning_html(warning_header_txt, warning_body_txt)
 
 
 def entity_search_html():
@@ -196,7 +184,6 @@ def entity_filter_box_html(entity):
         authUser=os.environ['ELASTIC_USER'],
         authPass=os.environ['ELASTIC_PASS'],
         searchField="original.edgengram",
-        value=None,
     )
 
     textbox = html.Div([entity_label_container, esas],
