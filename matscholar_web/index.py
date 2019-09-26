@@ -1,110 +1,74 @@
-import os, json
-from os import environ
+import os
 
-# dash
-import dash
-import dash_auth
 import dash_html_components as html
-import dash_core_components as dcc
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 from flask import send_from_directory
-from matscholar.rest import Rester
-from matscholar.rest import MatScholarRestError
 
-# apps
-from matscholar_web.view import mat2vec_app, materials_map_app, journal_suggestion_app, summary_app, \
-    search_app, extract_app, material_search_app
-
-# callbacks
-from matscholar_web.callbacks import mat2vec_callbacks, materials_map_callbacks, summary_callbacks, \
-    material_search_callbacks, extract_callbacks, journal_suggestion_callbacks, search_callbacks
+from matscholar_web.app import app, cache
+from matscholar_web.constants import TIMEOUT
+from matscholar_web.footer import get_footer
+from matscholar_web.header import get_header
+from matscholar_web.nav import get_nav
+from matscholar_web.search.util import get_entity_boxes_callback_args
+import matscholar_web.search.callbacks as scb
+import matscholar_web.search.view as sv
+import matscholar_web.analysis.callbacks as acb
+import matscholar_web.analysis.view as av
+import matscholar_web.about.view as bv
+import matscholar_web.about.callbacks as bcb
 
 """
-APP CONFIG
+Declarations for the core dash app.
 """
 
-app = dash.Dash()
-app.css.config.serve_locally = True
-app.scripts.config.serve_locally = True
-app.config.suppress_callback_exceptions = True
-app.title = "matscholar - rediscover materials"
+bulma = html.Link(rel='stylesheet', href='/static/css/bulma.css')
+bulma_helper = html.Link(rel='stylesheet', href='/static/css/bulma-helpers.css')
+# stylesheets = [bulma, bulma_helper]
+custom_css = html.Link(rel='stylesheet', href='/static/css/msweb.css')
+stylesheets = [bulma, bulma_helper, custom_css]
+stylesheet_div = html.Div(stylesheets, className="container is-hidden")
 
-# Authentication
-VALID_USERNAME_PASSWORD_PAIRS = [[environ['MATERIALS_SCHOLAR_WEB_USER'], environ['MATERIALS_SCHOLAR_WEB_PASS']]]
-auth = dash_auth.BasicAuth(
-    app,
-    VALID_USERNAME_PASSWORD_PAIRS
+footer_interior = get_footer()
+header = get_header()
+nav = get_nav()
+
+nav_and_header_section = html.Div([header, nav], className="section")
+footer_section = html.Div(footer_interior, className="section")
+footer = html.Footer(footer_section, className="footer")
+
+app_container = html.Div("", id="app_container", className="container is-fluid")
+app_expander = html.Div(app_container, className="msweb-is-tall")
+app_expander_container = html.Div(app_expander,
+                                  className="msweb-is-tall-container")
+
+app.layout = html.Div(
+    [
+        stylesheet_div,
+        nav_and_header_section,
+        app_expander_container,
+        footer,
+    ],
 )
 
-# loading css files
-css_files = ["skeleton.min.css", "matscholar_web.css", ]
-stylesheets_links = [html.Link(rel='stylesheet', href='/static/css/' + css) for css in css_files]
 
-"""
-VIEW
-"""
-
-header_contianer = html.Div([
-    dcc.Location(id="url", refresh=False),
-    html.Img(
-        src="https://matscholar-web.s3-us-west-1.amazonaws.com/matscholar_logo+alpha.png",
-        style={
-            'width': '350px',
-            "display": "block",
-            'max-width': "100%",
-            "margin": "5px auto",
-        })],
-    id="header_container",
-    className="row")
-
-footer_contianer = html.Div([
-    html.Div(
-        [html.Span(
-            "Copyright © 2019 - "),
-            html.A("Materials Scholar Development Team ",
-                   href="https://github.com/materialsintelligence",
-                   target="_blank")],
-        className="row",
-        style={
-            "color": "grey",
-            "textAlign": "center"
-        }),
-    html.Span("Note: This is a pre-release alpha of Matscholar. "),
-    html.Div(html.A("Privacy Policy",
-                    href='https://www.iubenda.com/privacy-policy/55585319',
-                    target="_blank"))],
-    id="footer_container",
-    className="row",
-    style={
-        "color": "grey",
-        "textAlign": "center",
-        "width": "100%"}, )
-
-app.layout = html.Div([
-    html.Div(stylesheets_links, style={"display": "none"}),
-    header_contianer,
-    # nav,
-    html.Div("", id="app_container"),
-    footer_contianer],
-    className='container',
-    style={
-        "maxWidth": "1600px",
-        "height": "100%",
-        "width": "100%",
-        "padding": "0px 20px"})
-
-"""
-CALLBACKS
-"""
-
+# Top level callbacks
+#######################
 
 # callbacks for loading different apps
 @app.callback(
     Output('app_container', 'children'),
-    [Input('url', 'pathname')])
+    [Input('url', 'pathname')]
+)
 def display_page(path):
     path = str(path)
-    return search_app.serve_layout(path)
+    if path == "/analyze":
+        return av.serve_layout()
+    elif path == "/search":
+        return sv.serve_layout()
+    elif path == "/about":
+        return bv.serve_layout()
+    else:
+        return html.Div("404", className="has-text-centered")
 
 
 # setting the static path for loading css files
@@ -122,4 +86,65 @@ def get_robots():
     return send_from_directory(static_folder, path)
 
 
-search_callbacks.bind(app)
+# Search view callbacks
+#######################
+@app.callback(
+    Output('text_input', 'value'),
+    get_entity_boxes_callback_args(as_type="input")
+)
+def search_bar_live_display(*ent_txts):
+    return scb.search_bar_live_display(*ent_txts)
+
+
+@app.callback(
+    Output('search-btn', 'n_clicks'),
+
+    [Input('text_input', 'n_submit')] +
+    get_entity_boxes_callback_args(
+        as_type="input",
+        return_component="n_submit"),
+    [State('search-btn', 'n_clicks')]
+)
+def consolidate_n_submit_and_clicks_to_search_btn(*all_n_clicks):
+    return scb.consolidate_n_submit_and_clicks_to_search_button(*all_n_clicks)
+
+
+@app.callback(
+    Output('search_results', 'children'),
+    [Input('search-btn', 'n_clicks')],
+    [State("search_type_dropdown", "value"),
+     State("text_input", "value")]
+)
+@cache.memoize(timeout=TIMEOUT)  # in seconds
+def show_search_results(n_clicks, dropdown_value, search_text):
+    return scb.show_results(n_clicks, dropdown_value, search_text)
+
+
+# Analyze callbacks
+#######################
+@app.callback(
+    Output("extract-highlighted", "children"),
+    [Input("extract-button", "n_clicks")],
+    [State("extract-textarea", "value"),
+     State("dropdown_normalize", "value")])
+def highlight_extracted(n_clicks, text, normalize):
+    return acb.extracted_results(n_clicks, text, normalize)
+
+
+@app.callback(
+    Output('extract-textarea', 'value'),
+    [Input("extract-random", 'n_clicks')])
+def get_random(n_clicks):
+    return acb.get_random(n_clicks)
+
+
+# About page callbacks
+@app.callback(
+    Output('n-current-abstracts', "children"),
+    [Input('url', 'pathname')]
+)
+def update_n_abstracts(pathname):
+    if pathname == "/about":
+        return bcb.get_n_abstracts()
+    else:
+        return "3,000,000"
