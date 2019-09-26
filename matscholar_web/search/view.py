@@ -176,9 +176,9 @@ def entity_filter_box_html(entity):
 
     ES_field_dict = {"material": "materials", "property": "properties",
                      "application": "applications", "descriptor": "descriptors",
-                     "characterization": "characterization methods",
-                     "synthesis": "synthesis methods",
-                     "phase": "structure phase labels"}
+                     "characterization": "characterization_methods",
+                     "synthesis": "synthesis_methods",
+                     "phase": "structure_phase_labels"}
 
     entity_name = html.Span('{}:'.format(entity.capitalize()))
 
