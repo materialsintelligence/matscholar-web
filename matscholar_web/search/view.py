@@ -34,7 +34,7 @@ def subview_results_container_html():
 
 def no_query_warning_html():
     no_query_txt = html.Div(
-        f"Please enter a query using the search bar, then hit \"Go\".",
+        f"Please enter a query using the search bar, then hit Enter or \"Go\".",
         className="is-size-4"
     )
     no_query_container = html.Div(
