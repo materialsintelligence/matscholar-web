@@ -13,12 +13,10 @@ def everything_results_html(search_text):
         className="is-size-4 has-margin-10 has-margin-bottom-20"
     )
     scroll_down_container = html.Div(scroll_down)
-
     entities_results = entities_results_html(search_text)
     materials_results = materials_results_html(search_text)
     abstracts_results = abstracts_results_html(search_text)
     all_results = [entities_results, materials_results, abstracts_results]
-
     no_results = no_results_html()
 
     if all([str(r) == str(no_results) for r in all_results]):

@@ -7,6 +7,7 @@ from dash_elasticsearch_autosuggest import ESAutosuggest
 
 from matscholar_web.constants import valid_entity_filters, \
     entity_color_map_bulma
+from matscholar_web.search.util import query_is_well_formed, parse_search_box
 
 
 def serve_layout(search):
@@ -16,12 +17,44 @@ def serve_layout(search):
     else:
         search_dict = dict()
 
-    return html.Div([
-        entity_search_html(),
-        search_dropdown_and_button_html(),
-        advanced_search_boxes_html(search_dict),
-        subview_results_container_html()])
+    return html.Div(
+        [
+            entity_search_html(),
+            search_dropdown_and_button_html(),
+            advanced_search_boxes_html(search_dict),
+            subview_results_container_html()
+        ]
+    )
 
+
+def no_query_warning_html():
+    no_query_txt = html.Div(
+        f"Please enter a query using the search bar, then hit \"Go\".",
+        className="is-size-4"
+    )
+    no_query_container = html.Div(
+        no_query_txt,
+        className="container has-text-centered has-margin-top-50"
+    )
+    return no_query_container
+
+
+def malformed_query_warning_html(bad_search_txt):
+    warning_header_txt = f'Oops, we didn\'t understand that search.'
+    warning_header = html.Div(warning_header_txt, className="is-size-3")
+    warning_body_txt = \
+        f'\n Your search was: "{bad_search_txt}"\n. Try the format entity1: ' \
+        f'value1, entity2: value2. For example: \n "material: PbTe, ' \
+        f'property: thermoelectric'
+    warning_body = html.Div(warning_body_txt, className="is-size-6")
+    warning = html.Div(
+        [
+            warning_header,
+            warning_body
+        ],
+        className="notification is-danger"
+    )
+    return warning
 
 def subview_results_container_html():
     """
@@ -109,6 +142,7 @@ def advanced_search_boxes_html(search_dict):
     Html for the advanced search boxes.
     Element filters, entity filters, anonymous formula searches
     """
+
     entity_filters_html = [entity_filter_box_html(
         f, search_dict) for f in valid_entity_filters]
 

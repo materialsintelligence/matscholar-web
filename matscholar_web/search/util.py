@@ -6,6 +6,8 @@ from dash.dependencies import Input, Output, State
 from matscholar_web.constants import valid_entity_filters
 
 
+MAX_N_TERMS_PER_ENTITY = 10
+
 def get_entity_boxes_callback_args(as_type="state"):
     """
     Return all available entity boxes as Inputs, Outputs, or States.
@@ -49,11 +51,33 @@ def parse_search_box(search_text):
             entity_type_key = f"{k}:"
             if entity_type_key in et:
                 query_entity_term = copy.deepcopy(et)
-                query_entity_term = query_entity_term.replace(entity_type_key,
-                                                              "").strip()
+                query_entity_term = query_entity_term.replace(
+                    entity_type_key,
+                    ""
+                )
+                query_entity_term = query_entity_term.strip()
                 entity_query[k].append(query_entity_term)
+
     entity_query = {k: v for k, v in entity_query.items() if v}
     return entity_query
+
+
+def query_is_well_formed(entity_query):
+
+    # An empty entity query is not malformed, just empty
+    if not entity_query:
+        return True
+
+    # If any of the entity terms are longer than a certain length, it's
+    # possible someone is trying to *SQL inject our API
+    if any([len(v) > MAX_N_TERMS_PER_ENTITY for v in entity_query.values()]):
+        return False
+
+    # Ensure at least one of the entity query values is valid
+    if any([v for v in entity_query.values()]):
+        return True
+    else:
+        return False
 
 
 def no_results_html():
