@@ -92,15 +92,6 @@ def search_bar_live_display(*ent_txts):
     return scb.search_bar_live_display(*ent_txts)
 
 
-
-# @app.callback(
-#     Output('search-btn', 'n_clicks'),
-#     [Input('dummy-div', 'value')]
-# )
-# def void_n_clicks_on_search_update(_):
-#     return 0
-
-
 @app.callback(
     Output('search_results', 'children'),
     [Input('search-btn', 'n_clicks')],

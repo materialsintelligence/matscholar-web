@@ -7,7 +7,6 @@ from dash_elasticsearch_autosuggest import ESAutosuggest
 
 from matscholar_web.constants import valid_entity_filters, \
     entity_color_map_bulma
-from matscholar_web.search.util import query_is_well_formed, parse_search_box
 
 
 def serve_layout(search):
@@ -32,22 +31,11 @@ def subview_results_container_html():
     Html placeholder for results
     """
     my_results_html = html.Div(id="search_results")
-    return my_results_html
-    # wrapper = dcc.Loading(
-    #     type="cube",
-    #     children=my_results_html,
-    # )
-    # return wrapper
-
-
-def loading_wrapper_html(html_component):
-    print("trying to get loading wrapper!!")
     wrapper = dcc.Loading(
         type="cube",
-        children=html_component,
+        children=my_results_html,
     )
     return wrapper
-    # return html_component
 
 
 def no_query_warning_html():
@@ -67,8 +55,8 @@ def malformed_query_warning_html(bad_search_txt):
     warning_header = html.Div(warning_header_txt, className="is-size-3")
     warning_body_txt = \
         f'\n Your search was: "{bad_search_txt}"\n. Try the format entity1: ' \
-        f'value1, entity2: value2. For example: \n "material: PbTe, ' \
-        f'property: thermoelectric'
+        f'value1, entity2: value2. For example: "material: PbTe, ' \
+        f'property: thermoelectric"'
     warning_body = html.Div(warning_body_txt, className="is-size-6")
     warning = html.Div(
         [
@@ -78,6 +66,7 @@ def malformed_query_warning_html(bad_search_txt):
         className="notification is-danger"
     )
     return warning
+
 
 def entity_search_html():
     live_entity_search = dcc.Input(

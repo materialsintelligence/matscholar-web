@@ -3,7 +3,7 @@ import dash_html_components as html
 
 def no_selection_html():
     no_selection_text = html.Div(
-        f"Please select a search type before searching.",
+        f"Please select a search type.",
         className="is-size-4"
     )
     no_selection_container = html.Div(
