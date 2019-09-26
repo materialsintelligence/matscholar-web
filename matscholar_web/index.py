@@ -93,7 +93,6 @@ def get_robots():
     get_entity_boxes_callback_args(as_type="input")
 )
 def search_bar_live_display(*ent_txts):
-    print("update live display is being called")
     return scb.search_bar_live_display(*ent_txts)
 
 
