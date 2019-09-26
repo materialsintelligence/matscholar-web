@@ -9,18 +9,12 @@ from matscholar_web.constants import valid_entity_filters, \
     entity_color_map_bulma
 
 
-def serve_layout(search):
-    if search:
-        search_dict = urllib.parse.parse_qs(
-            search[1:])
-    else:
-        search_dict = dict()
-
+def serve_layout():
     return html.Div(
         [
             entity_search_html(),
             search_dropdown_and_button_html(),
-            advanced_search_boxes_html(search_dict),
+            advanced_search_boxes_html(),
             subview_results_container_html()
         ]
     )
@@ -65,7 +59,10 @@ def malformed_query_warning_html(bad_search_txt):
         ],
         className="notification is-danger"
     )
-    return warning
+    warning_column = html.Div(warning, className="column is-half")
+    warning_columns = html.Div(warning_column, className="columns is-centered")
+    warning_container = html.Div(warning_columns, className="container")
+    return warning_container
 
 
 def entity_search_html():
@@ -133,14 +130,13 @@ def search_dropdown_and_button_html():
     return button_and_dropdown
 
 
-def advanced_search_boxes_html(search_dict):
+def advanced_search_boxes_html():
     """
     Html for the advanced search boxes.
     Element filters, entity filters, anonymous formula searches
     """
 
-    entity_filters_html = [entity_filter_box_html(
-        f, search_dict) for f in valid_entity_filters]
+    entity_filters_html = [entity_filter_box_html(f) for f in valid_entity_filters]
 
     entity_filter_row_1 = html.Div(entity_filters_html[0:3],
                                    className="columns is-centered")
@@ -160,7 +156,7 @@ def advanced_search_boxes_html(search_dict):
     return advanced_search_boxes
 
 
-def entity_filter_box_html(entity, search_dict):
+def entity_filter_box_html(entity):
     """
     Text filter boxes with ES autosuggest for entity filters.
 
@@ -182,11 +178,6 @@ def entity_filter_box_html(entity, search_dict):
                      "synthesis": "synthesis methods",
                      "phase": "structure phase labels"}
 
-    try:
-        prefill = str(search_dict.get(entity)[0])
-    except TypeError:
-        prefill = None
-
     entity_name = html.Span('{}:'.format(entity.capitalize()))
 
     color = entity_color_map_bulma[entity]
@@ -205,8 +196,7 @@ def entity_filter_box_html(entity, search_dict):
         authUser=os.environ['ELASTIC_USER'],
         authPass=os.environ['ELASTIC_PASS'],
         searchField="original.edgengram",
-        value=prefill,
-        # className="input is-success has-max-width-350"
+        value=None,
     )
 
     textbox = html.Div([entity_label_container, esas],

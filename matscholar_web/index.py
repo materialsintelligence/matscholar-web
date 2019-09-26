@@ -54,15 +54,14 @@ app.layout = html.Div(
 # callbacks for loading different apps
 @app.callback(
     Output('app_container', 'children'),
-    [Input('url', 'pathname'), Input('url', 'search')],
-    # [State('url', 'pathname'), State('app_container', "children")]
+    [Input('url', 'pathname')]
 )
-def display_page(path, search):
+def display_page(path):
     path = str(path)
-    if path.startswith("/analyze"):
+    if path == "/analyze":
         return av.serve_layout()
-    elif path.startswith("/search"):
-        return sv.serve_layout(search)
+    elif path == "/search":
+        return sv.serve_layout()
     else:
         return html.Div("404", className="has-text-centered")
 
