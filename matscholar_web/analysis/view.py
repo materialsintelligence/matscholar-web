@@ -4,7 +4,7 @@ import dash_core_components as dcc
 
 def serve_layout():
     label = html.Label(
-        "Enter text for named entity extraction:",
+        "Enter a scientific abstract's text for named entity extraction:",
         className="is-size-4 has-margin-5"
     )
 
