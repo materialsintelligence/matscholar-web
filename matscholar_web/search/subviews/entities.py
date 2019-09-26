@@ -30,27 +30,30 @@ def entities_results_html(search_text):
 def get_all_score_tables(results_dict):
     columns_classes = "columns is-desktop is-centered"
 
+    half = "is-half"
+    third = "is-one-third"
+
     row1 = html.Div(
         [
-            get_score_table_for_entity(results_dict["PRO"], "Property"),
-            get_score_table_for_entity(results_dict["APL"], "Application"),
+            get_score_table_for_entity(results_dict["PRO"], "Property", half),
+            get_score_table_for_entity(results_dict["APL"], "Application", half),
         ],
         className=columns_classes
     )
 
     row2 = html.Div(
         [
-            get_score_table_for_entity(results_dict["CMT"], "Characterization"),
-            get_score_table_for_entity(results_dict["SMT"], "Synthesis"),
+            get_score_table_for_entity(results_dict["CMT"], "Characterization", half),
+            get_score_table_for_entity(results_dict["SMT"], "Synthesis", half),
         ],
         className=columns_classes
     )
 
     row3 = html.Div(
         [
-            get_score_table_for_entity(results_dict["DSC"], "Descriptor"),
-            get_score_table_for_entity(results_dict["SPL"], "Phase"),
-            get_score_table_for_entity(results_dict["MAT"], "Material")
+            get_score_table_for_entity(results_dict["DSC"], "Descriptor", third),
+            get_score_table_for_entity(results_dict["SPL"], "Phase", third),
+            get_score_table_for_entity(results_dict["MAT"], "Material", third)
         ],
         className=columns_classes
     )

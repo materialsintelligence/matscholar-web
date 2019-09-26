@@ -171,7 +171,7 @@ def entity_filter_box_html(entity):
                     "property": "dielectric constant, melting point,...",
                     "application": "cathode, catalyst,...",
                     "descriptor": "thin film, nanoparticle,...",
-                    "characterization": "photoluminescence, x-ray diffraction,...",
+                    "characterization": "x-ray diffraction, EDS...",
                     "synthesis": "sol - gel, firing,...",
                     "phase": "perovskite, wurtzite,..."}
 
