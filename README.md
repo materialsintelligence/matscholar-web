@@ -1,6 +1,6 @@
 # Materials Scholar Website
 
-![Matscholar Logo](matscholar_web/static/matscholar_logo_v3.png)
+![Matscholar Logo](matscholar_web/static/matscholar_logo_v4.png)
 
 Matscholar is a research effort based at Lawrence Berkeley National 
 Laboratory with the aim of organizing the world's materials knowlegde 
