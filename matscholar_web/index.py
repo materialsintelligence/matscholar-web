@@ -147,4 +147,4 @@ def update_n_abstracts(pathname):
     if pathname == "/about":
         return bcb.get_n_abstracts()
     else:
-        return "3,000,000"
+        return None
