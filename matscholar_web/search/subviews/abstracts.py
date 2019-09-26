@@ -7,7 +7,7 @@ import urllib
 from matscholar_web.constants import rester, valid_entity_filters, \
     entity_shortcode_map, entity_color_map_bulma
 from matscholar_web.search.util import parse_search_box, \
-    results_container_class, no_results, get_results_label_html
+    results_container_class, no_results_html, get_results_label_html
 
 MAX_N_ABSTRACTS = 100
 MAX_ENTITIES_PER_ROW = 3
@@ -21,13 +21,13 @@ def abstracts_results_html(search_text):
     )
 
     if not results:
-        return no_results()
+        return no_results_html()
     else:
         df = pd.DataFrame(results)
         n_raw_results = df.shape[0]
 
         if df.empty:
-            return no_results()
+            return no_results_html()
 
         df['authors'] = df['authors'].apply(format_authors)
 

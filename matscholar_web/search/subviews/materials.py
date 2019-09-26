@@ -5,7 +5,7 @@ import json
 import pandas as pd
 import urllib
 from matscholar_web.constants import rester, valid_entity_filters
-from matscholar_web.search.util import parse_search_box, no_results, \
+from matscholar_web.search.util import parse_search_box, no_results_html, \
     results_container_class, get_results_label_html
 
 MAX_N_MATERIALS_IN_TABLE = 100
@@ -16,7 +16,7 @@ def materials_results_html(search_text):
     entity_query = parse_search_box(search_text)
     results = rester.materials_search(entity_query, text=None, top_k=None)
     if not results:
-        return no_results()
+        return no_results_html()
     else:
         materials = []
         counts = []

@@ -1,10 +1,12 @@
+import os
+import urllib
+
 import dash_html_components as html
 import dash_core_components as dcc
 from dash_elasticsearch_autosuggest import ESAutosuggest
-from os import environ
-import urllib
 
-from matscholar_web.constants import valid_entity_filters, entity_shortcode_map, entity_color_map_bulma
+from matscholar_web.constants import valid_entity_filters, \
+    entity_color_map_bulma
 
 
 def serve_layout(search):
@@ -12,30 +14,16 @@ def serve_layout(search):
         search_dict = urllib.parse.parse_qs(
             search[1:])
     else:
-        search_dict = dict()  # print(urllib.parse.parse_qs(path))
+        search_dict = dict()
 
     return html.Div([
-        entity_display_html(),
-        search_bar_and_button(),
+        entity_search_html(),
+        search_dropdown_and_button_html(),
         advanced_search_boxes_html(search_dict),
-        results_html()])
+        subview_results_container_html()])
 
 
-def entity_display_html():
-    live_entity_search = dcc.Input(
-        placeholder="Enter a query here directly or with the entity search boxes below...",
-        id="text_input",
-        className="input is-success has-min-width-100 is-size-4",
-        autoFocus=True,
-        # n_submit=0
-    )
-    live_entity_search_container = html.Div(live_entity_search,
-                                            className="columns is-centered has-margin-20")
-    lesc2 = html.Div(live_entity_search_container, className="container")
-    return lesc2
-
-
-def results_html():
+def subview_results_container_html():
     """
     Html placeholder for results
     """
@@ -50,6 +38,19 @@ def results_html():
 
     return results_container
 
+
+def entity_search_html():
+    live_entity_search = dcc.Input(
+        placeholder="Enter a query here directly or with the entity search boxes below...",
+        id="text_input",
+        className="input is-success has-min-width-100 is-size-4",
+        autoFocus=True,
+        # n_submit=0
+    )
+    live_entity_search_container = html.Div(live_entity_search,
+                                            className="columns is-centered has-margin-20")
+    lesc2 = html.Div(live_entity_search_container, className="container")
+    return lesc2
 
 
 def go_button():
@@ -74,7 +75,8 @@ def search_type_dropdown():
     advanced_search_types = dcc.Dropdown(
         id='search_type_dropdown',
         options=[
-            {'label': 'Statistics (on named entities/words)', 'value': 'entities'},
+            {'label': 'Statistics (on named entities/words)',
+             'value': 'entities'},
             {'label': 'Relevant Papers', 'value': 'abstracts'},
             {'label': 'Similar Materials', 'value': 'materials'},
             {'label': 'Everything', 'value': 'everything'},
@@ -92,7 +94,7 @@ def search_type_dropdown():
     return advanced_search_types
 
 
-def search_bar_and_button():
+def search_dropdown_and_button_html():
     button = go_button()
     dropdown = search_type_dropdown()
     button_and_dropdown = html.Div(
@@ -107,7 +109,7 @@ def advanced_search_boxes_html(search_dict):
     Html for the advanced search boxes.
     Element filters, entity filters, anonymous formula searches
     """
-    entity_filters_html = [_entity_filter_box_html(
+    entity_filters_html = [entity_filter_box_html(
         f, search_dict) for f in valid_entity_filters]
 
     entity_filter_row_1 = html.Div(entity_filters_html[0:3],
@@ -128,7 +130,7 @@ def advanced_search_boxes_html(search_dict):
     return advanced_search_boxes
 
 
-def _entity_filter_box_html(entity, search_dict):
+def entity_filter_box_html(entity, search_dict):
     """
     Text filter boxes with ES autosuggest for entity filters.
 
@@ -159,24 +161,24 @@ def _entity_filter_box_html(entity, search_dict):
 
     color = entity_color_map_bulma[entity]
     entity_label = html.Label(entity_name)
-    entity_label_container = html.Div(entity_label, className=f"has-text-{color} is-size-5 has-text-weight-semibold")
+    entity_label_container = html.Div(entity_label,
+                                      className=f"has-text-{color} is-size-5 has-text-weight-semibold")
 
     # Autosuggest is styled by CSS react classnames ONLY!
     esas = ESAutosuggest(
         fields=['original', 'normalized'],
-        endpoint=environ['ELASTIC_HOST'] + "/" +
+        endpoint=os.environ['ELASTIC_HOST'] + "/" +
                  ES_field_dict[entity] + "/_search",
         defaultField='original',
         id=entity + "_filters_input",
         placeholder=placeholders[entity],
-        authUser=environ['ELASTIC_USER'],
-        authPass=environ['ELASTIC_PASS'],
+        authUser=os.environ['ELASTIC_USER'],
+        authPass=os.environ['ELASTIC_PASS'],
         searchField="original.edgengram",
         value=prefill,
         # className="input is-success has-max-width-350"
     )
 
-    textbox = html.Div([entity_label_container, esas], className="has-margin-10")
+    textbox = html.Div([entity_label_container, esas],
+                       className="has-margin-10")
     return textbox
-
-

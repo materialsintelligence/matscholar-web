@@ -3,6 +3,7 @@ from matscholar_web.search.subviews.abstracts import abstracts_results_html
 from matscholar_web.search.subviews.materials import materials_results_html
 from matscholar_web.search.subviews.entities import entities_results_html
 from matscholar_web.search.subviews.everything import everything_results_html
+from matscholar_web.search.subviews.nothing import no_selection_html
 
 
 def dropdown_search_type(search_type):
@@ -34,7 +35,7 @@ def show_results(n_clicks, dropdown_value, search_text):
         if dropdown_value == 'everything':
             return everything_results_html(search_text)
         if dropdown_value == 'no_selection':
-            return None
+            return no_selection_html()
 
 
 def search_bar_live_display(*ent_txts):

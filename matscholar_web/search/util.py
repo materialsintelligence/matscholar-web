@@ -56,7 +56,7 @@ def parse_search_box(search_text):
     return entity_query
 
 
-def no_results():
+def no_results_html():
     no_results_text = html.Div(
         f"No results found!",
         className="is-size-4"

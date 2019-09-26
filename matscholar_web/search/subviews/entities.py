@@ -6,7 +6,7 @@ import pandas as pd
 import urllib
 from matscholar_web.constants import rester, valid_entity_filters, \
     entity_shortcode_map, entity_color_map_bulma
-from matscholar_web.search.util import parse_search_box, no_results, \
+from matscholar_web.search.util import parse_search_box, no_results_html, \
     results_container_class, get_results_label_html
 
 MAX_N_ROWS_FOR_EACH_ENTITY_TABLE = 10
@@ -16,7 +16,7 @@ def entities_results_html(search_text):
     entity_query = parse_search_box(search_text)
     results = rester.entities_search(entity_query, text=None, top_k=None)
     if results is None or not any([v for v in results.values()]):
-        return no_results()
+        return no_results_html()
     else:
         all_tables = get_all_score_tables(results)
         big_results_label = get_results_label_html("entities")
