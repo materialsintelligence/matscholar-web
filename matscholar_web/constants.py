@@ -2,7 +2,8 @@ import os
 from matscholar import Rester
 
 # Define some variables of common interest
-rester = Rester(endpoint="https://staging.matscholar.com")
+endpoint = os.environ.get("MATERIALS_SCHOLAR_ENDPOINT")
+rester = Rester(endpoint=endpoint)
 
 # The mapping of entity type to shortcode
 entity_shortcode_map = {

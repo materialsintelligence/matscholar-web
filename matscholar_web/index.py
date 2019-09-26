@@ -115,7 +115,7 @@ def consolidate_n_submit_and_clicks_to_search_btn(*all_n_clicks):
     [State("search_type_dropdown", "value"),
      State("text_input", "value")]
 )
-@cache.memoize(timeout=TIMEOUT)  # in seconds
+@cache.memoize(timeout=TIMEOUT)
 def show_search_results(n_clicks, dropdown_value, search_text):
     return scb.show_results(n_clicks, dropdown_value, search_text)
 
