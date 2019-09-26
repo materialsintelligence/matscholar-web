@@ -27,6 +27,29 @@ def serve_layout(search):
     )
 
 
+def subview_results_container_html():
+    """
+    Html placeholder for results
+    """
+    my_results_html = html.Div(id="search_results")
+    return my_results_html
+    # wrapper = dcc.Loading(
+    #     type="cube",
+    #     children=my_results_html,
+    # )
+    # return wrapper
+
+
+def loading_wrapper_html(html_component):
+    print("trying to get loading wrapper!!")
+    wrapper = dcc.Loading(
+        type="cube",
+        children=html_component,
+    )
+    return wrapper
+    # return html_component
+
+
 def no_query_warning_html():
     no_query_txt = html.Div(
         f"Please enter a query using the search bar, then hit \"Go\".",
@@ -55,22 +78,6 @@ def malformed_query_warning_html(bad_search_txt):
         className="notification is-danger"
     )
     return warning
-
-def subview_results_container_html():
-    """
-    Html placeholder for results
-    """
-    my_results_html = html.Div(id="search_results")
-
-    results = dcc.Loading(
-        type="cube",
-        children=[my_results_html],
-    )
-
-    results_container = html.Div(results)
-
-    return results_container
-
 
 def entity_search_html():
     live_entity_search = dcc.Input(

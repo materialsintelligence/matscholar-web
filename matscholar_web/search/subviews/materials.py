@@ -1,9 +1,8 @@
-from matscholar import Rester
-import dash_html_components as html
-import dash_core_components as dcc
-import json
-import pandas as pd
 import urllib
+
+import pandas as pd
+import dash_html_components as html
+
 from matscholar_web.constants import rester, valid_entity_filters
 from matscholar_web.search.util import parse_search_box, no_results_html, \
     results_container_class, get_results_label_html

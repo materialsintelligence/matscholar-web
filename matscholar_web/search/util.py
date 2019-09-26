@@ -66,7 +66,7 @@ def query_is_well_formed(entity_query):
 
     # An empty entity query is not malformed, just empty
     if not entity_query:
-        return True
+        return False
 
     # If any of the entity terms are longer than a certain length, it's
     # possible someone is trying to *SQL inject our API
