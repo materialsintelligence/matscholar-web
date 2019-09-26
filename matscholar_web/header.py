@@ -17,10 +17,7 @@ def get_header():
 
     """
 
-    # logo_link = "https://matscholar-web.s3-us-west-1.amazonaws.com/" \
-    #             "matscholar_logo+alpha.png"
-
-    link = get_img_link_from_path("matscholar_logo_v3.png")
+    link = get_img_link_from_path("matscholar_logo_v4.png")
 
     logo = html.Img(
         src=link,
