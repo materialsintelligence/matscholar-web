@@ -20,17 +20,23 @@ def get_nav():
     )
     analyze_button = html.Button(
         "Analyze An Abstract App",
-        className="button is-warning is-size-6 has-margin-5"
+        className="button is-success is-size-6 has-margin-5"
+    )
+    about_button = html.Button(
+        "About Matscholar",
+        className="button is-light is-size-6 has-margin-5"
     )
 
     search = dcc.Link(search_button, href="/search")
     analyze = dcc.Link(analyze_button, href="/analyze")
+    about = dcc.Link(about_button, href="/about")
 
     search_container = html.Div(search)
     analyze_container = html.Div(analyze)
+    about_container = html.Div(about)
 
     nav = html.Nav(
-        children=[search_container, analyze_container],
+        children=[search_container, analyze_container, about_container],
         className="columns is-centered"
     )
     nav_container = html.Div(nav, className="container has-margin-10 is-fluid")

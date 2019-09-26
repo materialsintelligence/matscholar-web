@@ -14,6 +14,7 @@ import matscholar_web.search.callbacks as scb
 import matscholar_web.search.view as sv
 import matscholar_web.analysis.callbacks as acb
 import matscholar_web.analysis.view as av
+import matscholar_web.about.view as bv
 
 """
 Declarations for the core dash app.
@@ -62,6 +63,8 @@ def display_page(path):
         return av.serve_layout()
     elif path == "/search":
         return sv.serve_layout()
+    elif path == "/about":
+        return bv.serve_layout()
     else:
         return html.Div("404", className="has-text-centered")
 
