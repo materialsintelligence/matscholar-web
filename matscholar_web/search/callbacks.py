@@ -9,12 +9,10 @@ from matscholar_web.search.subviews.nothing import no_selection_html
 from matscholar_web.search.util import query_is_well_formed, parse_search_box
 
 
-def show_results(n_clicks, n_submit, dropdown_value, search_text):
+def show_results(searches_per_input, dropdown_value, search_text):
 
-    n_submit = 0 if n_submit is None else n_submit
-    n_clicks = 0 if n_clicks is None else n_clicks
-
-    n_times_searched = n_clicks + n_submit
+    n_searches_per_input = [0 if n is None else n for n in searches_per_input]
+    n_times_searched = sum(n_searches_per_input)
 
     print(n_times_searched)
 

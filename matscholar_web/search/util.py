@@ -5,16 +5,19 @@ from dash.dependencies import Input, Output, State
 
 from matscholar_web.constants import valid_entity_filters
 
-
 MAX_N_TERMS_PER_ENTITY = 10
 
-def get_entity_boxes_callback_args(as_type="state"):
+
+def get_entity_boxes_callback_args(as_type="state", return_component="value"):
     """
     Return all available entity boxes as Inputs, Outputs, or States.
 
     Args:
         as_type (str): "state" for State, "input" for Input, or "output" for
             Output
+        return_component (str): Either "value" for the value of the search
+            box or n_submit for the number of times the search box has been
+            hit.
 
     Returns:
         (list): The list of inputs, states, or outputs plotly dash dependency
@@ -26,7 +29,11 @@ def get_entity_boxes_callback_args(as_type="state"):
         "input": Input
     }
     t = type_dict[as_type]
-    return [t(f + '_filters_input', 'value') for f in valid_entity_filters]
+
+    filters = []
+    for f in valid_entity_filters:
+        filters.append(t(f + '_filters_input', return_component))
+    return filters
 
 
 def parse_search_box(search_text):
@@ -63,7 +70,6 @@ def parse_search_box(search_text):
 
 
 def query_is_well_formed(entity_query):
-
     # An empty entity query is not malformed, just empty
     if not entity_query:
         return False

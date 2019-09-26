@@ -66,7 +66,6 @@ def entity_search_html():
         id="text_input",
         className="input is-info is-medium",
         autoFocus=True,
-        # n_submit=0
     )
     live_entity_search_column = html.Div(live_entity_search,
                                             className="column is-half")

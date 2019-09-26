@@ -99,13 +99,40 @@ def search_bar_live_display(*ent_txts):
 @app.callback(
     Output('search_results', 'children'),
     [Input('search-btn', 'n_clicks'),
-     Input('text_input', 'n_submit')],
+     Input('text_input', 'n_submit')] +
+    get_entity_boxes_callback_args(
+        as_type="input",
+        return_component="n_submit"
+    ),
     [State("search_type_dropdown", "value"),
      State("text_input", "value")]
 )
 @cache.memoize(timeout=TIMEOUT)  # in seconds
-def show_search_results(n_clicks, n_submit, dropdown_value, search_text):
-    return scb.show_results(n_clicks, n_submit, dropdown_value, search_text)
+def show_search_results(
+        n_clicks,
+        n_submit,
+        ent1_n_submit,
+        ent2_n_submit,
+        ent3_n_submit,
+        ent4_n_submit,
+        ent5_n_submit,
+        ent6_n_submit,
+        ent7_n_submit,
+        dropdown_value,
+        search_text
+):
+    searches_per_input = [
+        n_clicks,
+        n_submit,
+        ent1_n_submit,
+        ent2_n_submit,
+        ent3_n_submit,
+        ent4_n_submit,
+        ent5_n_submit,
+        ent6_n_submit,
+        ent7_n_submit
+    ]
+    return scb.show_results(searches_per_input, dropdown_value, search_text)
 
 
 # Analyze callbacks
