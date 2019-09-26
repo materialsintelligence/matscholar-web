@@ -61,10 +61,10 @@ app.layout = html.Div(
 )
 def display_page(path):
     path = str(path)
-    if path == "/analyze":
-        return av.serve_layout()
-    elif path == "/search":
+    if path.strip() in ["/", "", "/search"]:
         return sv.serve_layout()
+    elif path == "/analyze":
+        return av.serve_layout()
     elif path == "/about":
         return bv.serve_layout()
     else:
