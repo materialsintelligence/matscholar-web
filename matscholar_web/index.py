@@ -38,7 +38,8 @@ footer = html.Footer(footer_section, className="footer")
 
 app_container = html.Div("", id="app_container", className="container is-fluid")
 app_expander = html.Div(app_container, className="msweb-is-tall")
-app_expander_container = html.Div(app_expander,  className="msweb-is-tall-container")
+app_expander_container = html.Div(app_expander,
+                                  className="msweb-is-tall-container")
 
 app.layout = html.Div(
     [
@@ -97,13 +98,14 @@ def search_bar_live_display(*ent_txts):
 
 @app.callback(
     Output('search_results', 'children'),
-    [Input('search-btn', 'n_clicks')],
+    [Input('search-btn', 'n_clicks'),
+     Input('text_input', 'n_submit')],
     [State("search_type_dropdown", "value"),
      State("text_input", "value")]
 )
 @cache.memoize(timeout=TIMEOUT)  # in seconds
-def show_search_results(n_clicks, dropdown_value, search_text):
-    return scb.show_results(n_clicks, dropdown_value, search_text)
+def show_search_results(n_clicks, n_submit, dropdown_value, search_text):
+    return scb.show_results(n_clicks, n_submit, dropdown_value, search_text)
 
 
 # Analyze callbacks

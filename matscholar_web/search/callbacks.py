@@ -9,8 +9,16 @@ from matscholar_web.search.subviews.nothing import no_selection_html
 from matscholar_web.search.util import query_is_well_formed, parse_search_box
 
 
-def show_results(n_clicks, dropdown_value, search_text):
-    if n_clicks in [None, 0]:
+def show_results(n_clicks, n_submit, dropdown_value, search_text):
+
+    n_submit = 0 if n_submit is None else n_submit
+    n_clicks = 0 if n_clicks is None else n_clicks
+
+    n_times_searched = n_clicks + n_submit
+
+    print(n_times_searched)
+
+    if n_times_searched in [None, 0]:
         return None
     else:
         if dropdown_value in ['no_selection', None]:
