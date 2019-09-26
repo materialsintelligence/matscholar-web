@@ -5,7 +5,6 @@ from matscholar_web.search.subviews.abstracts import abstracts_results_html
 from matscholar_web.search.subviews.materials import materials_results_html
 from matscholar_web.search.subviews.entities import entities_results_html
 from matscholar_web.search.subviews.everything import everything_results_html
-from matscholar_web.search.subviews.nothing import no_selection_html
 from matscholar_web.search.util import query_is_well_formed, parse_search_box
 
 
@@ -13,9 +12,6 @@ def show_results(n_clicks, dropdown_value, search_text):
     if n_clicks in [None, 0]:
         return None
     else:
-        if dropdown_value in ['no_selection', None]:
-            return no_selection_html()
-
         entity_query = parse_search_box(search_text)
         if not search_text:
             return no_query_warning_html()

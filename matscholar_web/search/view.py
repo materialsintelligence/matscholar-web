@@ -108,9 +108,8 @@ def search_type_dropdown():
             {'label': 'Relevant Papers', 'value': 'abstracts'},
             {'label': 'Similar Materials', 'value': 'materials'},
             {'label': 'Everything', 'value': 'everything'},
-            {'label': "Select a search type", "value": "no_selection"}
         ],
-        value="no_selection"
+        value="entities"
     )
 
     search_dropdown = html.Div(
