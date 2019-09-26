@@ -1,3 +1,5 @@
+from matscholar.rest import MatScholarRestError
+
 from matscholar_web.constants import valid_entity_filters
 from matscholar_web.search.view import malformed_query_warning_html, \
     no_query_warning_html
@@ -5,32 +7,36 @@ from matscholar_web.search.subviews.abstracts import abstracts_results_html
 from matscholar_web.search.subviews.materials import materials_results_html
 from matscholar_web.search.subviews.entities import entities_results_html
 from matscholar_web.search.subviews.everything import everything_results_html
-from matscholar_web.search.util import query_is_well_formed, parse_search_box
+from matscholar_web.search.util import query_is_well_formed, parse_search_box, \
+    rester_error_html
 
 
 def show_results(n_clicks, dropdown_value, search_text):
     if n_clicks in [None, 0]:
         return None
     else:
-        entity_query = parse_search_box(search_text)
-        if not search_text:
-            return no_query_warning_html()
-        elif not query_is_well_formed(entity_query):
-            return malformed_query_warning_html(search_text)
-        else:
-            if dropdown_value == 'abstracts':
-                results = abstracts_results_html(search_text)
-            elif dropdown_value == 'materials':
-                results = materials_results_html(search_text)
-            elif dropdown_value == 'entities':
-                results = entities_results_html(search_text)
-            elif dropdown_value == 'everything':
-                results = everything_results_html(search_text)
+        try:
+            entity_query = parse_search_box(search_text)
+            if not search_text:
+                return no_query_warning_html()
+            elif not query_is_well_formed(entity_query):
+                return malformed_query_warning_html(search_text)
             else:
-                raise ValueError(
-                    f"Dropdown selection {dropdown_value} not valid!"
-                )
-            return results
+                if dropdown_value == 'abstracts':
+                    results = abstracts_results_html(search_text)
+                elif dropdown_value == 'materials':
+                    results = materials_results_html(search_text)
+                elif dropdown_value == 'entities':
+                    results = entities_results_html(search_text)
+                elif dropdown_value == 'everything':
+                    results = everything_results_html(search_text)
+                else:
+                    raise ValueError(
+                        f"Dropdown selection {dropdown_value} not valid!"
+                    )
+                return results
+        except MatScholarRestError:
+            return rester_error_html()
 
 
 def consolidate_n_submit_and_clicks_to_search_button(*all_n_clicks):

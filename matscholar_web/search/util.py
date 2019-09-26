@@ -98,6 +98,19 @@ def no_results_html():
     return no_results_container
 
 
+def rester_error_html():
+    rester_error_txt = html.Div(
+        f"Our database had trouble with that query. We are likely undergoing "
+        f"maintenance, please visit again later!",
+        className="is-size-4 is-danger"
+    )
+    rester_error = html.Div(
+        rester_error_txt,
+        className="container has-text-centered has-margin-top-50"
+    )
+    return rester_error
+
+
 def results_container_class():
     return "container has-margin-top-20 has-margin-bottom-20"
 
