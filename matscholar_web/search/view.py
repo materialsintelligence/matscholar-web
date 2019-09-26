@@ -64,7 +64,7 @@ def entity_search_html():
     live_entity_search = dcc.Input(
         placeholder="Enter a query here directly or with the entity search boxes below...",
         id="text_input",
-        className="input is-success is-medium",
+        className="input is-info is-medium",
         autoFocus=True,
         # n_submit=0
     )

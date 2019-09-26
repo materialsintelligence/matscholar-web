@@ -62,7 +62,7 @@ def materials_results_html(search_text):
 def get_materials_table(df, limit):
     header_material = html.Th("Material")
     header_counts = html.Th("Count")
-    header_clickable = html.Th(f"Clickable doi links ({MAX_N_DOIS_FOR_VIEWING} available)")
+    header_clickable = html.Th(f"Clickable doi links (Top {MAX_N_DOIS_FOR_VIEWING})")
     header_downloadable = html.Th("Downloadable dois as file")
 
     header = html.Tr(
