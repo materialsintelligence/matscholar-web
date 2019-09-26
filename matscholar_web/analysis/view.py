@@ -48,7 +48,7 @@ def serve_layout():
             html.Div(id="extracted")
         ],
         type="cube",
-        color="green"
+        color="#21ff0d"
     )
 
     loading_container = html.Div(loading)

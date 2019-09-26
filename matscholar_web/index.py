@@ -15,6 +15,7 @@ import matscholar_web.search.view as sv
 import matscholar_web.analysis.callbacks as acb
 import matscholar_web.analysis.view as av
 import matscholar_web.about.view as bv
+import matscholar_web.about.callbacks as bc
 
 """
 Declarations for the core dash app.
@@ -121,3 +122,15 @@ def highlight_extracted(n_clicks, text, normalize):
     [Input("extract-random", 'n_clicks')])
 def get_random(n_clicks):
     return acb.get_random(n_clicks)
+
+
+# About page callbacks
+@app.callback(
+    Output('n-current-abstracts', "children"),
+    [Input('url', 'pathname')]
+)
+def update_n_abstracts(pathname):
+    if pathname == "/about":
+        return bc.get_n_abstracts()
+    else:
+        return "3,000,000"
