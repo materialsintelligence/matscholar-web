@@ -54,16 +54,31 @@ def malformed_query_warning_html(bad_search_txt):
 
 
 def entity_search_html():
+    label = html.Label(
+        "Search 5,000,000+ materials science papers with named entity "
+        "recognition",
+        className="is-size-4-desktop has-margin-5"
+    )
+    label_container = html.Div(label, className="has-text-centered")
+
     live_entity_search = dcc.Input(
         placeholder="Enter a query here directly or with the entity search boxes below...",
         id="text_input",
-        className="input is-success has-min-width-100 is-size-4",
+        className="input is-success is-medium",
         autoFocus=True,
         # n_submit=0
     )
-    live_entity_search_container = html.Div(live_entity_search,
-                                            className="columns is-centered has-margin-20")
-    lesc2 = html.Div(live_entity_search_container, className="container")
+    live_entity_search_column = html.Div(live_entity_search,
+                                            className="column is-half")
+    live_entity_search_columns = html.Div([live_entity_search_column], className="columns is-centered")
+    live_entity_search_container = html.Div(live_entity_search_columns, className="container")
+    lesc2 = html.Div(
+        [
+            label_container,
+            live_entity_search_container
+        ]
+        ,
+        className="container")
     return lesc2
 
 
@@ -86,7 +101,7 @@ def search_type_dropdown():
     """
 
     # Note that the values are correct input for the rester's group_by parameter on the search method
-    advanced_search_types = dcc.Dropdown(
+    search_dropdown = dcc.Dropdown(
         id='search_type_dropdown',
         options=[
             {'label': 'Statistics (on named entities/words)',
@@ -99,13 +114,12 @@ def search_type_dropdown():
         value="no_selection"
     )
 
-    advanced_search_types = html.Div(
-        advanced_search_types,
-        id='advanced_search_types',
-        className="column is-one-fifth"
+    search_dropdown = html.Div(
+        search_dropdown,
+        className="column is-one-quarter"
     )
 
-    return advanced_search_types
+    return search_dropdown
 
 
 def search_dropdown_and_button_html():
@@ -124,7 +138,8 @@ def advanced_search_boxes_html():
     Element filters, entity filters, anonymous formula searches
     """
 
-    entity_filters_html = [entity_filter_box_html(f) for f in valid_entity_filters]
+    entity_filters_html = [entity_filter_box_html(f) for f in
+                           valid_entity_filters]
 
     entity_filter_row_1 = html.Div(entity_filters_html[0:3],
                                    className="columns is-centered")
@@ -138,7 +153,7 @@ def advanced_search_boxes_html():
     advanced_search_boxes = html.Div(
         entity_filter_rows,
         id='advanced_search_boxes',
-        className="has-margin-bottom-100"
+        className="container"
     )
 
     return advanced_search_boxes
