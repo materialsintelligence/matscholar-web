@@ -15,7 +15,7 @@ import matscholar_web.search.view as sv
 import matscholar_web.analysis.callbacks as acb
 import matscholar_web.analysis.view as av
 import matscholar_web.about.view as bv
-import matscholar_web.about.callbacks as bc
+import matscholar_web.about.callbacks as bcb
 
 """
 Declarations for the core dash app.
@@ -93,46 +93,32 @@ def get_robots():
     get_entity_boxes_callback_args(as_type="input")
 )
 def search_bar_live_display(*ent_txts):
+    print("update live display is being called")
     return scb.search_bar_live_display(*ent_txts)
 
 
 @app.callback(
-    Output('search_results', 'children'),
-    [Input('search-btn', 'n_clicks'),
-     Input('text_input', 'n_submit')] +
+    Output('search-btn', 'n_clicks'),
+
+    [Input('text_input', 'n_submit')] +
     get_entity_boxes_callback_args(
         as_type="input",
-        return_component="n_submit"
-    ),
+        return_component="n_submit"),
+    [State('search-btn', 'n_clicks')]
+)
+def consolidate_n_submit_and_clicks_to_search_btn(*all_n_clicks):
+    return scb.consolidate_n_submit_and_clicks_to_search_button(*all_n_clicks)
+
+
+@app.callback(
+    Output('search_results', 'children'),
+    [Input('search-btn', 'n_clicks')],
     [State("search_type_dropdown", "value"),
      State("text_input", "value")]
 )
 @cache.memoize(timeout=TIMEOUT)  # in seconds
-def show_search_results(
-        n_clicks,
-        n_submit,
-        ent1_n_submit,
-        ent2_n_submit,
-        ent3_n_submit,
-        ent4_n_submit,
-        ent5_n_submit,
-        ent6_n_submit,
-        ent7_n_submit,
-        dropdown_value,
-        search_text
-):
-    searches_per_input = [
-        n_clicks,
-        n_submit,
-        ent1_n_submit,
-        ent2_n_submit,
-        ent3_n_submit,
-        ent4_n_submit,
-        ent5_n_submit,
-        ent6_n_submit,
-        ent7_n_submit
-    ]
-    return scb.show_results(searches_per_input, dropdown_value, search_text)
+def show_search_results(n_clicks, dropdown_value, search_text):
+    return scb.show_results(n_clicks, dropdown_value, search_text)
 
 
 # Analyze callbacks
@@ -160,6 +146,6 @@ def get_random(n_clicks):
 )
 def update_n_abstracts(pathname):
     if pathname == "/about":
-        return bc.get_n_abstracts()
+        return bcb.get_n_abstracts()
     else:
         return "3,000,000"

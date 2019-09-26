@@ -9,7 +9,8 @@ from matscholar_web.constants import rester, valid_entity_filters, \
 from matscholar_web.search.util import parse_search_box, \
     results_container_class, no_results_html, get_results_label_html
 
-MAX_N_ABSTRACTS = 100
+MAX_N_ABSTRACTS_RETRIEVED = 200  # the number of abstracts retrieved via api
+MAX_N_ABSTRACTS = 20  # the number of abstracts actually shown
 MAX_ENTITIES_PER_ROW = 3
 
 def abstracts_results_html(search_text):
@@ -17,7 +18,7 @@ def abstracts_results_html(search_text):
     results = rester.abstracts_search(
         entity_query,
         text=None,
-        top_k=MAX_N_ABSTRACTS
+        top_k=MAX_N_ABSTRACTS_RETRIEVED
     )
 
     if not results:

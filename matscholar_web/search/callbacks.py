@@ -9,14 +9,8 @@ from matscholar_web.search.subviews.nothing import no_selection_html
 from matscholar_web.search.util import query_is_well_formed, parse_search_box
 
 
-def show_results(searches_per_input, dropdown_value, search_text):
-
-    n_searches_per_input = [0 if n is None else n for n in searches_per_input]
-    n_times_searched = sum(n_searches_per_input)
-
-    print(n_times_searched)
-
-    if n_times_searched in [None, 0]:
+def show_results(n_clicks, dropdown_value, search_text):
+    if n_clicks in [None, 0]:
         return None
     else:
         if dropdown_value in ['no_selection', None]:
@@ -41,6 +35,12 @@ def show_results(searches_per_input, dropdown_value, search_text):
                     f"Dropdown selection {dropdown_value} not valid!"
                 )
             return results
+
+
+def consolidate_n_submit_and_clicks_to_search_button(*all_n_clicks):
+    n_searches_per_input = [0 if n is None else n for n in all_n_clicks]
+    n_times_searched = sum(n_searches_per_input)
+    return n_times_searched
 
 
 def search_bar_live_display(*ent_txts):
