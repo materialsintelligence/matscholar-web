@@ -1,11 +1,13 @@
 from matscholar_web.constants import rester
 
+from matscholar.rest import MatScholarRestError
+
 
 def get_n_abstracts():
 
     try:
         count = rester.get_abstract_count()
-    except:
+    except MatScholarRestError:
         count = 0
 
     # take care of rester error in the meantime
