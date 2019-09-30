@@ -1,6 +1,10 @@
 import dash_html_components as html
 import dash_core_components as dcc
 
+from matscholar.rest import MatScholarRestError
+
+from matscholar_web.constants import rester
+
 
 def serve_layout():
     introduction = get_introduction()
@@ -24,13 +28,13 @@ def get_introduction():
         "[Ceder](https://ceder.berkeley.edu) research groups. The aim of " \
         "Matscholar is to organize the world's materials knowlegde by " \
         "applying Natural Language Processing (NLP) to materials science " \
-        "literature. To date, we have collected and analyzed "
+        "literature. To date, our database contains "
 
     introduction_body_txt2 = \
-        "materials science abstracts and we continue to periodically update " \
-        "the collection with the latest and greatest advancements in the " \
-        "field. You can read more about our work in the following " \
-        "publications:"
+        "We are continuing to periodically update " \
+        "our collections with the latest and greatest advancements in the " \
+        "field of materials science. You can read more about our work in the " \
+        "following publications:"
 
     publication_header_txt = "Publications:"
 
@@ -77,11 +81,6 @@ def get_introduction():
         "data was also downloaded from the SpringerNature API and Royal " \
         "Society of Chemistry sources."
 
-    current_abstracts = html.Div(
-        id="n-current-abstracts",
-        className="is-size-2 has-margin-10 has-text-centered has-text-weight-bold"
-    )
-
     introduction_body_md = dcc.Markdown(introduction_body_txt)
     introduction_body_md2 = dcc.Markdown(introduction_body_txt2)
     why_use_body_md = dcc.Markdown(why_use_body_txt)
@@ -101,6 +100,10 @@ def get_introduction():
     introduction_body2 = html.Div(introduction_body_md2,
                                   className=body_style)
 
+    current_stats = html.Div(
+        id="n-current-abstracts",
+    )
+
     reference_1 = html.Div(reference_1_md, className=body_style)
     reference_2 = html.Div(reference_2_md, className=body_style)
 
@@ -114,7 +117,7 @@ def get_introduction():
         [
             introduction_header,
             introduction_body,
-            current_abstracts,
+            current_stats,
             introduction_body2,
             publication_header,
             reference_1,
@@ -132,3 +135,43 @@ def get_introduction():
                                     className="columns is-centered")
     # introduction_container = html.Div(introduction_columns, className="container is-content")
     return introduction_columns
+
+
+def get_current_stats_html():
+    overview = {
+        "materials": 0,
+        "entities": 0,
+        "abstracts": 0
+    }
+
+    for t in overview.keys():
+        try:
+            count = rester.get_db_count(count_type=t)
+        except MatScholarRestError:
+            pass
+
+        # take care of rester error in the meantime
+        if count == 0:
+            count = 5000000
+
+        stat = "{:0,.0f}".format(count)
+        overview[t] = stat
+
+    label_map = {
+        "materials": "unique materials",
+        "entities": "materials-related entities",
+        "abstracts": "analyzed abstracts"
+    }
+
+    sections = [None] * 3
+
+    for i, t in enumerate(overview):
+        stat_section = html.Div(
+            f"{overview[t]} {label_map[t]}",
+            className="is-size-3 has-margin-10 has-text-centered has-text-weight-bold"
+        )
+        sections[i] = stat_section
+
+    all_stats = html.Div(sections)
+    return all_stats
+

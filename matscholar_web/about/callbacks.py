@@ -1,18 +1,7 @@
-from matscholar_web.constants import rester
+from matscholar_web.about.view import get_current_stats_html
 
-from matscholar.rest import MatScholarRestError
+def get_current_stats():
+    return get_current_stats_html()
 
 
-def get_n_abstracts():
 
-    try:
-        count = rester.get_abstract_count()
-    except MatScholarRestError:
-        count = 0
-
-    # take care of rester error in the meantime
-    if count == 0:
-        count = 5000000
-
-    current_n_abstracts = "{:0,.0f}".format(count)
-    return current_n_abstracts

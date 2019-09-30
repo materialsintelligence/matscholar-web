@@ -143,8 +143,9 @@ def get_random(n_clicks):
     Output('n-current-abstracts', "children"),
     [Input('url', 'pathname')]
 )
+@cache.memoize(timeout=TIMEOUT)
 def update_n_abstracts(pathname):
     if pathname == "/about":
-        return bcb.get_n_abstracts()
+        return bcb.get_current_stats_html()
     else:
         return None
