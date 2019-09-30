@@ -119,7 +119,7 @@ def get_results_label_html(result_type):
     if result_type == "entities":
         label_text = "Statistics (entities)"
     elif result_type == "materials":
-        label_text = "Similar Materials"
+        label_text = "Summary of Materials"
     elif result_type == "abstracts":
         label_text = "Relevant Abstracts"
     else:

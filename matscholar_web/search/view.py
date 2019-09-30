@@ -106,7 +106,7 @@ def search_type_dropdown():
             {'label': 'Statistics (on named entities/words)',
              'value': 'entities'},
             {'label': 'Relevant Papers', 'value': 'abstracts'},
-            {'label': 'Similar Materials', 'value': 'materials'},
+            {'label': 'Summary of Materials', 'value': 'materials'},
             {'label': 'Everything', 'value': 'everything'},
         ],
         value="entities"
