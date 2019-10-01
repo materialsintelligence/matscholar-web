@@ -15,4 +15,4 @@ pandas
 pymatgen
 pyyaml
 
--e git+https://github.com/materialsintelligence/matscholar.git@search_integration#egg=matscholar
+-e git+https://github.com/materialsintelligence/matscholar.git#egg=matscholar
