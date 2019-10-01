@@ -70,7 +70,6 @@ def get_introduction():
         "faster! We are actively working on our infrastructure to make " \
         "Matscholar faster, more accurate, and more informative."
 
-
     funding_header_txt = "Our funding sources"
     funding_body_txt = \
         "Matscholar is supported by Toyota Research Institute through the " \
@@ -109,7 +108,8 @@ def get_introduction():
 
     why_use_header = html.Div(why_use_header_txt, className=header_style)
     why_use_body = html.Div(why_use_body_md, className=body_style)
-    why_use_body_container = html.Div(why_use_body, className="has-margin-right-40 has-margin-left-40 has-margin-top-5 has-margin-bottom-5")
+    why_use_body_container = html.Div(why_use_body,
+                                      className="has-margin-right-40 has-margin-left-40 has-margin-top-5 has-margin-bottom-5")
     funding_header = html.Div(funding_header_txt, className=header_style)
     funding_body = html.Div(funding_md, className=body_style)
 
@@ -138,24 +138,30 @@ def get_introduction():
 
 
 def get_current_stats_html():
+    # overview = {
+    #     "materials": 0,
+    #     "entities": 0,
+    #     "abstracts": 0
+    # }
+    #
+    # for t in overview.keys():
+    #     try:
+    #         count = rester.get_db_count(count_type=t)
+    #     except MatScholarRestError:
+    #         pass
+    #
+    #     # take care of rester error in the meantime
+    #     if count == 0:
+    #         count = 5000000
+    #
+    #     stat = "{:0,.0f}".format(count)
+    #     overview[t] = stat
+
     overview = {
-        "materials": 0,
-        "entities": 0,
-        "abstracts": 0
+        "materials": "298,616",
+        "entities": "525,690",
+        "abstracts": "525,690"
     }
-
-    for t in overview.keys():
-        try:
-            count = rester.get_db_count(count_type=t)
-        except MatScholarRestError:
-            pass
-
-        # take care of rester error in the meantime
-        if count == 0:
-            count = 5000000
-
-        stat = "{:0,.0f}".format(count)
-        overview[t] = stat
 
     label_map = {
         "materials": "unique materials",
@@ -174,4 +180,3 @@ def get_current_stats_html():
 
     all_stats = html.Div(sections)
     return all_stats
-
