@@ -138,30 +138,30 @@ def get_introduction():
 
 
 def get_current_stats_html():
-    # overview = {
-    #     "materials": 0,
-    #     "entities": 0,
-    #     "abstracts": 0
-    # }
-    #
-    # for t in overview.keys():
-    #     try:
-    #         count = rester.get_db_count(count_type=t)
-    #     except MatScholarRestError:
-    #         pass
-    #
-    #     # take care of rester error in the meantime
-    #     if count == 0:
-    #         count = 5000000
-    #
-    #     stat = "{:0,.0f}".format(count)
-    #     overview[t] = stat
-
     overview = {
-        "materials": "298,616",
-        "entities": "525,690",
-        "abstracts": "525,690"
+        "materials": 0,
+        "entities": 0,
+        "abstracts": 0
     }
+
+    for t in overview.keys():
+        try:
+            count = rester.get_db_count(count_type=t)
+        except MatScholarRestError:
+            pass
+
+        # take care of rester error in the meantime
+        if count == 0:
+            count = 5000000
+
+        stat = "{:0,.0f}".format(count)
+        overview[t] = stat
+
+    # overview = {
+    #     "materials": "298,616",
+    #     "entities": "525,690",
+    #     "abstracts": "525,690"
+    # }
 
     label_map = {
         "materials": "unique materials",
