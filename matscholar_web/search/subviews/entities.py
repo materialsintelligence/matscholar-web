@@ -21,7 +21,8 @@ def entities_results_html(search_text):
         all_tables = get_all_score_tables(results)
         big_results_label = get_results_label_html("entities")
         all_tables_container = html.Div(
-            [big_results_label, all_tables],
+            id="#entities_results",
+            children=[big_results_label, all_tables],
             className=results_container_class()
         )
         return all_tables_container

@@ -8,9 +8,10 @@ from matscholar_web.search.util import no_results_html
 
 def everything_results_html(search_text):
 
+    scroll_link = html.A("link to entities", href="/search#entities_results")
     scroll_down = html.Label(
-        "Scroll down for more!",
-        className="is-size-4 has-margin-10 has-margin-bottom-20"
+        scroll_link,
+        className="is-size-4 has-margin-10 has-margin-top-20"
     )
     scroll_down_container = html.Div(scroll_down)
     entities_results = entities_results_html(search_text)

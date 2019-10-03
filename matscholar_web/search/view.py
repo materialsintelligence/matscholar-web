@@ -12,9 +12,8 @@ from matscholar_web.constants import valid_entity_filters, \
 def serve_layout():
     return html.Div(
         [
-            entity_search_html(),
-            search_dropdown_and_button_html(),
-            advanced_search_boxes_html(),
+            search_bar_and_go_html(),
+            advanced_search_html(),
             subview_results_container_html()
         ]
     )
@@ -53,88 +52,69 @@ def malformed_query_warning_html(bad_search_txt):
     return common_warning_html(warning_header_txt, warning_body_txt)
 
 
-def entity_search_html():
+def search_bar_and_go_html():
+
+    search_bar = dcc.Input(
+        placeholder="Enter a query here directly or with the entity search boxes below...",
+        id="text_input",
+        className="input is-info is-medium",
+        autoFocus=True,
+    )
+    search_bar_html = html.Div(search_bar, className="column is-half")
+
+    go_button = html.Button(
+        "Go",
+        id="search-btn",
+        className="button is-warning is-focused is-medium"
+    )
+
+    go_html = html.Div(
+        go_button,
+        className="column is-narrow"
+    )
+
     label = html.Label(
         "Search 5,000,000+ materials science abstracts with named entity "
         "recognition",
         className="is-size-4-desktop has-margin-5"
     )
     label_container = html.Div(label, className="has-text-centered")
+    bar_and_go_columns = html.Div([search_bar_html, go_html], className="columns is-centered")
 
-    live_entity_search = dcc.Input(
-        placeholder="Enter a query here directly or with the entity search boxes below...",
-        id="text_input",
-        className="input is-info is-medium",
-        autoFocus=True,
-    )
-    live_entity_search_column = html.Div(live_entity_search,
-                                            className="column is-half")
-    live_entity_search_columns = html.Div([live_entity_search_column], className="columns is-centered")
-    live_entity_search_container = html.Div(live_entity_search_columns, className="container")
-    lesc2 = html.Div(
+    bar_and_go_container = html.Div(bar_and_go_columns, className="container")
+    bar_and_go_and_label_container = html.Div(
         [
             label_container,
-            live_entity_search_container
+            bar_and_go_container
         ]
         ,
         className="container")
-    return lesc2
+    return bar_and_go_and_label_container
 
 
-def go_button():
-    """Returns the html div for the main search bar and search button
-    """
-    search_button_html = html.Div(html.Button(
-        "Go",
-        id="search-btn",
-        className="button is-warning is-focused is-size-6"
-    ),
-        className="column is-narrow"
-    )
-    return search_button_html
-
-
-def search_type_dropdown():
-    """
-    Html for the advanced search types, e.g. sort by abstracts, materials, statistics
-    """
-
-    # Note that the values are correct input for the rester's group_by parameter on the search method
-    search_dropdown = dcc.Dropdown(
-        id='search_type_dropdown',
-        options=[
-            {'label': 'Statistics (on named entities/words)',
-             'value': 'entities'},
-            {'label': 'Relevant Papers', 'value': 'abstracts'},
-            {'label': 'Summary of Materials', 'value': 'materials'},
-            {'label': 'Everything', 'value': 'everything'},
-        ],
-        value="entities"
-    )
-
-    search_dropdown = html.Div(
-        search_dropdown,
-        className="column is-one-quarter"
-    )
-
-    return search_dropdown
-
-
-def search_dropdown_and_button_html():
-    button = go_button()
-    dropdown = search_type_dropdown()
-    button_and_dropdown = html.Div(
-        [dropdown, button],
-        className="columns is-centered"
-    )
-    return button_and_dropdown
-
-
-def advanced_search_boxes_html():
+def advanced_search_html():
     """
     Html for the advanced search boxes.
     Element filters, entity filters, anonymous formula searches
     """
+    hr = html.Hr(className="is-divider")
+    dropdown = dcc.Dropdown(
+        id='search_type_dropdown',
+        options=[
+            {'label': 'Search type: Statistics (on named entities/words)',
+             'value': 'entities'},
+            {'label': 'Search type: Relevant Papers', 'value': 'abstracts'},
+            {'label': 'Search type: Summary of Materials', 'value': 'materials'},
+            {'label': 'Search type: Everything', 'value': 'everything'},
+        ],
+        value="everything"
+    )
+    dropdown_column = html.Div(dropdown, className="column is-fullwidth")
+    dropdown_columns = html.Div(
+        [dropdown_column],
+        className="columns is-centered"
+    )
+    dropdown_container = html.Div(dropdown_columns, className="container has-margin-5")
 
     entity_filters_html = [entity_filter_box_html(f) for f in
                            valid_entity_filters]
@@ -151,10 +131,25 @@ def advanced_search_boxes_html():
     advanced_search_boxes = html.Div(
         entity_filter_rows,
         id='advanced_search_boxes',
+        className="container has-margin-top-10"
+    )
+
+    summary_txt = "Advanced search options"
+    summary = html.Summary(summary_txt, className="has-text-centered is-size-6")
+    hidden_column = html.Details(
+        [hr, dropdown_container, summary, advanced_search_boxes],
+        className="column is-half"
+    )
+
+    hidden_columns = html.Div(hidden_column, className="columns is-centered")
+    hidden_container = html.Div(
+        [
+            hidden_columns
+        ],
         className="container"
     )
 
-    return advanced_search_boxes
+    return hidden_container
 
 
 def entity_filter_box_html(entity):
