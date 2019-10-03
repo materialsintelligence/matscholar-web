@@ -102,11 +102,11 @@ def advanced_search_html():
     dropdown = dcc.Dropdown(
         id='search_type_dropdown',
         options=[
-            {'label': 'Search type: Statistics (on named entities/words)',
+            {'label': 'Search for: Statistics (on named entities/words)',
              'value': 'entities'},
-            {'label': 'Search type: Relevant Papers', 'value': 'abstracts'},
-            {'label': 'Search type: Summary of Materials', 'value': 'materials'},
-            {'label': 'Search type: Everything', 'value': 'everything'},
+            {'label': 'Search for: Relevant Papers', 'value': 'abstracts'},
+            {'label': 'Search for: Summary of Materials', 'value': 'materials'},
+            {'label': 'Search for: Everything', 'value': 'everything'},
         ],
         value="everything"
     )
