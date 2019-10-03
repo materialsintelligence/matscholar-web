@@ -1,4 +1,5 @@
 import dash_html_components as html
+import dash_core_components as dcc
 
 from matscholar_web.search.subviews.abstracts import abstracts_results_html
 from matscholar_web.search.subviews.entities import entities_results_html
@@ -8,12 +9,10 @@ from matscholar_web.search.util import no_results_html
 
 def everything_results_html(search_text):
 
-    scroll_link = html.A("link to entities", href="/search#entities_results")
-    scroll_down = html.Label(
-        scroll_link,
-        className="is-size-4 has-margin-10 has-margin-top-20"
-    )
-    scroll_down_container = html.Div(scroll_down)
+    scroll_a = html.A("Link to entities", href="#materials_results", className="is-size-4")
+    scroll_link = dcc.Link(scroll_a, href="#materials_results")
+
+    scroll_down_container = html.Div(scroll_link)
     entities_results = entities_results_html(search_text)
     materials_results = materials_results_html(search_text)
     abstracts_results = abstracts_results_html(search_text)

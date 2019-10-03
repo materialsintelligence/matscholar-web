@@ -54,7 +54,8 @@ def materials_results_html(search_text):
         materials_table = get_materials_table(df, MAX_N_MATERIALS_IN_TABLE)
         big_results_label = get_results_label_html("materials")
         return html.Div(
-            [big_results_label, label, link, materials_table],
+            id="materials_results",
+            children=[big_results_label, label, link, materials_table],
             className=results_container_class()
         )
 

@@ -67,10 +67,14 @@
 
 
 details[open] summary ~ * {
-  animation: sweep .5s ease-in-out;
+  animation: sweep 0.5s ease-in-out;
+}
+
+.msweb-fade-in {
+  animation: sweep 0.5s ease-in-out;
 }
 
 @keyframes sweep {
-  0%    {opacity: 0; margin-left: -10px}
+  0%    {opacity: 0; margin-left: 0px}
   100%  {opacity: 1; margin-left: 0px}
 }

@@ -27,6 +27,7 @@ def subview_results_container_html():
     wrapper = dcc.Loading(
         type="cube",
         children=my_results_html,
+        className="msweb-fade-in"
     )
     return wrapper
 

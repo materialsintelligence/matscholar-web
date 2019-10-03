@@ -51,6 +51,8 @@ def parse_search_box(search_text):
     Returns:
 
     """
+    if not search_text:
+        return None
     entities_text_list = search_text.split(",")
     entity_query = {k: [] for k in valid_entity_filters}
     for et in entities_text_list:
@@ -112,7 +114,7 @@ def rester_error_html():
 
 
 def results_container_class():
-    return "container has-margin-top-20 has-margin-bottom-20"
+    return "container has-margin-top-20 has-margin-bottom-20 msweb-fade-in"
 
 
 def get_results_label_html(result_type):

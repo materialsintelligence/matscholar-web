@@ -17,7 +17,7 @@ def show_results(n_clicks, dropdown_value, search_text):
     else:
         try:
             entity_query = parse_search_box(search_text)
-            if not search_text:
+            if not entity_query:
                 return no_query_warning_html()
             elif not query_is_well_formed(entity_query):
                 return malformed_query_warning_html(search_text)
