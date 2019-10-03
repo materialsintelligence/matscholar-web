@@ -55,7 +55,7 @@ def malformed_query_warning_html(bad_search_txt):
 
 def entity_search_html():
     label = html.Label(
-        "Search 5,000,000+ materials science papers with named entity "
+        "Search 5,000,000+ materials science abstracts with named entity "
         "recognition",
         className="is-size-4-desktop has-margin-5"
     )
