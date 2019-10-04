@@ -15,7 +15,7 @@ def serve_layout():
             search_bar_and_go_html(),
             advanced_search_html(),
             subview_results_container_html()
-        ]
+        ],
     )
 
 

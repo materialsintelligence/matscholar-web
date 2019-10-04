@@ -78,7 +78,8 @@ def serve_layout():
             html.Div(id="extracted")
         ],
         type="cube",
-        color="#21ff0d"
+        color="#21ff0d",
+        className="msweb-fade-in"
     )
 
     loading_container = html.Div(loading)
@@ -98,7 +99,6 @@ def serve_layout():
 
 
 def abstracts_entities_results_html(text, normalize):
-    print("somehow im in here, despite", str(text).strip() in ["", None])
     # Extract highlighted
     return_type = "normalized" if normalize == "yes" else "concatenated"
     result = rester.get_ner_tags([text], return_type=return_type)

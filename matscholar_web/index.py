@@ -39,7 +39,7 @@ footer = html.Footer(footer_section, className="footer")
 app_container = html.Div("", id="app_container", className="container is-fluid")
 app_expander = html.Div(app_container, className="msweb-is-tall")
 app_expander_container = html.Div(app_expander,
-                                  className="msweb-is-tall-container")
+                                  className="msweb-is-tall-container msweb-fade-in")
 
 app.layout = html.Div(
     [

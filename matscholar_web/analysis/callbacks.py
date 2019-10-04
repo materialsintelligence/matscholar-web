@@ -15,9 +15,8 @@ with open(
 
 def extracted_results(n_clicks, text, normalize):
     if n_clicks is not None:
-        print(str(text).strip() in ["", None], "going to return no abstract")
-        if str(text).strip() in ["", None]:
-            print("going to return no abstract")
+        stripped = text if not text else text.strip()
+        if stripped in [None, ""]:
             return no_abstract_warning_html()
         else:
             return abstracts_entities_results_html(text, normalize)
