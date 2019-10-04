@@ -2,6 +2,7 @@ import urllib
 
 import pandas as pd
 import dash_html_components as html
+import dash_dangerously_set_inner_html as dhtml
 
 from matscholar_web.constants import rester, valid_entity_filters
 from matscholar_web.search.util import parse_search_box, no_results_html, \
@@ -51,13 +52,14 @@ def materials_results_html(search_text):
 
         # reformatted_result = [(materials[i], counts[i], dois[i]) for i in range(n_filtered_results)]
 
+
         materials_table = get_materials_table(df, MAX_N_MATERIALS_IN_TABLE)
         big_results_label = get_results_label_html("materials")
-        return html.Div(
-            id="materials_results",
+        materials_html = html.Div(
             children=[big_results_label, label, link, materials_table],
             className=results_container_class()
         )
+        return materials_html
 
 
 def get_materials_table(df, limit):

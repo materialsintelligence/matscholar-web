@@ -4,6 +4,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 
 from matscholar_web.constants import valid_entity_filters
+from matscholar_web.common import common_null_warning_html
 
 MAX_N_TERMS_PER_ENTITY = 10
 
@@ -89,15 +90,7 @@ def query_is_well_formed(entity_query):
 
 
 def no_results_html():
-    no_results_text = html.Div(
-        f"No results found!",
-        className="is-size-4"
-    )
-    no_results_container = html.Div(
-        no_results_text,
-        className="container has-text-centered has-margin-top-50"
-    )
-    return no_results_container
+    return common_null_warning_html("No results found!")
 
 
 def rester_error_html():

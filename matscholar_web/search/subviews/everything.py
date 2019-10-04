@@ -1,5 +1,4 @@
 import dash_html_components as html
-import dash_core_components as dcc
 
 from matscholar_web.search.subviews.abstracts import abstracts_results_html
 from matscholar_web.search.subviews.entities import entities_results_html
@@ -9,10 +8,18 @@ from matscholar_web.search.util import no_results_html
 
 def everything_results_html(search_text):
 
-    scroll_a = html.A("Link to entities", href="#materials_results", className="is-size-4")
-    scroll_link = dcc.Link(scroll_a, href="#materials_results")
+    scroll_down_header_txt = "Scroll down for full results."
+    scroll_down_header = html.Div(scroll_down_header_txt, className="is-size-3")
+    scroll_down = html.Div(
+        [
+            scroll_down_header,
+        ],
+        className="notification is-light has-text-centered"
+    )
+    scroll_down_column = html.Div(scroll_down, className="column is-half")
+    scroll_down_columns = html.Div(scroll_down_column, className="columns is-centered")
+    scroll_down_container = html.Div(scroll_down_columns, className="container")
 
-    scroll_down_container = html.Div(scroll_link)
     entities_results = entities_results_html(search_text)
     materials_results = materials_results_html(search_text)
     abstracts_results = abstracts_results_html(search_text)

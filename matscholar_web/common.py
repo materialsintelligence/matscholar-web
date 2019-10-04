@@ -19,3 +19,15 @@ def common_warning_html(header_txt, body_txt):
     warning_columns = html.Div(warning_column, className="columns is-centered")
     warning_container = html.Div(warning_columns, className="container")
     return warning_container
+
+
+def common_null_warning_html(text):
+    null_txt = html.Div(
+        text,
+        className="is-size-4"
+    )
+    null_container = html.Div(
+        null_txt,
+        className="container has-text-centered has-margin-top-50"
+    )
+    return null_container

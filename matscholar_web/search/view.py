@@ -4,7 +4,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 from dash_elasticsearch_autosuggest import ESAutosuggest
 
-from matscholar_web.common import common_warning_html
+from matscholar_web.common import common_warning_html, common_null_warning_html
 from matscholar_web.constants import valid_entity_filters, \
     entity_color_map_bulma
 
@@ -33,15 +33,9 @@ def subview_results_container_html():
 
 
 def no_query_warning_html():
-    no_query_txt = html.Div(
-        f"Please enter a query using the search bar, then hit Enter or \"Go\".",
-        className="is-size-4"
-    )
-    no_query_container = html.Div(
-        no_query_txt,
-        className="container has-text-centered has-margin-top-50"
-    )
-    return no_query_container
+    null_txt = \
+        f"Please enter a query using the search bar, then hit Enter or \"Go\"."
+    return common_null_warning_html(null_txt)
 
 
 def malformed_query_warning_html(bad_search_txt):
