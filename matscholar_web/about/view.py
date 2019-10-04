@@ -137,6 +137,9 @@ def get_introduction():
     return introduction_columns
 
 
+def get_journal_breakdown():
+    rester.get_journals()
+
 def get_current_stats_html():
     overview = {
         "materials": 0,
@@ -162,19 +165,19 @@ def get_current_stats_html():
     #     "entities": "525,690",
     #     "abstracts": "525,690"
     # }
-
-    label_map = {
-        "materials": "unique materials",
-        "entities": "materials-related entities",
-        "abstracts": "analyzed abstracts"
-    }
+    #
+    # label_map = {
+    #     "materials": "unique materials",
+    #     "entities": "materials-related entities",
+    #     "abstracts": "analyzed abstracts"
+    # }
 
     sections = [None] * 3
 
     for i, t in enumerate(overview):
         stat_section = html.Div(
             f"{overview[t]} {label_map[t]}",
-            className="is-size-3 has-margin-10 has-text-centered has-text-weight-bold"
+            className="is-size-3 has-margin-10 has-text-centered has-text-weight-bold Count"
         )
         sections[i] = stat_section
 

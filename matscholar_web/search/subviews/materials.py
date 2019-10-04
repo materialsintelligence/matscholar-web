@@ -118,7 +118,7 @@ def get_details(dois):
 
 def get_csv_download_link_from_df(df, link_text=None):
     if not link_text:
-        link_text = "Download data as csv"
+        link_text = "Fetch and download all DOIs as CSV"
 
     csv_string = df.to_csv(index=False, encoding='utf-8')
     csv_string = "data:text/csv;charset=utf-8," + \
