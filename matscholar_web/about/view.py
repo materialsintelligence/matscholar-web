@@ -166,11 +166,11 @@ def get_current_stats_html():
     #     "abstracts": "525,690"
     # }
     #
-    # label_map = {
-    #     "materials": "unique materials",
-    #     "entities": "materials-related entities",
-    #     "abstracts": "analyzed abstracts"
-    # }
+    label_map = {
+        "materials": "unique materials",
+        "entities": "materials-related entities",
+        "abstracts": "analyzed abstracts"
+    }
 
     sections = [None] * 3
 
