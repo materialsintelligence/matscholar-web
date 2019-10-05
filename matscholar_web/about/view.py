@@ -16,8 +16,6 @@ def serve_layout():
 
     return html.Div(
         [
-            dcc.Input(id="some_input"),
-            html.Div(id='output-clientside'),
             introduction,
             journals,
         ]

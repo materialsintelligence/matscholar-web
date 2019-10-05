@@ -131,6 +131,7 @@ app.clientside_callback(
         namespace='clientside',
         function_name='display123'
     ),
-    Output('output-clientside', 'children'),
-    [Input('some_input', 'value')]
+    Output('count-materials', 'children'),
+    [Input('url', 'pathname'),
+     Input('count-materials', 'id')]
 )
