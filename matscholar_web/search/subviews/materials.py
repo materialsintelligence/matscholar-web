@@ -2,7 +2,6 @@ import urllib
 
 import pandas as pd
 import dash_html_components as html
-import dash_dangerously_set_inner_html as dhtml
 
 from matscholar_web.constants import rester, valid_entity_filters
 from matscholar_web.search.util import parse_search_box, no_results_html, \
