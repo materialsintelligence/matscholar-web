@@ -35,7 +35,8 @@ app_expander_container = html.Div(app_expander,
                                   className="msweb-is-tall-container msweb-fade-in")
 
 
-js = visdcc.Run_js(id='javascript')
+# all external javascript functions managed by visdcc
+js = visdcc.Run_js(id='')
 
 app.layout = html.Div(
     [
