@@ -21,19 +21,6 @@ import matscholar_web.about.callbacks as bcb
 Declarations for the core dash app.
 """
 
-bulma = html.Link(rel='stylesheet', href='/static/css/bulma.css')
-bulma_helper = html.Link(rel='stylesheet', href='/static/css/bulma-helpers.css')
-# stylesheets = [bulma, bulma_helper]
-custom_css = html.Link(rel='stylesheet', href='/static/css/msweb.css')
-stylesheets = [bulma, bulma_helper, custom_css]
-stylesheet_div = html.Div(stylesheets, className="container is-hidden")
-
-# thisdir = os.path.dirname(os.path.abspath(__file__))
-# js_fname = os.path.join(thisdir, "about/count.js")
-# with open(js_fname, "rb") as f:
-#     js = f.read()
-# app.scripts.append_script(js)
-
 footer_interior = get_footer()
 header = get_header()
 nav = get_nav()
@@ -49,7 +36,6 @@ app_expander_container = html.Div(app_expander,
 
 app.layout = html.Div(
     [
-        stylesheet_div,
         nav_and_header_section,
         app_expander_container,
         footer,
@@ -87,7 +73,7 @@ def get_stylesheet(path):
 # setting the static path for robots.txt
 @app.server.route('/robots.txt')
 def get_robots():
-    static_folder = os.path.join(os.getcwd(), 'matscholar_web/static')
+    static_folder = os.path.join(os.getcwd(), 'matscholar_web/assets')
     path = "robots.txt"
     return send_from_directory(static_folder, path)
 

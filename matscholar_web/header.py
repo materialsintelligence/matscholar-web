@@ -17,10 +17,10 @@ def get_header():
 
     """
 
-    link = get_img_link_from_path("matscholar_logo_v4.png")
+    # link = get_img_link_from_path("matscholar_logo_v4.png")
 
     logo = html.Img(
-        src=link,
+        src="/assets/matscholar_logo_v4.png",
         className="has-ratio",
         height=95,
         width=467
