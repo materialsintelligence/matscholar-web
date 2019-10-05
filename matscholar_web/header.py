@@ -1,11 +1,6 @@
 import dash_core_components as dcc
 import dash_html_components as html
 
-from matscholar_web.util import get_img_link_from_path
-
-
-
-
 
 def get_header():
     """
@@ -13,11 +8,7 @@ def get_header():
 
     Returns:
         (dash_html_components.Div): The header.
-
-
     """
-
-    # link = get_img_link_from_path("matscholar_logo_v4.png")
 
     logo = html.Img(
         src="/assets/matscholar_logo_v4.png",

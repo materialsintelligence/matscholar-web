@@ -6,12 +6,10 @@ from matscholar_web.analysis.view import abstracts_entities_results_html, \
     no_abstract_warning_html
 
 # Get the rester and random docs on import
-local_dir = os.path.dirname(__file__)
-with open(
-        os.path.join(local_dir, "../static/data/extract_app_sample_docs.json"),
-        "r") as f:
+local_dir = os.path.dirname(os.path.abspath(__file__))
+filename = os.path.join(local_dir, "../assets/data/sample_abstracts.json")
+with open(filename, "r") as f:
     sample_docs = json.load(f)
-
 
 def extracted_results(n_clicks, text, normalize):
     if n_clicks is not None:
