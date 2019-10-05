@@ -1,5 +1,6 @@
 from matscholar.rest import MatScholarRestError
 
+from matscholar_web.common import common_rester_error_html
 from matscholar_web.constants import valid_entity_filters
 from matscholar_web.search.view import malformed_query_warning_html, \
     no_query_warning_html
@@ -7,8 +8,7 @@ from matscholar_web.search.subviews.abstracts import abstracts_results_html
 from matscholar_web.search.subviews.materials import materials_results_html
 from matscholar_web.search.subviews.entities import entities_results_html
 from matscholar_web.search.subviews.everything import everything_results_html
-from matscholar_web.search.util import query_is_well_formed, parse_search_box, \
-    rester_error_html
+from matscholar_web.search.util import query_is_well_formed, parse_search_box
 
 
 def show_results(n_clicks, dropdown_value, search_text):
@@ -36,7 +36,10 @@ def show_results(n_clicks, dropdown_value, search_text):
                     )
                 return results
         except MatScholarRestError:
-            return rester_error_html()
+            rester_error = \
+                "Our database had trouble with that query. We are likely " \
+                "undergoing maintenance, please visit again later!"
+            return common_rester_error_html(rester_error)
 
 
 def consolidate_n_submit_and_clicks_to_search_button(*all_n_clicks):

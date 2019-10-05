@@ -31,3 +31,12 @@ def common_null_warning_html(text):
         className="container has-text-centered has-margin-top-50"
     )
     return null_container
+
+
+def common_rester_error_html(text):
+    rester_error_txt = html.Div(text, className="is-size-4 is-danger")
+    rester_error = html.Div(
+        rester_error_txt,
+        className="container has-text-centered has-margin-top-50"
+    )
+    return rester_error

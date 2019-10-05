@@ -4,10 +4,11 @@ import urllib
 
 import dash_html_components as html
 import dash_core_components as dcc
+from matscholar.rest import MatScholarRestError
 
-from matscholar_web.common import common_null_warning_html
+from matscholar_web.common import common_null_warning_html, \
+    common_warning_html, common_rester_error_html
 from matscholar_web.constants import rester, entity_color_map_bulma
-from matscholar_web.common import common_warning_html
 
 label_mapping = {
     "MAT": "material",
@@ -101,7 +102,13 @@ def serve_layout():
 def abstracts_entities_results_html(text, normalize):
     # Extract highlighted
     return_type = "normalized" if normalize == "yes" else "concatenated"
-    result = rester.get_ner_tags([text], return_type=return_type)
+    try:
+        result = rester.get_ner_tags([text], return_type=return_type)
+    except MatScholarRestError:
+        rester_error_txt = \
+            "Our server is having trouble with that abstract. We are likely " \
+            "undergoing maintenance, check back soon!"
+        return common_rester_error_html(rester_error_txt)
     tagged_doc = result["tags"]
     relevance = result["relevance"][0]
     highlighted = highlight_entities(tagged_doc)
