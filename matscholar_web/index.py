@@ -105,25 +105,6 @@ def consolidate_n_submit_and_clicks_to_search_btn(*all_n_clicks):
 def show_search_results(n_clicks, dropdown_value, search_text):
     return scb.show_results(n_clicks, dropdown_value, search_text)
 
-# See the count.js file for more details
-# app.clientside_callback(
-#     ClientsideFunction(
-#         namespace='clientside',
-#         function_name='count_stats'
-#     ),
-#     Output('count-materials', 'children'),
-#     [
-#         Input('url', 'pathname'),
-#         Input('count-materials', 'id'),
-#         Input('count-abstracts', 'id'),
-#         Input('count-entities', 'id'),
-#         Input('count-materials-hidden-ref', 'id'),
-#         Input('count-abstracts-hidden-ref', 'id'),
-#         Input('count-entities-hidden-ref', 'id')
-#     ]
-# )
-
-
 
 # Analyze callbacks
 #######################
@@ -150,7 +131,7 @@ def get_random(n_clicks):
 app.clientside_callback(
     ClientsideFunction(
         namespace='clientside',
-        function_name='count_stats'
+        function_name='countStats'
     ),
     Output('count-materials', 'children'),
     [

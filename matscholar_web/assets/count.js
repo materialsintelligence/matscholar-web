@@ -45,7 +45,7 @@ function animatedCount(id, hiddenId, duration) {
 
 if(!window.dash_clientside) {window.dash_clientside = {};}
 window.dash_clientside.clientside = {
-    count_stats: function (pathname, id1, id2, id3, hiddenId1, hiddenId2, hiddenId3) {
+    countStats: function (pathname, id1, id2, id3, hiddenId1, hiddenId2, hiddenId3) {
         if (pathname == "/about"){
                 animatedCount(id1, hiddenId1, countTime)
                 animatedCount(id2, hiddenId2, countTime)
