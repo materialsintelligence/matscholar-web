@@ -164,7 +164,7 @@ def get_current_stats_html():
     # work correctly. Do NOT change the ids without changing the corresponding
     # javascript!
     # The ids currently are count-materials, count-abstracts, count-entities
-    common_styling = "has-margin-5 has-text-centered has-text-weight-bold"
+    common_styling = "has-margin-right-10 has-margin-left-10 has-text-centered has-text-weight-bold"
     for k, v in label_map.items():
         stat = html.Div(
             "{:,}".format(stats[k]),
@@ -172,9 +172,9 @@ def get_current_stats_html():
             className=f"is-size-4-desktop {common_styling}"
         )
         stat_descriptor = html.Div(f"{v}",
-                                   className=f"is-size-5-desktop {common_styling}")
+                                   className=f"is-size-6-desktop {common_styling}")
         stat_column = html.Div([stat, stat_descriptor],
-                               className="column is-one-third")
+                               className="flex-column is-one-third")
         stats_columns.append(stat_column)
 
     stats_columns = html.Div(stats_columns, className="columns is-centered is-desktop")

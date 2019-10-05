@@ -16,7 +16,7 @@ def get_nav():
     """
     search_button = html.Button(
         "Search For Materials App",
-        className="button is-link disabled is-size-6 has-margin-5"
+        className="button is-link is-size-6 has-margin-5"
     )
     analyze_button = html.Button(
         "Analyze An Abstract App",
