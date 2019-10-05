@@ -221,6 +221,7 @@ def get_journals_html():
         className="table is-bordered is-hoverable is-narrow is-striped"
     )
 
+
     hr_dropdown = divider_html()
     hr_jtable = divider_html()
     jtable_label = html.Div(
