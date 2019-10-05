@@ -1,6 +1,9 @@
+import os
+import json
 from datetime import datetime
 
 from matscholar_web.constants import rester
+
 """
 Generates the data for showing database statistics (preventing redundant
 rester calls and prevent having to do caching nonsense).
@@ -13,6 +16,7 @@ To be run by either:
     deployments OR you just want to run it locally.
 """
 
+
 def get_timestamp():
     """
     Get the time now, formatted as YYYY/MM/DD-HH:MM:SS
@@ -23,6 +27,7 @@ def get_timestamp():
     """
     now = datetime.now()
     now.strftime("%Y/%m/%d-%H:%M:%S")
+
 
 def get_debug_stats():
     """
@@ -38,36 +43,37 @@ def get_debug_stats():
         "entities": 525690,
         "abstracts": 4951267,
         "journals": [
-            "Journal of Materials Chemistry, A",
-            "Journal of Materials Chemistry, B",
-            "Journal of Materials Chemistry, C",
-            "Materials Horizons",
-            "Nature",
-            "Nature Materials",
-            "Computational Materials Science",
-            "Journal of Materials, Physics",
-            "Science",
-            "Nature Machine Intelligence",
-            "Physical Review A",
-            "Physical Review B",
-            "Physical Review Letters",
-            "Energy and Environmental Science",
-            "Frontiers in Materials",
-            "Joule",
-            "Matter",
-            "Cell",
-            "Angewandte Chemie International Edition",
-            "Advanced Functional Materials",
-            "Chemistry of Materials",
-            "Journal of Solid State Chemistry",
-            "Apl Materials",
-            "Nature Scientific Data",
-            "Electrochemistry Communications",
-            "Concurrency and Computation"
-        ] * 20,
+                        "Journal of Materials Chemistry, A",
+                        "Journal of Materials Chemistry, B",
+                        "Journal of Materials Chemistry, C",
+                        "Materials Horizons",
+                        "Nature",
+                        "Nature Materials",
+                        "Computational Materials Science",
+                        "Journal of Materials, Physics",
+                        "Science",
+                        "Nature Machine Intelligence",
+                        "Physical Review A",
+                        "Physical Review B",
+                        "Physical Review Letters",
+                        "Energy and Environmental Science",
+                        "Frontiers in Materials",
+                        "Joule",
+                        "Matter",
+                        "Cell",
+                        "Angewandte Chemie International Edition",
+                        "Advanced Functional Materials",
+                        "Chemistry of Materials",
+                        "Journal of Solid State Chemistry",
+                        "Apl Materials",
+                        "Nature Scientific Data",
+                        "Electrochemistry Communications",
+                        "Concurrency and Computation"
+                    ] * 20,
         "timestamp": get_timestamp()
 
     }
+    return stats
 
 
 def get_live_stats():
@@ -88,9 +94,19 @@ def get_live_stats():
     return stats
 
 
-
 if __name__ == "__main__":
+    # stats = get_live_stats()
+    stats = get_debug_stats()
 
+    thisdir = os.path.abspath(os.path.dirname(__file__))
+    target = os.path.abspath(
+        os.path.join(
+            thisdir,
+            "../matscholar_web/assets/data/db_statistics.json"
+        )
+    )
 
+    with open(target, "w") as f:
+        json.dump(stats, f)
 
-    print(n_materials)
+    print("Statistics updated successfully!")
