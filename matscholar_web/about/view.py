@@ -1,8 +1,6 @@
 import dash_html_components as html
 import dash_core_components as dcc
 
-from matscholar.rest import MatScholarRestError
-
 from matscholar_web.constants import rester
 
 
@@ -24,7 +22,8 @@ def get_introduction():
         "Matscholar is a research effort based out of the Lawrence Berkeley " \
         "National Lab and led by the " \
         "[HackingMaterials](https://hackingmaterials.lbl.gov), " \
-        "Persson ([Materials Project](materialsproject.org)) and " \
+        "[Persson](https://perssongroup.lbl.gov) " \
+        "([Materials Project](https://materialsproject.org)) and " \
         "[Ceder](https://ceder.berkeley.edu) research groups. The aim of " \
         "Matscholar is to organize the world's materials knowlegde by " \
         "applying Natural Language Processing (NLP) to materials science " \
@@ -141,45 +140,50 @@ def get_journal_breakdown():
     rester.get_journals()
 
 def get_current_stats_html():
-    overview = {
-        "materials": 0,
-        "entities": 0,
-        "abstracts": 0
-    }
-
-    for t in overview.keys():
-        try:
-            count = rester.get_db_count(count_type=t)
-        except MatScholarRestError:
-            pass
-
-        # take care of rester error in the meantime
-        if count == 0:
-            count = 5000000
-
-        stat = "{:0,.0f}".format(count)
-        overview[t] = stat
-
     # overview = {
-    #     "materials": "298,616",
-    #     "entities": "525,690",
-    #     "abstracts": "525,690"
+    #     "materials": 0,
+    #     "entities": 0,
+    #     "abstracts": 0
     # }
     #
+    # for t in overview.keys():
+    #     try:
+    #         count = rester.get_db_count(count_type=t)
+    #     except MatScholarRestError:
+    #         pass
+    #
+    #     # take care of rester error in the meantime
+    #     if count == 0:
+    #         count = 5000000
+    #
+    #     stat = "{:0,.0f}".format(count)
+    #     overview[t] = stat
+
+    overview = {
+        "materials": html.Div(children=100, id="jscount-materials"),
+        "entities": "525,690",
+        "abstracts": "525,690"
+    }
+
+    tester = overview["materials"]
+
+
+
     label_map = {
         "materials": "unique materials",
         "entities": "materials-related entities",
         "abstracts": "analyzed abstracts"
     }
 
-    sections = [None] * 3
-
-    for i, t in enumerate(overview):
-        stat_section = html.Div(
-            f"{overview[t]} {label_map[t]}",
-            className="is-size-3 has-margin-10 has-text-centered has-text-weight-bold Count"
-        )
-        sections[i] = stat_section
-
-    all_stats = html.Div(sections)
-    return all_stats
+    return tester
+    # sections = [None] * 3
+    #
+    # for i, t in enumerate(overview):
+    #     stat_section = html.Div(
+    #         f"{overview[t]} {label_map[t]}",
+    #         className="is-size-3 has-margin-10 has-text-centered has-text-weight-bold"
+    #     )
+    #     sections[i] = stat_section
+    #
+    # all_stats = html.Div(sections)
+    # return all_stats
