@@ -15,7 +15,6 @@ import matscholar_web.search.callbacks as scb
 import matscholar_web.search.view as sv
 import matscholar_web.analysis.callbacks as acb
 import matscholar_web.analysis.view as av
-import matscholar_web.about.callbacks as bcb
 import matscholar_web.about.view as bv
 
 """
@@ -45,6 +44,7 @@ app.layout = html.Div(
         footer,
     ],
 )
+
 
 # Top level callbacks
 #######################
@@ -126,14 +126,21 @@ def get_random(n_clicks):
 
 # About callbacks
 ######################
+
+
 app.clientside_callback(
     ClientsideFunction(
         namespace='clientside',
-        function_name='display123'
+        function_name='count_stats'
     ),
     Output('count-materials', 'children'),
-    [Input('url', 'pathname'),
-     Input('count-materials', 'id'),
-     Input('count-abstracts', 'id'),
-     Input('count-entities', 'id')]
+    [
+        Input('url', 'pathname'),
+        Input('count-materials', 'id'),
+        Input('count-abstracts', 'id'),
+        Input('count-entities', 'id'),
+        Input('count-materials-hidden', 'id'),
+        Input('count-abstracts-hidden', 'id'),
+        Input('count-entities-hidden', 'id')
+    ]
 )

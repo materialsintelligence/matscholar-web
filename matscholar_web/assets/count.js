@@ -1,12 +1,13 @@
 
 var countTime = 3000;
 
-function animatedCount(id, duration) {
-    var radix = 10
-    var obj = document.getElementById(id);
-    var countTo = obj.innerHTML.replace(/,/g, "")
+function animatedCount(id, hiddenId, duration) {
+    var radix = 10;
+    var srcValue = document.getElementById(hiddenId).innerHTML;
+    var countTo = srcValue.replace(/,/g, "")
     var countTo = parseInt(countTo, radix)
-//    var countTo = 10000
+
+    var obj = document.getElementById(id);
 
     // assumes integer values for start and end
     var start = 0 * countTo;
@@ -44,11 +45,11 @@ function animatedCount(id, duration) {
 
 if(!window.dash_clientside) {window.dash_clientside = {};}
 window.dash_clientside.clientside = {
-    display123: function (pathname, id1, id2, id3) {
+    count_stats: function (pathname, id1, id2, id3, hiddenId1, hiddenId2, hiddenId3) {
         if (pathname == "/about"){
-                animatedCount(id1, countTime)
-                animatedCount(id2, countTime)
-                animatedCount(id3, countTime)
+                animatedCount(id1, hiddenId1, countTime)
+                animatedCount(id2, hiddenId2, countTime)
+                animatedCount(id3, hiddenId3, countTime)
         }
     }
 }

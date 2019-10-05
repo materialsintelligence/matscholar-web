@@ -80,7 +80,8 @@ def get_introduction():
 
     funding_header_txt = "Our funding sources"
     funding_body_txt = \
-        "Matscholar is supported by Toyota Research Institute through the " \
+        "Matscholar is supported by the " \
+        "[Toyota Research Institute](https://www.tri.global) through the " \
         "Accelerated Materials Design and Discovery program. Abstract data " \
         "was downloaded from the ScienceDirect API between October 2017 and " \
         "September 2018, and the Scopus API in July 2019 via " \
@@ -150,15 +151,21 @@ def get_current_stats_html():
     # work correctly. Do NOT change the ids without changing the corresponding
     # javascript!
     # The ids currently are count-materials, count-abstracts, count-entities
+    # The ids which it reads from are count-*-hidden
     for k, v in label_map.items():
         stat = html.Div(
             "{:,}".format(db_stats[k]),
             id=f"count-{k}",
             className=f"is-size-4-desktop {common_stat_style}"
         )
+        stat_static_value = html.Div(
+            "{:,}".format(db_stats[k]),
+            id=f"count-{k}-hidden",
+            className="is-hidden"
+        )
         stat_descriptor = html.Div(f"{v}",
                                    className=f"is-size-6-desktop {common_stat_style}")
-        stat_column = html.Div([stat, stat_descriptor],
+        stat_column = html.Div([stat, stat_descriptor, stat_static_value],
                                className="flex-column is-one-third")
         stats_columns.append(stat_column)
 
