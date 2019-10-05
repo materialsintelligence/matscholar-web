@@ -55,9 +55,9 @@ app.layout = html.Div(
     [Input('url', 'pathname')]
 )
 def js_count_statistics(path):
-    print(f"path, {path}, {str(path).strip() == '/about'}")
+    # print(f"path, {path}, {str(path).strip() == '/about'}")
     if str(path).strip() == "/about":
-        print('k')
+        # print('k')
         return bcb.get_counting_callbacks()
     else:
         return ""
@@ -72,8 +72,8 @@ def js_count_statistics(path):
     [Input('url', 'pathname')]
 )
 def display_page(path):
-    print(f"displaying page {path}")
-    path = str(path)
+    # print(f"displaying page {path}")
+    # path = str(path)
     if path.strip() in ["/", "", "/search"]:
         return sv.serve_layout()
     elif path == "/analyze":
