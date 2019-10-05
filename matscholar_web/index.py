@@ -2,7 +2,7 @@ import os
 
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output, State
+from dash.dependencies import Input, Output, State, ClientsideFunction
 from flask import send_from_directory
 
 from matscholar_web.app import app, cache
@@ -46,23 +46,6 @@ app.layout = html.Div(
     ],
 )
 
-
-# Hacks
-##########
-# Nonsense for getting around plotly's terrible aversion to custom javascript
-@app.callback(
-    Output('js-counting', 'run'),
-    [Input('url', 'pathname')]
-)
-def js_count_statistics(path):
-    # print(f"path, {path}, {str(path).strip() == '/about'}")
-    if str(path).strip() == "/about":
-        # print('k')
-        return bcb.get_counting_callbacks()
-    else:
-        return ""
-
-
 # Top level callbacks
 #######################
 # callbacks for loading different apps
@@ -102,7 +85,6 @@ def search_bar_live_display(*ent_txts):
 
 @app.callback(
     Output('search-btn', 'n_clicks'),
-
     [Input('text_input', 'n_submit')] +
     get_entity_boxes_callback_args(
         as_type="input",
@@ -140,3 +122,15 @@ def highlight_extracted(n_clicks, text, normalize):
     [Input("extract-random", 'n_clicks')])
 def get_random(n_clicks):
     return acb.get_random(n_clicks)
+
+
+# About callbacks
+######################
+app.clientside_callback(
+    ClientsideFunction(
+        namespace='clientside',
+        function_name='display123'
+    ),
+    Output('output-clientside', 'children'),
+    [Input('some_input', 'value')]
+)

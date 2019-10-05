@@ -1,6 +1,5 @@
 import dash_html_components as html
 import dash_core_components as dcc
-import visdcc
 
 from matscholar_web.constants import db_stats
 from matscholar_web.common import divider_html
@@ -14,14 +13,13 @@ common_title_style = "is-size-2-desktop has-text-weight-bold has-margin-5"
 def serve_layout():
     introduction = get_introduction()
     journals = get_journals_html()
-    # all external javascript functions managed by visdcc
-    js = visdcc.Run_js(id='js-counting')
 
     return html.Div(
         [
+            dcc.Input(id="some_input"),
+            html.Div(id='output-clientside'),
             introduction,
             journals,
-            js
         ]
     )
 

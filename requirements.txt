@@ -5,7 +5,6 @@ dash-elasticsearch-autosuggest==0.3.0
 dash-html-components==1.0.0
 dash-renderer==1.0.0
 dash-table==4.1.0
-visdcc==0.0.40
 
 plotly
 flask

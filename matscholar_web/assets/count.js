@@ -40,3 +40,11 @@ function animatedCount(id, duration) {
     timer = setInterval(run, stepTime);
     run();
 }
+
+
+if(!window.dash_clientside) {window.dash_clientside = {};}
+window.dash_clientside.clientside = {
+    display123: function (value) {
+        return 'Client says "' + value + '"';
+    }
+}
