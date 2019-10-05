@@ -51,7 +51,8 @@ def get_introduction():
 
     reference_2_txt = \
         "Tshitoyan, V., Dagdelen, J., Weston, L., Dunn, A., Rong, Z., " \
-        "Kononova, O., … Jain, A. (2019). *Unsupervised word embeddings " \
+        "Kononova, O., Persson, K., Ceder, G., Jain, A. (2019). " \
+        "*Unsupervised word embeddings " \
         "capture latent knowledge from materials science literature.* " \
         "**Nature**, 571(7763), 95–98. " \
         "**[https://doi.org/10.1038/s41586-019-1335-8]" \
@@ -158,23 +159,25 @@ def get_current_stats_html():
         "abstracts": "analyzed abstracts"
     }
 
-    sections = []
+    stats_columns = []
 
     # Warning: don't mess with this section unless you know what you're doing!
     # The children of these divs needs to be ints for the javascript to
     # work correctly. Do NOT change the ids without changing the corresponding
     # javascript!
     # The ids currently are count-materials, count-abstracts, count-entities
+    common_styling = "has-margin-5 has-text-centered has-text-weight-bold"
     for k, v in label_map.items():
         stat = html.Div(
             stats[k],
             id=f"count-{k}",
-            className="is-size-3 has-margin-10 has-text-centered has-text-weight-bold"
+            className=f"is-size-3 {common_styling}"
         )
-        stat_descriptor = html.Div(f"{v}", "is-size-5 has-text-centered has-margin-10")
+        stat_descriptor = html.Div(f"{v}", className=f"is-size-5 {common_styling}")
         stat_column = html.Div([stat, stat_descriptor], className="column is-one-third")
-        stat_section = html.Div(stat_column, className="columns is-centered")
-        sections.append(stat_section)
+        stats_columns.append(stat_column)
 
-    all_stats = html.Div(sections, className="container")
+    stats_columns = html.Div(stats_columns, className="columns is-centered")
+
+    all_stats = html.Div(stats_columns, className="container has-margin-top-30 has-margin-bottom-30")
     return all_stats
