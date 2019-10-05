@@ -2,7 +2,6 @@ import os
 
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
-import visdcc
 from flask import send_from_directory
 
 from matscholar_web.app import app, cache
