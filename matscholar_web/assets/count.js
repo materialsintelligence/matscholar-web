@@ -33,4 +33,4 @@ function animateValue(id, countTo, duration) {
     run();
 }
 
-window.setTimeout(animateValue, 5000, "jscount-materials", 298616, 5000);
+window.setTimeout(animateValue, 1000, "jscount-materials", 298616, 5000);
