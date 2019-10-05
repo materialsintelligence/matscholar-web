@@ -3,16 +3,24 @@ import dash_core_components as dcc
 import visdcc
 
 from matscholar_web.constants import db_stats
+from matscholar_web.common import divider_html
+
+common_stat_style = "has-margin-right-10 has-margin-left-10 has-text-centered has-text-weight-bold"
+common_body_style = "is-size-6-desktop has-margin-5"
+common_header_style = "is-size-5-desktop has-text-weight-bold has-margin-5"
+common_title_style = "is-size-2-desktop has-text-weight-bold has-margin-5"
 
 
 def serve_layout():
     introduction = get_introduction()
+    journals = get_journals_html()
     # all external javascript functions managed by visdcc
     js = visdcc.Run_js(id='js-counting')
 
     return html.Div(
         [
             introduction,
+            journals,
             js
         ]
     )
@@ -91,34 +99,30 @@ def get_introduction():
     reference_2_md = dcc.Markdown(reference_2_txt)
     funding_md = dcc.Markdown(funding_body_txt)
 
-    body_style = "is-size-6-desktop has-margin-5"
-    header_style = "is-size-5-desktop has-text-weight-bold has-margin-5"
-
     introduction_header = html.Div(introduction_header_txt,
-                                   className="is-size-4-desktop has-text-weight-bold has-margin-5")
+                                   className=common_title_style)
     introduction_subheader = html.Div(introduction_subheader_txt,
-                                   className=header_style)
+                                      className=common_header_style)
     publication_header = html.Div(publication_header_txt,
-                                  className=header_style)
+                                  className=common_header_style)
     introduction_body = html.Div(introduction_body_md,
-                                 className=body_style)
+                                 className=common_body_style)
     introduction_body2 = html.Div(introduction_body_md2,
-                                  className=body_style)
+                                  className=common_body_style)
 
     current_stats = get_current_stats_html()
 
-    reference_1 = html.Div(reference_1_md, className=body_style)
-    reference_2 = html.Div(reference_2_md, className=body_style)
+    reference_1 = html.Div(reference_1_md, className=common_body_style)
+    reference_2 = html.Div(reference_2_md, className=common_body_style)
 
-    why_use_header = html.Div(why_use_header_txt, className=header_style)
-    why_use_body = html.Div(why_use_body_md, className=body_style)
+    why_use_header = html.Div(why_use_header_txt, className=common_header_style)
+    why_use_body = html.Div(why_use_body_md, className=common_body_style)
     why_use_body_container = html.Div(why_use_body,
                                       className="has-margin-right-40 has-margin-left-40 has-margin-top-5 has-margin-bottom-5")
-    funding_header = html.Div(funding_header_txt, className=header_style)
-    funding_body = html.Div(funding_md, className=body_style)
+    funding_header = html.Div(funding_header_txt, className=common_header_style)
+    funding_body = html.Div(funding_md, className=common_body_style)
 
-    introduction_box = html.Div(
-        [
+    elements = [
             introduction_header,
             introduction_subheader,
             introduction_body,
@@ -131,15 +135,9 @@ def get_introduction():
             why_use_body_container,
             funding_header,
             funding_body
-        ],
-        className="box"
-    )
-
-    introduction_column = html.Div(introduction_box, className="column is-half")
-    introduction_columns = html.Div(introduction_column,
-                                    className="columns is-centered")
-    introduction_container = html.Div(introduction_columns, className="container")
-    return introduction_container
+    ]
+    container = get_common_box(elements)
+    return container
 
 
 def get_current_stats_html():
@@ -156,22 +154,99 @@ def get_current_stats_html():
     # work correctly. Do NOT change the ids without changing the corresponding
     # javascript!
     # The ids currently are count-materials, count-abstracts, count-entities
-    common_styling = "has-margin-right-10 has-margin-left-10 has-text-centered has-text-weight-bold"
     for k, v in label_map.items():
         stat = html.Div(
             "{:,}".format(db_stats[k]),
             id=f"count-{k}",
-            className=f"is-size-4-desktop {common_styling}"
+            className=f"is-size-4-desktop {common_stat_style}"
         )
         stat_descriptor = html.Div(f"{v}",
-                                   className=f"is-size-6-desktop {common_styling}")
+                                   className=f"is-size-6-desktop {common_stat_style}")
         stat_column = html.Div([stat, stat_descriptor],
                                className="flex-column is-one-third")
         stats_columns.append(stat_column)
 
-    stats_columns = html.Div(stats_columns, className="columns is-centered is-desktop")
+    stats_columns = html.Div(stats_columns,
+                             className="columns is-centered is-desktop")
 
     all_stats = html.Div(id="stats-container", children=stats_columns,
                          className="container has-margin-top-30 has-margin-bottom-30")
 
     return all_stats
+
+
+def get_journals_html():
+    journals = db_stats["journals"]
+    n_journals = len(journals)
+
+    journal_info_header_txt = "Journals in Matscholar"
+    journal_info_subheader_txt = f"Search among {n_journals} scientific journals"
+    journals_info_body_txt = \
+        f"Matscholar at present contains processed abstracts from " \
+        f"{n_journals} peer-reviewed scientific journals from multiple " \
+        f"scientific domains, including inorganic materials, polymers, " \
+        f"biomaterials, and more."
+
+    journal_info_header = html.Div(journal_info_header_txt,
+                                   className=common_title_style)
+    journal_info_subheader = html.Div(journal_info_subheader_txt,
+                                      className=common_header_style)
+    journal_info_body = html.Div(journals_info_body_txt,
+                                 className=common_body_style)
+
+    jkeys = [{"label": v, "value": str(i)} for i, v in enumerate(journals)]
+    dropdown = dcc.Dropdown(
+        placeholder="Search for your favorite journal...",
+        options=jkeys,
+        className="is-size-6 has-margin-bottom-50",
+        clearable=False,
+        multi=True,
+        optionHeight=25
+    )
+    dropdown_label = html.Div("Search our collection",
+                              className=common_header_style)
+
+    header_number = html.Th("Number")
+    header_name = html.Th("Journal Name")
+    header = html.Tr([header_number, header_name])
+
+    rows = [None] * n_journals
+    for i, j in enumerate(journals):
+        jname = html.Td(j, className="has-text-weight-bold")
+        jnumber = html.Td(i)
+        rows[i] = html.Tr([jnumber, jname], className="is-size-7")
+
+    jtable = html.Table(
+        [header] + rows,
+        className="table is-bordered is-hoverable is-narrow is-striped"
+    )
+
+    hr_dropdown = divider_html()
+    hr_jtable = divider_html()
+    jtable_label = html.Div(
+        "Browse a full journal list",
+        className=common_header_style + "has-margin-top-30"
+    )
+
+    elements = [
+        journal_info_header,
+        journal_info_subheader,
+        journal_info_body,
+        hr_dropdown,
+        dropdown_label,
+        dropdown,
+        hr_jtable,
+        jtable_label,
+        jtable
+    ]
+
+    container = get_common_box(elements)
+    return container
+
+
+def get_common_box(elements):
+    box = html.Div(elements, className="box")
+    column = html.Div(box, className="column is-half")
+    columns = html.Div(column, className="columns is-centered")
+    container = html.Div(columns, className="container")
+    return container

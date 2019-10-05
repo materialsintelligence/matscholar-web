@@ -72,9 +72,7 @@ def js_count_statistics(path):
     [Input('url', 'pathname')]
 )
 def display_page(path):
-    # print(f"displaying page {path}")
-    # path = str(path)
-    if path.strip() in ["/", "", "/search"]:
+    if str(path).strip() in ["/", "/search"] or not path:
         return sv.serve_layout()
     elif path == "/analyze":
         return av.serve_layout()

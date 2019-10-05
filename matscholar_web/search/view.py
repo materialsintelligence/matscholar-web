@@ -4,7 +4,8 @@ import dash_html_components as html
 import dash_core_components as dcc
 from dash_elasticsearch_autosuggest import ESAutosuggest
 
-from matscholar_web.common import common_warning_html, common_null_warning_html
+from matscholar_web.common import common_warning_html, \
+    common_null_warning_html, divider_html
 from matscholar_web.constants import valid_entity_filters, \
     entity_color_map_bulma, db_stats
 
@@ -94,7 +95,7 @@ def advanced_search_html():
     Html for the advanced search boxes.
     Element filters, entity filters, anonymous formula searches
     """
-    hr = html.Hr(className="is-divider")
+    hr =  divider_html()
     dropdown = dcc.Dropdown(
         id='search_type_dropdown',
         options=[

@@ -40,3 +40,7 @@ def common_rester_error_html(text):
         className="container has-text-centered has-margin-top-50"
     )
     return rester_error
+
+
+def divider_html():
+    return html.Hr(className="is-divider")

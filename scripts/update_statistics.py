@@ -69,7 +69,7 @@ def get_debug_stats():
                         "Nature Scientific Data",
                         "Electrochemistry Communications",
                         "Concurrency and Computation"
-                    ] * 20,
+                    ] * 10,
         "timestamp": get_timestamp()
 
     }
