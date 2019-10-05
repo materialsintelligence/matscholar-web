@@ -49,7 +49,6 @@ def malformed_query_warning_html(bad_search_txt):
 
 
 def search_bar_and_go_html():
-
     search_bar = dcc.Input(
         placeholder="Enter a query here directly or with the entity search boxes below...",
         id="text_input",
@@ -70,14 +69,19 @@ def search_bar_and_go_html():
     )
 
     n_abstracts = "{:,}".format(db_stats["abstracts"])
+    n_abstracts_link = dcc.Link(f"{n_abstracts}", href="/about#journals")
 
     label = html.Label(
-        f"Search {n_abstracts} materials science abstracts with named entity "
-        "recognition",
+        [
+            "Search ",
+            n_abstracts_link,
+            " materials science abstracts with named entity recognition"
+        ],
         className="is-size-4-desktop has-margin-5"
     )
     label_container = html.Div(label, className="has-text-centered")
-    bar_and_go_columns = html.Div([search_bar_html, go_html], className="columns is-centered")
+    bar_and_go_columns = html.Div([search_bar_html, go_html],
+                                  className="columns is-centered")
 
     bar_and_go_container = html.Div(bar_and_go_columns, className="container")
     bar_and_go_and_label_container = html.Div(
@@ -95,7 +99,7 @@ def advanced_search_html():
     Html for the advanced search boxes.
     Element filters, entity filters, anonymous formula searches
     """
-    hr =  divider_html()
+    hr = divider_html()
     dropdown = dcc.Dropdown(
         id='search_type_dropdown',
         options=[
@@ -112,7 +116,8 @@ def advanced_search_html():
         [dropdown_column],
         className="columns is-centered"
     )
-    dropdown_container = html.Div(dropdown_columns, className="container has-margin-5")
+    dropdown_container = html.Div(dropdown_columns,
+                                  className="container has-margin-5")
 
     entity_filters_html = [entity_filter_box_html(f) for f in
                            valid_entity_filters]

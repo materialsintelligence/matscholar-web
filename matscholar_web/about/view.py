@@ -240,13 +240,13 @@ def get_journals_html():
         jtable
     ]
 
-    container = get_common_box(elements)
+    container = get_common_box(elements, id="journals")
     return container
 
 
-def get_common_box(elements):
+def get_common_box(elements, id=None):
     box = html.Div(elements, className="box")
     column = html.Div(box, className="column is-half")
     columns = html.Div(column, className="columns is-centered")
-    container = html.Div(columns, className="container")
+    container = html.Div(columns, className="container", id=id)
     return container
