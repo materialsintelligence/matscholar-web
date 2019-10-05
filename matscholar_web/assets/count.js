@@ -1,11 +1,11 @@
-function animateValue(id, duration) {
+function animatedCount(id, duration) {
     var radix = 10
     var obj = document.getElementById(id);
-//    var countTo = parseInt(obj, radix)
-    var countTo = 10000
+    var countTo = parseInt(obj.innerHTML, radix)
+//    var countTo = 10000
 
     // assumes integer values for start and end
-    var start = 0.75 * countTo;
+    var start = 0 * countTo;
     var end = countTo;
 
     var range = end - start;
@@ -37,6 +37,11 @@ function animateValue(id, duration) {
     run();
 }
 
-window.setTimeout(animateValue, 1000, "jscount", 5000);
-//window.setTimeout(animateValue, 1000, "jscount-entities", 298616, 5000);
-//window.setTimeout(animateValue, 1000, "jscount-abstracts", 298616, 5000);
+var waitTime = 1000
+var countTime = 3000
+// Start counting after asynchronously waiting to avoid plotly javascript being
+// put BEFORE the page content. This script must be run after the page content
+// has loaded in order to work.
+window.setTimeout(animatedCount, waitTime, "count-materials", countTime);
+window.setTimeout(animatedCount, waitTime, "count-abstracts", countTime);
+window.setTimeout(animatedCount, waitTime, "count-entities", countTime);

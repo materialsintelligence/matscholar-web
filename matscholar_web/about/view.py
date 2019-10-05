@@ -1,3 +1,6 @@
+import os
+import json
+
 import dash_html_components as html
 import dash_core_components as dcc
 
@@ -98,9 +101,7 @@ def get_introduction():
     introduction_body2 = html.Div(introduction_body_md2,
                                   className=body_style)
 
-    current_stats = html.Div(
-        id="n-current-abstracts",
-    )
+    current_stats = get_current_stats_html()
 
     reference_1 = html.Div(reference_1_md, className=body_style)
     reference_2 = html.Div(reference_2_md, className=body_style)
@@ -139,35 +140,17 @@ def get_introduction():
 def get_journal_breakdown():
     rester.get_journals()
 
+
 def get_current_stats_html():
-    # overview = {
-    #     "materials": 0,
-    #     "entities": 0,
-    #     "abstracts": 0
-    # }
-    #
-    # for t in overview.keys():
-    #     try:
-    #         count = rester.get_db_count(count_type=t)
-    #     except MatScholarRestError:
-    #         pass
-    #
-    #     # take care of rester error in the meantime
-    #     if count == 0:
-    #         count = 5000000
-    #
-    #     stat = "{:0,.0f}".format(count)
-    #     overview[t] = stat
-
-    overview = {
-        "materials": html.Div(children=100, id="jscount-materials"),
-        "entities": "525,690",
-        "abstracts": "525,690"
-    }
-
-    tester = overview["materials"]
-
-
+    thisdir = os.path.abspath(os.path.dirname(__file__))
+    target = os.path.abspath(
+        os.path.join(
+            thisdir,
+            "../assets/data/db_statistics.json"
+        )
+    )
+    with open(target, "r") as f:
+        stats = json.load(f)
 
     label_map = {
         "materials": "unique materials",
@@ -175,15 +158,23 @@ def get_current_stats_html():
         "abstracts": "analyzed abstracts"
     }
 
-    return tester
-    # sections = [None] * 3
-    #
-    # for i, t in enumerate(overview):
-    #     stat_section = html.Div(
-    #         f"{overview[t]} {label_map[t]}",
-    #         className="is-size-3 has-margin-10 has-text-centered has-text-weight-bold"
-    #     )
-    #     sections[i] = stat_section
-    #
-    # all_stats = html.Div(sections)
-    # return all_stats
+    sections = []
+
+    # Warning: don't mess with this section unless you know what you're doing!
+    # The children of these divs needs to be ints for the javascript to
+    # work correctly. Do NOT change the ids without changing the corresponding
+    # javascript!
+    # The ids currently are count-materials, count-abstracts, count-entities
+    for k, v in label_map.items():
+        stat = html.Div(
+            stats[k],
+            id=f"count-{k}",
+            className="is-size-3 has-margin-10 has-text-centered has-text-weight-bold"
+        )
+        stat_descriptor = html.Div(f"{v}", "is-size-5 has-text-centered has-margin-10")
+        stat_column = html.Div([stat, stat_descriptor], className="column is-one-third")
+        stat_section = html.Div(stat_column, className="columns is-centered")
+        sections.append(stat_section)
+
+    all_stats = html.Div(sections, className="container")
+    return all_stats
