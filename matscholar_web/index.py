@@ -105,6 +105,25 @@ def consolidate_n_submit_and_clicks_to_search_btn(*all_n_clicks):
 def show_search_results(n_clicks, dropdown_value, search_text):
     return scb.show_results(n_clicks, dropdown_value, search_text)
 
+# See the count.js file for more details
+# app.clientside_callback(
+#     ClientsideFunction(
+#         namespace='clientside',
+#         function_name='count_stats'
+#     ),
+#     Output('count-materials', 'children'),
+#     [
+#         Input('url', 'pathname'),
+#         Input('count-materials', 'id'),
+#         Input('count-abstracts', 'id'),
+#         Input('count-entities', 'id'),
+#         Input('count-materials-hidden-ref', 'id'),
+#         Input('count-abstracts-hidden-ref', 'id'),
+#         Input('count-entities-hidden-ref', 'id')
+#     ]
+# )
+
+
 
 # Analyze callbacks
 #######################
@@ -127,7 +146,7 @@ def get_random(n_clicks):
 # About callbacks
 ######################
 
-
+# See the count.js file for more details
 app.clientside_callback(
     ClientsideFunction(
         namespace='clientside',
@@ -139,8 +158,8 @@ app.clientside_callback(
         Input('count-materials', 'id'),
         Input('count-abstracts', 'id'),
         Input('count-entities', 'id'),
-        Input('count-materials-hidden', 'id'),
-        Input('count-abstracts-hidden', 'id'),
-        Input('count-entities-hidden', 'id')
+        Input('count-materials-hidden-ref', 'id'),
+        Input('count-abstracts-hidden-ref', 'id'),
+        Input('count-entities-hidden-ref', 'id')
     ]
 )

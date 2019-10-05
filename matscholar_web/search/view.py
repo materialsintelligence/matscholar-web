@@ -70,6 +70,7 @@ def search_bar_and_go_html():
 
     n_abstracts = "{:,}".format(db_stats["abstracts"])
     n_abstracts_link = dcc.Link(
+        id="search-n_abstracts"
         f"{n_abstracts}",
         href="/about#journals",
         className="msweb-fade-in"

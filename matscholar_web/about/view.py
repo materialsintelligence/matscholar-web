@@ -151,7 +151,8 @@ def get_current_stats_html():
     # work correctly. Do NOT change the ids without changing the corresponding
     # javascript!
     # The ids currently are count-materials, count-abstracts, count-entities
-    # The ids which it reads from are count-*-hidden
+    # The ids which it reads from are count-*-hidden-ref. The values it updates
+    # are count-*. This is to prevent messing up quick reloads and double clicks
     for k, v in label_map.items():
         stat = html.Div(
             "{:,}".format(db_stats[k]),
@@ -160,7 +161,7 @@ def get_current_stats_html():
         )
         stat_static_value = html.Div(
             "{:,}".format(db_stats[k]),
-            id=f"count-{k}-hidden",
+            id=f"count-{k}-hidden-ref",
             className="is-hidden"
         )
         stat_descriptor = html.Div(f"{v}",
