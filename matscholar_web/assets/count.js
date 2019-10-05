@@ -1,7 +1,8 @@
-function animateValue(id, countTo, duration) {
+function animateValue(id, duration) {
     var radix = 10
     var obj = document.getElementById(id);
-    var countTo = parseInt(obj, radix)
+//    var countTo = parseInt(obj, radix)
+    var countTo = 10000
 
     // assumes integer values for start and end
     var start = 0.75 * countTo;
@@ -25,7 +26,8 @@ function animateValue(id, countTo, duration) {
         var now = new Date().getTime();
         var remaining = Math.max((endTime - now) / duration, 0);
         var value = Math.round(end - (remaining * range));
-        obj.innerHTML = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        var formattedValue = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        obj.innerHTML = formattedValue
         if (value == end) {
             clearInterval(timer);
         }
@@ -35,6 +37,6 @@ function animateValue(id, countTo, duration) {
     run();
 }
 
-window.setTimeout(animateValue, 1000, "jscount-materials", 298616, 5000);
-window.setTimeout(animateValue, 1000, "jscount-entities", 298616, 5000);
-window.setTimeout(animateValue, 1000, "jscount-abstracts", 298616, 5000);
+window.setTimeout(animateValue, 1000, "jscount", 5000);
+//window.setTimeout(animateValue, 1000, "jscount-entities", 298616, 5000);
+//window.setTimeout(animateValue, 1000, "jscount-abstracts", 298616, 5000);
