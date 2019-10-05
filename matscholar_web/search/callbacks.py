@@ -16,11 +16,12 @@ def show_results(n_clicks, dropdown_value, search_text):
         return None
     else:
         try:
+            if not search_text:
+                return no_query_warning_html()
+
             entity_query = parse_search_box(search_text)
             if not query_is_well_formed(entity_query):
                 return malformed_query_warning_html(search_text)
-            elif not entity_query:
-                return no_query_warning_html()
             else:
                 if dropdown_value == 'abstracts':
                     results = abstracts_results_html(search_text)
