@@ -1,7 +1,9 @@
+
 function animatedCount(id, duration) {
     var radix = 10
     var obj = document.getElementById(id);
-    var countTo = parseInt(obj.innerHTML, radix)
+    var countTo = obj.innerHTML.replace(/,/g, "")
+    var countTo = parseInt(countTo, radix)
 //    var countTo = 10000
 
     // assumes integer values for start and end
@@ -37,11 +39,43 @@ function animatedCount(id, duration) {
     run();
 }
 
-var waitTime = 1000
-var countTime = 3000
-// Start counting after asynchronously waiting to avoid plotly javascript being
-// put BEFORE the page content. This script must be run after the page content
-// has loaded in order to work.
-window.setTimeout(animatedCount, waitTime, "count-materials", countTime);
-window.setTimeout(animatedCount, waitTime, "count-abstracts", countTime);
-window.setTimeout(animatedCount, waitTime, "count-entities", countTime);
+
+var waitTime = 1000;
+var countTime = 3000;
+
+//function ifLoop(id, countTime){
+//    var obj = document.getElementById(id)
+//    for (i = 0; i < 1000; i++)
+//        if ($(obj).is(":visible")){
+//            animatedCount(id, countTime);
+//            break;
+//        }
+//        else {
+//            setTimeout(function (){}, 100)
+//        }
+//}
+//
+//function runOnLoad(id){
+//    window.onload = function() {
+//    if (window.jQuery) {
+//        // jQuery is loaded
+//        var container = document.getElementById("stats-container")
+//        var obj = document.getElementById(id)
+//
+//        $(obj).ready(function(id, countTime){
+//        animatedCount(id, countTime);
+//        }
+//        );
+//
+//    } else {
+//        // jQuery is not loaded
+//        alert("Doesn't Work");
+//    }
+//
+//}
+//}
+//
+//
+//runOnLoad("count-materials")
+
+

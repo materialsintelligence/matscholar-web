@@ -3,6 +3,7 @@ import json
 
 import dash_html_components as html
 import dash_core_components as dcc
+import visdcc
 
 from matscholar_web.constants import rester
 
@@ -10,9 +11,12 @@ from matscholar_web.constants import rester
 def serve_layout():
     introduction = get_introduction()
 
+    js = visdcc.Run_js(id='javascript')
+
     return html.Div(
         [
-            introduction
+            introduction,
+            js
         ]
     )
 
@@ -138,10 +142,6 @@ def get_introduction():
     return introduction_columns
 
 
-def get_journal_breakdown():
-    rester.get_journals()
-
-
 def get_current_stats_html():
     thisdir = os.path.abspath(os.path.dirname(__file__))
     target = os.path.abspath(
@@ -169,15 +169,19 @@ def get_current_stats_html():
     common_styling = "has-margin-5 has-text-centered has-text-weight-bold"
     for k, v in label_map.items():
         stat = html.Div(
-            stats[k],
+            "{:,}".format(stats[k]),
             id=f"count-{k}",
             className=f"is-size-3 {common_styling}"
         )
-        stat_descriptor = html.Div(f"{v}", className=f"is-size-5 {common_styling}")
-        stat_column = html.Div([stat, stat_descriptor], className="column is-one-third")
+        stat_descriptor = html.Div(f"{v}",
+                                   className=f"is-size-5 {common_styling}")
+        stat_column = html.Div([stat, stat_descriptor],
+                               className="column is-one-third")
         stats_columns.append(stat_column)
 
     stats_columns = html.Div(stats_columns, className="columns is-centered")
 
-    all_stats = html.Div(stats_columns, className="container has-margin-top-30 has-margin-bottom-30")
+    all_stats = html.Div(id="stats-container", children=stats_columns,
+                         className="container has-margin-top-30 has-margin-bottom-30")
+
     return all_stats

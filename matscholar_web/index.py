@@ -62,6 +62,20 @@ def display_page(path):
         return html.Div("404", className="has-text-centered")
 
 
+@app.callback(
+    Output('javascript', 'run'),
+    [Input('url', 'pathname')]
+
+)
+def js_count_statistics(path):
+    print(f"{path}")
+    if str(path).strip() == "/about":
+        print("triggering_callback")
+        # return 'alert("worked")'
+        return 'animatedCount("count-materials", countTime)'
+
+    return ""
+
 # setting the static path for loading css files
 @app.server.route('/static/css/<path:path>')
 def get_stylesheet(path):
