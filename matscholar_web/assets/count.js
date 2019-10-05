@@ -1,4 +1,6 @@
 
+var countTime = 3000;
+
 function animatedCount(id, duration) {
     var radix = 10
     var obj = document.getElementById(id);
@@ -38,44 +40,3 @@ function animatedCount(id, duration) {
     timer = setInterval(run, stepTime);
     run();
 }
-
-
-var waitTime = 1000;
-var countTime = 3000;
-
-//function ifLoop(id, countTime){
-//    var obj = document.getElementById(id)
-//    for (i = 0; i < 1000; i++)
-//        if ($(obj).is(":visible")){
-//            animatedCount(id, countTime);
-//            break;
-//        }
-//        else {
-//            setTimeout(function (){}, 100)
-//        }
-//}
-//
-//function runOnLoad(id){
-//    window.onload = function() {
-//    if (window.jQuery) {
-//        // jQuery is loaded
-//        var container = document.getElementById("stats-container")
-//        var obj = document.getElementById(id)
-//
-//        $(obj).ready(function(id, countTime){
-//        animatedCount(id, countTime);
-//        }
-//        );
-//
-//    } else {
-//        // jQuery is not loaded
-//        alert("Doesn't Work");
-//    }
-//
-//}
-//}
-//
-//
-//runOnLoad("count-materials")
-
-

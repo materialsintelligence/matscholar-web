@@ -3,20 +3,14 @@ import json
 
 import dash_html_components as html
 import dash_core_components as dcc
-import visdcc
-
-from matscholar_web.constants import rester
 
 
 def serve_layout():
     introduction = get_introduction()
 
-    js = visdcc.Run_js(id='javascript')
-
     return html.Div(
         [
             introduction,
-            js
         ]
     )
 

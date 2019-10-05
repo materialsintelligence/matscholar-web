@@ -2,6 +2,7 @@ import os
 
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
+import visdcc
 from flask import send_from_directory
 
 from matscholar_web.app import app, cache
@@ -33,11 +34,15 @@ app_expander = html.Div(app_container, className="msweb-is-tall")
 app_expander_container = html.Div(app_expander,
                                   className="msweb-is-tall-container msweb-fade-in")
 
+
+js = visdcc.Run_js(id='javascript')
+
 app.layout = html.Div(
     [
         nav_and_header_section,
         app_expander_container,
         footer,
+        js
     ],
 )
 
@@ -45,12 +50,26 @@ app.layout = html.Div(
 # Top level callbacks
 #######################
 
+
+@app.callback(
+    Output('javascript', 'run'),
+    [Input('url', 'pathname')]
+)
+def js_count_statistics(path):
+    print(f"waiting to trigger {path}")
+    if str(path).strip() == "/about":
+        print("triggering_callback")
+        # return 'alert("worked")'
+        return 'animatedCount("count-materials", countTime)'
+    return ""
+
 # callbacks for loading different apps
 @app.callback(
     Output('app_container', 'children'),
     [Input('url', 'pathname')]
 )
 def display_page(path):
+    print(f"displaying page {path}")
     path = str(path)
     if path.strip() in ["/", "", "/search"]:
         return sv.serve_layout()
@@ -62,19 +81,25 @@ def display_page(path):
         return html.Div("404", className="has-text-centered")
 
 
-@app.callback(
-    Output('javascript', 'run'),
-    [Input('url', 'pathname')]
 
-)
-def js_count_statistics(path):
-    print(f"{path}")
-    if str(path).strip() == "/about":
-        print("triggering_callback")
-        # return 'alert("worked")'
-        return 'animatedCount("count-materials", countTime)'
 
-    return ""
+# @app.callback(
+#     [Output('app_container', 'children'),
+#      Output('javascript', 'run')],
+#     [Input('url', 'pathname')]
+# )
+# def display_page(path):
+#     print(f"displaying page {path}")
+#     path = str(path)
+#     if path.strip() in ["/", "", "/search"]:
+#         return sv.serve_layout(), ""
+#     elif path == "/analyze":
+#         return av.serve_layout(), ""
+#     elif path == "/about":
+#         print("serving about")
+#         return bv.serve_layout(), 'animatedCount("count-materials", countTime)'
+#     else:
+#         return html.Div("404", className="has-text-centered")
 
 # setting the static path for loading css files
 @app.server.route('/static/css/<path:path>')
