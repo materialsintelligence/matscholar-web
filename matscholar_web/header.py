@@ -11,7 +11,7 @@ def get_header():
     """
 
     logo = html.Img(
-        src="/assets/matscholar_logo_v4.png",
+        src="/assets/logo.png",
         className="has-ratio",
         height=95,
         width=467
