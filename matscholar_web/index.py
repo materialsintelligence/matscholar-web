@@ -34,9 +34,6 @@ app_expander = html.Div(app_container, className="msweb-is-tall")
 app_expander_container = html.Div(app_expander,
                                   className="msweb-is-tall-container msweb-fade-in")
 
-
-
-
 app.layout = html.Div(
     [
         nav_and_header_section,
@@ -48,7 +45,6 @@ app.layout = html.Div(
 
 # Top level callbacks
 #######################
-
 
 
 # callbacks for loading different apps
@@ -68,6 +64,7 @@ def display_page(path):
     else:
         return html.Div("404", className="has-text-centered")
 
+
 # callback for running custom js counting script with Plotly dash
 @app.callback(
     Output('js-counting', 'run'),
@@ -80,26 +77,6 @@ def js_count_statistics(path):
         return bcb.get_counting_callbacks()
     else:
         return ""
-
-
-
-# @app.callback(
-#     [Output('app_container', 'children'),
-#      Output('javascript', 'run')],
-#     [Input('url', 'pathname')]
-# )
-# def display_page(path):
-#     print(f"displaying page {path}")
-#     path = str(path)
-#     if path.strip() in ["/", "", "/search"]:
-#         return sv.serve_layout(), ""
-#     elif path == "/analyze":
-#         return av.serve_layout(), ""
-#     elif path == "/about":
-#         print("serving about")
-#         return bv.serve_layout(), 'animatedCount("count-materials", countTime)'
-#     else:
-#         return html.Div("404", className="has-text-centered")
 
 # setting the static path for loading css files
 @app.server.route('/static/css/<path:path>')
