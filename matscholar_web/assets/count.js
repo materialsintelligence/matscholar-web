@@ -44,11 +44,11 @@ function animatedCount(id, duration) {
 
 if(!window.dash_clientside) {window.dash_clientside = {};}
 window.dash_clientside.clientside = {
-    display123: function (pathname, id) {
+    display123: function (pathname, id1, id2, id3) {
         if (pathname == "/about"){
-                console.log("Its running")
-                console.log(id)
-                animatedCount(id, countTime)
+                animatedCount(id1, countTime)
+                animatedCount(id2, countTime)
+                animatedCount(id3, countTime)
         }
     }
 }

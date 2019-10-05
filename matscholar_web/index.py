@@ -133,5 +133,7 @@ app.clientside_callback(
     ),
     Output('count-materials', 'children'),
     [Input('url', 'pathname'),
-     Input('count-materials', 'id')]
+     Input('count-materials', 'id'),
+     Input('count-abstracts', 'id'),
+     Input('count-entities', 'id')]
 )
