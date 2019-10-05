@@ -1,9 +1,8 @@
-import os
-import json
-
 import dash_html_components as html
 import dash_core_components as dcc
 import visdcc
+
+from matscholar_web.constants import db_stats
 
 
 def serve_layout():
@@ -20,9 +19,9 @@ def serve_layout():
 
 
 def get_introduction():
-    introduction_header_txt = \
-        "Matscholar: A scholarly (AI) assistant for inorganic materials " \
-        "science \n"
+    introduction_header_txt = "Matscholar"
+    introduction_subheader_txt = \
+        "A scholarly (AI) assistant for materials science \n"
     introduction_body_txt = \
         "Matscholar is a research effort based out of the Lawrence Berkeley " \
         "National Lab and led by the " \
@@ -93,9 +92,11 @@ def get_introduction():
     funding_md = dcc.Markdown(funding_body_txt)
 
     body_style = "is-size-6-desktop has-margin-5"
-    header_style = "is-size-5-desktop has-text-weight-bold has-margin-10"
+    header_style = "is-size-5-desktop has-text-weight-bold has-margin-5"
 
     introduction_header = html.Div(introduction_header_txt,
+                                   className="is-size-4-desktop has-text-weight-bold has-margin-5")
+    introduction_subheader = html.Div(introduction_subheader_txt,
                                    className=header_style)
     publication_header = html.Div(publication_header_txt,
                                   className=header_style)
@@ -119,6 +120,7 @@ def get_introduction():
     introduction_box = html.Div(
         [
             introduction_header,
+            introduction_subheader,
             introduction_body,
             current_stats,
             introduction_body2,
@@ -141,16 +143,6 @@ def get_introduction():
 
 
 def get_current_stats_html():
-    thisdir = os.path.abspath(os.path.dirname(__file__))
-    target = os.path.abspath(
-        os.path.join(
-            thisdir,
-            "../assets/data/db_statistics.json"
-        )
-    )
-    with open(target, "r") as f:
-        stats = json.load(f)
-
     label_map = {
         "materials": "unique materials",
         "entities": "materials-related entities",
@@ -167,7 +159,7 @@ def get_current_stats_html():
     common_styling = "has-margin-right-10 has-margin-left-10 has-text-centered has-text-weight-bold"
     for k, v in label_map.items():
         stat = html.Div(
-            "{:,}".format(stats[k]),
+            "{:,}".format(db_stats[k]),
             id=f"count-{k}",
             className=f"is-size-4-desktop {common_styling}"
         )

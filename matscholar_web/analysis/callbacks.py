@@ -11,6 +11,7 @@ filename = os.path.join(local_dir, "../assets/data/sample_abstracts.json")
 with open(filename, "r") as f:
     sample_docs = json.load(f)
 
+
 def extracted_results(n_clicks, text, normalize):
     if n_clicks is not None:
         stripped = text if not text else text.strip()

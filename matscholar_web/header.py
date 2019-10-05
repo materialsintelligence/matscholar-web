@@ -17,10 +17,8 @@ def get_header():
         width=467
     )
 
-    loc = dcc.Location(id="url", refresh=False)
-
     header_centering = html.Div(
-        [logo, loc],
+        [logo],
         id="header_centering",
         className="columns is-centered"
     )

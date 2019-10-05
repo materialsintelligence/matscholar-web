@@ -29,7 +29,7 @@ def get_nav():
 
     search = dcc.Link(search_button, href="/search")
     analyze = dcc.Link(analyze_button, href="/analyze")
-    about = dcc.Link(about_button, href="/about")
+    about = dcc.Link(id="about-reload", children=about_button, href="/about")
 
     search_container = html.Div(search)
     analyze_container = html.Div(analyze)

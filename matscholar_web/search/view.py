@@ -6,7 +6,7 @@ from dash_elasticsearch_autosuggest import ESAutosuggest
 
 from matscholar_web.common import common_warning_html, common_null_warning_html
 from matscholar_web.constants import valid_entity_filters, \
-    entity_color_map_bulma
+    entity_color_map_bulma, db_stats
 
 
 def serve_layout():
@@ -68,8 +68,10 @@ def search_bar_and_go_html():
         className="column is-narrow"
     )
 
+    n_abstracts = "{:,}".format(db_stats["abstracts"])
+
     label = html.Label(
-        "Search 5,000,000+ materials science abstracts with named entity "
+        f"Search {n_abstracts} materials science abstracts with named entity "
         "recognition",
         className="is-size-4-desktop has-margin-5"
     )

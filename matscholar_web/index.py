@@ -1,5 +1,6 @@
 import os
 
+import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from flask import send_from_directory
@@ -27,15 +28,18 @@ nav = get_nav()
 
 nav_and_header_section = html.Div([header, nav], className="section")
 footer_section = html.Div(footer_interior, className="section")
-footer = html.Footer(footer_section, className="footer")
+footer = html.Footer(footer_section, className="footer has-margin-top-50")
 
 app_container = html.Div("", id="app_container", className="container is-fluid")
 app_expander = html.Div(app_container, className="msweb-is-tall")
 app_expander_container = html.Div(app_expander,
                                   className="msweb-is-tall-container msweb-fade-in")
 
+location = dcc.Location(id="url", refresh=False)
+
 app.layout = html.Div(
     [
+        location,
         nav_and_header_section,
         app_expander_container,
         footer,
@@ -43,11 +47,26 @@ app.layout = html.Div(
 )
 
 
+# Hacks
+##########
+# Nonsense for getting around plotly's terrible aversion to custom javascript
+@app.callback(
+    Output('js-counting', 'run'),
+    [Input('url', 'pathname')]
+)
+def js_count_statistics(path):
+    print(f"path, {path}, {str(path).strip() == '/about'}")
+    if str(path).strip() == "/about":
+        print('k')
+        return bcb.get_counting_callbacks()
+    else:
+        return ""
+
+
 # Top level callbacks
 #######################
-
-
 # callbacks for loading different apps
+
 @app.callback(
     Output('app_container', 'children'),
     [Input('url', 'pathname')]
@@ -63,26 +82,6 @@ def display_page(path):
         return bv.serve_layout()
     else:
         return html.Div("404", className="has-text-centered")
-
-
-# callback for running custom js counting script with Plotly dash
-@app.callback(
-    Output('js-counting', 'run'),
-    [Input('url', 'pathname')]
-)
-def js_count_statistics(path):
-    print(f"path, {path}, {str(path).strip() == '/about'}")
-    if str(path).strip() == "/about":
-        print('k')
-        return bcb.get_counting_callbacks()
-    else:
-        return ""
-
-# setting the static path for loading css files
-@app.server.route('/static/css/<path:path>')
-def get_stylesheet(path):
-    static_folder = os.path.join(os.getcwd(), 'matscholar_web/static/css')
-    return send_from_directory(static_folder, path)
 
 
 # setting the static path for robots.txt
