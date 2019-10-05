@@ -125,7 +125,6 @@ def get_introduction():
     elements = [
         introduction_header,
         introduction_subheader,
-        introduction_image_centered,
         introduction_body,
         current_stats,
         introduction_body2,
