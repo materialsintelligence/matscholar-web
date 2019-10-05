@@ -13,7 +13,7 @@ from matscholar_web.search.util import query_is_well_formed, parse_search_box
 
 def show_results(n_clicks, dropdown_value, search_text):
     if n_clicks in [None, 0]:
-        return None
+        return ""
     else:
         try:
             if not search_text:

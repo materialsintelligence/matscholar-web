@@ -19,7 +19,7 @@ def extracted_results(n_clicks, text, normalize):
         else:
             return abstracts_entities_results_html(text, normalize)
     else:
-        return None
+        return ""
 
 
 def get_random(n_clicks):

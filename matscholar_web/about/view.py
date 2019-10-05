@@ -3,14 +3,18 @@ import json
 
 import dash_html_components as html
 import dash_core_components as dcc
+import visdcc
 
 
 def serve_layout():
     introduction = get_introduction()
+    # all external javascript functions managed by visdcc
+    js = visdcc.Run_js(id='js-counting')
 
     return html.Div(
         [
             introduction,
+            js
         ]
     )
 
@@ -126,14 +130,14 @@ def get_introduction():
             funding_header,
             funding_body
         ],
-        className="box has-padding-200"
+        className="box"
     )
 
     introduction_column = html.Div(introduction_box, className="column is-half")
     introduction_columns = html.Div(introduction_column,
                                     className="columns is-centered")
-    # introduction_container = html.Div(introduction_columns, className="container is-content")
-    return introduction_columns
+    introduction_container = html.Div(introduction_columns, className="container")
+    return introduction_container
 
 
 def get_current_stats_html():
@@ -165,15 +169,15 @@ def get_current_stats_html():
         stat = html.Div(
             "{:,}".format(stats[k]),
             id=f"count-{k}",
-            className=f"is-size-3 {common_styling}"
+            className=f"is-size-4-desktop {common_styling}"
         )
         stat_descriptor = html.Div(f"{v}",
-                                   className=f"is-size-5 {common_styling}")
+                                   className=f"is-size-5-desktop {common_styling}")
         stat_column = html.Div([stat, stat_descriptor],
                                className="column is-one-third")
         stats_columns.append(stat_column)
 
-    stats_columns = html.Div(stats_columns, className="columns is-centered")
+    stats_columns = html.Div(stats_columns, className="columns is-centered is-desktop")
 
     all_stats = html.Div(id="stats-container", children=stats_columns,
                          className="container has-margin-top-30 has-margin-bottom-30")

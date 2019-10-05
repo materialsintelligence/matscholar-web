@@ -15,6 +15,7 @@ import matscholar_web.search.callbacks as scb
 import matscholar_web.search.view as sv
 import matscholar_web.analysis.callbacks as acb
 import matscholar_web.analysis.view as av
+import matscholar_web.about.callbacks as bcb
 import matscholar_web.about.view as bv
 
 """
@@ -35,15 +36,13 @@ app_expander_container = html.Div(app_expander,
                                   className="msweb-is-tall-container msweb-fade-in")
 
 
-# all external javascript functions managed by visdcc
-js = visdcc.Run_js(id='js-counting')
+
 
 app.layout = html.Div(
     [
         nav_and_header_section,
         app_expander_container,
         footer,
-        js
     ],
 )
 
@@ -52,17 +51,6 @@ app.layout = html.Div(
 #######################
 
 
-@app.callback(
-    Output('js-counting', 'run'),
-    [Input('url', 'pathname')]
-)
-def js_count_statistics(path):
-    print(f"waiting to trigger {path}")
-    if str(path).strip() == "/about":
-        print("triggering_callback")
-        # return 'alert("worked")'
-        return 'animatedCount("count-materials", countTime)'
-    return ""
 
 # callbacks for loading different apps
 @app.callback(
@@ -81,6 +69,18 @@ def display_page(path):
     else:
         return html.Div("404", className="has-text-centered")
 
+# callback for running custom js counting script with Plotly dash
+@app.callback(
+    Output('js-counting', 'run'),
+    [Input('url', 'pathname')]
+)
+def js_count_statistics(path):
+    print(f"path, {path}, {str(path).strip() == '/about'}")
+    if str(path).strip() == "/about":
+        print('k')
+        return bcb.get_counting_callbacks()
+    else:
+        return ""
 
 
 
