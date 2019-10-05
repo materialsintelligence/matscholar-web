@@ -123,18 +123,19 @@ def get_introduction():
     funding_body = html.Div(funding_md, className=common_body_style)
 
     elements = [
-            introduction_header,
-            introduction_subheader,
-            introduction_body,
-            current_stats,
-            introduction_body2,
-            publication_header,
-            reference_1,
-            reference_2,
-            why_use_header,
-            why_use_body_container,
-            funding_header,
-            funding_body
+        introduction_header,
+        introduction_subheader,
+        introduction_image_centered,
+        introduction_body,
+        current_stats,
+        introduction_body2,
+        publication_header,
+        reference_1,
+        reference_2,
+        why_use_header,
+        why_use_body_container,
+        funding_header,
+        funding_body
     ]
     container = get_common_box(elements)
     return container
@@ -220,7 +221,6 @@ def get_journals_html():
         [header] + rows,
         className="table is-bordered is-hoverable is-narrow is-striped"
     )
-
 
     hr_dropdown = divider_html()
     hr_jtable = divider_html()
