@@ -36,7 +36,7 @@ app_expander_container = html.Div(app_expander,
 
 
 # all external javascript functions managed by visdcc
-js = visdcc.Run_js(id='')
+js = visdcc.Run_js(id='js-counting')
 
 app.layout = html.Div(
     [
@@ -53,7 +53,7 @@ app.layout = html.Div(
 
 
 @app.callback(
-    Output('javascript', 'run'),
+    Output('js-counting', 'run'),
     [Input('url', 'pathname')]
 )
 def js_count_statistics(path):
