@@ -7,7 +7,7 @@ from dash_elasticsearch_autosuggest import ESAutosuggest
 from matscholar_web.common import common_warning_html, \
     common_null_warning_html, divider_html
 from matscholar_web.constants import valid_entity_filters, \
-    entity_color_map_bulma, db_stats
+    entity_color_map_bulma, db_stats, example_searches
 
 
 def serve_layout():
@@ -70,7 +70,11 @@ def search_bar_and_go_html():
 
     n_abstracts = "{:,}".format(db_stats["abstracts"])
 
-    n_abstracts_hidden_ref = html.Span(id="count-search-hidden-ref", children=n_abstracts, className="is-hidden")
+    n_abstracts_hidden_ref = html.Span(
+        id="count-search-hidden-ref",
+        children=n_abstracts,
+        className="is-hidden"
+    )
 
     n_abstracts_link = dcc.Link(
         id="count-search",
@@ -100,6 +104,10 @@ def search_bar_and_go_html():
         ,
         className="container")
     return bar_and_go_and_label_container
+
+
+def example_searches_html():
+    pass
 
 
 def advanced_search_html():

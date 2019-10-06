@@ -40,13 +40,15 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 TIMEOUT = 60
 
 # Stats data, shared among all apps and views
-def get_stats_data():
+def load_static_data_file(fname):
     _topdir = os.path.abspath(os.path.dirname(__file__))
     _target = os.path.abspath(
-        os.path.join(_topdir, "assets/data/db_statistics.json")
+        os.path.join(_topdir, f"assets/data/{fname}")
     )
     with open(_target, "r") as f:
         stats = json.load(f)
     return stats
 
-db_stats = get_stats_data()
+db_stats = load_static_data_file("db_statistics.json")
+example_searches = load_static_data_file("example_searches.json")
+sample_abstracts = load_static_data_file("sample_abstracts.json")
