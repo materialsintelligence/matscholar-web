@@ -1,0 +1,9 @@
+[
+  "\"material\": \"Bi2Te3\", \"property\": \"thermoelectrics\"",
+  "\"material\": \"gold\", \"descriptor\": \"nanoparticle\", \"characterization\": \"SEM\"",
+  "\"material\": \"graphite\", \"application\": \"cathode\"",
+  "\"phase\": \"perovskite\", \"synthesis\": \"firing\"",
+  "\"application\": \"spintronics\", \"property\": \"doped\"",
+  "\"application\": \"transistor\"",
+  "\"phase\": \"heusler\", \"characterization\": \"x-ray diffraction\", \"property\": \"doped\""
+]
