@@ -55,16 +55,25 @@ def search_bar_and_go_html():
         className="input is-info is-medium",
         autoFocus=True,
     )
-    search_bar_html = html.Div(search_bar, className="column is-half")
+    search_bar_html = html.Div(search_bar, className="column is-two-thirds")
 
     go_button = html.Button(
         "Go",
         id="search-btn",
-        className="button is-warning is-focused is-medium"
+        className="button is-info is-focused is-medium"
     )
-
     go_html = html.Div(
         go_button,
+        className="column is-narrow"
+    )
+
+    example_search_button = html.Button(
+        "Example",
+        id="random-search-btn",
+        className="button is-light is-focused is-medium"
+    )
+    example_search_html = html.Div(
+        example_search_button,
         className="column is-narrow"
     )
 
@@ -92,8 +101,14 @@ def search_bar_and_go_html():
         className="is-size-4-desktop has-margin-5"
     )
     label_container = html.Div(label, className="has-text-centered")
-    bar_and_go_columns = html.Div([search_bar_html, go_html, n_abstracts_hidden_ref],
-                                  className="columns is-centered")
+    bar_and_go_columns = html.Div(
+        [
+            search_bar_html,
+            go_html,
+            example_search_html,
+            n_abstracts_hidden_ref
+        ],
+        className="columns is-centered")
 
     bar_and_go_container = html.Div(bar_and_go_columns, className="container")
 
@@ -118,6 +133,7 @@ def example_searches_html():
         className="is-hidden"
     )
     return examples_hidden_ref
+
 
 def advanced_search_html():
     """

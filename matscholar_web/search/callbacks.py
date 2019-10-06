@@ -1,7 +1,9 @@
+import random
+
 from matscholar.rest import MatScholarRestError
 
 from matscholar_web.common import common_rester_error_html
-from matscholar_web.constants import valid_entity_filters
+from matscholar_web.constants import valid_entity_filters, example_searches
 from matscholar_web.search.view import malformed_query_warning_html, \
     no_query_warning_html
 from matscholar_web.search.subviews.abstracts import abstracts_results_html
@@ -46,7 +48,8 @@ def show_results(n_clicks, dropdown_value, search_text):
 def consolidate_n_submit_and_clicks_to_search_button(*all_n_clicks):
     n_searches_per_input = [0 if n is None else n for n in all_n_clicks]
     n_times_searched = sum(n_searches_per_input)
-    return n_times_searched
+    # The number of times searches total, reset the random search click
+    return n_times_searched, 0
 
 
 def search_bar_live_display(*ent_txts):
@@ -56,3 +59,7 @@ def search_bar_live_display(*ent_txts):
         if ent_txt not in [None, "", " "]:
             entry += f"{ent}: {ent_txt}, "
     return entry
+
+
+def reset_example_n_clicks_on_search(consolidated_n_clicks):
+    return 0

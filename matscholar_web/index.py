@@ -77,6 +77,7 @@ def get_robots():
 #######################
 @app.callback(
     Output('text_input', 'value'),
+    [Input('random-search-btn', 'n_clicks')] +
     get_entity_boxes_callback_args(as_type="input")
 )
 def search_bar_live_display(*ent_txts):
@@ -96,6 +97,14 @@ def consolidate_n_submit_and_clicks_to_search_btn(*all_n_clicks):
 
 
 @app.callback(
+    Output('random-search-btn', 'n_clicks'),
+    [Input('search-btn', 'n_clicks')]
+)
+def reset_example_n_clicks_on_search(consolidated_n_clicks):
+    return scb.reset_example_n_clicks_on_search(consolidated_n_clicks)
+
+
+@app.callback(
     Output('search_results', 'children'),
     [Input('search-btn', 'n_clicks')],
     [State("search_type_dropdown", "value"),
@@ -107,6 +116,7 @@ def show_search_results(n_clicks, dropdown_value, search_text):
 
 
 # See count.js and clientside.js for more details
+# Animates the count up for the search bar
 app.clientside_callback(
     ClientsideFunction(
         namespace='clientside',
@@ -158,6 +168,7 @@ def get_random(n_clicks):
 ######################
 
 # See count.js and clientside.js for more details
+# Counts up each stat in the about page introduction section
 app.clientside_callback(
     ClientsideFunction(
         namespace='clientside',
