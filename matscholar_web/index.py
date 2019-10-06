@@ -6,7 +6,7 @@ from dash.dependencies import Input, Output, State, ClientsideFunction
 from flask import send_from_directory
 
 from matscholar_web.app import app, cache
-from matscholar_web.constants import TIMEOUT
+from matscholar_web.constants import cache_timeout
 from matscholar_web.footer import get_footer
 from matscholar_web.header import get_header
 from matscholar_web.nav import get_nav
@@ -101,7 +101,7 @@ def consolidate_n_submit_and_clicks_to_search_btn(*all_n_clicks):
     [State("search_type_dropdown", "value"),
      State("text_input", "value")]
 )
-@cache.memoize(timeout=TIMEOUT)
+@cache.memoize(timeout=cache_timeout)
 def show_search_results(n_clicks, dropdown_value, search_text):
     return scb.show_results(n_clicks, dropdown_value, search_text)
 

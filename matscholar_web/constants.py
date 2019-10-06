@@ -35,7 +35,7 @@ entity_color_map_bulma = {
 valid_entity_filters = list(entity_shortcode_map.keys())
 
 # in seconds
-TIMEOUT = 60
+cache_timeout = 60
 
 # Static files
 db_stats = load_static_data_file("db_statistics.json")
