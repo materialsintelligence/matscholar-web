@@ -34,12 +34,10 @@ entity_color_map_bulma = {
 # The valid entity types
 valid_entity_filters = list(entity_shortcode_map.keys())
 
-# the absolute path of this root directory
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-
 # in seconds
 TIMEOUT = 60
 
+# Static files
 db_stats = load_static_data_file("db_statistics.json")
 example_searches = load_static_data_file("example_searches.json")
 sample_abstracts = load_static_data_file("sample_abstracts.json")
