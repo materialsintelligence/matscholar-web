@@ -1,5 +1,11 @@
 
 function animatedCount(id, hiddenId, duration) {
+    // Count up to a number with animation
+    // id (String): Id of the element which to animate
+    // hiddenId (String): Id of the element from which to draw the max
+    //      value for counting. Should be hidden, probably
+    // duration (Integer): The duration of the animation; longer means
+    //      slower animation
     var radix = 10;
     var srcValue = document.getElementById(hiddenId).innerHTML;
     var countTo = srcValue.replace(/,/g, "")

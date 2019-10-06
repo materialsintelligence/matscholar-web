@@ -110,10 +110,6 @@ def search_bar_and_go_html():
 
 
 def example_searches_html():
-
-    common_text_style = "is-small"
-    prefix = html.Span("Try an example search: ", className=common_text_style)
-
     separator = " | "
     examples_as_string = [e + separator for e in example_searches]
     examples_hidden_ref = html.Span(
@@ -121,22 +117,7 @@ def example_searches_html():
         children=examples_as_string,
         className="is-hidden"
     )
-
-    examples_displayed = html.Span(
-        id="search-examples",
-        children=example_searches[0],
-        className=common_text_style
-    )
-
-    example_search_container = html.Div(
-        [
-            prefix,
-            examples_displayed,
-            examples_hidden_ref
-        ],
-        className="container is-pulled-left"
-    )
-    return example_search_container
+    return examples_hidden_ref
 
 def advanced_search_html():
     """
