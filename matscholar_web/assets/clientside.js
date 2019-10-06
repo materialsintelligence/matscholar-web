@@ -1,4 +1,4 @@
-var rotationTime = 5000;
+var rotationTime = 1000;
 var countTime = 3000;
 
 
