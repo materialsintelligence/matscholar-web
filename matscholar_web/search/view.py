@@ -69,8 +69,12 @@ def search_bar_and_go_html():
     )
 
     n_abstracts = "{:,}".format(db_stats["abstracts"])
+
+    n_abstracts_hidden_ref = html.Span(id="count-search-hidden-ref", children=n_abstracts, className="is-hidden")
+
     n_abstracts_link = dcc.Link(
-        f"{n_abstracts}",
+        id="count-search",
+        children=f"{n_abstracts}",
         href="/about#journals",
         className="msweb-fade-in"
     )
@@ -84,7 +88,7 @@ def search_bar_and_go_html():
         className="is-size-4-desktop has-margin-5"
     )
     label_container = html.Div(label, className="has-text-centered")
-    bar_and_go_columns = html.Div([search_bar_html, go_html],
+    bar_and_go_columns = html.Div([search_bar_html, go_html, n_abstracts_hidden_ref],
                                   className="columns is-centered")
 
     bar_and_go_container = html.Div(bar_and_go_columns, className="container")

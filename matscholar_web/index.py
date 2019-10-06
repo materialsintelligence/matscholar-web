@@ -144,3 +144,17 @@ app.clientside_callback(
         Input('count-entities-hidden-ref', 'id')
     ]
 )
+
+# See the count.js file for more details
+app.clientside_callback(
+    ClientsideFunction(
+        namespace='clientside',
+        function_name='countSearch'
+    ),
+    Output('count-search', 'children'),
+    [
+        Input('url', 'pathname'),
+        Input('count-search', 'id'),
+        Input('count-search-hidden-ref', 'id')
+    ]
+)

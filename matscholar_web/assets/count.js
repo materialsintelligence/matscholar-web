@@ -51,5 +51,10 @@ window.dash_clientside.clientside = {
                 animatedCount(id2, hiddenId2, countTime)
                 animatedCount(id3, hiddenId3, countTime)
         }
+    },
+    countSearch: function (pathname, id, hiddenId) {
+        if (pathname == "/search"){
+                animatedCount(id, hiddenId, countTime)
+        }
     }
 }
