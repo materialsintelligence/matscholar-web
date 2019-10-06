@@ -121,15 +121,16 @@ app.clientside_callback(
 )
 
 # See example_searches.js and clientside.js for more details
+# Puts example searches in the search bar
 app.clientside_callback(
     ClientsideFunction(
         namespace='clientside',
         function_name='cycleExampleSearches'
     ),
-    Output('search-examples', 'children'),
+    Output('text_input', 'children'),
     [
         Input('url', 'pathname'),
-        Input('search-examples', 'id'),
+        Input('text_input', 'id'),
         Input('search-examples-hidden-ref', 'id')
     ]
 )
