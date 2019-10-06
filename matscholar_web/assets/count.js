@@ -1,6 +1,4 @@
 
-var countTime = 3000;
-
 function animatedCount(id, hiddenId, duration) {
     var radix = 10;
     var srcValue = document.getElementById(hiddenId).innerHTML;

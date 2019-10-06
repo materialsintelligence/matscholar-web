@@ -106,6 +106,35 @@ def show_search_results(n_clicks, dropdown_value, search_text):
     return scb.show_results(n_clicks, dropdown_value, search_text)
 
 
+# See count.js and clientside.js for more details
+app.clientside_callback(
+    ClientsideFunction(
+        namespace='clientside',
+        function_name='countSearch'
+    ),
+    Output('count-search', 'children'),
+    [
+        Input('url', 'pathname'),
+        Input('count-search', 'id'),
+        Input('count-search-hidden-ref', 'id')
+    ]
+)
+
+# See example_searches.js and clientside.js for more details
+app.clientside_callback(
+    ClientsideFunction(
+        namespace='clientside',
+        function_name='cycleExampleSearches'
+    ),
+    Output('search-examples', 'children'),
+    [
+        Input('url', 'pathname'),
+        Input('search-examples', 'id'),
+        Input('search-examples-hidden-ref', 'id')
+    ]
+)
+
+
 # Analyze callbacks
 #######################
 @app.callback(
@@ -127,7 +156,7 @@ def get_random(n_clicks):
 # About callbacks
 ######################
 
-# See the count.js file for more details
+# See count.js and clientside.js for more details
 app.clientside_callback(
     ClientsideFunction(
         namespace='clientside',
@@ -142,19 +171,5 @@ app.clientside_callback(
         Input('count-materials-hidden-ref', 'id'),
         Input('count-abstracts-hidden-ref', 'id'),
         Input('count-entities-hidden-ref', 'id')
-    ]
-)
-
-# See the count.js file for more details
-app.clientside_callback(
-    ClientsideFunction(
-        namespace='clientside',
-        function_name='countSearch'
-    ),
-    Output('count-search', 'children'),
-    [
-        Input('url', 'pathname'),
-        Input('count-search', 'id'),
-        Input('count-search-hidden-ref', 'id')
     ]
 )

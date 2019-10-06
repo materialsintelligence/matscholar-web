@@ -96,9 +96,12 @@ def search_bar_and_go_html():
                                   className="columns is-centered")
 
     bar_and_go_container = html.Div(bar_and_go_columns, className="container")
+
+    example_search_container = example_searches_html()
     bar_and_go_and_label_container = html.Div(
         [
             label_container,
+            example_search_container,
             bar_and_go_container
         ]
         ,
@@ -107,8 +110,33 @@ def search_bar_and_go_html():
 
 
 def example_searches_html():
-    pass
 
+    common_text_style = "is-small"
+    prefix = html.Span("Try an example search: ", className=common_text_style)
+
+    separator = " | "
+    examples_as_string = [e + separator for e in example_searches]
+    examples_hidden_ref = html.Span(
+        id="search-examples-hidden-ref",
+        children=examples_as_string,
+        className="is-hidden"
+    )
+
+    examples_displayed = html.Span(
+        id="search-examples",
+        children=example_searches[0],
+        className=common_text_style
+    )
+
+    example_search_container = html.Div(
+        [
+            prefix,
+            examples_displayed,
+            examples_hidden_ref
+        ],
+        className="container is-pulled-left"
+    )
+    return example_search_container
 
 def advanced_search_html():
     """

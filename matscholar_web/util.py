@@ -1,6 +1,7 @@
 import os
 import json
 
+
 # Stats data, shared among all apps and views
 def load_static_data_file(fname):
     _topdir = os.path.abspath(os.path.dirname(__file__))
