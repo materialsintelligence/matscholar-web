@@ -52,23 +52,14 @@ def consolidate_n_submit_and_clicks_to_search_button(*all_n_clicks):
     return n_times_searched
 
 
-def search_bar_live_display(example_search_n_clicks, *ent_txts_and_search_state):
-    search_txt = ent_txts_and_search_state[-1]
-    ent_txts = ent_txts_and_search_state[:-1]
-
-    if example_search_n_clicks not in [None, 0]:
-        return random.choice(example_searches)
+def search_bar_live_display(example_search_n_clicks, *ent_txts):
+    if example_search_n_clicks == 0:
+        entry = ""
+        for i, ent in enumerate(valid_entity_filters):
+            ent_txt = ent_txts[i]
+            if ent_txt not in [None, "", " "]:
+                entry += f"{ent}: {ent_txt}, "
+        return entry
     else:
-        if search_txt:
-            return search_txt
-        else:
-            entry = ""
-            for i, ent in enumerate(valid_entity_filters):
-                ent_txt = ent_txts[i]
-                if ent_txt not in [None, "", " "]:
-                    entry += f"{ent}: {ent_txt}, "
-            return entry
+        return random.choice(example_searches)
 
-
-def reset_example_n_clicks_on_search_or_live_update():
-    return 0
