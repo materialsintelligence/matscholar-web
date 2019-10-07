@@ -215,30 +215,44 @@ def entity_filter_box_html(entity):
         entity (str): Entity type
         prefill_filters (list of str): prefill values
     """
-    placeholders = {"material": "PbTe, graphite,...",
-                    "property": "dielectric constant, melting point,...",
-                    "application": "cathode, catalyst,...",
-                    "descriptor": "thin film, nanoparticle,...",
-                    "characterization": "x-ray diffraction, EDS...",
-                    "synthesis": "sol - gel, firing,...",
-                    "phase": "perovskite, wurtzite,..."}
+    placeholders = {
+        "material": "PbTe, graphite,...",
+        "property": "dielectric constant, melting point,...",
+        "application": "cathode, catalyst,...",
+        "descriptor": "thin film, nanoparticle,...",
+        "characterization": "x-ray diffraction, EDS...",
+        "synthesis": "sol - gel, firing,...",
+        "phase": "perovskite, wurtzite,..."
+    }
 
-    ES_field_dict = {"material": "materials", "property": "properties",
-                     "application": "applications", "descriptor": "descriptors",
-                     "characterization": "characterization_methods",
-                     "synthesis": "synthesis_methods",
-                     "phase": "structure_phase_labels"}
+    ES_field_dict = {
+        "material": "materials", "property": "properties",
+        "application": "applications", "descriptor": "descriptors",
+        "characterization": "characterization_methods",
+        "synthesis": "synthesis_methods",
+        "phase": "structure_phase_labels"
+    }
 
-    tooltips = {k: f"Example tooltip for {k}" for k in valid_entity_filters}
+    tooltip_texts = {
+        "material": "Material stoichiometries and common names.",
+        "property": "Names of measurable materials phenomena.",
+        "application": "Commercial and research uses for materials.",
+        "descriptor": "Ways to describe bulk materials.",
+        "characterization": "Methods for characterizing materials.",
+        "synthesis": "Names of procedures for synthesizing materials.",
+        "phase": "Proper and common names of phases (nanoscale).",
+    }
 
     color = entity_color_map_bulma[entity]
     common_entity_style = f"has-text-{color} is-size-5 has-text-weight-semibold"
     entity_txt = '{}:'.format(entity.capitalize())
     entity_name = html.Div(entity_txt, className=f"{common_entity_style}")
 
-    tooltip_txt = tooltips[entity]
-    entity_label_tooltip = html.Div(tooltip_txt, className=f"tooltip-text is-size-7  has-margin-5")
-
+    tooltip_txt = tooltip_texts[entity]
+    entity_label_tooltip = html.Div(
+        tooltip_txt,
+        className=f"tooltip-text is-size-7  has-margin-5"
+    )
 
     # Autosuggest is styled by CSS react classnames ONLY!
     esas = ESAutosuggest(
@@ -253,6 +267,8 @@ def entity_filter_box_html(entity):
         searchField="original.edgengram",
     )
 
-    textbox = html.Div([entity_name, esas, entity_label_tooltip],
-                       className="has-margin-10 tooltip")
+    textbox = html.Div(
+        [entity_name, esas, entity_label_tooltip],
+        className="has-margin-right-10 has-margin-left-10 tooltip"
+    )
     return textbox
