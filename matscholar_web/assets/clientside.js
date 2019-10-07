@@ -15,14 +15,15 @@ window.dash_clientside.clientside = {
 
     // Animate the search bar abstracts
     countSearch: function (pathname, id, hiddenId) {
-        if (pathname == "/search"){
+        console.log(pathname)
+        if (pathname == "/search" || pathname =="/" || pathame == null){
             animatedCount(id, hiddenId, countTime)
         }
     },
 
     // Cycle through example searches
     cycleExampleSearches: function (pathname, id, exampleSearchesStringId) {
-        if (pathname == "/search"){
+        if (pathname == "/search" || pathname =="/" || pathame == null){
             runExampleSearches(id, exampleSearchesStringId, rotationTime)
         }
     }
