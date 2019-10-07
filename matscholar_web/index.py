@@ -78,10 +78,11 @@ def get_robots():
 @app.callback(
     Output('text_input', 'value'),
     [Input('example-search-btn', 'n_clicks')] +
-    get_entity_boxes_callback_args(as_type="input")
+    get_entity_boxes_callback_args(as_type="input"),
+    [State('text_input', 'value')]
 )
-def search_bar_live_display(example_search_n_clicks, *ent_txts):
-    return scb.search_bar_live_display(example_search_n_clicks, *ent_txts)
+def search_bar_live_display(example_search_n_clicks, *ent_txts_and_search_state):
+    return scb.search_bar_live_display(example_search_n_clicks, *ent_txts_and_search_state)
 
 
 @app.callback(

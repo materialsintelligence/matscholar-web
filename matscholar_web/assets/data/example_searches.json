@@ -5,5 +5,5 @@
   "phase: perovskite, synthesis: firing",
   "application: spintronics, property: doped",
   "application: transistor",
-  "phase: heusler, characterization: x-ray diffraction, property: doped"
+  "phase: cubic, characterization: x-ray diffraction, property: doped"
 ]

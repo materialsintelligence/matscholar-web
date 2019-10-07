@@ -49,19 +49,25 @@ def consolidate_n_submit_and_clicks_to_search_button(*all_n_clicks):
     n_searches_per_input = [0 if n is None else n for n in all_n_clicks]
     n_times_searched = sum(n_searches_per_input)
     # The number of times searches total, reset the random search click
-    return n_times_searched, 0
+    return n_times_searched
 
 
-def search_bar_live_display(example_search_n_clicks, *ent_txts):
+def search_bar_live_display(example_search_n_clicks, *ent_txts_and_search_state):
+    search_txt = ent_txts_and_search_state[-1]
+    ent_txts = ent_txts_and_search_state[:-1]
+
     if example_search_n_clicks not in [None, 0]:
         return random.choice(example_searches)
     else:
-        entry = ""
-        for i, ent in enumerate(valid_entity_filters):
-            ent_txt = ent_txts[i]
-            if ent_txt not in [None, "", " "]:
-                entry += f"{ent}: {ent_txt}, "
-        return entry
+        if search_txt:
+            return search_txt
+        else:
+            entry = ""
+            for i, ent in enumerate(valid_entity_filters):
+                ent_txt = ent_txts[i]
+                if ent_txt not in [None, "", " "]:
+                    entry += f"{ent}: {ent_txt}, "
+            return entry
 
 
 def reset_example_n_clicks_on_search_or_live_update():
