@@ -24,9 +24,9 @@ label_mapping = {
 }
 
 entitiy_color_map_bulma_extension = {
-    "property value": "dark",
-    "property unit": "black",
-    "other": "white"
+    "property value": "black",
+    "property unit": "light",
+    "other": None
 }
 
 entity_color_map_bulma_extended = copy.deepcopy(entity_color_map_bulma)
@@ -101,16 +101,15 @@ def serve_layout():
 
 def abstracts_entities_results_html(text, normalize):
     # Extract highlighted
-    return_type = "normalized" if normalize == "yes" else "concatenated"
     try:
-        result = rester.get_ner_tags([text], return_type=return_type)
+        result = rester.get_ner_tags(text, concatenate=True, normalize=normalize)
     except MatScholarRestError:
         rester_error_txt = \
             "Our server is having trouble with that abstract. We are likely " \
             "undergoing maintenance, check back soon!"
         return common_rester_error_html(rester_error_txt)
     tagged_doc = result["tags"]
-    relevance = result["relevance"][0]
+    relevance = result["relevance"]
     highlighted = highlight_entities(tagged_doc)
 
     # Add the warning
@@ -126,7 +125,7 @@ def abstracts_entities_results_html(text, normalize):
 
     # Update download link
     doc = {"sentences": []}
-    for sent in tagged_doc[0]:
+    for sent in tagged_doc:
         new_sent = []
         for token, tag in sent:
             new_sent.append({"token": token, "tag": tag})
@@ -159,6 +158,9 @@ def abstracts_entities_results_html(text, normalize):
     entity_colormap_key = copy.deepcopy(entity_color_map_bulma_extended)
     entities_keys = []
     for e, color in entity_colormap_key.items():
+        # don't need the "other" label
+        if e == "other":
+            continue
         entity_key = html.Div(e, className=f"button is-{color} is-active")
         entity_key_container = html.Div(
             entity_key,
@@ -186,8 +188,8 @@ def abstracts_entities_results_html(text, normalize):
 
 def highlight_entities(tagged_doc):
     tagged_flat1 = [i for sublist in tagged_doc for i in sublist]
-    tagged_flat2 = [j for sublist in tagged_flat1 for j in sublist]
-    tagged_doc = tagged_flat2
+    # tagged_flat2 = [j for sublist in tagged_flat1 for j in sublist]
+    tagged_doc = tagged_flat1
 
     text_size = "is-size-6"
 
@@ -197,7 +199,7 @@ def highlight_entities(tagged_doc):
         token, tag = tagged_token[0], tagged_token[1]
         color = entity_color_map_bulma_extended[label_mapping[tag]]
 
-        if color == "white":
+        if color is None:
             entity_styled = html.Div(f" {token} ", className=text_size)
             entity_container = html.Div(
                 entity_styled,
