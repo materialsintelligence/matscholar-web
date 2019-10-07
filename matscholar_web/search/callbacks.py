@@ -53,8 +53,6 @@ def consolidate_n_submit_and_clicks_to_search_button(*all_n_clicks):
 
 
 def search_bar_live_display(example_search_n_clicks, *ent_txts):
-    print(f"n_clicks is {example_search_n_clicks}")
-
     if example_search_n_clicks not in [None, 0]:
         return random.choice(example_searches)
     else:
