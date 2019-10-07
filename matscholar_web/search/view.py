@@ -69,7 +69,7 @@ def search_bar_and_go_html():
 
     example_search_button = html.Button(
         "Example",
-        id="random-search-btn",
+        id="example-search-btn",
         className="button is-light is-focused is-medium"
     )
     example_search_html = html.Div(

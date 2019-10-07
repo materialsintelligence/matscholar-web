@@ -41,6 +41,3 @@ cache_timeout = 60
 db_stats = load_static_data_file("db_statistics.json")
 example_searches = load_static_data_file("example_searches.json")
 sample_abstracts = load_static_data_file("sample_abstracts.json")
-
-import pprint
-pprint.pprint(example_searches)

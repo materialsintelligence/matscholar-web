@@ -77,11 +77,11 @@ def get_robots():
 #######################
 @app.callback(
     Output('text_input', 'value'),
-    [Input('random-search-btn', 'n_clicks')] +
+    [Input('example-search-btn', 'n_clicks')] +
     get_entity_boxes_callback_args(as_type="input")
 )
-def search_bar_live_display(*ent_txts):
-    return scb.search_bar_live_display(*ent_txts)
+def search_bar_live_display(example_search_n_clicks, *ent_txts):
+    return scb.search_bar_live_display(example_search_n_clicks, *ent_txts)
 
 
 @app.callback(
@@ -96,12 +96,15 @@ def consolidate_n_submit_and_clicks_to_search_btn(*all_n_clicks):
     return scb.consolidate_n_submit_and_clicks_to_search_button(*all_n_clicks)
 
 
+# Reset the number of clicks of the random button to zero on search or
+# on live update of the bar from the entity boxes.
 @app.callback(
-    Output('random-search-btn', 'n_clicks'),
-    [Input('search-btn', 'n_clicks')]
+    Output('example-search-btn', 'n_clicks'),
+    [Input('search-btn', 'n_clicks')] +
+    get_entity_boxes_callback_args(as_type="input")
 )
-def reset_example_n_clicks_on_search(consolidated_n_clicks):
-    return scb.reset_example_n_clicks_on_search(consolidated_n_clicks)
+def reset_example_n_clicks_on_search_or_live_update(*args):
+    return scb.reset_example_n_clicks_on_search_or_live_update()
 
 
 @app.callback(
