@@ -26,7 +26,7 @@ def get_timestamp():
 
     """
     now = datetime.now()
-    now.strftime("%Y/%m/%d-%H:%M:%S")
+    return now.strftime("%Y/%m/%d-%H:%M:%S")
 
 
 def get_debug_stats():
@@ -84,19 +84,23 @@ def get_live_stats():
         (dict): The stats on the db as python native objects or primitives.
 
     """
-    stats = {}
-    for count_type in ["materials", "entities", "abstracts"]:
-        n = int(rester.get_db_count(count_type))
-        stats[count_type] = n
+    rstats = rester.get_db_stats()
+    fstats = {"abstracts": rstats["abstract_count"],
+              "materials": rstats["materials_count"],
+              "entities": rstats["entities_count"],
+              "journals": rester.get_journals(),
+              "timestamp": get_timestamp()}
 
-    stats["journals"] = rester.get_journals()
-    stats["timestamp"] = get_timestamp()
-    return stats
+    return fstats
 
 
 if __name__ == "__main__":
-    # stats = get_live_stats()
-    stats = get_debug_stats()
+    raise ValueError("Probably not going to work, need to make sure that "
+                     "rester get_journals is returning a list and not a mongo"
+                     "doc thing")
+
+    stats = get_live_stats()
+    # stats = get_debug_stats()
 
     thisdir = os.path.abspath(os.path.dirname(__file__))
     target = os.path.abspath(
