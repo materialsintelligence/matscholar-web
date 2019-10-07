@@ -101,16 +101,27 @@ def search_bar_and_go_html():
         className="is-size-4-desktop has-margin-5"
     )
     label_container = html.Div(label, className="has-text-centered")
-    bar_and_go_columns = html.Div(
+    go_and_example_columns = html.Div(
         [
-            search_bar_html,
             go_html,
             example_search_html,
             n_abstracts_hidden_ref
         ],
-        className="columns is-centered")
+        className="columns is-centered"
+    )
 
-    bar_and_go_container = html.Div(bar_and_go_columns, className="container")
+    search_bar_centered = html.Div(
+        search_bar_html,
+        className="columns is-centered"
+    )
+
+    bar_and_go_container = html.Div(
+        [
+            search_bar_centered,
+            go_and_example_columns
+        ],
+        className="container"
+    )
 
     example_search_container = example_searches_html()
     bar_and_go_and_label_container = html.Div(
