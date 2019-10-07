@@ -189,7 +189,8 @@ def get_journals_html():
         f"Matscholar at present contains processed abstracts from " \
         f"{n_journals} peer-reviewed scientific journals from multiple " \
         f"scientific domains, including inorganic materials, polymers, " \
-        f"biomaterials, and more."
+        f"biomaterials, and more. You can search for which journals we " \
+        f"have parsed at least one paper from using the search box below."
 
     journal_info_header = html.Div(journal_info_header_txt,
                                    className=common_title_style)
@@ -210,27 +211,7 @@ def get_journals_html():
     dropdown_label = html.Div("Search our collection",
                               className=common_header_style)
 
-    header_number = html.Th("Number")
-    header_name = html.Th("Journal Name")
-    header = html.Tr([header_number, header_name])
-
-    rows = [None] * n_journals
-    for i, j in enumerate(journals):
-        jname = html.Td(j, className="has-text-weight-bold")
-        jnumber = html.Td(i)
-        rows[i] = html.Tr([jnumber, jname], className="is-size-7")
-
-    jtable = html.Table(
-        [header] + rows,
-        className="table is-bordered is-hoverable is-narrow is-striped"
-    )
-
     hr_dropdown = divider_html()
-    hr_jtable = divider_html()
-    jtable_label = html.Div(
-        "Browse a full journal list",
-        className=common_header_style + "has-margin-top-30"
-    )
 
     elements = [
         journal_info_header,
@@ -239,9 +220,6 @@ def get_journals_html():
         hr_dropdown,
         dropdown_label,
         dropdown,
-        hr_jtable,
-        jtable_label,
-        jtable
     ]
 
     container = get_common_box(elements, id="journals")
