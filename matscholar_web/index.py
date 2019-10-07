@@ -110,9 +110,13 @@ def consolidate_n_submit_and_clicks_to_search_btn(*all_n_clicks):
     [State("search_type_dropdown", "value"),
      State("text_input", "value")]
 )
-@cache.memoize(timeout=cache_timeout)
 def show_search_results(n_clicks, dropdown_value, search_text):
-    return scb.show_results(n_clicks, dropdown_value, search_text)
+    # Prevent from caching on n_clicks
+    @cache.memoize(timeout=cache_timeout)
+    def memoize_wrapper(dropdown_value, search_text):
+        return scb.show_results(n_clicks, dropdown_value, search_text)
+
+    return memoize_wrapper(dropdown_value, search_text)
 
 
 # See count.js and clientside.js for more details
@@ -154,7 +158,11 @@ app.clientside_callback(
     [State("extract-textarea", "value"),
      State("dropdown_normalize", "value")])
 def highlight_extracted(n_clicks, text, normalize):
-    return acb.extracted_results(n_clicks, text, normalize)
+    # Prevent from caching on n_clicks
+    @cache.memoize(timeout=cache_timeout)
+    def memoize_wrapper(text, normalize):
+        return acb.extracted_results(n_clicks, text, normalize)
+    return memoize_wrapper(text, normalize)
 
 
 @app.callback(
