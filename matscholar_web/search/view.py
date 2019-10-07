@@ -234,18 +234,10 @@ def entity_filter_box_html(entity):
     color = entity_color_map_bulma[entity]
     common_entity_style = f"has-text-{color} is-size-5 has-text-weight-semibold"
     entity_txt = '{}:'.format(entity.capitalize())
-    entity_name = html.Div(entity_txt, className=f"{common_entity_style} has-margin-bottom-20")
+    entity_name = html.Div(entity_txt, className=f"{common_entity_style}")
 
     tooltip_txt = tooltips[entity]
-    entity_label_tooltip = html.Div(tooltip_txt, className=f"tooltip-text {common_entity_style}")
-    entity_label = html.Div([entity_name, entity_label_tooltip], className="tooltip")
-
-
-    entity_label_container = html.Div(
-        [entity_label],
-        className=f""
-    )
-
+    entity_label_tooltip = html.Div(tooltip_txt, className=f"tooltip-text is-size-7  has-margin-5")
 
 
     # Autosuggest is styled by CSS react classnames ONLY!
@@ -261,6 +253,6 @@ def entity_filter_box_html(entity):
         searchField="original.edgengram",
     )
 
-    textbox = html.Div([entity_label_container, esas],
-                       className="has-margin-10")
+    textbox = html.Div([entity_name, esas, entity_label_tooltip],
+                       className="has-margin-10 tooltip")
     return textbox

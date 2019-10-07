@@ -88,7 +88,7 @@ details[open] summary ~ * {
 }
 
 .tooltip .tooltip-text {
-    padding:10px 20px;
+    /* padding:10px 20px; */
     /* position:absolute; */
     z-index:99999999;
     visibility:hidden; opacity:0; transition:opacity 0.8s;
@@ -99,17 +99,17 @@ details[open] summary ~ * {
 }
 
 .tooltip .tooltip-text i {
-    position:absolute;
+    /* position:absolute; */
     overflow:hidden;
 }
 
 .tooltip .tooltip-text i::after {
     content:'';
     /* position:absolute; */
-    width:12px;
-    height:12px;
-    left:50%;
-    transform:translate(-50%,-50%) rotate(45deg);
-    background-color:#EEEEEE;
-    box-shadow:0 1px 8px rgba(0,0,0,0.5);
+    /* width:12px; */
+    /* height:12px; */
+    /* left:50%; */
+    /* transform:translate(-50%,-50%) rotate(45deg); */
+    /* background-color:#EEEEEE; */
+    /* box-shadow:0 1px 8px rgba(0,0,0,0.5); */
 }
