@@ -68,7 +68,14 @@ def get_all_score_tables(results_dict):
 
 def get_score_table_for_entity(most_common, entity_type, width):
     n_results = len(most_common)
-    header_entity_type = html.Th(f"{entity_type}: ({n_results} entities)")
+
+    formatted_n_results = min(n_results, MAX_N_ROWS_FOR_EACH_ENTITY_TABLE)
+    if formatted_n_results == MAX_N_ROWS_FOR_EACH_ENTITY_TABLE:
+        table_label = f"Top {formatted_n_results} entities"
+    else:
+        table_label = f"All {formatted_n_results} entities"
+
+    header_entity_type = html.Th(f"{entity_type}: {table_label}")
     header_score = html.Th("score")
     header = html.Tr([header_entity_type, header_score])
 
