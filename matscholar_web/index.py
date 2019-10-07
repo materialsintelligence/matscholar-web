@@ -1,9 +1,6 @@
-import os
-
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State, ClientsideFunction
-from flask import send_from_directory
 
 from matscholar_web.app import app, cache
 from matscholar_web.constants import cache_timeout
@@ -63,14 +60,6 @@ def display_page(path):
         return bv.serve_layout()
     else:
         return html.Div("404", className="has-text-centered")
-
-
-# setting the static path for robots.txt
-@app.server.route('/robots.txt')
-def get_robots():
-    static_folder = os.path.join(os.getcwd(), 'matscholar_web/assets')
-    path = "robots.txt"
-    return send_from_directory(static_folder, path)
 
 
 # Search view callbacks
