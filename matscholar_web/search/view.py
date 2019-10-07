@@ -229,12 +229,24 @@ def entity_filter_box_html(entity):
                      "synthesis": "synthesis_methods",
                      "phase": "structure_phase_labels"}
 
-    entity_name = html.Span('{}:'.format(entity.capitalize()))
+    tooltips = {k: f"Example tooltip for {k}" for k in valid_entity_filters}
 
     color = entity_color_map_bulma[entity]
-    entity_label = html.Label(entity_name)
-    entity_label_container = html.Div(entity_label,
-                                      className=f"has-text-{color} is-size-5 has-text-weight-semibold")
+    common_entity_style = f"has-text-{color} is-size-5 has-text-weight-semibold"
+    entity_txt = '{}:'.format(entity.capitalize())
+    entity_name = html.Div(entity_txt, className=f"{common_entity_style} has-margin-bottom-20")
+
+    tooltip_txt = tooltips[entity]
+    entity_label_tooltip = html.Div(tooltip_txt, className=f"tooltip-text {common_entity_style}")
+    entity_label = html.Div([entity_name, entity_label_tooltip], className="tooltip")
+
+
+    entity_label_container = html.Div(
+        [entity_label],
+        className=f""
+    )
+
+
 
     # Autosuggest is styled by CSS react classnames ONLY!
     esas = ESAutosuggest(
