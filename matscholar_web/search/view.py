@@ -50,7 +50,7 @@ def malformed_query_warning_html(bad_search_txt):
 
 def search_bar_and_go_html():
     search_bar = dcc.Input(
-        placeholder="Enter a query here directly or with the entity search boxes below...",
+        placeholder=example_searches[-1],
         id="text_input",
         className="input is-info is-medium",
         autoFocus=True,
