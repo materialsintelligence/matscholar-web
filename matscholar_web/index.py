@@ -5,7 +5,6 @@ from dash.dependencies import Input, Output, State, ClientsideFunction
 from matscholar_web.app import app, cache
 from matscholar_web.constants import cache_timeout
 from matscholar_web.footer import get_footer
-from matscholar_web.header import get_header
 from matscholar_web.nav import get_nav
 from matscholar_web.search.util import get_entity_boxes_callback_args
 import matscholar_web.search.callbacks as scb
@@ -19,10 +18,8 @@ Declarations for the core dash app.
 """
 
 footer_interior = get_footer()
-header = get_header()
 nav = get_nav()
 
-nav_and_header_section = html.Div([header, nav], className="section")
 footer_section = html.Div(footer_interior, className="section")
 footer = html.Footer(footer_section, className="footer has-margin-top-50")
 
@@ -36,7 +33,7 @@ location = dcc.Location(id="url", refresh=False)
 app.layout = html.Div(
     [
         location,
-        nav_and_header_section,
+        nav,
         app_expander_container,
         footer,
     ],
