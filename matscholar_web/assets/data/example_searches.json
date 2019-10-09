@@ -1,7 +1,7 @@
 [
   "material: Bi2Te3, property: thermoelectrics",
   "material: gold, descriptor: nanoparticle, characterization: SEM",
-  "material: graphite, application: cathode",
+  "material: graphite, application: anode",
   "phase: perovskite, synthesis: firing",
   "application: spintronics, property: doped",
   "phase: diamond",
