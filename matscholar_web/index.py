@@ -40,6 +40,7 @@ app.layout = html.Div(
         app_expander_container,
         footer,
     ],
+    className="msweb-background"
 )
 
 

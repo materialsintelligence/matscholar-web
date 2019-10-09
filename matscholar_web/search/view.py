@@ -244,7 +244,7 @@ def entity_filter_box_html(entity):
     }
 
     color = entity_color_map_bulma[entity]
-    common_entity_style = f"has-text-{color} is-size-5 has-text-weight-semibold"
+    common_entity_style = f"msweb-is-{color}-txt is-size-5 has-text-weight-semibold"
     entity_txt = '{}:'.format(entity.capitalize())
     entity_name = html.Div(entity_txt, className=f"{common_entity_style}")
 

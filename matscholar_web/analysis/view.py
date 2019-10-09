@@ -209,7 +209,8 @@ def highlight_entities(tagged_doc):
             # the entity is other and we need to not highlight it
             entity_styled = html.Div(
                 token,
-                className=f"button is-{color} is-active {text_size}"
+                # className=f"button is-{color} is-outlined {text_size}"
+                className=f"msweb-is-greentxt {text_size}"
             )
 
             entity_container = html.Div(

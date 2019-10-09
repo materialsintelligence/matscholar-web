@@ -103,3 +103,38 @@ details[open] summary ~ * {
 .tooltip .tooltip-text i::after {
     content:'';
 }
+
+
+
+/* Colors */
+.msweb-background {
+    background-color: #FFFFFF
+}
+
+.msweb-is-green-txt {
+    color: #37C624;
+}
+
+.msweb-is-blue-txt {
+    color: #5073F5;
+}
+
+.msweb-is-orange-txt {
+    color: #EE9918;
+}
+
+.msweb-is-red-txt {
+    color: #FF5733;
+}
+
+.msweb-is-turq-txt {
+    color: #15B4D8;
+}
+
+.msweb-is-purple-txt {
+    color: #7A20E7;
+}
+
+.msweb-is-pink-txt {
+    color: #D648D2;
+}

@@ -21,13 +21,13 @@ entity_shortcode_map = {
 }
 
 entity_color_map_bulma = {
-    "material": "primary",
-    "application": "info",
-    "property": "dark",
-    "phase": "success",
-    "synthesis": "link",
-    "characterization": "danger",
-    "descriptor": "warning"
+    "material": "blue",
+    "application": "green",
+    "property": "orange",
+    "phase": "red",
+    "synthesis": "turq",
+    "characterization": "purple",
+    "descriptor": "pink"
 }
 
 
