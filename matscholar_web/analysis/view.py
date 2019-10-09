@@ -60,6 +60,7 @@ def serve_layout():
                                         {"label": "Yes", "value": "yes"}
                                     ],
                                     value='no',
+                                    searchable=False
                                     )
     convert_synonyms_text = html.Div("Convert synonyms?", className="is-size-6")
     convert_synonyms_container = html.Div(
