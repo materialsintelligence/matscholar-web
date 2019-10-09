@@ -24,8 +24,8 @@ label_mapping = {
 }
 
 entitiy_color_map_bulma_extension = {
-    "property value": "black",
-    "property unit": "light",
+    "property value": "aqua",
+    "property unit": "yellow",
     "other": None
 }
 
@@ -210,7 +210,7 @@ def highlight_entities(tagged_doc):
             entity_styled = html.Div(
                 token,
                 # className=f"button is-{color} is-outlined {text_size}"
-                className=f"msweb-is-greentxt {text_size}"
+                className=f"msweb-is-{color}-txt {text_size}"
             )
 
             entity_container = html.Div(
