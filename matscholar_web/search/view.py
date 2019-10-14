@@ -189,7 +189,7 @@ def advanced_search_html():
         className="container has-margin-top-10"
     )
 
-    summary_txt = "Advanced search options"
+    summary_txt = "Guided search fields"
     summary = html.Summary(summary_txt, className="has-text-centered is-size-6")
     hidden_column = html.Details(
         [hr, dropdown_container, summary, advanced_search_boxes],
