@@ -27,23 +27,31 @@ def get_nav():
     #     className="button is-light is-size-6 has-margin-5"
     # )
 
-    search = dcc.Link("App: Search for Materials", href="/search", className="navbar-item")
-    analyze = dcc.Link("App: Analyze an Abstract", href="/analyze", className="navbar-item")
+    search = dcc.Link("Search for Materials", href="/search", className="navbar-item")
+    analyze = dcc.Link("Analyze an Abstract", href="/analyze", className="navbar-item")
     introduction = dcc.Link("Overview", href="/overview", className="navbar-item")
     journals = dcc.Link("Journals", href="/journals", className="navbar-item")
     dropdown_items = html.Div([introduction, journals], className="navbar-dropdown")
     dropdown_link = html.Div("Info", className="navbar-link")
     dropdown = html.Div([dropdown_link, dropdown_items], className="navbar-item has-dropdown is-hoverable")
     navbar_start = html.Div([search, analyze, dropdown], className="navbar-start")
-    navbar_end = html.Div("", className="navbar-end")
-    navbar_menu = html.Div([navbar_start, navbar_end], className="navbar-menu")
+
+    log_in = html.A("Log in", className="button is-primary")
+    buttons = html.Div(log_in, className="buttons")
+    buttons_item = html.Div(buttons, className="navbar-item")
+    navbar_end = html.Div(buttons_item, className="navbar-end")
+
+    navbar_menu = html.Div([navbar_start, navbar_end], id="navbarExample", className="navbar-menu")
+
     nav_image = html.Img(
         src="/assets/logo_inverted.png",
-        className="navbar-item has-width-250 has-50",
+        height=200,
     )
+    nav_image_container = html.A(nav_image, className="navbar-item")
 
-    burger = html.Span("", **{"aria-hidden": True})
-    nav_burger = html.A([burger] * 3, role="button", className="navbar-burger", **{"aria-label": "menu", "aria-expanded": False})
-    navbar_brand = html.Div([nav_image, nav_burger], className="navbar-brand")
-    nav_menu = html.Div([navbar_brand, navbar_menu], className="navbar is-link")
+    burger = html.Span(**{"aria-hidden": True})
+    nav_burger = html.A([burger] * 3, id="myburger", role="button", className="navbar-burger burger", **{"aria-label": "menu", "aria-expanded": False, "data-target": "navbarExample"})
+    navbar_brand = html.Div([nav_image_container, nav_burger], className="navbar-brand")
+
+    nav_menu = html.Div([navbar_brand, navbar_menu], className="navbar is-link", role="navigation", **{"aria-label": "main navigation"})
     return nav_menu

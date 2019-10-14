@@ -15,7 +15,6 @@ window.dash_clientside.clientside = {
 
     // Animate the search bar abstracts
     countSearch: function (pathname, id, hiddenId) {
-        console.log(pathname)
         if (pathname == "/search" || pathname =="/" || pathame == null){
             animatedCount(id, hiddenId, countTime)
         }
