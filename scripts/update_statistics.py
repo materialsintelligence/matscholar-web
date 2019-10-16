@@ -95,9 +95,9 @@ def get_live_stats():
 
 
 if __name__ == "__main__":
-    raise ValueError("Probably not going to work, need to make sure that "
-                     "rester get_journals is returning a list and not a mongo"
-                     "doc thing")
+    # raise ValueError("Probably not going to work, need to make sure that "
+    #                  "rester get_journals is returning a list and not a mongo"
+    #                  "doc thing")
 
     stats = get_live_stats()
     # stats = get_debug_stats()
