@@ -6,7 +6,7 @@ from matscholar_web.app import app, cache
 from matscholar_web.constants import cache_timeout
 from matscholar_web.footer import get_footer
 from matscholar_web.nav import get_nav
-from matscholar_web.search.util import get_entity_boxes_callback_args
+from matscholar_web.search.util import get_search_field_callback_args
 import matscholar_web.search.callbacks as scb
 import matscholar_web.search.view as sv
 import matscholar_web.analysis.callbacks as acb
@@ -67,7 +67,7 @@ def display_page(path):
 @app.callback(
     Output('text_input', 'value'),
     [Input('example-search-btn', 'n_clicks')] +
-    get_entity_boxes_callback_args(as_type="input"),
+    get_search_field_callback_args(as_type="input"),
 )
 def search_bar_live_display(example_search_n_clicks, *ent_txts):
     return scb.search_bar_live_display(example_search_n_clicks, *ent_txts)
@@ -75,7 +75,7 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
 
 @app.callback(
     Output('example-search-btn', 'n_clicks'),
-    get_entity_boxes_callback_args(as_type="input")
+    get_search_field_callback_args(as_type="input")
 )
 def void_example_search_n_clicks_on_live_search(*ent_txts):
     return 0
@@ -84,7 +84,7 @@ def void_example_search_n_clicks_on_live_search(*ent_txts):
 @app.callback(
     Output('search-btn', 'n_clicks'),
     [Input('text_input', 'n_submit')] +
-    get_entity_boxes_callback_args(
+    get_search_field_callback_args(
         as_type="input",
         return_component="n_submit"),
     [State('search-btn', 'n_clicks')]

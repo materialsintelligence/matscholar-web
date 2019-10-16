@@ -3,13 +3,13 @@ import copy
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 
-from matscholar_web.constants import valid_entity_filters
+from matscholar_web.constants import valid_search_filters
 from matscholar_web.common import common_null_warning_html
 
 MAX_N_TERMS_PER_ENTITY = 10
 
 
-def get_entity_boxes_callback_args(as_type="state", return_component="value"):
+def get_search_field_callback_args(as_type="state", return_component="value"):
     """
     Return all available entity boxes as Inputs, Outputs, or States.
 
@@ -32,7 +32,7 @@ def get_entity_boxes_callback_args(as_type="state", return_component="value"):
     t = type_dict[as_type]
 
     filters = []
-    for f in valid_entity_filters:
+    for f in valid_search_filters:
         filters.append(t(f + '_filters_input', return_component))
     return filters
 
@@ -55,9 +55,9 @@ def parse_search_box(search_text):
     if not search_text:
         return None
     entities_text_list = search_text.split(",")
-    entity_query = {k: [] for k in valid_entity_filters}
+    entity_query = {k: [] for k in valid_search_filters}
     for et in entities_text_list:
-        for k in valid_entity_filters:
+        for k in valid_search_filters:
             entity_type_key = f"{k}:"
             if entity_type_key in et:
                 query_entity_term = copy.deepcopy(et)
