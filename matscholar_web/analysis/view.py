@@ -6,6 +6,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 from matscholar.rest import MatScholarRestError
 
+from matscholar_web.logo import get_logo
 from matscholar_web.common import common_null_warning_html, \
     common_warning_html, common_rester_error_html
 from matscholar_web.constants import rester, entity_color_map_bulma
@@ -85,8 +86,11 @@ def serve_layout():
 
     loading_container = html.Div(loading)
 
+    logo = get_logo()
+
     layout = html.Div(
         [
+            get_logo(),
             label,
             random_abstract_button,
             text_area_div,

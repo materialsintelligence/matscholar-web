@@ -6,7 +6,6 @@ from matscholar_web.app import app, cache
 from matscholar_web.constants import cache_timeout
 from matscholar_web.footer import get_footer
 from matscholar_web.nav import get_nav
-from matscholar_web.header import get_header
 from matscholar_web.search.util import get_entity_boxes_callback_args
 import matscholar_web.search.callbacks as scb
 import matscholar_web.search.view as sv
@@ -20,8 +19,6 @@ Declarations for the core dash app.
 
 footer_interior = get_footer()
 nav = get_nav()
-header = get_header()
-header_section = html.Div(header, className="section")
 footer_section = html.Div(footer_interior, className="section")
 footer = html.Footer(footer_section, className="footer has-margin-top-50")
 
@@ -36,7 +33,6 @@ app.layout = html.Div(
     [
         location,
         nav,
-        header,
         app_expander_container,
         footer,
     ],

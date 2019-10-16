@@ -2,7 +2,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 
 
-def get_header():
+def get_logo():
     """
     Get the plotly dash header div.
     Returns:
@@ -10,16 +10,16 @@ def get_header():
     """
 
     logo = html.Img(
-        src="/assets/logo_highres.png",
-        className="has-ratio",
-        height=125,
-        width=800,
+        src="/assets/logo_header.png",
+        # className="has-ratio",
+        # width="400px",
+        # height="62px",
     )
 
     header_centering = html.Div(
         [logo],
         id="header_centering",
-        className="columns is-centered is-desktop"
+        className="columns is-centered is-mobile"
     )
 
     header_container = html.Div(
