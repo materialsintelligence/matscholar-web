@@ -88,15 +88,26 @@ def serve_layout():
 
     logo = get_logo()
 
-    layout = html.Div(
+    main_app_column = html.Div(
         [
-            get_logo(),
             label,
             random_abstract_button,
             text_area_div,
             convert_synonyms_container,
             extract_button,
             loading_container
+        ],
+        className="column is-two-thirds"
+    )
+
+    main_app_columns = html.Div(
+        [main_app_column], className="columns is-centered"
+    )
+
+    layout = html.Div(
+        [
+            logo,
+            main_app_columns
         ],
         className="container has-margin-top-50"
     )
