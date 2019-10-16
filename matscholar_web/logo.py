@@ -24,6 +24,6 @@ def get_logo():
     header_container = html.Div(
         header_centering,
         id="header_container",
-        className="container has-margin-bottom-10 has-margin-top-80"
+        className="container has-margin-bottom-30 has-margin-top-80"
     )
     return header_container

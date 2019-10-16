@@ -12,6 +12,7 @@ import matscholar_web.search.view as sv
 import matscholar_web.analysis.callbacks as acb
 import matscholar_web.analysis.view as av
 import matscholar_web.about.view as bv
+import matscholar_web.journals.view as jv
 
 """
 Declarations for the core dash app.
@@ -55,6 +56,8 @@ def display_page(path):
         return av.serve_layout()
     elif path == "/about":
         return bv.serve_layout()
+    elif path== "/journals":
+        return jv.serve_layout()
     else:
         return html.Div("404", className="has-text-centered")
 

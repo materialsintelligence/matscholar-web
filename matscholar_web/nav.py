@@ -29,7 +29,7 @@ def get_nav():
 
     search = dcc.Link("Search for Materials", href="/search", className="navbar-item")
     analyze = dcc.Link("Analyze an Abstract", href="/analyze", className="navbar-item")
-    introduction = dcc.Link("Overview", href="/overview", className="navbar-item")
+    introduction = dcc.Link("About", href="/about", className="navbar-item")
     journals = dcc.Link("Journals", href="/journals", className="navbar-item")
     dropdown_items = html.Div([introduction, journals], className="navbar-dropdown")
     dropdown_link = html.Div("Info", className="navbar-link")

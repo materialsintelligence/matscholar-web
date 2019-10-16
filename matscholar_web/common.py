@@ -44,3 +44,27 @@ def common_rester_error_html(text):
 
 def divider_html():
     return html.Hr(className="is-divider")
+
+
+def common_info_box(elements, id=None):
+    box = html.Div(elements, className="box has-margin-top-20")
+    column = html.Div(box, className="column is-two-thirds")
+    columns = html.Div(column, className="columns is-centered")
+    container = html.Div(columns, className="container", id=id)
+    return container
+
+
+def common_stat_style():
+    return "has-margin-right-10 has-margin-left-10 has-text-centered has-text-weight-bold"
+
+
+def common_body_style():
+    return "is-size-6-desktop has-margin-5"
+
+
+def common_header_style():
+    return "is-size-5-desktop has-text-weight-bold has-margin-5"
+
+
+def common_title_style():
+    return "is-size-2-desktop has-text-weight-bold has-margin-5"
