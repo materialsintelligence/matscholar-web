@@ -1,4 +1,5 @@
 import os
+import copy
 
 from matscholar import Rester
 
@@ -30,9 +31,13 @@ entity_color_map_bulma = {
     "descriptor": "pink"
 }
 
+search_filter_color_map = copy.deepcopy(entity_color_map_bulma)
+search_filter_color_map["raw"] = "grey"
 
 # The valid entity types
 valid_entity_filters = list(entity_shortcode_map.keys())
+
+valid_search_filters = valid_entity_filters + ["raw"]
 
 # in seconds
 cache_timeout = 60

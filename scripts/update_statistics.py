@@ -88,7 +88,8 @@ def get_live_stats():
     fstats = {"abstracts": rstats["abstract_count"],
               "materials": rstats["materials_count"],
               "entities": rstats["entities_count"],
-              "journals": rester.get_journals(),
+              # "journals": rester.get_journals(),
+              "journal": None,
               "timestamp": get_timestamp()}
 
     return fstats

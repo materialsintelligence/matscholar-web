@@ -7,8 +7,8 @@ from dash_elasticsearch_autosuggest import ESAutosuggest
 from matscholar_web.logo import get_logo
 from matscholar_web.common import common_warning_html, \
     common_null_warning_html, divider_html
-from matscholar_web.constants import valid_entity_filters, \
-    entity_color_map_bulma, db_stats, example_searches
+from matscholar_web.constants import valid_search_filters, \
+    search_filter_color_map, db_stats, example_searches
 
 
 def serve_layout():
@@ -174,7 +174,7 @@ def advanced_search_html():
                                   className="container has-margin-5")
 
     entity_filters_html = [entity_filter_box_html(f) for f in
-                           valid_entity_filters]
+                           valid_search_filters]
 
     entity_filter_row_1 = html.Div(entity_filters_html[0:3],
                                    className="columns is-centered")
@@ -209,12 +209,12 @@ def advanced_search_html():
     return hidden_container
 
 
-def entity_filter_box_html(entity):
+def entity_filter_box_html(field):
     """
     Text filter boxes with ES autosuggest for entity filters.
 
     Args:
-        entity (str): Entity type
+        field (str): Entity type
         prefill_filters (list of str): prefill values
     """
     placeholders = {
@@ -224,15 +224,19 @@ def entity_filter_box_html(entity):
         "descriptor": "thin film, nanoparticle,...",
         "characterization": "x-ray diffraction, EDS...",
         "synthesis": "sol - gel, firing,...",
-        "phase": "perovskite, wurtzite,..."
+        "phase": "perovskite, wurtzite,...",
+        "raw": "nanoparticle synthesis..."
     }
 
     ES_field_dict = {
-        "material": "materials", "property": "properties",
-        "application": "applications", "descriptor": "descriptors",
+        "material": "materials",
+        "property": "properties",
+        "application": "applications",
+        "descriptor": "descriptors",
         "characterization": "characterization_methods",
         "synthesis": "synthesis_methods",
-        "phase": "structure_phase_labels"
+        "phase": "structure_phase_labels",
+        "raw": "matscholar_production.entries"
     }
 
     tooltip_texts = {
@@ -243,14 +247,15 @@ def entity_filter_box_html(entity):
         "characterization": "Methods for characterizing materials.",
         "synthesis": "Names of procedures for synthesizing materials.",
         "phase": "Proper and common names of phases (nanoscale).",
+        "raw": "Raw text search to supplement the entity search."
     }
 
-    color = entity_color_map_bulma[entity]
+    color = search_filter_color_map[field]
     common_entity_style = f"msweb-is-{color}-txt is-size-5 has-text-weight-semibold"
-    entity_txt = '{}:'.format(entity.capitalize())
+    entity_txt = '{}:'.format(field.capitalize())
     entity_name = html.Div(entity_txt, className=f"{common_entity_style}")
 
-    tooltip_txt = tooltip_texts[entity]
+    tooltip_txt = tooltip_texts[field]
     entity_label_tooltip = html.Div(
         tooltip_txt,
         className=f"tooltip-text is-size-7  has-margin-5"
@@ -260,10 +265,10 @@ def entity_filter_box_html(entity):
     esas = ESAutosuggest(
         fields=['original', 'normalized'],
         endpoint=os.environ['ELASTIC_HOST'] + "/" +
-                 ES_field_dict[entity] + "/_search",
+                 ES_field_dict[field] + "/_search",
         defaultField='normalized',
-        id=entity + "_filters_input",
-        placeholder=placeholders[entity],
+        id=field + "_filters_input",
+        placeholder=placeholders[field],
         authUser=os.environ['ELASTIC_USER'],
         authPass=os.environ['ELASTIC_PASS'],
         searchField="original.edgengram",
