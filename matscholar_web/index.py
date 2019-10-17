@@ -71,17 +71,19 @@ def display_page(path):
         return html.Div("404", className="has-text-centered")
 
 
-# See count.js and clientside.js for more details
+# See burger.js and clientside.js for more details
 # Animates the count up for the search bar
 app.clientside_callback(
     ClientsideFunction(
         namespace='clientside',
         function_name='animateBurgerOnClickCSCallback'
     ),
-    Output("primary-navbar-menu", 'children'),
+    Output("primary-burger-trigger", "value"),
     [
         Input("primary-navbar-menu", 'id'),
-        Input("primary-burger-trigger", 'id'),
+        # Input("primary-burger-trigger", 'id'),
+        Input("primary-burger-trigger", 'n_clicks'),
+
     ]
 )
 

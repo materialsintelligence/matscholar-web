@@ -41,7 +41,8 @@ def get_nav():
     buttons_item = html.Div(buttons, className="navbar-item")
     navbar_end = html.Div(buttons_item, className="navbar-end")
 
-    navbar_menu = html.Div([navbar_start, navbar_end], id="primary-navbar-menu", className="navbar-menu is-active")
+    navbar_menu_id = "primary-navbar-menu"
+    navbar_menu = html.Div([navbar_start, navbar_end], id=navbar_menu_id, className="navbar-menu")
 
     nav_image = html.Img(
         src="/assets/logo_inverted.png",
@@ -50,7 +51,7 @@ def get_nav():
     nav_image_container = html.A(nav_image, className="navbar-item")
 
     burger = html.Span(**{"aria-hidden": True})
-    nav_burger = html.A([burger] * 3, id="primary-burger-trigger", role="button", className="navbar-burger", **{"aria-label": "menu", "aria-expanded": False, "data-target": "navbarExample"})
+    nav_burger = html.A([burger] * 3, id="primary-burger-trigger", role="button", className="navbar-burger", **{"aria-label": "menu", "aria-expanded": False, "data-target": navbar_menu_id})
     navbar_brand = html.Div([nav_image_container, nav_burger], className="navbar-brand")
 
     nav_menu = html.Div([navbar_brand, navbar_menu], className="navbar is-link", role="navigation", **{"aria-label": "main navigation"})

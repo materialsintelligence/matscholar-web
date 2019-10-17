@@ -28,8 +28,9 @@ window.dash_clientside.clientside = {
     },
 
     // Animate the burger menu on mobile
-    animateBurgerOnClickCSCallback: function (activateId, triggerId) {
-        animateBurgerOnClick(activateId, triggerId);
+    animateBurgerOnClickCSCallback: function (activateId, triggerNClicks) {
+        animateBurgerOnClick(activateId, triggerNClicks);
+        return ""
     }
 
 }
