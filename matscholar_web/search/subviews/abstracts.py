@@ -5,7 +5,7 @@ import json
 import pandas as pd
 import urllib
 from matscholar_web.constants import rester, valid_entity_filters, \
-    entity_shortcode_map, entity_color_map_bulma
+    entity_shortcode_map, entity_color_map
 from matscholar_web.search.util import parse_search_box, \
     results_container_class, no_results_html, get_results_label_html
 
@@ -50,7 +50,7 @@ def abstracts_results_html(search_text):
 
         entities_keys = []
         for e in valid_entity_filters:
-            color = entity_color_map_bulma[e]
+            color = entity_color_map[e]
             entity_key = html.Div(e, className=f"button is-{color} is-active")
             entity_key_container = html.Div(entity_key, className="flex-column is-narrow has-margin-5")
             entities_keys.append(entity_key_container)
@@ -121,7 +121,7 @@ def format_result(result):
     ajy = "{} - {}, {}".format(authors, journal, year)
     authors_journal_and_year = html.Div(
         ajy,
-        className="is-size-5 has-text-info"
+        className="is-size-5 msweb-is-dark-green-txt"
     )
 
     abstract_txt = result["abstract"]
@@ -139,7 +139,7 @@ def format_result(result):
     entities = []
     for f in valid_entity_filters:
         for e in result[label_mapping[f]]:
-            color = entity_color_map_bulma[f]
+            color = entity_color_map[f]
             entity = html.Div(
                 e,
                 className=f"button is-{color} is-active"

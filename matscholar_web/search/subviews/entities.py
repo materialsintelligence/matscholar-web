@@ -5,7 +5,7 @@ import json
 import pandas as pd
 import urllib
 from matscholar_web.constants import rester, valid_entity_filters, \
-    entity_shortcode_map, entity_color_map_bulma
+    entity_shortcode_map, entity_color_map
 from matscholar_web.search.util import parse_search_box, no_results_html, \
     results_container_class, get_results_label_html
 

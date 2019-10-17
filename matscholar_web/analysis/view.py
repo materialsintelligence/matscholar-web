@@ -9,7 +9,7 @@ from matscholar.rest import MatScholarRestError
 from matscholar_web.logo import get_logo
 from matscholar_web.common import common_null_warning_html, \
     common_warning_html, common_rester_error_html
-from matscholar_web.constants import rester, entity_color_map_bulma
+from matscholar_web.constants import rester, entity_color_map
 
 label_mapping = {
     "MAT": "material",
@@ -30,7 +30,7 @@ entitiy_color_map_bulma_extension = {
     "other": None
 }
 
-entity_color_map_bulma_extended = copy.deepcopy(entity_color_map_bulma)
+entity_color_map_bulma_extended = copy.deepcopy(entity_color_map)
 entity_color_map_bulma_extended.update(entitiy_color_map_bulma_extension)
 
 

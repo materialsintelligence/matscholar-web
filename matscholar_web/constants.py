@@ -21,7 +21,7 @@ entity_shortcode_map = {
 
 }
 
-entity_color_map_bulma = {
+entity_color_map = {
     "material": "blue",
     "application": "green",
     "property": "orange",
@@ -31,7 +31,7 @@ entity_color_map_bulma = {
     "descriptor": "pink"
 }
 
-search_filter_color_map = copy.deepcopy(entity_color_map_bulma)
+search_filter_color_map = copy.deepcopy(entity_color_map)
 search_filter_color_map["raw"] = "grey"
 
 # The valid entity types
