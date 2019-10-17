@@ -103,6 +103,9 @@ if __name__ == "__main__":
     stats = get_live_stats()
     # stats = get_debug_stats()
 
+    print(stats)
+    raise ValueError
+
     thisdir = os.path.abspath(os.path.dirname(__file__))
     target = os.path.abspath(
         os.path.join(
