@@ -41,12 +41,6 @@ def serve_layout():
     )
     label_container = html.Div(label, className="has-margin-bottom-20 has-text-centered")
 
-    random_abstract_button = html.Button(
-        "Use a random abstract",
-        id="extract-random",
-        className="button is-warning is-size-6 is-pulled-right has-margin-5"
-    )
-
     text_area = dcc.Textarea(
         id="extract-textarea",
         style={"width": "100%"},
@@ -72,11 +66,20 @@ def serve_layout():
     )
 
 
+    common_button_styling = "button is-size-4 has-margin-5"
     extract_button = html.Button(
         "Extract entities",
         id="extract-button",
-        className="button is-link is-size-4 has-margin-5"
+        className=f"{common_button_styling} is-link"
     )
+
+    random_abstract_button = html.Button(
+        "Example",
+        id="extract-random",
+        className=f"{common_button_styling} is-light"
+    )
+
+
     loading = dcc.Loading(
         id="loading-extract",
         children=[
@@ -95,10 +98,10 @@ def serve_layout():
     main_app_column = html.Div(
         [
             label_container,
-            random_abstract_button,
             text_area_div,
             convert_synonyms_container,
             extract_button,
+            random_abstract_button,
             loading_container
         ],
         className="column is-three-quarters"
