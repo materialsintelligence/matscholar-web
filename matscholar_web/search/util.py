@@ -50,6 +50,8 @@ def parse_search_box(search_text):
             e.g., {"material": "PbTe", "property": "thermoelectric"}
 
     Returns:
+        entity_query (dict): The entity query in rester working context
+        raw_text (str): The raw text to pass into the text field
 
     """
     if not search_text:
@@ -69,12 +71,19 @@ def parse_search_box(search_text):
                 entity_query[k].append(query_entity_term)
 
     entity_query = {k: v for k, v in entity_query.items() if v}
-    return entity_query
+
+    if "raw" in entity_query.keys():
+        raw_text = entity_query.pop("raw")[0]
+        if not raw_text.strip(): # remove empty strings
+            raw_text = None
+    else:
+        raw_text = None
+    return entity_query, raw_text
 
 
-def query_is_well_formed(entity_query):
+def query_is_well_formed(entity_query, raw_text):
     # An empty entity query is not malformed, just empty
-    if not entity_query:
+    if not entity_query and not raw_text:
         return False
 
     # If any of the entity terms are longer than a certain length, it's
@@ -83,7 +92,7 @@ def query_is_well_formed(entity_query):
         return False
 
     # Ensure at least one of the entity query values is valid
-    if any([v for v in entity_query.values()]):
+    if any([v for v in entity_query.values()]) or raw_text:
         return True
     else:
         return False

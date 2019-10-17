@@ -21,8 +21,8 @@ def show_results(n_clicks, dropdown_value, search_text):
             if not search_text:
                 return no_query_warning_html()
 
-            entity_query = parse_search_box(search_text)
-            if not query_is_well_formed(entity_query):
+            entity_query, raw_text = parse_search_box(search_text)
+            if not query_is_well_formed(entity_query, raw_text):
                 return malformed_query_warning_html(search_text)
             else:
                 if dropdown_value == 'abstracts':

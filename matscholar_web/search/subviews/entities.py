@@ -13,8 +13,8 @@ MAX_N_ROWS_FOR_EACH_ENTITY_TABLE = 10
 
 
 def entities_results_html(search_text):
-    entity_query = parse_search_box(search_text)
-    results = rester.entities_search(entity_query, text=None, top_k=None)
+    entity_query, raw_text = parse_search_box(search_text)
+    results = rester.entities_search(entity_query, text=raw_text, top_k=None)
     if results is None or not any([v for v in results.values()]):
         return no_results_html()
     else:
