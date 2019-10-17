@@ -8,6 +8,7 @@ from matscholar_web.constants import sample_abstracts
 def extracted_results(n_clicks, text, normalize):
     if n_clicks is not None:
         stripped = text if not text else text.strip()
+        print(f"stripped is {stripped}")
         if stripped in [None, ""]:
             return no_abstract_warning_html()
         else:

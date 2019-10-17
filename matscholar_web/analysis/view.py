@@ -24,14 +24,14 @@ label_mapping = {
     "O": 'other'
 }
 
-entitiy_color_map_bulma_extension = {
+entitiy_color_map_extension = {
     "property value": "aqua",
     "property unit": "yellow",
     "other": None
 }
 
-entity_color_map_bulma_extended = copy.deepcopy(entity_color_map)
-entity_color_map_bulma_extended.update(entitiy_color_map_bulma_extension)
+entity_color_map_extended = copy.deepcopy(entity_color_map)
+entity_color_map_extended.update(entitiy_color_map_extension)
 
 
 def serve_layout():
@@ -177,16 +177,16 @@ def abstracts_entities_results_html(text, normalize):
     label_label_container = html.Div(label_label,
                                      className="is-size-4 has-margin-top-30")
 
-    entity_colormap_key = copy.deepcopy(entity_color_map_bulma_extended)
+    entity_colormap_key = copy.deepcopy(entity_color_map_extended)
     entities_keys = []
     for e, color in entity_colormap_key.items():
         # don't need the "other" label
         if e == "other":
             continue
-        entity_key = html.Div(e, className=f"button is-{color} is-active")
+        entity_key = html.Div(e, className=f"is-size-4 msweb-is-{color}-txt has-text-weight-bold")
         entity_key_container = html.Div(
             entity_key,
-            className="flex-column is-narrow has-margin-5"
+            className="flex-column is-narrow has-margin-5 box"
         )
         entities_keys.append(entity_key_container)
 
@@ -213,19 +213,19 @@ def highlight_entities(tagged_doc):
     # tagged_flat2 = [j for sublist in tagged_flat1 for j in sublist]
     tagged_doc = tagged_flat1
 
-    text_size = "is-size-6"
+    text_size = "is-size-5"
 
     entities_containers = [None] * len(tagged_doc)
 
     for i, tagged_token in enumerate(tagged_doc):
         token, tag = tagged_token[0], tagged_token[1]
-        color = entity_color_map_bulma_extended[label_mapping[tag]]
+        color = entity_color_map_extended[label_mapping[tag]]
 
         if color is None:
             entity_styled = html.Div(f" {token} ", className=text_size)
             entity_container = html.Div(
                 entity_styled,
-                className="flex-column is-narrow has-margin-5"
+                className="flex-column is-narrow has-margin-left-5 has-margin-right-5"
             )
         else:
             # the entity is other and we need to not highlight it
@@ -237,7 +237,7 @@ def highlight_entities(tagged_doc):
 
             entity_container = html.Div(
                 entity_styled,
-                className="flex-column is-narrow has-margin-5"
+                className="flex-column is-narrow has-margin-left-5 has-margin-right-5 has-text-weight-bold"
             )
         entities_containers[i] = entity_container
     entities = html.Div(
