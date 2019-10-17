@@ -37,8 +37,9 @@ entity_color_map_bulma_extended.update(entitiy_color_map_bulma_extension)
 def serve_layout():
     label = html.Label(
         "Enter a scientific abstract's text for named entity extraction:",
-        className="is-size-4 has-margin-5"
+        className="is-size-4"
     )
+    label_container = html.Div(label, className="has-margin-bottom-20 has-text-centered")
 
     random_abstract_button = html.Button(
         "Use a random abstract",
@@ -53,7 +54,7 @@ def serve_layout():
         placeholder="Paste abstract/other text here to extract named entities.",
         className="input is-info is-medium has-min-height-250"
     )
-    text_area_div = html.Div(text_area)
+    text_area_div = html.Div(text_area, className="has-margin-5")
 
     convert_synonyms = dcc.Dropdown(id="dropdown_normalize",
                                     options=[
@@ -61,12 +62,15 @@ def serve_layout():
                                         {"label": "Yes", "value": "yes"}
                                     ],
                                     value='no',
+                                    clearable=False
                                     )
+
     convert_synonyms_text = html.Div("Convert synonyms?", className="is-size-6")
     convert_synonyms_container = html.Div(
         [convert_synonyms_text, convert_synonyms],
         className="is-pulled-right has-margin-5",
     )
+
 
     extract_button = html.Button(
         "Extract entities",
@@ -90,14 +94,14 @@ def serve_layout():
 
     main_app_column = html.Div(
         [
-            label,
+            label_container,
             random_abstract_button,
             text_area_div,
             convert_synonyms_container,
             extract_button,
             loading_container
         ],
-        className="column is-two-thirds"
+        className="column is-three-quarters"
     )
 
     main_app_columns = html.Div(
