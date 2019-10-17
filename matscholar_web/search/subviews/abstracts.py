@@ -141,7 +141,7 @@ def format_result(result):
     for f in valid_entity_filters:
         for e in result[label_mapping[f]]:
             color = entity_color_map[f]
-            ent_txt = html.Span(e, className=f"msweb-is-{color}-txt")
+            ent_txt = html.Span(e, className=f"msweb-is-{color}-txt has-text-weight-semibold")
             entity = html.Div(
                 ent_txt,
                 className="box has-padding-5"
