@@ -72,7 +72,7 @@ def display_page(path):
 
 
 # See burger.js and clientside.js for more details
-# Animates the count up for the search bar
+# Animates the burger menu expansion on mobile
 app.clientside_callback(
     ClientsideFunction(
         namespace='clientside',
@@ -83,7 +83,6 @@ app.clientside_callback(
         Input("primary-navbar-menu", 'id'),
         # Input("primary-burger-trigger", 'id'),
         Input("primary-burger-trigger", 'n_clicks'),
-
     ]
 )
 

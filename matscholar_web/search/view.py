@@ -95,7 +95,7 @@ def search_bar_and_go_html():
 
     search_bar_tooltip = html.Div(
         tooltip_spans,
-        className=f"tooltip-text tooltip-text-abs-pos has-margin-0"
+        className=f"tooltip-text has-margin-0"
     )
     search_bar_html = html.Div([label_container, search_bar, search_bar_tooltip], className="flex-column is-narrow tooltip")
 
@@ -106,7 +106,7 @@ def search_bar_and_go_html():
     )
     go_html = html.Div(
         go_button,
-        className="flex-column is-narrow has-margin-right-10"
+        className="flex-column is-narrow has-margin-left-10 has-margin-right-10"
     )
 
     example_search_button = html.Button(
@@ -116,7 +116,7 @@ def search_bar_and_go_html():
     )
     example_search_html = html.Div(
         example_search_button,
-        className="flex-column is-narrow has-margin-left-10"
+        className="flex-column is-narrow has-margin-left-10 has-margin-right-10"
     )
 
     go_and_example_columns = html.Div(
@@ -130,7 +130,7 @@ def search_bar_and_go_html():
 
     search_bar_centered = html.Div(
         search_bar_html,
-        className="columns is-centered has-margin-bottom-30"
+        className="columns is-centered has-margin-bottom-10"
     )
 
     bar_and_go_container = html.Div(
