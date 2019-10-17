@@ -28,10 +28,19 @@ app_expander = html.Div(app_container, className="msweb-is-tall")
 app_expander_container = html.Div(app_expander,
                                   className="msweb-is-tall-container msweb-fade-in")
 
+
+external_stylesheets = \
+    html.Link(
+        href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap",
+        rel="stylesheet",
+        className="is-hidden"
+    )
+
 location = dcc.Location(id="url", refresh=False)
 
 app.layout = html.Div(
     [
+        external_stylesheets,
         location,
         nav,
         app_expander_container,
@@ -43,7 +52,7 @@ app.layout = html.Div(
 
 # Top level callbacks
 #######################
-# callbacks for loading different apps
+# callbacks for loading different apps or are present on every page
 
 @app.callback(
     Output('app_container', 'children'),
@@ -61,6 +70,20 @@ def display_page(path):
     else:
         return html.Div("404", className="has-text-centered")
 
+
+# See count.js and clientside.js for more details
+# Animates the count up for the search bar
+app.clientside_callback(
+    ClientsideFunction(
+        namespace='clientside',
+        function_name='animateBurgerOnClickCSCallback'
+    ),
+    Output("primary-navbar-menu", 'children'),
+    [
+        Input("primary-navbar-menu", 'id'),
+        Input("primary-burger-trigger", 'id'),
+    ]
+)
 
 # Search view callbacks
 #######################

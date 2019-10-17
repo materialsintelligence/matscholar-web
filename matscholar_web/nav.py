@@ -36,12 +36,12 @@ def get_nav():
     dropdown = html.Div([dropdown_link, dropdown_items], className="navbar-item has-dropdown is-hoverable")
     navbar_start = html.Div([search, analyze, dropdown], className="navbar-start")
 
-    log_in = html.A("Log in", className="button is-primary")
+    log_in = html.A("Our Github", href="https://github.com/materialsintelligence", className="button is-light")
     buttons = html.Div(log_in, className="buttons")
     buttons_item = html.Div(buttons, className="navbar-item")
     navbar_end = html.Div(buttons_item, className="navbar-end")
 
-    navbar_menu = html.Div([navbar_start, navbar_end], id="navbarExample", className="navbar-menu")
+    navbar_menu = html.Div([navbar_start, navbar_end], id="primary-navbar-menu", className="navbar-menu is-active")
 
     nav_image = html.Img(
         src="/assets/logo_inverted.png",
@@ -50,7 +50,7 @@ def get_nav():
     nav_image_container = html.A(nav_image, className="navbar-item")
 
     burger = html.Span(**{"aria-hidden": True})
-    nav_burger = html.A([burger] * 3, id="myburger", role="button", className="navbar-burger burger", **{"aria-label": "menu", "aria-expanded": False, "data-target": "navbarExample"})
+    nav_burger = html.A([burger] * 3, id="primary-burger-trigger", role="button", className="navbar-burger", **{"aria-label": "menu", "aria-expanded": False, "data-target": "navbarExample"})
     navbar_brand = html.Div([nav_image_container, nav_burger], className="navbar-brand")
 
     nav_menu = html.Div([navbar_brand, navbar_menu], className="navbar is-link", role="navigation", **{"aria-label": "main navigation"})

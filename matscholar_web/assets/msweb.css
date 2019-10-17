@@ -82,7 +82,7 @@ details[open] summary ~ * {
 
 /* Tooltips */
 .tooltip {
-    display:inline-block;
+    display:inline;
     position:relative;
     text-align:left;
 }
@@ -102,6 +102,10 @@ details[open] summary ~ * {
 
 .tooltip .tooltip-text i::after {
     content:'';
+}
+
+.tooltip-text-abs-pos{
+    position: absolute
 }
 
 
@@ -153,4 +157,8 @@ details[open] summary ~ * {
 
 .msweb-is-grey-txt {
     color: #2b2a2a;
+}
+
+.msweb-ubuntu {
+    font-family: Ubuntu, "sans-serif"
 }

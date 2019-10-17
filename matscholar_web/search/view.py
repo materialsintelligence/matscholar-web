@@ -51,34 +51,6 @@ def malformed_query_warning_html(bad_search_txt):
 
 
 def search_bar_and_go_html():
-    search_bar = dcc.Input(
-        placeholder=example_searches[-1],
-        id="text_input",
-        className="input is-info is-medium",
-        autoFocus=True,
-    )
-    search_bar_html = html.Div(search_bar, className="column is-two-thirds")
-
-    go_button = html.Button(
-        "Go",
-        id="search-btn",
-        className="button is-info is-focused is-medium"
-    )
-    go_html = html.Div(
-        go_button,
-        className="column is-narrow"
-    )
-
-    example_search_button = html.Button(
-        "Example",
-        id="example-search-btn",
-        className="button is-light is-focused is-medium"
-    )
-    example_search_html = html.Div(
-        example_search_button,
-        className="column is-narrow"
-    )
-
     n_abstracts = "{:,}".format(db_stats["abstracts"])
 
     n_abstracts_hidden_ref = html.Span(
@@ -90,8 +62,8 @@ def search_bar_and_go_html():
     n_abstracts_link = dcc.Link(
         id="count-search",
         children=f"{n_abstracts}",
-        href="/about#journals",
-        className="msweb-fade-in"
+        href="/about",
+        className="msweb-fade-in msweb-ubuntu"
     )
 
     label = html.Label(
@@ -103,18 +75,62 @@ def search_bar_and_go_html():
         className="is-size-4-desktop has-margin-5"
     )
     label_container = html.Div(label, className="has-text-centered")
+
+    search_bar = dcc.Input(
+        placeholder=example_searches[-1],
+        id="text_input",
+        className="input is-info is-medium",
+        autoFocus=True,
+    )
+
+    sized = "is-size-7"
+    tooltip_spans = [html.Span("Keywords: ", className=sized)]
+    for k in valid_search_filters:
+        color = search_filter_color_map[k]
+        tooltip_span = html.Span(k, className=f"msweb-is-{color}-txt {sized} has-text-weight-bold")
+        tooltip_spans.append(tooltip_span)
+        tooltip_spans.append(html.Span(", "))
+
+    tooltip_spans.pop(-1)
+
+    search_bar_tooltip = html.Div(
+        tooltip_spans,
+        className=f"tooltip-text tooltip-text-abs-pos has-margin-0"
+    )
+    search_bar_html = html.Div([label_container, search_bar, search_bar_tooltip], className="flex-column is-narrow tooltip")
+
+    go_button = html.Button(
+        "Go",
+        id="search-btn",
+        className="button is-info is-focused is-medium"
+    )
+    go_html = html.Div(
+        go_button,
+        className="flex-column is-narrow has-margin-right-10"
+    )
+
+    example_search_button = html.Button(
+        "Example",
+        id="example-search-btn",
+        className="button is-light is-focused is-medium"
+    )
+    example_search_html = html.Div(
+        example_search_button,
+        className="flex-column is-narrow has-margin-left-10"
+    )
+
     go_and_example_columns = html.Div(
         [
             go_html,
             example_search_html,
             n_abstracts_hidden_ref
         ],
-        className="columns is-centered"
+        className="columns is-centered has-margin-top-10 has-margin-bottom-20"
     )
 
     search_bar_centered = html.Div(
         search_bar_html,
-        className="columns is-centered"
+        className="columns is-centered has-margin-bottom-30"
     )
 
     bar_and_go_container = html.Div(
@@ -128,7 +144,6 @@ def search_bar_and_go_html():
     example_search_container = example_searches_html()
     bar_and_go_and_label_container = html.Div(
         [
-            label_container,
             example_search_container,
             bar_and_go_container
         ]

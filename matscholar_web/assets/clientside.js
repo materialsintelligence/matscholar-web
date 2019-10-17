@@ -25,6 +25,11 @@ window.dash_clientside.clientside = {
         if (pathname == "/search" || pathname =="/" || pathame == null){
             runExampleSearches(id, exampleSearchesStringId, rotationTime)
         }
+    },
+
+    // Animate the burger menu on mobile
+    animateBurgerOnClickCSCallback: function (activateId, triggerId) {
+        animateBurgerOnClick(activateId, triggerId);
     }
 
 }
