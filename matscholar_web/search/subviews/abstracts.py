@@ -51,7 +51,8 @@ def abstracts_results_html(search_text):
         entities_keys = []
         for e in valid_entity_filters:
             color = entity_color_map[e]
-            entity_key = html.Div(e, className=f"button is-{color} is-active")
+            entity_colored = html.Div(e, className=f"msweb-is-{color}-txt is-size-5 has-text-weight-bold")
+            entity_key = html.Div(entity_colored, className=f"box has-padding-5")
             entity_key_container = html.Div(entity_key, className="flex-column is-narrow has-margin-5")
             entities_keys.append(entity_key_container)
         entity_key_container = html.Div(entities_keys, className="columns is-multiline has-margin-5")
@@ -140,9 +141,10 @@ def format_result(result):
     for f in valid_entity_filters:
         for e in result[label_mapping[f]]:
             color = entity_color_map[f]
+            ent_txt = html.Span(e, className=f"msweb-is-{color}-txt")
             entity = html.Div(
-                e,
-                className=f"button is-{color} is-active"
+                ent_txt,
+                className="box has-padding-5"
             )
             entity_container = html.Div(entity, className="flex-column is-narrow has-margin-5")
             entities.append(entity_container)

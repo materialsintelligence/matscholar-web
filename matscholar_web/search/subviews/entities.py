@@ -75,7 +75,11 @@ def get_score_table_for_entity(most_common, entity_type, width):
     else:
         table_label = f"All {formatted_n_results} entities"
 
-    header_entity_type = html.Th(f"{entity_type}: {table_label}")
+    color = entity_color_map[entity_type.lower()]
+    header_entity_type = html.Span(f"{entity_type}", className=f"msweb-has-{color}-txt")
+    header_table_label = html.Span(f": {table_label}")
+
+    header_entity_type = html.Th([header_entity_type, header_table_label])
     header_score = html.Th("score")
     header = html.Tr([header_entity_type, header_score])
 
