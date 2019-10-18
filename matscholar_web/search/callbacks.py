@@ -13,13 +13,10 @@ from matscholar_web.search.subviews.everything import everything_results_html
 from matscholar_web.search.util import query_is_well_formed, parse_search_box
 
 default_message = \
-                "Our database had trouble with that query. We are likely " \
-                "undergoing maintenance, please visit again later!"
+    "Our database had trouble with that query. We are likely " \
+    "undergoing maintenance, please visit again later!"
 
-PSPS_message = \
-                "The Matscholar DB is currently offline due to the power " \
-                "shutoffs in northern California. We do not know when the " \
-                "database will be back online. Thank you for your patience."
+
 def show_results(n_clicks, dropdown_value, search_text):
     if n_clicks in [None, 0]:
         return ""
@@ -46,7 +43,7 @@ def show_results(n_clicks, dropdown_value, search_text):
                     )
                 return results
         except MatScholarRestError:
-            rester_error = PSPS_message
+            rester_error = default_message
             return common_rester_error_html(rester_error)
 
 
@@ -67,4 +64,3 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
         return entry
     else:
         return random.choice(example_searches)
-

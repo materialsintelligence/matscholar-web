@@ -18,7 +18,7 @@ def serve_layout():
 
 def get_journals_html():
     journals = db_stats["journals"]
-    n_journals = len(journals)
+    n_journals = "{:,}".format(len(journals))
 
     journal_info_header_txt = "Journals in Matscholar"
     journal_info_subheader_txt = f"Search among {n_journals} scientific journals"
