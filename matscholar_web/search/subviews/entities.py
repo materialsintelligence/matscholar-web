@@ -1,20 +1,13 @@
-from matscholar import Rester
 import dash_html_components as html
-import dash_core_components as dcc
-import json
-import pandas as pd
-import urllib
-from matscholar_web.constants import rester, valid_entity_filters, \
-    entity_shortcode_map, entity_color_map
+from matscholar_web.constants import rester, entity_color_map
 from matscholar_web.search.util import parse_search_box, no_results_html, \
     results_container_class, get_results_label_html
 
 MAX_N_ROWS_FOR_EACH_ENTITY_TABLE = 10
 
-
 def entities_results_html(search_text):
     entity_query, raw_text = parse_search_box(search_text)
-    results = rester.entities_search(entity_query, text=raw_text, top_k=None)
+    results = rester.entities_search(entity_query, text=raw_text, top_k=MAX_N_ROWS_FOR_EACH_ENTITY_TABLE)
     if results is None or not any([v for v in results.values()]):
         return no_results_html()
     else:

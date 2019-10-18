@@ -13,7 +13,7 @@ MAX_N_DOIS_FOR_VIEWING = 5
 
 def materials_results_html(search_text):
     entity_query, raw_text = parse_search_box(search_text)
-    results = rester.materials_search(entity_query, text=raw_text, top_k=None)
+    results = rester.materials_search(entity_query, text=raw_text, top_k=MAX_N_MATERIALS_IN_TABLE)
     if not results:
         return no_results_html()
     else:
