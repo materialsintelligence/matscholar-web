@@ -6,5 +6,9 @@
   "application: spintronics, property: doped",
   "phase: diamond",
   "phase: cubic, characterization: x-ray diffraction, property: doped",
-  "application: semiconductor, synthesis: CVD, raw: 2018"
+  "application: semiconductor, synthesis: CVD, raw: 2018",
+  "application: thermoelectric",
+  "application: battery, phase: spinel",
+  "characterization: scanning electron microscopy, phase: perovskite",
+  "descriptor: thin film, raw: deposition"
 ]
