@@ -240,7 +240,7 @@ def entity_filter_box_html(field):
         "characterization": "x-ray diffraction, EDS...",
         "synthesis": "sol - gel, firing,...",
         "phase": "perovskite, wurtzite,...",
-        "raw": "nanoparticle synthesis..."
+        "text": "nanoparticle synthesis..."
     }
 
     ES_field_dict = {
@@ -251,7 +251,7 @@ def entity_filter_box_html(field):
         "characterization": "characterization_methods",
         "synthesis": "synthesis_methods",
         "phase": "structure_phase_labels",
-        "raw": "matscholar_production.entries"
+        "text": "matscholar_production.entries"
     }
 
     tooltip_texts = {
@@ -262,7 +262,7 @@ def entity_filter_box_html(field):
         "characterization": "Methods for characterizing materials.",
         "synthesis": "Names of procedures for synthesizing materials.",
         "phase": "Proper and common names of phases (nanoscale).",
-        "raw": "Raw text search to supplement the entity search."
+        "text": "Raw text search to supplement the entity search."
     }
 
     color = search_filter_color_map[field]

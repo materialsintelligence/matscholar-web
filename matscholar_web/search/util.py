@@ -72,8 +72,8 @@ def parse_search_box(search_text):
 
     entity_query = {k: v for k, v in entity_query.items() if v}
 
-    if "raw" in entity_query.keys():
-        raw_text = entity_query.pop("raw")[0]
+    if "text" in entity_query.keys():
+        raw_text = entity_query.pop("text")[0]
         if not raw_text.strip(): # remove empty strings
             raw_text = None
     else:

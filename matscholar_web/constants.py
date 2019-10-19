@@ -32,12 +32,12 @@ entity_color_map = {
 }
 
 search_filter_color_map = copy.deepcopy(entity_color_map)
-search_filter_color_map["raw"] = "grey"
+search_filter_color_map["text"] = "grey"
 
 # The valid entity types
 valid_entity_filters = list(entity_shortcode_map.keys())
 
-valid_search_filters = valid_entity_filters + ["raw"]
+valid_search_filters = valid_entity_filters + ["text"]
 
 # in seconds
 cache_timeout = 60
