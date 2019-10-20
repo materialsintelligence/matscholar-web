@@ -5,8 +5,7 @@ from matscholar_web.search.util import parse_search_box, no_results_html, \
 
 MAX_N_ROWS_FOR_EACH_ENTITY_TABLE = 10
 
-def entities_results_html(search_text):
-    entity_query, raw_text = parse_search_box(search_text)
+def entities_results_html(entity_query, raw_text):
     results = rester.entities_search(entity_query, text=raw_text, top_k=MAX_N_ROWS_FOR_EACH_ENTITY_TABLE)
     if results is None or not any([v for v in results.values()]):
         return no_results_html()

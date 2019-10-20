@@ -1,3 +1,4 @@
+import re
 import copy
 
 import dash_html_components as html
@@ -5,8 +6,10 @@ from dash.dependencies import Input, Output, State
 
 from matscholar_web.constants import valid_search_filters
 from matscholar_web.common import common_null_warning_html
+from matscholar_web.util import MatscholarWebSearchError
 
-MAX_N_TERMS_PER_ENTITY = 10
+MAX_N_PATTERNS_PER_ENTITY = 10
+MAX_N_CHARS_PER_PATTERN = 300
 
 
 def get_search_field_callback_args(as_type="state", return_component="value"):
@@ -54,23 +57,47 @@ def parse_search_box(search_text):
         raw_text (str): The raw text to pass into the text field
 
     """
-    if not search_text:
-        return None
-    entities_text_list = search_text.split(",")
-    entity_query = {k: [] for k in valid_search_filters}
-    for et in entities_text_list:
-        for k in valid_search_filters:
-            entity_type_key = f"{k}:"
-            if entity_type_key in et:
-                query_entity_term = copy.deepcopy(et)
-                query_entity_term = query_entity_term.replace(
-                    entity_type_key,
-                    ""
-                )
-                query_entity_term = query_entity_term.strip()
-                entity_query[k].append(query_entity_term)
+    if not search_text.strip():
+        raise MatscholarWebSearchError("No text entered!")
 
-    entity_query = {k: v for k, v in entity_query.items() if v}
+
+    re_delimiters = "|".join(valid_search_filters)
+    field_patterns = re.findall(f"({re_delimiters}):", search_text)
+
+    if len(set(field_patterns)) < len(field_patterns):
+        raise MatscholarWebSearchError("Redundant entity fields entered!")
+
+    if not all([p in valid_search_filters for p in field_patterns]):
+        raise ValueError(
+            f"Regex'd a field (one of {field_patterns}) which is not a "
+            f"valid search filter!"
+        )
+
+    if len(field_patterns) == 0:
+        raise MatscholarWebSearchError("No valid entity fields entered!")
+
+    entity_query = {}
+    field_patterns.reverse()
+    rtext = copy.deepcopy(search_text)
+    for fp in field_patterns:
+        query_pattern = re.findall(f"{fp}:.*", rtext)[0]
+        rtext = rtext.replace(query_pattern, "")
+        query_pattern = query_pattern.replace(f"{fp}:", "")
+        query_patterns = [qt.strip() for qt in query_pattern.split(",")]
+        query_patterns = [qt for qt in query_patterns if qt]
+        entity_query[fp] = query_patterns
+
+    if any([len(v) > MAX_N_PATTERNS_PER_ENTITY for v in entity_query.values()]):
+        raise MatscholarWebSearchError
+
+    for ent, query_patterns in entity_query.items():
+        n_terms = len(query_patterns)
+        if n_terms > MAX_N_PATTERNS_PER_ENTITY:
+            raise MatscholarWebSearchError(f"Length of patterns for entity {ent} ({n_terms}) exceeds maximum for an entity {MAX_N_PATTERNS_PER_ENTITY}")
+        for pattern in query_patterns:
+            n_chars = len(pattern)
+            if n_chars > MAX_N_CHARS_PER_PATTERN:
+                raise MatscholarWebSearchError(f"Length of pattern {pattern} ({n_chars}) exceeds maximum for a pattern ({MAX_N_CHARS_PER_PATTERN}).")
 
     if "text" in entity_query.keys():
         raw_text = entity_query.pop("text")[0]
@@ -78,24 +105,11 @@ def parse_search_box(search_text):
             raw_text = None
     else:
         raw_text = None
-    return entity_query, raw_text
 
-
-def query_is_well_formed(entity_query, raw_text):
-    # An empty entity query is not malformed, just empty
     if not entity_query and not raw_text:
-        return False
+        raise MatscholarWebSearchError("No raw text nor entity query parsed!")
 
-    # If any of the entity terms are longer than a certain length, it's
-    # possible someone is trying to *SQL inject our API
-    if any([len(v) > MAX_N_TERMS_PER_ENTITY for v in entity_query.values()]):
-        return False
-
-    # Ensure at least one of the entity query values is valid
-    if any([v for v in entity_query.values()]) or raw_text:
-        return True
-    else:
-        return False
+    return entity_query, raw_text
 
 
 def no_results_html():

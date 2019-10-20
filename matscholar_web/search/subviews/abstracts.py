@@ -13,8 +13,7 @@ MAX_N_ABSTRACTS_RETRIEVED = 200  # the number of abstracts retrieved via api
 MAX_N_ABSTRACTS = 20  # the number of abstracts actually shown
 MAX_ENTITIES_PER_ROW = 3
 
-def abstracts_results_html(search_text):
-    entity_query, raw_text = parse_search_box(search_text)
+def abstracts_results_html(entity_query, raw_text):
     results = rester.abstracts_search(
         entity_query,
         text=raw_text,

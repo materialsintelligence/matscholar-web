@@ -11,3 +11,7 @@ def load_static_data_file(fname):
     with open(_target, "r") as f:
         stats = json.load(f)
     return stats
+
+
+class MatscholarWebSearchError(BaseException):
+    pass

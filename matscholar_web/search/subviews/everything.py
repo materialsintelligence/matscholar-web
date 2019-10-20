@@ -6,7 +6,7 @@ from matscholar_web.search.subviews.materials import materials_results_html
 from matscholar_web.search.util import no_results_html
 
 
-def everything_results_html(search_text):
+def everything_results_html(entity_query, raw_text):
 
     scroll_down_header_txt = "Scroll down for full results."
     scroll_down_header = html.Div(scroll_down_header_txt, className="is-size-3")
@@ -20,9 +20,9 @@ def everything_results_html(search_text):
     scroll_down_columns = html.Div(scroll_down_column, className="columns is-centered")
     scroll_down_container = html.Div(scroll_down_columns, className="container")
 
-    entities_results = entities_results_html(search_text)
-    materials_results = materials_results_html(search_text)
-    abstracts_results = abstracts_results_html(search_text)
+    entities_results = entities_results_html(entity_query, raw_text)
+    materials_results = materials_results_html(entity_query, raw_text)
+    abstracts_results = abstracts_results_html(entity_query, raw_text)
     all_results = [entities_results, materials_results, abstracts_results]
     no_results = no_results_html()
 
