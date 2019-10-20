@@ -25,7 +25,6 @@ def show_results(n_clicks, dropdown_value, search_text):
         try:
             if not search_text:
                 return no_query_warning_html()
-
             try:
                 entity_query, raw_text = parse_search_box(search_text)
             except MatscholarWebSearchError:

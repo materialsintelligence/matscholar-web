@@ -135,12 +135,16 @@ def consolidate_n_submit_and_clicks_to_search_btn(*all_n_clicks):
      State("text_input", "value")]
 )
 def show_search_results(n_clicks, dropdown_value, search_text):
-    # Prevent from caching on n_clicks
-    @cache.memoize(timeout=cache_timeout)
-    def memoize_wrapper(dropdown_value, search_text):
-        return scb.show_results(n_clicks, dropdown_value, search_text)
 
-    return memoize_wrapper(dropdown_value, search_text)
+    if search_text:
+        # Prevent from caching on n_clicks if the results aren't empty
+        @cache.memoize(timeout=cache_timeout)
+        def memoize_wrapper(dropdown_value, search_text):
+            return scb.show_results(n_clicks, dropdown_value, search_text)
+
+        return memoize_wrapper(dropdown_value, search_text)
+    else:
+        return scb.show_results(n_clicks, dropdown_value, search_text)
 
 
 # See count.js and clientside.js for more details
