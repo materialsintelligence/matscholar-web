@@ -135,7 +135,6 @@ def consolidate_n_submit_and_clicks_to_search_btn(*all_n_clicks):
      State("text_input", "value")]
 )
 def show_search_results(n_clicks, dropdown_value, search_text):
-
     if search_text:
         # Prevent from caching on n_clicks if the results aren't empty
         @cache.memoize(timeout=cache_timeout)
@@ -186,11 +185,14 @@ app.clientside_callback(
     [State("extract-textarea", "value"),
      State("dropdown_normalize", "value")])
 def highlight_extracted(n_clicks, text, normalize):
-    # Prevent from caching on n_clicks
-    @cache.memoize(timeout=cache_timeout)
-    def memoize_wrapper(text, normalize):
+    if text:
+        # Prevent from caching on n_clicks if the search isn't empty
+        @cache.memoize(timeout=cache_timeout)
+        def memoize_wrapper(text, normalize):
+            return acb.extracted_results(n_clicks, text, normalize)
+        return memoize_wrapper(text, normalize)
+    else:
         return acb.extracted_results(n_clicks, text, normalize)
-    return memoize_wrapper(text, normalize)
 
 
 @app.callback(
