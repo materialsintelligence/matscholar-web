@@ -5,6 +5,7 @@ from matscholar_web.constants import db_stats
 from matscholar_web.common import common_info_box, \
     common_header_style, common_body_style, common_title_style, \
     common_stat_style
+from matscholar_web.logo import get_logo
 
 def serve_layout():
     introduction = get_introduction()
@@ -17,7 +18,7 @@ def serve_layout():
 
 
 def get_introduction():
-    introduction_header_txt = "Matscholar"
+    logo = get_logo()
     introduction_subheader_txt = \
         "A scholarly (AI) assistant for materials science \n"
     introduction_body_txt = \
@@ -90,8 +91,6 @@ def get_introduction():
     reference_2_md = dcc.Markdown(reference_2_txt)
     funding_md = dcc.Markdown(funding_body_txt)
 
-    introduction_header = html.Div(introduction_header_txt,
-                                   className=common_title_style())
     introduction_subheader = html.Div(introduction_subheader_txt,
                                       className=common_header_style())
     publication_header = html.Div(publication_header_txt,
@@ -114,7 +113,7 @@ def get_introduction():
     funding_body = html.Div(funding_md, className=common_body_style())
 
     elements = [
-        introduction_header,
+        logo,
         introduction_subheader,
         introduction_body,
         current_stats,

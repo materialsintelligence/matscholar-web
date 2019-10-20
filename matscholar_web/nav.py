@@ -48,7 +48,7 @@ def get_nav():
         src="/assets/logo_inverted.png",
         height=200,
     )
-    nav_image_container = html.A(nav_image, className="navbar-item")
+    nav_image_container = html.A(nav_image, className="navbar-item", href="/search")
 
     burger = html.Span(**{"aria-hidden": True})
     nav_burger = html.A([burger] * 3, id="primary-burger-trigger", role="button", className="navbar-burger", **{"aria-label": "menu", "aria-expanded": False, "data-target": navbar_menu_id})
