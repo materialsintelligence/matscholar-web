@@ -54,5 +54,6 @@ def get_nav():
     nav_burger = html.A([burger] * 3, id="primary-burger-trigger", role="button", className="navbar-burger", **{"aria-label": "menu", "aria-expanded": False, "data-target": navbar_menu_id})
     navbar_brand = html.Div([nav_image_container, nav_burger], className="navbar-brand")
 
-    nav_menu = html.Div([navbar_brand, navbar_menu], className="navbar is-link", role="navigation", **{"aria-label": "main navigation"})
-    return nav_menu
+    nav_menu = html.Div([navbar_brand, navbar_menu], className="navbar is-link is-fixed-top", role="navigation", **{"aria-label": "main navigation"})
+    nav_with_padding = html.Div(nav_menu, className="has-navbar-fixed-top")
+    return nav_with_padding
