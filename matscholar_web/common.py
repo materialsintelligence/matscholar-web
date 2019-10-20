@@ -47,9 +47,9 @@ def divider_html():
 
 
 def common_info_box(elements, id=None):
-    box = html.Div(elements, className="box has-margin-top-20")
+    box = html.Div(elements, className="box")
     column = html.Div(box, className="column is-two-thirds")
-    columns = html.Div(column, className="columns is-centered")
+    columns = html.Div(column, className="columns is-centered has-margin-top-50")
     container = html.Div(columns, className="container", id=id)
     return container
 
