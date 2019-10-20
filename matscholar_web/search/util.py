@@ -56,6 +56,20 @@ def parse_search_box(search_text):
         entity_query (dict): The entity query in rester working context
         raw_text (str): The raw text to pass into the text field
 
+    An ultra-minimal example set is:
+    example_searches = [
+        # "blahblah", # should fail
+        # "traw: Zintl", # should fail
+        "phase: diamond, application: thermoelectric, descriptor: thin film",
+        "application: thermoelectric, phase: diamond",
+        "phase: diamond application: thermoelectric",
+        "phase: diamond, heusler application: thermoelectric",
+        "phase: diamond, heusler, application: thermoelectric",
+        # "phase: diamond, phase: heusler",  # should fail
+        "characterization: x-ray diffraction, EDS, material: Pb"
+    ]
+
+
     """
     if not search_text.strip():
         raise MatscholarWebSearchError("No text entered!")
