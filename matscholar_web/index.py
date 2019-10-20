@@ -81,7 +81,6 @@ app.clientside_callback(
     Output("primary-burger-trigger", "value"),
     [
         Input("primary-navbar-menu", 'id'),
-        # Input("primary-burger-trigger", 'id'),
         Input("primary-burger-trigger", 'n_clicks'),
     ]
 )
@@ -103,6 +102,18 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
 )
 def void_example_search_n_clicks_on_live_search(*ent_txts):
     return 0
+
+
+# A test callback for updating guided search fields on searching
+# @app.callback(
+#     get_search_field_callback_args(as_type="output", return_component="value"),
+#     # [Output("material_filter_input", "value")],
+#     [Input('search-btn', 'n_clicks')],
+#     [State('text_input', 'value')]
+# )
+# def something(n_clicks, text_input):
+#     print(text_input)
+#     return ["test"]*8
 
 
 @app.callback(

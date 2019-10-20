@@ -288,6 +288,7 @@ def entity_filter_box_html(field):
         authPass=os.environ['ELASTIC_PASS'],
         searchField="original.edgengram",
     )
+    # esas = dcc.Input(id=field + "_filters_input")
 
     textbox = html.Div(
         [entity_name, esas, entity_label_tooltip],
