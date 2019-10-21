@@ -18,22 +18,27 @@ def get_footer():
         ],
     )
 
+    common_footer_style = "has-text-weight-bold"
+
     about_matscholar = html.A(
         "About Matscholar",
         href="https://github.com/materialsintelligence/matscholar-web",
-        target="_blank"
+        target="_blank",
+        className=common_footer_style
     )
 
     privacy_policy = html.A(
         "Privacy Policy",
         href='https://www.iubenda.com/privacy-policy/55585319',
-        target="_blank"
+        target="_blank",
+        className=common_footer_style
     )
 
     submit_feedback = html.A(
         "Submit Feedback",
-        href='https://github.com/materialsintelligence/matscholar-web/issues',
-        target="_blank"
+        href='https://materialsintelligence.discourse.group',
+        target="_blank",
+        className=common_footer_style
     )
 
     footer_link_tree = html.Div(
