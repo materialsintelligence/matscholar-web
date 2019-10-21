@@ -36,7 +36,7 @@ def get_nav():
     dropdown = html.Div([dropdown_link, dropdown_items], className="navbar-item has-dropdown is-hoverable")
     navbar_start = html.Div([search, analyze, dropdown], className="navbar-start")
 
-    log_in = html.A("Our Github", href="https://github.com/materialsintelligence", className="button is-light")
+    log_in = html.A("Official Support Forum", href="https://materialsintelligence.discourse.group", className="button is-success is-small")
     buttons = html.Div(log_in, className="buttons")
     buttons_item = html.Div(buttons, className="navbar-item")
     navbar_end = html.Div(buttons_item, className="navbar-end")
@@ -48,7 +48,7 @@ def get_nav():
         src="/assets/logo_inverted.png",
         height=200,
     )
-    nav_image_container = html.A(nav_image, className="navbar-item", href="/search")
+    nav_image_container = html.A(nav_image, className="navbar-item", href="https://github.com/materialsintelligence")
 
     burger = html.Span(**{"aria-hidden": True})
     nav_burger = html.A([burger] * 3, id="primary-burger-trigger", role="button", className="navbar-burger", **{"aria-label": "menu", "aria-expanded": False, "data-target": navbar_menu_id})
