@@ -80,9 +80,6 @@ def parse_search_box(search_text):
             redata = re.compile(re.escape(f), re.IGNORECASE)
             search_text = redata.sub(f, search_text)
 
-    print(search_text)
-
-
     re_delimiters = "|".join(valid_search_filters)
     field_patterns = re.findall(f"({re_delimiters}):", search_text)
 
@@ -115,15 +112,17 @@ def parse_search_box(search_text):
     for ent, query_patterns in entity_query.items():
         n_terms = len(query_patterns)
         if n_terms > MAX_N_PATTERNS_PER_ENTITY:
-            raise MatscholarWebSearchError(f"Length of patterns for entity {ent} ({n_terms}) exceeds maximum for an entity {MAX_N_PATTERNS_PER_ENTITY}")
+            raise MatscholarWebSearchError(
+                f"Length of patterns for entity {ent} ({n_terms}) exceeds maximum for an entity {MAX_N_PATTERNS_PER_ENTITY}")
         for pattern in query_patterns:
             n_chars = len(pattern)
             if n_chars > MAX_N_CHARS_PER_PATTERN:
-                raise MatscholarWebSearchError(f"Length of pattern {pattern} ({n_chars}) exceeds maximum for a pattern ({MAX_N_CHARS_PER_PATTERN}).")
+                raise MatscholarWebSearchError(
+                    f"Length of pattern {pattern} ({n_chars}) exceeds maximum for a pattern ({MAX_N_CHARS_PER_PATTERN}).")
 
     if "text" in entity_query.keys():
         raw_text = entity_query.pop("text")[0]
-        if not raw_text.strip(): # remove empty strings
+        if not raw_text.strip():  # remove empty strings
             raw_text = None
     else:
         raw_text = None
