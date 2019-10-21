@@ -14,9 +14,11 @@ This repo houses the code for the [website](https://www.matscholar.com),
 which is built with Plotly Dash.
 
 If you would like to submit feedback to help us improve the app, 
-please create a  [new issue](https://github.com/materialsintelligence/matscholar-web/issues/new) 
-on this repository. If you have any other questions you can reach the 
-Matscholar team at [help@matscholar.com](mailto:help@matscholar.com).
+please see our [official support forum](https://materialsintelligence.discourse.group). 
+
+If you have any other questions please contact our development 
+team at help@matscholar.com.
+
 
 Matscholar is supported by Toyota Research Institute through the 
 Accelerated Materials Design and Discovery program. Abstract data was 
