@@ -67,12 +67,20 @@ def parse_search_box(search_text):
         "phase: diamond, heusler, application: thermoelectric",
         # "phase: diamond, phase: heusler",  # should fail
         "characterization: x-ray diffraction, EDS, material: Pb"
+        "Application: thermoelectric CharaCterizAtion: x-ray diffraction material: PbTe"
     ]
 
 
     """
     if not search_text.strip():
         raise MatscholarWebSearchError("No text entered!")
+
+    for f in valid_search_filters:
+        if f in search_text.lower():
+            redata = re.compile(re.escape(f), re.IGNORECASE)
+            search_text = redata.sub(f, search_text)
+
+    print(search_text)
 
 
     re_delimiters = "|".join(valid_search_filters)

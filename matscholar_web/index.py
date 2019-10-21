@@ -28,7 +28,6 @@ app_expander = html.Div(app_container, className="msweb-is-tall")
 app_expander_container = html.Div(app_expander,
                                   className="msweb-is-tall-container msweb-fade-in has-margin-top-50")
 
-
 external_stylesheets = \
     html.Link(
         href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap",
@@ -65,10 +64,35 @@ def display_page(path):
         return av.serve_layout()
     elif path == "/about":
         return bv.serve_layout()
-    elif path== "/journals":
+    elif path == "/journals":
         return jv.serve_layout()
     else:
         return html.Div("404", className="has-text-centered")
+
+
+# @app.callback(
+#     Output('text_input', 'style'),  # a dummy output
+#     [
+#         Input('search-btn', 'n_clicks'),
+#     ]
+# )
+# def get_ip(value):
+#     import pandas as pd
+#     import os
+#
+#     logdir = "logs"
+#     logfile =
+#
+#     if not os.path.exists():
+#         os.mkdir("logs")
+#
+#     if not os.path.exists
+#     ip_addr = request.remote_addr
+#     print(os.getcwd())
+#     # df = pd.read_json("./logs/log.json")
+#     # print(df)
+#     print("ip address is", ip_addr)
+#     return {}
 
 
 # See burger.js and clientside.js for more details
@@ -84,6 +108,7 @@ app.clientside_callback(
         Input("primary-burger-trigger", 'n_clicks'),
     ]
 )
+
 
 # Search view callbacks
 #######################
