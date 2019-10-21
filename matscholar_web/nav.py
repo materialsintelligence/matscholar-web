@@ -14,19 +14,6 @@ def get_nav():
         (dash_html_components.Div): The nav bar.
 
     """
-    # search_button = html.Button(
-    #     "Search For Materials App",
-    #     className="button is-link is-size-6 has-margin-5"
-    # )
-    # analyze_button = html.Button(
-    #     "Analyze An Abstract App",
-    #     className="button is-success is-size-6 has-margin-5"
-    # )
-    # about_button = html.Button(
-    #     "About Matscholar",
-    #     className="button is-light is-size-6 has-margin-5"
-    # )
-
     search = dcc.Link("Search for Materials", href="/search", className="navbar-item")
     analyze = dcc.Link("Analyze an Abstract", href="/analyze", className="navbar-item")
     introduction = dcc.Link("About", href="/about", className="navbar-item")

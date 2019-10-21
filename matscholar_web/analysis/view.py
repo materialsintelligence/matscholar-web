@@ -43,7 +43,6 @@ def serve_layout():
 
     text_area = dcc.Textarea(
         id="extract-textarea",
-        style={"width": "100%"},
         spellCheck=True,
         placeholder="Paste abstract/other text here to extract named entities.",
         className="input is-info is-medium has-min-height-250"
