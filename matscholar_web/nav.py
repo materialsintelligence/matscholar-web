@@ -36,7 +36,7 @@ def get_nav():
     dropdown = html.Div([dropdown_link, dropdown_items], className="navbar-item has-dropdown is-hoverable")
     navbar_start = html.Div([search, analyze, dropdown], className="navbar-start")
 
-    log_in = html.A("Official Support Forum", href="https://materialsintelligence.discourse.group", className="button is-success is-small")
+    log_in = html.A("Official Support Forum", href="https://materialsintelligence.discourse.group", className="button is-dark is-small")
     buttons = html.Div(log_in, className="buttons")
     buttons_item = html.Div(buttons, className="navbar-item")
     navbar_end = html.Div(buttons_item, className="navbar-end")
