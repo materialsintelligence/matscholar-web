@@ -3,7 +3,7 @@
 
 ## A guide to the callback element IDs:
     
-- Only use underscores for separating words, not dashes.
+- Only use hyphens for separating words, not underscores. This is to make them easily searchable and replaceble in text even if a related Python variable is similarly named.
 - `"core_*"`: ids on the main page, regardless of app.
 - `"search_*"`: ids on the search app
 - `"extract_*"`: ids on the extract app
