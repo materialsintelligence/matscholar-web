@@ -11,6 +11,7 @@ View html blocks for the journal app.
 Please do not define callback logic in this file.
 """
 
+
 def app_view_html():
     """
     The entire app view (layout) for the journal app.

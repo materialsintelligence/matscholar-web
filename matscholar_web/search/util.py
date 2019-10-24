@@ -59,10 +59,6 @@ def parse_search_box(search_text):
             "material: PbTe, property: thermoelectric"
 
     Returns:
-        entity_query (dict): The entities from the search text in dict format,
-            e.g., {"material": "PbTe", "property": "thermoelectric"}
-
-    Returns:
         entity_query (dict): The entity query in rester working context
         raw_text (str): The raw text to pass into the text field
 

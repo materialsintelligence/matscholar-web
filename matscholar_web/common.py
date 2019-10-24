@@ -2,6 +2,8 @@ import dash_html_components as html
 
 """
 Common, reusable views across apps.
+
+Please do not define any callback logic in this file.
 """
 
 
