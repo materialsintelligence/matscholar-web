@@ -11,9 +11,9 @@ def app_view_html():
     The entire app view (layout) for the journal app.
 
     Returns:
-        (dash_html_components): The entire view for the journal app.
+        (dash_html_components.Div): The entire view for the journal app.
     """
-    journals = get_journals_html()
+    journals = journal_info_html()
 
     return html.Div(
         [
@@ -22,11 +22,13 @@ def app_view_html():
     )
 
 
-def get_journals_html():
+def journal_info_html():
     """
+    Get the html block for journal info.
 
     Returns:
-
+        (dash_html_components.Div): The html block for journal info and
+            dropdown.
     """
     journals = db_stats["journals"]
     n_journals = "{:,}".format(len(journals))

@@ -16,7 +16,7 @@ def core_view_html():
     the webpage!
 
     Returns:
-        core_view (dash_html_components): An html block for the entire site.
+        core_view (dash_html_components.Div): An html block for the entire site.
 
     """
     # The nav bar for all apps

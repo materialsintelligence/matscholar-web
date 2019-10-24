@@ -12,7 +12,7 @@ def app_view_html():
     The entire app view (layout) for the about app.
 
     Returns:
-        (dash_html_components): The entire view for the about app.
+        (dash_html_components.Div): The entire view for the about app.
     """
     introduction = introduction_html()
 
@@ -28,7 +28,7 @@ def introduction_html():
     The introduction block.
 
     Returns:
-        (dash_html_components): The introduction html block.
+        (dash_html_components.Div): The introduction html block.
 
     """
     logo = get_logo_html()
@@ -153,7 +153,7 @@ def current_stats_html():
     Get the html block for the current stats.
 
     Returns:
-        (dash_html_components): The html block for the current stats, including
+        (dash_html_components.Div): The html block for the current stats, including
             counting up animations.
 
     """
