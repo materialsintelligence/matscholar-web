@@ -1,7 +1,7 @@
 import dash_html_components as html
 import pandas as pd
 from matscholar_web.constants import rester, valid_entity_filters, entity_color_map
-from matscholar_web.search.common import results_container_class, no_results_html, get_results_label_html
+from matscholar_web.search.common import common_results_container_style, no_results_html, get_results_label_html
 
 MAX_N_ABSTRACTS_RETRIEVED = 200  # the number of abstracts retrieved via api
 MAX_N_ABSTRACTS = 20  # the number of abstracts actually shown
@@ -59,7 +59,7 @@ def abstracts_results_html(entity_query, raw_text):
         big_results_label = get_results_label_html("abstracts")
         return html.Div(
             [big_results_label, label, entity_key_container, paper_table],
-            className=results_container_class()
+            className=common_results_container_style()
         )
 
 

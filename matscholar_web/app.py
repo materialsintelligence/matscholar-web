@@ -144,7 +144,7 @@ def void_example_search_n_clicks_on_live_search(*ent_txts):
     [State('search-btn', 'n_clicks')]
 )
 def consolidate_n_submit_and_clicks_to_search_btn(*all_n_clicks):
-    return sl.consolidate_n_submit_and_clicks_to_search_button(*all_n_clicks)
+    return sl.sum_all_fields_and_buttons_n_submits(*all_n_clicks)
 
 
 @app.callback(

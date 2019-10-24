@@ -6,7 +6,7 @@ import dash_html_components as html
 from matscholar_web.constants import rester
 from matscholar_web.search.util import parse_search_box
 from matscholar_web.search.common import no_results_html, \
-    results_container_class, get_results_label_html
+    common_results_container_style, get_results_label_html
 
 MAX_N_MATERIALS_IN_TABLE = 100
 MAX_N_DOIS_FOR_VIEWING = 5
@@ -56,7 +56,7 @@ def materials_results_html(entity_query, raw_text):
         big_results_label = get_results_label_html("materials")
         materials_html = html.Div(
             children=[big_results_label, label, link, materials_table],
-            className=results_container_class()
+            className=common_results_container_style()
         )
         return materials_html
 
