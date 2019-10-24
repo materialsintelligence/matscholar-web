@@ -1,3 +1,36 @@
+### Structure of the project
+
+#### `/`
+
+Running the app.
+```
+/app.py
+```
+```
+(my_virtualenv) python app.py
+```
+
+#### `/matscholar_web`
+The assets folder is special. The other folders are modular apps. 
+The python files are common parts of the website across all apps.
+```
+├── about          # about app
+├── analysis       # analysis app
+├── app.py         # the core dash instance. don't mess with this
+├── assets         # static assets, not an app.
+├── common.py      # common html-returning functions among all apps or main view
+├── constants.py   # constant quantities
+├── footer.py      # the footer
+├── index.py       # (IMPORTANT): all high-level callback I/Os and the main layout of the webpage.
+├── journals       # the journals app
+├── logo.py        # the logo
+├── nav.py         # the nav bar
+├── search         # the search app
+└── util.py        # non-html returning util functions
+```
+
+
+
 ### Running this app:
 The following environment variables must be defined:
 
