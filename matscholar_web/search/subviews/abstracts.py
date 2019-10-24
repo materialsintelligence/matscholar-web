@@ -11,8 +11,7 @@ Please do not define callback logic in this file.
 """
 
 MAX_N_ABSTRACTS_RETRIEVED = 200  # the number of abstracts retrieved via api
-MAX_N_ABSTRACTS = 20  # the number of abstracts actually shown
-MAX_ENTITIES_PER_ROW = 3
+MAX_N_ABSTRACTS_SHOWN = 20  # the number of abstracts actually shown
 
 
 def abstracts_results_html(entity_query, raw_text):
@@ -45,10 +44,10 @@ def abstracts_results_html(entity_query, raw_text):
 
         df['authors'] = df['authors'].apply(format_authors)
 
-        n_formatted_results = min(len(df), MAX_N_ABSTRACTS)
+        n_formatted_results = min(len(df), MAX_N_ABSTRACTS_SHOWN)
         formatted_results = [None] * n_formatted_results
 
-        if n_raw_results >= MAX_N_ABSTRACTS:
+        if n_raw_results >= MAX_N_ABSTRACTS_SHOWN:
             label_txt = \
                 f"Showing {n_formatted_results} of many results. For full " \
                 f"results, use the "
@@ -182,6 +181,16 @@ def format_result_html(result):
 
 
 def format_authors(author_list):
+    """
+    Format the authors to a readable list for later formatting.
+
+    Args:
+        author_list (str, [str]): The "dirty" list of strings or string
+            containing all author names.
+
+    Returns:
+        [str]: The "clean" list of author names.
+    """
     if isinstance(author_list, (list, tuple)):
         return ", ".join([format_authors(author) for author in author_list])
     else:
