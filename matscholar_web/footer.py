@@ -5,7 +5,7 @@ Functions for defining the app's footer.
 """
 
 
-def get_footer_html():
+def footer_html():
     """
     Make the footer for all apps.
 

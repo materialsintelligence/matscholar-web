@@ -32,6 +32,19 @@ def get_logo_html():
 
 
 def common_warning_html(header_txt, body_txt):
+    """
+    Get a warning box which can be used across all apps.
+
+    Use sparingly.
+
+    Args:
+        header_txt (str): The text to include in the big header of the warning.
+        body_txt (str): The main warning text body.
+
+    Returns:
+        (dash_html_components.Div): The common warning box html block.
+
+    """
     warning_header = html.Div(header_txt, className="is-size-3")
     warning_body = html.Div(body_txt, className="is-size-6")
     warning = html.Div(
@@ -48,6 +61,17 @@ def common_warning_html(header_txt, body_txt):
 
 
 def common_null_warning_html(text):
+    """
+    Get a null warning html block which can be used across all apps. Useful for
+    when no text is entered into a box, etc.
+
+    Args:
+        text (str): The null warning text.
+
+    Returns:
+        (dash_html_components.Div): The common null warning html block.
+
+    """
     null_txt = html.Div(
         text,
         className="is-size-4"
@@ -60,6 +84,17 @@ def common_null_warning_html(text):
 
 
 def common_rester_error_html(text):
+    """
+    Get a warning for any rester error which can be used across all apps.
+
+    Args:
+        text (str): The text you want to show.
+
+    Returns:
+        (dash_html_components.Div): The rester error html block.
+
+
+    """
     rester_error_txt = html.Div(text, className="is-size-4 is-danger")
     rester_error = html.Div(
         rester_error_txt,
@@ -69,27 +104,83 @@ def common_rester_error_html(text):
 
 
 def divider_html():
+    """
+    Get an html block divider. Can be used in any app.
+
+    Returns:
+        (dash_html_components.Div): The divider html block.
+
+    """
     return html.Hr(className="is-divider")
 
 
-def common_info_box(elements, id=None):
+def common_info_box_html(elements, id=None):
+    """
+    Get an outlined box for displaying information, such as references, about
+    page stuff, etc. Can be used in any app.
+
+    Args:
+        elements ([dash_html_components.Div], dash_html_components.Div): Either
+            a single dash html component or multiple in a list. These will
+            be encapsulated by the box.
+        id (str, None): The id you want to assign to the container of the box.
+
+    Returns:
+        container (dash_html_components.Div): an html block container for the
+            box encapsulating your elements.
+
+    """
     box = html.Div(elements, className="box")
     column = html.Div(box, className="column is-two-thirds")
-    columns = html.Div(column, className="columns is-centered has-margin-top-50")
+    columns = html.Div(column,
+                       className="columns is-centered has-margin-top-50")
     container = html.Div(columns, className="container", id=id)
     return container
 
+
 def common_stat_style():
+    """
+    The common style for info statistics.
+
+    Should be used in a dash component className.
+
+    Returns:
+        (str): The style to be used in className.
+    """
     return "has-margin-right-10 has-margin-left-10 has-text-centered has-text-weight-bold"
 
 
 def common_body_style():
+    """
+    The common style for info body.
+
+    Should be used in a dash component className.
+
+    Returns:
+        (str): The style to be used in className.
+    """
     return "is-size-6-desktop has-margin-5"
 
 
 def common_header_style():
+    """
+    The common style for info header.
+
+    Should be used in a dash component className.
+
+    Returns:
+        (str): The style to be used in className.
+    """
     return "is-size-5-desktop has-text-weight-bold has-margin-5"
 
 
 def common_title_style():
+    """
+    The common style for info title.
+
+    Should be used in a dash component className.
+
+    Returns:
+        (str): The style to be used in className.
+    """
     return "is-size-2-desktop has-text-weight-bold has-margin-5"

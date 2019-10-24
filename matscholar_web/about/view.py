@@ -2,7 +2,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 
 from matscholar_web.constants import db_stats
-from matscholar_web.common import common_info_box, \
+from matscholar_web.common import common_info_box_html, \
     common_header_style, common_body_style, common_title_style, \
     common_stat_style
 from matscholar_web.common import get_logo_html
@@ -126,7 +126,7 @@ def get_introduction():
         funding_header,
         funding_body
     ]
-    container = common_info_box(elements)
+    container = common_info_box_html(elements)
     return container
 
 

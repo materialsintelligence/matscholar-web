@@ -4,8 +4,8 @@ from dash.dependencies import Input, Output, State, ClientsideFunction
 
 from matscholar_web.app import app, cache
 from matscholar_web.constants import cache_timeout
-from matscholar_web.footer import get_footer_html
-from matscholar_web.nav import get_nav_html
+from matscholar_web.footer import footer_html
+from matscholar_web.nav import nav_html
 from matscholar_web.search.util import get_search_field_callback_args
 import matscholar_web.search.callbacks as scb
 import matscholar_web.search.view as sv
@@ -18,8 +18,8 @@ import matscholar_web.journals.view as jv
 Defining the core dash app.
 """
 
-footer_interior = get_footer_html()
-nav = get_nav_html()
+footer_interior = footer_html()
+nav = nav_html()
 footer_section = html.Div(footer_interior, className="section")
 footer = html.Footer(footer_section, className="footer has-margin-top-50")
 

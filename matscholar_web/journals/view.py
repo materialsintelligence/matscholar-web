@@ -2,7 +2,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 
 from matscholar_web.constants import db_stats
-from matscholar_web.common import divider_html, common_info_box, \
+from matscholar_web.common import divider_html, common_info_box_html, \
     common_header_style, common_body_style, common_title_style
 
 
@@ -17,6 +17,11 @@ def serve_layout():
 
 
 def get_journals_html():
+    """
+
+    Returns:
+
+    """
     journals = db_stats["journals"]
     n_journals = "{:,}".format(len(journals))
 
@@ -59,5 +64,5 @@ def get_journals_html():
         dropdown,
     ]
 
-    container = common_info_box(elements, id="journals")
+    container = common_info_box_html(elements, id="journals")
     return container
