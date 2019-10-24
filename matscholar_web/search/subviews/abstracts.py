@@ -1,7 +1,14 @@
 import dash_html_components as html
 import pandas as pd
+
 from matscholar_web.constants import rester, valid_entity_filters, entity_color_map
 from matscholar_web.search.common import common_results_container_style, no_results_html, get_results_label_html
+
+"""
+Functions for defining the results container when abstract results are desired.
+
+Please do not define callback logic in this file.
+"""
 
 MAX_N_ABSTRACTS_RETRIEVED = 200  # the number of abstracts retrieved via api
 MAX_N_ABSTRACTS = 20  # the number of abstracts actually shown
@@ -9,6 +16,18 @@ MAX_ENTITIES_PER_ROW = 3
 
 
 def abstracts_results_html(entity_query, raw_text):
+    """
+    Get the html block for abstracts results from the Rester-compatible
+    entity query and text.
+
+    Args:
+        entity_query (dict): The entity query, in Rester-compatible format.
+        raw_text (str, None): Any raw text to search for.
+
+    Returns:
+        (dash_html_components.Div): The abstracts results html block.
+
+    """
     results = rester.abstracts_search(
         entity_query,
         text=raw_text,
@@ -53,7 +72,7 @@ def abstracts_results_html(entity_query, raw_text):
 
 
         for i in range(n_formatted_results):
-            formatted_results[i] = format_result(df.iloc[i])
+            formatted_results[i] = format_result_html(df.iloc[i])
         paper_table = html.Table(formatted_results, className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped")
 
         big_results_label = get_results_label_html("abstracts")
@@ -63,18 +82,22 @@ def abstracts_results_html(entity_query, raw_text):
         )
 
 
-def format_result(result):
+def format_result_html(result):
     """
-    Takes in one row of a dataframe and formats it for display in the
-    search results table.
+    Converts a single row of the abstracts results dataframe and gives back
+    the plotly dash html row to be formatted in a table of abstracts.
+
     Title of the paper is the first line
     Author 1, Author 2... - Title of Journal, Year - Publisher
     First 200 characters of abstract.
     Entities
+
     Args:
-        result: Row of dataframe to be formatted for display.
+        result (pd.Series: Row of dataframe to be formatted for display.
+
     Returns:
-        html.Div of formatted result
+        (dash_html_components.Tr): The table row html block for the formatted
+            result.
     """
 
     title_link = html.A(
