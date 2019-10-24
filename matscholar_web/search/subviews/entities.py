@@ -15,6 +15,7 @@ MAX_N_ROWS_FOR_EACH_ENTITY_TABLE = 10
 big_label_and_disclaimer = big_label_and_disclaimer_html("entities")
 entities_no_results_html = no_results_html(pre_label=big_label_and_disclaimer)
 
+
 def entities_results_html(entity_query, raw_text):
     """
     Get the html block for entities results from the Rester-compatible
