@@ -135,18 +135,6 @@ def void_example_search_n_clicks_on_live_search(*ent_txts):
     return 0
 
 
-# A test callback for updating guided search fields on searching
-# @app.callback(
-#     get_search_field_callback_args(as_type="output", return_component="value"),
-#     # [Output("material_filter_input", "value")],
-#     [Input("search-go-button", "n_clicks")],
-#     [State("search-main-bar-input", "value")]
-# )
-# def something(n_clicks, search-main-bar-input):
-#     print(search-main-bar-input)
-#     return ["test"]*8
-
-
 @app.callback(
     Output("search-go-button", "n_clicks"),
     [Input("search-main-bar-input", "n_submit")] +
