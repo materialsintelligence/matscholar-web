@@ -62,25 +62,32 @@ def common_warning_html(header_txt, body_txt):
     return warning_container
 
 
-def common_null_warning_html(text):
+def common_null_warning_html(text, alignment="center", top_margin=50):
     """
     Get a null warning html block which can be used across all apps. Useful for
     when no text is entered into a box, etc.
 
     Args:
         text (str): The null warning text.
+        alignment (str): Either "center" or "left".
+        top_margin (int): The top margin, in pixels.
 
     Returns:
         (dash_html_components.Div): The common null warning html block.
 
     """
+    if alignment in ["center", "left"]:
+        align = "has-text-centered" if alignment=="center" else ""
+    else:
+        raise ValueError(f"Invalid alignment: {alignment}. Must be 'center' or 'left'.")
+
     null_txt = html.Div(
         text,
         className="is-size-4"
     )
     null_container = html.Div(
         null_txt,
-        className="container has-text-centered has-margin-top-50"
+        className=f"container {align} has-margin-top-{top_margin}"
     )
     return null_container
 

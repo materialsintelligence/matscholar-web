@@ -30,8 +30,12 @@ def materials_results_html(entity_query, raw_text):
         (dash_html_components.Div): The materials summary html block.
     """
     results = rester.materials_search(entity_query, text=raw_text, top_k=MAX_N_MATERIALS_IN_TABLE)
+    big_results_label = results_label_html("materials")
+    disclaimer = results_disclaimer_html()
+    big_results_label_and_disclaimer = html.Div([big_results_label, disclaimer])
+
     if not results:
-        return no_results_html()
+        return no_results_html(pre_label=big_results_label_and_disclaimer)
     else:
         materials = []
         counts = []
@@ -51,6 +55,11 @@ def materials_results_html(entity_query, raw_text):
             {"material": materials, "count": counts, "dois": dois}
         )
 
+        # Prevent results with only oxides or elements from being shown
+        # as an empty table
+        if df.shape[0] == 0:
+            return no_results_html(pre_label=big_results_label_and_disclaimer)
+
         # Update the download link
         link = make_download_link_from_all_dois_html(df)
 
@@ -65,10 +74,8 @@ def materials_results_html(entity_query, raw_text):
         label = html.Label(label_txt, className="has-margin-10")
 
         materials_table = materials_table_html(df, MAX_N_MATERIALS_IN_TABLE)
-        big_results_label = results_label_html("materials")
-        disclaimer = results_disclaimer_html()
         materials_html = html.Div(
-            children=[big_results_label, disclaimer, label, link, materials_table],
+            children=[big_results_label_and_disclaimer, label, link, materials_table],
             className=common_results_container_style()
         )
         return materials_html

@@ -20,15 +20,23 @@ def results_disclaimer_html():
     return html.Div([disclaimer, api_rester_link], className="is-size-6 has-text-weight-semibold")
 
 
-def no_results_html():
+def no_results_html(pre_label=None):
     """
     The html block for displaying no results.
+
+    Args:
+        pre_label (dash_html_components.Div): A label to place before the
+            no results html. Alters the formatting of the no results warning.
 
     Returns:
         (dash_html_components.Div): The html block for no results.
 
     """
-    return common_null_warning_html("No results found!")
+    if pre_label is None:
+        return common_null_warning_html("No results found!", alignment="center")
+    else:
+        common_warning = common_null_warning_html("No results found.", alignment="left", top_margin=5)
+        return html.Div([pre_label, common_warning])
 
 
 def results_label_html(result_type):
