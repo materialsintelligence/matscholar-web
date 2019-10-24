@@ -3,7 +3,7 @@ import dash_html_components as html
 from matscholar_web.search.subviews.abstracts import abstracts_results_html
 from matscholar_web.search.subviews.entities import entities_results_html
 from matscholar_web.search.subviews.materials import materials_results_html
-from matscholar_web.search.util import no_results_html
+from matscholar_web.search.common import no_results_html
 
 
 def everything_results_html(entity_query, raw_text):

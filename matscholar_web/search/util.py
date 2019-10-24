@@ -1,11 +1,13 @@
 import re
 import copy
 
-import dash_html_components as html
 from dash.dependencies import Input, Output, State
 
 from matscholar_web.constants import valid_search_filters
-from matscholar_web.common import common_null_warning_html
+
+"""
+All utility functions for search.
+"""
 
 MAX_N_PATTERNS_PER_ENTITY = 10
 MAX_N_CHARS_PER_PATTERN = 300
@@ -139,26 +141,3 @@ def parse_search_box(search_text):
         raise MatscholarWebSearchError("No raw text nor entity query parsed!")
 
     return entity_query, raw_text
-
-
-def no_results_html():
-    return common_null_warning_html("No results found!")
-
-
-def results_container_class():
-    return "container has-margin-top-20 has-margin-bottom-20 msweb-fade-in"
-
-
-def get_results_label_html(result_type):
-    if result_type == "entities":
-        label_text = "Statistics (entities)"
-    elif result_type == "materials":
-        label_text = "Summary of Materials"
-    elif result_type == "abstracts":
-        label_text = "Relevant Abstracts"
-    else:
-        raise ValueError(f"Result type {result_type} not valid!")
-
-    label = html.Label(label_text, className="is-size-2 has-margin-10")
-    container = html.Div(label, className="has-margin-top-50")
-    return container

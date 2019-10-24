@@ -1,12 +1,14 @@
 import dash_html_components as html
 from matscholar_web.constants import rester, entity_color_map
-from matscholar_web.search.util import parse_search_box, no_results_html, \
+from matscholar_web.search.common import no_results_html, \
     results_container_class, get_results_label_html
 
 MAX_N_ROWS_FOR_EACH_ENTITY_TABLE = 10
 
+
 def entities_results_html(entity_query, raw_text):
-    results = rester.entities_search(entity_query, text=raw_text, top_k=MAX_N_ROWS_FOR_EACH_ENTITY_TABLE)
+    results = rester.entities_search(entity_query, text=raw_text,
+                                     top_k=MAX_N_ROWS_FOR_EACH_ENTITY_TABLE)
     if results is None or not any([v for v in results.values()]):
         return no_results_html()
     else:
@@ -28,14 +30,16 @@ def get_all_score_tables(results_dict):
     row1 = html.Div(
         [
             get_score_table_for_entity(results_dict["PRO"], "Property", half),
-            get_score_table_for_entity(results_dict["APL"], "Application", half),
+            get_score_table_for_entity(results_dict["APL"], "Application",
+                                       half),
         ],
         className=columns_classes
     )
 
     row2 = html.Div(
         [
-            get_score_table_for_entity(results_dict["CMT"], "Characterization", half),
+            get_score_table_for_entity(results_dict["CMT"], "Characterization",
+                                       half),
             get_score_table_for_entity(results_dict["SMT"], "Synthesis", half),
         ],
         className=columns_classes
@@ -43,7 +47,8 @@ def get_all_score_tables(results_dict):
 
     row3 = html.Div(
         [
-            get_score_table_for_entity(results_dict["DSC"], "Descriptor", third),
+            get_score_table_for_entity(results_dict["DSC"], "Descriptor",
+                                       third),
             get_score_table_for_entity(results_dict["SPL"], "Phase", third),
             get_score_table_for_entity(results_dict["MAT"], "Material", third)
         ],
@@ -68,7 +73,8 @@ def get_score_table_for_entity(most_common, entity_type, width):
         table_label = f"All {formatted_n_results} entities"
 
     color = entity_color_map[entity_type.lower()]
-    header_entity_type = html.Span(f"{entity_type}", className=f"msweb-has-{color}-txt")
+    header_entity_type = html.Span(f"{entity_type}",
+                                   className=f"msweb-has-{color}-txt")
     header_table_label = html.Span(f": {table_label}")
 
     header_entity_type = html.Th([header_entity_type, header_table_label])
@@ -85,10 +91,6 @@ def get_score_table_for_entity(most_common, entity_type, width):
         row_number += 1
         if row_number == MAX_N_ROWS_FOR_EACH_ENTITY_TABLE - 1:
             break
-    table = html.Table([header] + rows, className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped")
+    table = html.Table([header] + rows,
+                       className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped")
     return html.Div(table, className=f"column {width}")
-
-
-
-
-
