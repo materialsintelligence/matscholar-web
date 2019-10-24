@@ -3,16 +3,34 @@ from matscholar_web.constants import rester, entity_color_map
 from matscholar_web.search.common import no_results_html, \
     common_results_container_style, get_results_label_html
 
+"""
+Functions for defining the results container when entity results are desired.
+
+Please do not define callback logic in this file.
+"""
+
 MAX_N_ROWS_FOR_EACH_ENTITY_TABLE = 10
 
 
 def entities_results_html(entity_query, raw_text):
+    """
+    Get the html block for entities results from the Rester-compatible
+    entity query and text.
+
+    Args:
+        entity_query (dict): The entity query, in Rester-compatible format.
+        raw_text (str, None): Any raw text to search for.
+
+    Returns:
+        (dash_html_components.Div): The entities results html block.
+
+    """
     results = rester.entities_search(entity_query, text=raw_text,
                                      top_k=MAX_N_ROWS_FOR_EACH_ENTITY_TABLE)
     if results is None or not any([v for v in results.values()]):
         return no_results_html()
     else:
-        all_tables = get_all_score_tables(results)
+        all_tables = all_score_tables_html(results)
         big_results_label = get_results_label_html("entities")
         all_tables_container = html.Div(
             children=[big_results_label, all_tables],
@@ -21,7 +39,16 @@ def entities_results_html(entity_query, raw_text):
         return all_tables_container
 
 
-def get_all_score_tables(results_dict):
+def all_score_tables_html(results_dict):
+    """
+    Get all the score tables for all entity types as an html block.
+
+    Args:
+        results_dict (dict): The result dictionary directly from the Rester.
+
+    Returns:
+       (dash_html_components.Div): The entity table as an html block.
+    """
     columns_classes = "columns is-desktop is-centered"
 
     half = "is-half"
@@ -29,41 +56,48 @@ def get_all_score_tables(results_dict):
 
     row1 = html.Div(
         [
-            get_score_table_for_entity(results_dict["PRO"], "Property", half),
-            get_score_table_for_entity(results_dict["APL"], "Application",
-                                       half),
+            single_entity_score_table_html(results_dict["PRO"], "Property", half),
+            single_entity_score_table_html(results_dict["APL"], "Application",
+                                           half),
         ],
         className=columns_classes
     )
 
     row2 = html.Div(
         [
-            get_score_table_for_entity(results_dict["CMT"], "Characterization",
-                                       half),
-            get_score_table_for_entity(results_dict["SMT"], "Synthesis", half),
+            single_entity_score_table_html(results_dict["CMT"], "Characterization",
+                                           half),
+            single_entity_score_table_html(results_dict["SMT"], "Synthesis", half),
         ],
         className=columns_classes
     )
 
     row3 = html.Div(
         [
-            get_score_table_for_entity(results_dict["DSC"], "Descriptor",
-                                       third),
-            get_score_table_for_entity(results_dict["SPL"], "Phase", third),
-            get_score_table_for_entity(results_dict["MAT"], "Material", third)
+            single_entity_score_table_html(results_dict["DSC"], "Descriptor",
+                                           third),
+            single_entity_score_table_html(results_dict["SPL"], "Phase", third),
+            single_entity_score_table_html(results_dict["MAT"], "Material", third)
         ],
         className=columns_classes
     )
-
-    row4 = html.Div(
-        [
-        ],
-        className=columns_classes
-    )
-    return html.Div([row1, row2, row3, row4])
+    return html.Div([row1, row2, row3])
 
 
-def get_score_table_for_entity(most_common, entity_type, width):
+def single_entity_score_table_html(most_common, entity_type, width):
+    """
+    Get the html block for a single entity's score table.
+
+    Args:
+        most_common ([str]): The most common entities of this type.
+        entity_type (str): The entity type (e.g., "material")
+        width (the width of the table in terms of the table container). Valid
+            widths are specified according to bulma column widths, e.g.,
+            "is-half".
+
+    Returns:
+        (dash_html_components.Div): A single entity table html block.
+    """
     n_results = len(most_common)
 
     formatted_n_results = min(n_results, MAX_N_ROWS_FOR_EACH_ENTITY_TABLE)
