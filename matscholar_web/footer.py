@@ -1,12 +1,16 @@
 import dash_html_components as html
 
+"""
+Functions for defining the app's footer.
+"""
+
 
 def get_footer_html():
     """
-    Make the plotly dash footer.
+    Make the footer for all apps.
 
     Returns:
-        (dash_html_components.Div): The footer
+        (dash_html_components.Div): The footer as an html block.
 
     """
     note_div = html.Div(
