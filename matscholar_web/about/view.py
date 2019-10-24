@@ -4,7 +4,7 @@ import dash_core_components as dcc
 from matscholar_web.constants import db_stats
 from matscholar_web.common import common_info_box_html, \
     common_header_style, common_body_style, common_stat_style
-from matscholar_web.common import get_logo_html
+from matscholar_web.common import logo_html
 
 """
 View html blocks for the about app.
@@ -36,7 +36,7 @@ def introduction_html():
         (dash_html_components.Div): The introduction html block.
 
     """
-    logo = get_logo_html()
+    logo = logo_html()
     introduction_subheader_txt = \
         "A scholarly (AI) assistant for materials science \n"
     introduction_body_txt = \

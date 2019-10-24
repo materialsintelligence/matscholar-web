@@ -4,7 +4,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 from dash_elasticsearch_autosuggest import ESAutosuggest
 
-from matscholar_web.common import get_logo_html
+from matscholar_web.common import logo_html
 from matscholar_web.common import common_warning_html, \
     common_null_warning_html, divider_html
 from matscholar_web.constants import valid_search_filters, \
@@ -27,7 +27,7 @@ def app_view_html():
 
     return html.Div(
         [
-            get_logo_html(),
+            logo_html(),
             search_bar_and_buttons_html(),
             guided_search_boxes_html(),
             subview_results_container_html()

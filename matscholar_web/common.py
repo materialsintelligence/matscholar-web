@@ -7,7 +7,7 @@ Please do not define any callback logic in this file.
 """
 
 
-def get_logo_html():
+def logo_html():
     """
     Get the matscholar logo as a centered image for an app.
 

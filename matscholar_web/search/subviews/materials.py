@@ -5,7 +5,7 @@ import dash_html_components as html
 
 from matscholar_web.constants import rester
 from matscholar_web.search.common import no_results_html, \
-    common_results_container_style, get_results_label_html
+    common_results_container_style, results_label_html
 
 """
 Functions for defining the results container when materials summary is desired.
@@ -65,7 +65,7 @@ def materials_results_html(entity_query, raw_text):
         label = html.Label(label_txt, className="has-margin-10")
 
         materials_table = materials_table_html(df, MAX_N_MATERIALS_IN_TABLE)
-        big_results_label = get_results_label_html("materials")
+        big_results_label = results_label_html("materials")
         materials_html = html.Div(
             children=[big_results_label, label, link, materials_table],
             className=common_results_container_style()

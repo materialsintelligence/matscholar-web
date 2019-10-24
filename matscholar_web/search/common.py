@@ -20,7 +20,7 @@ def no_results_html():
     return common_null_warning_html("No results found!")
 
 
-def get_results_label_html(result_type):
+def results_label_html(result_type):
     """
     Get the label html block= for the results type.
 

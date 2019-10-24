@@ -6,7 +6,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 from matscholar.rest import MatScholarRestError
 
-from matscholar_web.common import get_logo_html
+from matscholar_web.common import logo_html
 from matscholar_web.common import common_null_warning_html, \
     common_warning_html, common_rester_error_html
 from matscholar_web.constants import rester, entity_color_map
@@ -91,7 +91,7 @@ def app_view_html():
 
     loading_container = html.Div(loading)
 
-    logo = get_logo_html()
+    logo = logo_html()
 
     main_app_column = html.Div(
         [
