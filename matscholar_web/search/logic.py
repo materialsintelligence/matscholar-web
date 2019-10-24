@@ -13,6 +13,12 @@ from matscholar_web.search.subviews.entities import entities_results_html
 from matscholar_web.search.subviews.everything import everything_results_html
 from matscholar_web.search.util import parse_search_box
 
+"""
+Callback logic for callbacks in the search app.
+
+Please do not define any html blocks in this file.
+"""
+
 default_message = \
     "Our database had trouble with that query. We are likely " \
     "undergoing maintenance, please visit again later!"

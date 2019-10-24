@@ -11,6 +11,12 @@ from matscholar_web.common import common_null_warning_html, \
     common_warning_html, common_rester_error_html
 from matscholar_web.constants import rester, entity_color_map
 
+"""
+View html blocks for the extract app.
+
+Please do not define callback logic in this file.
+"""
+
 label_mapping = {
     "MAT": "material",
     "APL": "application",

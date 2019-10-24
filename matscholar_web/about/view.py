@@ -6,6 +6,11 @@ from matscholar_web.common import common_info_box_html, \
     common_header_style, common_body_style, common_stat_style
 from matscholar_web.common import get_logo_html
 
+"""
+View html blocks for the about app.
+
+Please do not define callback logic in this file.
+"""
 
 def app_view_html():
     """

@@ -5,6 +5,11 @@ from matscholar_web.constants import db_stats
 from matscholar_web.common import divider_html, common_info_box_html, \
     common_header_style, common_body_style, common_title_style
 
+"""
+View html blocks for the journal app.
+
+Please do not define callback logic in this file.
+"""
 
 def app_view_html():
     """

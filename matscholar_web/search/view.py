@@ -10,6 +10,11 @@ from matscholar_web.common import common_warning_html, \
 from matscholar_web.constants import valid_search_filters, \
     search_filter_color_map, db_stats, example_searches
 
+"""
+View html blocks for the search app.
+
+Please do not define callback logic in this file.
+"""
 
 def app_view_html():
     return html.Div(
