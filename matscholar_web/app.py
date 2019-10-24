@@ -6,10 +6,10 @@ from matscholar_web.view import core_view_html
 from matscholar_web.constants import cache_timeout
 from matscholar_web.common import common_404_html
 from matscholar_web.search.util import get_search_field_callback_args
-import matscholar_web.search.callbacks as scb
+import matscholar_web.search.logic as sl
 import matscholar_web.search.view as sv
-import matscholar_web.analysis.callbacks as acb
-import matscholar_web.analysis.view as av
+import matscholar_web.extract.logic as el
+import matscholar_web.extract.view as av
 import matscholar_web.about.view as bv
 import matscholar_web.journals.view as jv
 
@@ -53,7 +53,7 @@ cache = Cache(app.server, config={'CACHE_TYPE': 'simple'})
 def display_page(path):
     if str(path).strip() in ["/", "/search"] or not path:
         return sv.app_view_html()
-    elif path == "/analyze":
+    elif path == "/extract":
         return av.app_view_html()
     elif path == "/about":
         return bv.app_view_html()
@@ -112,7 +112,7 @@ app.clientside_callback(
     get_search_field_callback_args(as_type="input"),
 )
 def search_bar_live_display(example_search_n_clicks, *ent_txts):
-    return scb.search_bar_live_display(example_search_n_clicks, *ent_txts)
+    return sl.search_bar_live_display(example_search_n_clicks, *ent_txts)
 
 
 @app.callback(
@@ -144,7 +144,7 @@ def void_example_search_n_clicks_on_live_search(*ent_txts):
     [State('search-btn', 'n_clicks')]
 )
 def consolidate_n_submit_and_clicks_to_search_btn(*all_n_clicks):
-    return scb.consolidate_n_submit_and_clicks_to_search_button(*all_n_clicks)
+    return sl.consolidate_n_submit_and_clicks_to_search_button(*all_n_clicks)
 
 
 @app.callback(
@@ -158,11 +158,11 @@ def show_search_results(n_clicks, dropdown_value, search_text):
         # Prevent from caching on n_clicks if the results aren't empty
         @cache.memoize(timeout=cache_timeout)
         def memoize_wrapper(dropdown_value, search_text):
-            return scb.show_results(n_clicks, dropdown_value, search_text)
+            return sl.show_results(n_clicks, dropdown_value, search_text)
 
         return memoize_wrapper(dropdown_value, search_text)
     else:
-        return scb.show_results(n_clicks, dropdown_value, search_text)
+        return sl.show_results(n_clicks, dropdown_value, search_text)
 
 
 # See count.js and clientside.js for more details
@@ -208,18 +208,18 @@ def highlight_extracted(n_clicks, text, normalize):
         # Prevent from caching on n_clicks if the search isn't empty
         @cache.memoize(timeout=cache_timeout)
         def memoize_wrapper(text, normalize):
-            return acb.extracted_results(n_clicks, text, normalize)
+            return el.extracted_results(n_clicks, text, normalize)
 
         return memoize_wrapper(text, normalize)
     else:
-        return acb.extracted_results(n_clicks, text, normalize)
+        return el.extracted_results(n_clicks, text, normalize)
 
 
 @app.callback(
     Output('extract-textarea', 'value'),
     [Input("extract-random", 'n_clicks')])
 def get_random(n_clicks):
-    return acb.get_random(n_clicks)
+    return el.get_random(n_clicks)
 
 
 ################################################################################

@@ -70,7 +70,7 @@ def nav_html():
     """
     search = dcc.Link("Search for Materials", href="/search",
                       className="navbar-item")
-    analyze = dcc.Link("Analyze an Abstract", href="/analyze",
+    extract = dcc.Link("Analyze an Abstract", href="/extract",
                        className="navbar-item")
     introduction = dcc.Link("About", href="/about", className="navbar-item")
     journals = dcc.Link("Journals", href="/journals", className="navbar-item")
@@ -79,7 +79,7 @@ def nav_html():
     dropdown_link = html.Div("Info", className="navbar-link")
     dropdown = html.Div([dropdown_link, dropdown_items],
                         className="navbar-item has-dropdown is-hoverable")
-    navbar_start = html.Div([search, analyze, dropdown],
+    navbar_start = html.Div([search, extract, dropdown],
                             className="navbar-start")
 
     log_in = html.A("Official Support Forum",
