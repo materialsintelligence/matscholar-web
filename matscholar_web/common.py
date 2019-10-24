@@ -5,6 +5,32 @@ Common, reusable views across apps.
 """
 
 
+def get_logo_html():
+    """
+    Get the matscholar logo as a centered image for an app.
+
+    Returns:
+        (dash_html_components.Div): The header.
+    """
+
+    logo = html.Img(
+        src="/assets/logo_header.png",
+    )
+
+    header_centering = html.Div(
+        [logo],
+        id="header_centering",
+        className="columns is-centered is-mobile"
+    )
+
+    header_container = html.Div(
+        header_centering,
+        id="header_container",
+        className="container has-margin-bottom-30 has-margin-top-50"
+    )
+    return header_container
+
+
 def common_warning_html(header_txt, body_txt):
     warning_header = html.Div(header_txt, className="is-size-3")
     warning_body = html.Div(body_txt, className="is-size-6")
@@ -52,7 +78,6 @@ def common_info_box(elements, id=None):
     columns = html.Div(column, className="columns is-centered has-margin-top-50")
     container = html.Div(columns, className="container", id=id)
     return container
-
 
 def common_stat_style():
     return "has-margin-right-10 has-margin-left-10 has-text-centered has-text-weight-bold"

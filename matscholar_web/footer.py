@@ -1,7 +1,7 @@
 import dash_html_components as html
 
 
-def get_footer():
+def get_footer_html():
     """
     Make the plotly dash footer.
 

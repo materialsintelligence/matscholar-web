@@ -5,7 +5,7 @@ from matscholar_web.constants import db_stats
 from matscholar_web.common import common_info_box, \
     common_header_style, common_body_style, common_title_style, \
     common_stat_style
-from matscholar_web.logo import get_logo
+from matscholar_web.common import get_logo_html
 
 def serve_layout():
     introduction = get_introduction()
@@ -18,7 +18,7 @@ def serve_layout():
 
 
 def get_introduction():
-    logo = get_logo()
+    logo = get_logo_html()
     introduction_subheader_txt = \
         "A scholarly (AI) assistant for materials science \n"
     introduction_body_txt = \

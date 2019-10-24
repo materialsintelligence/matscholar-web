@@ -6,7 +6,7 @@ Functions for defining navigation bar components.
 """
 
 
-def get_nav():
+def get_nav_html():
     """
     Get the plotly html object for the nav bar.
 

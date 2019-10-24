@@ -30,9 +30,9 @@ matscholar_web
 └── util.py        # non-html defining util functions
 ```
 
-Please keep the functions which return dash html blocks (e.g., those in 
-`common.py`) and those which do not (e.g., `util.py`) **separate** and 
-in the correct file in a logical manner.
+Please keep the functions which define dash html blocks and styles 
+(e.g., those in `common.py`) and those which do not 
+(e.g., `util.py`) **separate** and in the correct file in a logical manner.
 
 
 ## Inside an app folder
@@ -52,7 +52,7 @@ search
 ```
 
 ### Files with functions defining dash HTML blocks
-***Only* functions which define html blocks should be found in these files.**
+***Only* functions which define html blocks or styles should be found in these files.**
 
 #### `common.py`
 Common functions for defining *dash html blocks* among one or more views.
@@ -87,6 +87,21 @@ itself - only reference those from view, subviews, and common.**
 Common functions for processing and defining non-html blocks. **No**
 function in this file should define a dash html block.
 
+## The `matscholar_web/assets` folder:
+
+Contains all custom local JS and CSS for the project. All of the 
+static data is in `data`. Also contains all local static images.
+
+JS files are atomic according to what they
+do. `burger.js` operates the burger menu. `count.js` makes the counting
+animation. `clientside.js` connects the various files to Dash's clientside
+callbacks. 
+
+There are 3 CSS files. `bulma.css` houses most of the styles needed
+to be used as `classNames` in Dash. `bulma-helpers.css` can be mainly
+used for forcing margins etc. when you have *no* other option. 
+`msweb.css` is the custom classes we define and should be kept as short
+as possible.
 
 
 # Running this app:

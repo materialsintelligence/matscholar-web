@@ -4,8 +4,8 @@ from dash.dependencies import Input, Output, State, ClientsideFunction
 
 from matscholar_web.app import app, cache
 from matscholar_web.constants import cache_timeout
-from matscholar_web.footer import get_footer
-from matscholar_web.nav import get_nav
+from matscholar_web.footer import get_footer_html
+from matscholar_web.nav import get_nav_html
 from matscholar_web.search.util import get_search_field_callback_args
 import matscholar_web.search.callbacks as scb
 import matscholar_web.search.view as sv
@@ -15,18 +15,20 @@ import matscholar_web.about.view as bv
 import matscholar_web.journals.view as jv
 
 """
-Declarations for the core dash app.
+Defining the core dash app.
 """
 
-footer_interior = get_footer()
-nav = get_nav()
+footer_interior = get_footer_html()
+nav = get_nav_html()
 footer_section = html.Div(footer_interior, className="section")
 footer = html.Footer(footer_section, className="footer has-margin-top-50")
 
 app_container = html.Div("", id="app_container", className="container is-fluid")
 app_expander = html.Div(app_container, className="msweb-is-tall")
-app_expander_container = html.Div(app_expander,
-                                  className="msweb-is-tall-container msweb-fade-in has-margin-top-50")
+app_expander_container = html.Div(
+    app_expander,
+    className="msweb-is-tall-container msweb-fade-in has-margin-top-50"
+)
 
 external_stylesheets = \
     html.Link(
@@ -215,6 +217,7 @@ def highlight_extracted(n_clicks, text, normalize):
         @cache.memoize(timeout=cache_timeout)
         def memoize_wrapper(text, normalize):
             return acb.extracted_results(n_clicks, text, normalize)
+
         return memoize_wrapper(text, normalize)
     else:
         return acb.extracted_results(n_clicks, text, normalize)
