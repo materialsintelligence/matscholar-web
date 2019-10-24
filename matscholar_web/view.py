@@ -5,11 +5,23 @@ from matscholar_web.footer import footer_html
 from matscholar_web.nav import nav_html
 
 """
-Defining the core view components for the dahs app.
+Defining the core view (layout) component for the entire app.
 """
 
 
 def core_view_html():
+    """
+    Getting the core view component (layout) for the entire app.
+    Contains the nav bar, footer, etc. All view components are either called
+    (preferred) or superceded (not preferred) by this function.
+
+    tl;dr: This function makes the html block for what you see when you load
+    the webpage!
+
+    Returns:
+        core_view (dash_html_components): An html block for the entire site.
+
+    """
     footer_interior = footer_html()
     nav = nav_html()
     footer_section = html.Div(footer_interior, className="section")
