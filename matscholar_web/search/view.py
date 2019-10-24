@@ -28,7 +28,7 @@ def app_view_html():
     return html.Div(
         [
             get_logo_html(),
-            search_bar_and_go_html(),
+            search_bar_and_buttons_html(),
             advanced_search_html(),
             subview_results_container_html()
         ],
@@ -60,7 +60,7 @@ def subview_results_container_html():
 
 def no_query_warning_html():
     """
-    The html block when no query is entered.
+    The html block when no query is entered and searched.
 
     Returns:
         (dash_html_components.Div): The html block when no query is entered.
@@ -71,6 +71,16 @@ def no_query_warning_html():
 
 
 def malformed_query_warning_html(bad_search_txt):
+    """
+    The html block when a query is malformed and searched.
+
+    Args:
+        bad_search_txt (str): The search text.
+
+    Returns:
+        (dash_html_components.Div): The html block when a malformed query is
+            entered and searched.
+    """
     warning_header_txt = f'Oops, we didn\'t understand that search.'
     warning_body_txt = \
         f'\n Your search was: "{bad_search_txt}"\n. Try the format entity1: ' \
@@ -79,7 +89,14 @@ def malformed_query_warning_html(bad_search_txt):
     return common_warning_html(warning_header_txt, warning_body_txt)
 
 
-def search_bar_and_go_html():
+def search_bar_and_buttons_html():
+    """
+    Get the html block for the search bar and Go and Example buttons.
+
+    Returns:
+        (dash_html_components.Div): The html block for the search bar and
+            buttons
+    """
     n_abstracts = "{:,}".format(db_stats["abstracts"])
 
     n_abstracts_hidden_ref = html.Span(
