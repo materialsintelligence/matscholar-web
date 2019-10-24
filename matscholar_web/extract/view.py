@@ -17,35 +17,30 @@ View html blocks for the extract app.
 Please do not define callback logic in this file.
 """
 
-label_mapping = {
-    "MAT": "material",
-    "APL": "application",
-    "PRO": "property",
-    "SPL": "phase",
-    "SMT": "synthesis",
-    "CMT": "characterization",
-    "DSC": "descriptor",
-    "PVL": "property value",
-    "PUT": "property unit",
-    "O": 'other'
-}
-
+# An extension to the global entity color map to include extra entities.
 entitiy_color_map_extension = {
     "property value": "aqua",
     "property unit": "yellow",
     "other": None
 }
-
 entity_color_map_extended = copy.deepcopy(entity_color_map)
 entity_color_map_extended.update(entitiy_color_map_extension)
 
 
 def app_view_html():
+    """
+    The entire app view (layout) for the extract app.
+
+    Returns:
+        (dash_html_components.Div): The entire view for the journal app.
+    """
+
     label = html.Label(
         "Enter a scientific abstract's text for named entity extraction:",
         className="is-size-4"
     )
-    label_container = html.Div(label, className="has-margin-bottom-20 has-text-centered")
+    label_container = html.Div(label,
+                               className="has-margin-bottom-20 has-text-centered")
 
     text_area = dcc.Textarea(
         id="extract-textarea",
@@ -70,7 +65,6 @@ def app_view_html():
         className="is-pulled-right has-margin-5",
     )
 
-
     common_button_styling = "button is-size-4 has-margin-5"
     extract_button = html.Button(
         "Extract entities",
@@ -83,7 +77,6 @@ def app_view_html():
         id="extract-random",
         className=f"{common_button_styling} is-light"
     )
-
 
     loading = dcc.Loading(
         id="loading-extract",
@@ -126,10 +119,21 @@ def app_view_html():
     return layout
 
 
-def abstracts_entities_results_html(text, normalize):
-    # Extract highlighted
+def extract_entities_results_html(text, normalize):
+    """
+    Get an html block of the results for an entity extraction.
+
+    Args:
+        text (str): The abstract text to extract entities from.
+        normalize (bool): Whether to normalize the entities or not.
+
+    Returns:
+        (dash_html_components.Div): The html block for the entity extraction
+            results.
+    """
     try:
-        result = rester.get_ner_tags(text, concatenate=True, normalize=normalize)
+        result = rester.get_ner_tags(text, concatenate=True,
+                                     normalize=normalize)
     except MatScholarRestError:
         rester_error_txt = \
             "Our server is having trouble with that abstract. We are likely " \
@@ -137,7 +141,7 @@ def abstracts_entities_results_html(text, normalize):
         return common_rester_error_html(rester_error_txt)
     tagged_doc = result["tags"]
     relevance = result["relevance"]
-    highlighted = highlight_entities(tagged_doc)
+    highlighted = highlight_entities_html(tagged_doc)
 
     # Add the warning
     if not relevance:
@@ -188,7 +192,8 @@ def abstracts_entities_results_html(text, normalize):
         # don't need the "other" label
         if e == "other":
             continue
-        entity_key = html.Div(e, className=f"is-size-4 msweb-is-{color}-txt has-text-weight-bold")
+        entity_key = html.Div(e,
+                              className=f"is-size-4 msweb-is-{color}-txt has-text-weight-bold")
         entity_key_container = html.Div(
             entity_key,
             className="flex-column is-narrow has-margin-5 box"
@@ -213,18 +218,40 @@ def abstracts_entities_results_html(text, normalize):
     return results
 
 
-def highlight_entities(tagged_doc):
+def highlight_entities_html(tagged_doc):
+    """
+    Get the html block for the tagged document returned by the rester.
+
+    Args:
+        tagged_doc ([list]): A nested list by sentence - entity nesting
+
+    Returns:
+        (dash_html_components.Div): The highlighted entities as an html block.
+    """
     tagged_flat1 = [i for sublist in tagged_doc for i in sublist]
-    # tagged_flat2 = [j for sublist in tagged_flat1 for j in sublist]
     tagged_doc = tagged_flat1
 
     text_size = "is-size-5"
 
     entities_containers = [None] * len(tagged_doc)
 
+    # Mapping entity shortcodes returned by the rester to their entity labels
+    local_entity_shortcode_map = {
+        "MAT": "material",
+        "APL": "application",
+        "PRO": "property",
+        "SPL": "phase",
+        "SMT": "synthesis",
+        "CMT": "characterization",
+        "DSC": "descriptor",
+        "PVL": "property value",
+        "PUT": "property unit",
+        "O": 'other'
+    }
+
     for i, tagged_token in enumerate(tagged_doc):
         token, tag = tagged_token[0], tagged_token[1]
-        color = entity_color_map_extended[label_mapping[tag]]
+        color = entity_color_map_extended[local_entity_shortcode_map[tag]]
 
         if color is None:
             entity_styled = html.Div(f" {token} ", className=text_size)
@@ -236,7 +263,6 @@ def highlight_entities(tagged_doc):
             # the entity is other and we need to not highlight it
             entity_styled = html.Div(
                 token,
-                # className=f"button is-{color} is-outlined {text_size}"
                 className=f"msweb-is-{color}-txt {text_size}"
             )
 
@@ -253,4 +279,12 @@ def highlight_entities(tagged_doc):
 
 
 def no_abstract_warning_html():
+    """
+    Get the html block when no abstract is entered.
+
+    Returns:
+        (dash_html_components.Div): The warning for no abstract, as an
+            html block.
+
+    """
     return common_null_warning_html("No abstract entered!")

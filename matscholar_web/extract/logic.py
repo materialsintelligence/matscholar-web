@@ -1,6 +1,6 @@
 import numpy as np
 
-from matscholar_web.extract.view import abstracts_entities_results_html, \
+from matscholar_web.extract.view import extract_entities_results_html, \
     no_abstract_warning_html
 from matscholar_web.constants import sample_abstracts
 
@@ -20,7 +20,7 @@ def extracted_results(extract_button_n_clicks, text, normalize):
         extract_button_n_clicks (int): The number of clicks of the extract
             button.
         text (str): The text entered in the text box, to extract.
-        normalize (str): The normalize string to pass to the rester.
+        normalize (bool): The normalize string to pass to the rester.
 
     Returns:
         (dash_html_components, str): The extracted results html block.
@@ -30,7 +30,7 @@ def extracted_results(extract_button_n_clicks, text, normalize):
         if stripped in [None, ""]:
             return no_abstract_warning_html()
         else:
-            return abstracts_entities_results_html(text, normalize)
+            return extract_entities_results_html(text, normalize)
     else:
         return ""
 
@@ -43,7 +43,7 @@ def get_random(random_button_n_clicks):
         random_button_n_clicks (int): The number of clicks of the random button.
 
     Returns:
-        (st)r): The text of a random abstract.
+        (str): The text of a random abstract.
 
     """
     if random_button_n_clicks is not None:
