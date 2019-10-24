@@ -1,8 +1,8 @@
 import dash_html_components as html
 
-from matscholar_web.search.subviews.abstracts import abstracts_results_html
-from matscholar_web.search.subviews.entities import entities_results_html
-from matscholar_web.search.subviews.materials import materials_results_html
+from matscholar_web.search.subviews.abstracts import abstracts_results_html, abstracts_no_results_html
+from matscholar_web.search.subviews.entities import entities_results_html, entities_no_results_html
+from matscholar_web.search.subviews.materials import materials_results_html, materials_no_results_html
 from matscholar_web.search.common import no_results_html
 
 """
@@ -41,10 +41,11 @@ def everything_results_html(entity_query, raw_text):
     entities_results = entities_results_html(entity_query, raw_text)
     materials_results = materials_results_html(entity_query, raw_text)
     abstracts_results = abstracts_results_html(entity_query, raw_text)
-    all_results = [entities_results, materials_results, abstracts_results]
-    no_results = no_results_html()
+    no_results = no_results_html(pre_label=None)
 
-    if all([str(r) == str(no_results) for r in all_results]):
+    if all([entities_results==entities_no_results_html,
+            materials_results==materials_no_results_html,
+            abstracts_results==abstracts_no_results_html]):
         return no_results
     else:
         container = html.Div(

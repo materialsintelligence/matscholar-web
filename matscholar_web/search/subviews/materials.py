@@ -5,7 +5,7 @@ import dash_html_components as html
 
 from matscholar_web.constants import rester
 from matscholar_web.search.common import no_results_html, \
-    common_results_container_style, results_label_html, results_disclaimer_html
+    common_results_container_style, results_label_html, results_disclaimer_html, big_label_and_disclaimer_html
 
 """
 Functions for defining the results container when materials summary is desired.
@@ -15,6 +15,9 @@ Please do not define callback logic in this file.
 
 MAX_N_MATERIALS_IN_TABLE = 100  # the maximum number of rows shown in the table
 MAX_N_DOIS_FOR_VIEWING = 5  # The maximum number of viewable DOIs on this page.
+
+big_results_label_and_disclaimer = big_label_and_disclaimer_html("materials")
+materials_no_results_html = no_results_html(pre_label=big_results_label_and_disclaimer)
 
 
 def materials_results_html(entity_query, raw_text):
@@ -30,12 +33,9 @@ def materials_results_html(entity_query, raw_text):
         (dash_html_components.Div): The materials summary html block.
     """
     results = rester.materials_search(entity_query, text=raw_text, top_k=MAX_N_MATERIALS_IN_TABLE)
-    big_results_label = results_label_html("materials")
-    disclaimer = results_disclaimer_html()
-    big_results_label_and_disclaimer = html.Div([big_results_label, disclaimer])
 
     if not results:
-        return no_results_html(pre_label=big_results_label_and_disclaimer)
+        return materials_no_results_html
     else:
         materials = []
         counts = []

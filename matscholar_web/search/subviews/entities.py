@@ -1,7 +1,7 @@
 import dash_html_components as html
 from matscholar_web.constants import rester, entity_color_map
 from matscholar_web.search.common import no_results_html, \
-    common_results_container_style, results_label_html, results_disclaimer_html
+    common_results_container_style, results_label_html, results_disclaimer_html, big_label_and_disclaimer_html
 
 """
 Functions for defining the results container when entity results are desired.
@@ -12,6 +12,8 @@ Please do not define callback logic in this file.
 # Maximum number of rows shown for each entity table. 10 usually looks good.
 MAX_N_ROWS_FOR_EACH_ENTITY_TABLE = 10
 
+big_label_and_disclaimer = big_label_and_disclaimer_html("entities")
+entities_no_results_html = no_results_html(pre_label=big_label_and_disclaimer)
 
 def entities_results_html(entity_query, raw_text):
     """
@@ -29,13 +31,11 @@ def entities_results_html(entity_query, raw_text):
     results = rester.entities_search(entity_query, text=raw_text,
                                      top_k=MAX_N_ROWS_FOR_EACH_ENTITY_TABLE)
     if results is None or not any([v for v in results.values()]):
-        return no_results_html()
+        return entities_no_results_html
     else:
         all_tables = all_score_tables_html(results)
-        big_results_label = results_label_html("entities")
-        disclaimer = results_disclaimer_html()
         all_tables_container = html.Div(
-            children=[big_results_label, disclaimer, all_tables],
+            children=[big_label_and_disclaimer, all_tables],
             className=common_results_container_style()
         )
         return all_tables_container

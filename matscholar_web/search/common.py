@@ -9,11 +9,30 @@ Please do not define any callback logic in this file.
 """
 
 
+def big_label_and_disclaimer_html(label_txt):
+    """
+    Get the html block results big label and disclaimer for a particular
+    search.
+
+    Args:
+        label_txt (str): The key for generating a results label.
+
+    Returns:
+        (dash_html_components.Div): The html block for the big label and
+            disclaimer
+
+    """
+    big_results_label = results_label_html(label_txt)
+    disclaimer = results_disclaimer_html()
+    return html.Div([big_results_label, disclaimer])
+
+
 def results_disclaimer_html():
     """
     The html block for displaying the disclaimer
+
     Returns:
-        (dash_html_components.Div):
+        (dash_html_components.Div): The html block results disclaimer.
     """
     disclaimer = html.Span("These are incomplete results determined from limited sampling of our database. For full results, use the ")
     api_rester_link = html.A("Matscholar API", href="https://github.com/materialsintelligence/matscholar")
@@ -25,7 +44,7 @@ def no_results_html(pre_label=None):
     The html block for displaying no results.
 
     Args:
-        pre_label (dash_html_components.Div): A label to place before the
+        pre_label (None, dash_html_components.Div): A label to place before the
             no results html. Alters the formatting of the no results warning.
 
     Returns:

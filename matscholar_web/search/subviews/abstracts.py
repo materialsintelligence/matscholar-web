@@ -2,7 +2,7 @@ import dash_html_components as html
 import pandas as pd
 
 from matscholar_web.constants import rester, valid_entity_filters, entity_color_map
-from matscholar_web.search.common import common_results_container_style, no_results_html, results_label_html, results_disclaimer_html
+from matscholar_web.search.common import common_results_container_style, no_results_html, results_label_html, results_disclaimer_html, big_label_and_disclaimer_html
 
 """
 Functions for defining the results container when abstract results are desired.
@@ -12,6 +12,9 @@ Please do not define callback logic in this file.
 
 MAX_N_ABSTRACTS_RETRIEVED = 200  # the number of abstracts retrieved via api
 MAX_N_ABSTRACTS_SHOWN = 20  # the number of abstracts actually shown
+
+big_label_and_disclaimer = big_label_and_disclaimer_html("abstracts")
+abstracts_no_results_html = no_results_html(pre_label=big_label_and_disclaimer)
 
 
 def abstracts_results_html(entity_query, raw_text):
@@ -34,7 +37,7 @@ def abstracts_results_html(entity_query, raw_text):
     )
 
     if not results:
-        return no_results_html()
+        return abstracts_no_results_html
     else:
         df = pd.DataFrame(results)
         n_raw_results = df.shape[0]
@@ -69,15 +72,12 @@ def abstracts_results_html(entity_query, raw_text):
             entities_keys.append(entity_key_container)
         entity_key_container = html.Div(entities_keys, className="columns is-multiline has-margin-5")
 
-
         for i in range(n_formatted_results):
             formatted_results[i] = format_result_html(df.iloc[i])
         paper_table = html.Table(formatted_results, className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped")
 
-        big_results_label = results_label_html("abstracts")
-        disclaimer = results_disclaimer_html()
         return html.Div(
-            [big_results_label, disclaimer, label, entity_key_container, paper_table],
+            [big_label_and_disclaimer, label, entity_key_container, paper_table],
             className=common_results_container_style()
         )
 
