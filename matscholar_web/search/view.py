@@ -29,7 +29,7 @@ def app_view_html():
         [
             get_logo_html(),
             search_bar_and_buttons_html(),
-            advanced_search_html(),
+            guided_search_boxes_html(),
             subview_results_container_html()
         ],
     )
@@ -190,7 +190,7 @@ def search_bar_and_buttons_html():
         className="container"
     )
 
-    example_search_container = example_searches_html()
+    example_search_container = hidden_ref_example_searches_html()
     bar_and_go_and_label_container = html.Div(
         [
             example_search_container,
@@ -201,7 +201,20 @@ def search_bar_and_buttons_html():
     return bar_and_go_and_label_container
 
 
-def example_searches_html():
+def hidden_ref_example_searches_html():
+    """
+    Get the hidden reference example search html. Used by callback to populate
+    the search field.
+
+    # todo: this can probably be written not as a hidden reference since it
+    # todo: not updated via clientside callback anymore. The file can just
+    # todo: be used in the same fashion as extract app random searches.
+
+    Returns:
+        (dash_html_components.Div): The html block for the hidden example
+            search ref.
+
+    """
     separator = " | "
     examples_as_string = [e + separator for e in example_searches]
     examples_hidden_ref = html.Span(
@@ -212,10 +225,12 @@ def example_searches_html():
     return examples_hidden_ref
 
 
-def advanced_search_html():
+def guided_search_boxes_html():
     """
-    Html for the advanced search boxes.
-    Element filters, entity filters, anonymous formula searches
+    Get the html block for hidden guided search fields.
+
+    Returns:
+        (dash_html_components.Div): The html block for the hidden search fields.
     """
     hr = divider_html()
     dropdown = dcc.Dropdown(
@@ -275,11 +290,10 @@ def advanced_search_html():
 
 def entity_filter_box_html(field):
     """
-    Text filter boxes with ES autosuggest for entity filters.
+    Get the html block for a single filter boxes with ESAutosuggest.
 
     Args:
-        field (str): Entity type
-        prefill_filters (list of str): prefill values
+        field (str): The field type. Either a lowercase entity or "text".
     """
     placeholders = {
         "material": "PbTe, graphite,...",
