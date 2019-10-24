@@ -20,7 +20,7 @@ Please do not define any html blocks in this file.
 """
 
 
-def show_results(go_button_n_clicks, dropdown_value, search_text):
+def show_search_results(go_button_n_clicks, dropdown_value, search_text):
     """
     Determine what kind of results to show from the search text, search type,
     and number of clicks of the search button.

@@ -35,7 +35,7 @@ def extracted_results(extract_button_n_clicks, text, normalize):
         return ""
 
 
-def get_random(random_button_n_clicks):
+def get_random_abstract(random_button_n_clicks):
     """
     Get a random abstract for the random button.
 
