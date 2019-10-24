@@ -2,7 +2,7 @@ import random
 
 from matscholar.rest import MatScholarRestError
 
-from matscholar_web.util import MatscholarWebSearchError
+from matscholar_web.search.util import MatscholarWebSearchError
 from matscholar_web.common import common_rester_error_html
 from matscholar_web.constants import valid_search_filters, example_searches
 from matscholar_web.search.view import malformed_query_warning_html, \

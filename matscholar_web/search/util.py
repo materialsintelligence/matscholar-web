@@ -6,10 +6,18 @@ from dash.dependencies import Input, Output, State
 
 from matscholar_web.constants import valid_search_filters
 from matscholar_web.common import common_null_warning_html
-from matscholar_web.util import MatscholarWebSearchError
 
 MAX_N_PATTERNS_PER_ENTITY = 10
 MAX_N_CHARS_PER_PATTERN = 300
+
+
+class MatscholarWebSearchError(BaseException):
+    """
+    An exception to be used for search app errors.
+
+    Can also be used as a parent class for more specific exceptions.
+    """
+    pass
 
 
 def get_search_field_callback_args(as_type="state", return_component="value"):
