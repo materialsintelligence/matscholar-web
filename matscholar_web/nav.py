@@ -8,7 +8,7 @@ Functions for defining navigation bar components.
 
 def nav_html():
     """
-    Get the plotly html object for the nav bar.
+    Get the plotly html block for the nav bar.
 
     Returns:
         (dash_html_components.Div): The nav bar.
