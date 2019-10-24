@@ -138,6 +138,18 @@ def common_info_box_html(elements, id=None):
     return container
 
 
+def common_404_html():
+    """
+    Get a 404 error html. Can and should be used across apps. Update this
+    function to update all 404 display behavior.
+
+    Returns:
+        (dash_html_components.Div): The 404 html block.
+
+    """
+    return html.Div("404", className="has-text-centered")
+
+
 def common_stat_style():
     """
     The common style for info statistics.

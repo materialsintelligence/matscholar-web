@@ -1,11 +1,9 @@
-import dash_core_components as dcc
-import dash_html_components as html
 from dash.dependencies import Input, Output, State, ClientsideFunction
 
-from matscholar_web.app import app, cache
+from matscholar_web.app import cache
+from matscholar_web.view import app
 from matscholar_web.constants import cache_timeout
-from matscholar_web.footer import footer_html
-from matscholar_web.nav import nav_html
+from matscholar_web.common import common_404_html
 from matscholar_web.search.util import get_search_field_callback_args
 import matscholar_web.search.callbacks as scb
 import matscholar_web.search.view as sv
@@ -15,41 +13,11 @@ import matscholar_web.about.view as bv
 import matscholar_web.journals.view as jv
 
 """
-Defining the core dash app.
+All high level logic for every callback in the entire dash app.
+
+Please do not define any html-returning functions in this file. Import them
+from modules like common, view, or an app's view submodule.
 """
-
-footer_interior = footer_html()
-nav = nav_html()
-footer_section = html.Div(footer_interior, className="section")
-footer = html.Footer(footer_section, className="footer has-margin-top-50")
-
-app_container = html.Div("", id="app_container", className="container is-fluid")
-app_expander = html.Div(app_container, className="msweb-is-tall")
-app_expander_container = html.Div(
-    app_expander,
-    className="msweb-is-tall-container msweb-fade-in has-margin-top-50"
-)
-
-external_stylesheets = \
-    html.Link(
-        href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap",
-        rel="stylesheet",
-        className="is-hidden"
-    )
-
-location = dcc.Location(id="url", refresh=False)
-
-app.layout = html.Div(
-    [
-        external_stylesheets,
-        location,
-        nav,
-        app_expander_container,
-        footer,
-    ],
-    className="msweb-background"
-)
-
 
 # Top level callbacks
 #######################
@@ -69,7 +37,7 @@ def display_page(path):
     elif path == "/journals":
         return jv.serve_layout()
     else:
-        return html.Div("404", className="has-text-centered")
+        return common_404_html()
 
 
 # @app.callback(

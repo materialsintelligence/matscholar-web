@@ -1,4 +1,4 @@
-from matscholar_web.index import app
+from matscholar_web.callbacks import app
 
 server = app.server
 
