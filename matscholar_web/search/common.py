@@ -9,6 +9,17 @@ Please do not define any callback logic in this file.
 """
 
 
+def results_disclaimer_html():
+    """
+    The html block for displaying the disclaimer
+    Returns:
+        (dash_html_components.Div):
+    """
+    disclaimer = html.Span("These are incomplete results determined from limited sampling of our database. For full results, use the ")
+    api_rester_link = html.A("Matscholar API", href="https://github.com/materialsintelligence/matscholar")
+    return html.Div([disclaimer, api_rester_link], className="is-size-6 has-text-weight-semibold")
+
+
 def no_results_html():
     """
     The html block for displaying no results.

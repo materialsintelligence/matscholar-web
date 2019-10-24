@@ -26,7 +26,7 @@ def everything_results_html(entity_query, raw_text):
             types concatenated.
 
     """
-    scroll_down_header_txt = "Scroll down for full results."
+    scroll_down_header_txt = "Scroll down for more results."
     scroll_down_header = html.Div(scroll_down_header_txt, className="is-size-3")
     scroll_down = html.Div(
         [

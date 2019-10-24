@@ -1,7 +1,7 @@
 import dash_html_components as html
 from matscholar_web.constants import rester, entity_color_map
 from matscholar_web.search.common import no_results_html, \
-    common_results_container_style, results_label_html
+    common_results_container_style, results_label_html, results_disclaimer_html
 
 """
 Functions for defining the results container when entity results are desired.
@@ -33,8 +33,9 @@ def entities_results_html(entity_query, raw_text):
     else:
         all_tables = all_score_tables_html(results)
         big_results_label = results_label_html("entities")
+        disclaimer = results_disclaimer_html()
         all_tables_container = html.Div(
-            children=[big_results_label, all_tables],
+            children=[big_results_label, disclaimer, all_tables],
             className=common_results_container_style()
         )
         return all_tables_container

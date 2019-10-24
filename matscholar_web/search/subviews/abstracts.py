@@ -2,7 +2,7 @@ import dash_html_components as html
 import pandas as pd
 
 from matscholar_web.constants import rester, valid_entity_filters, entity_color_map
-from matscholar_web.search.common import common_results_container_style, no_results_html, results_label_html
+from matscholar_web.search.common import common_results_container_style, no_results_html, results_label_html, results_disclaimer_html
 
 """
 Functions for defining the results container when abstract results are desired.
@@ -75,8 +75,9 @@ def abstracts_results_html(entity_query, raw_text):
         paper_table = html.Table(formatted_results, className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped")
 
         big_results_label = results_label_html("abstracts")
+        disclaimer = results_disclaimer_html()
         return html.Div(
-            [big_results_label, label, entity_key_container, paper_table],
+            [big_results_label, disclaimer, label, entity_key_container, paper_table],
             className=common_results_container_style()
         )
 
