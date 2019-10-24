@@ -5,6 +5,7 @@
   "phase: perovskite, synthesis: firing",
   "application: spintronics, property: doped",
   "phase: diamond",
+  "phase: perovskite",
   "phase: cubic, characterization: x-ray diffraction, property: doped",
   "application: semiconductor, synthesis: CVD, text: 2018",
   "application: thermoelectric",
