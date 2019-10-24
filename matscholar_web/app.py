@@ -20,6 +20,8 @@ Also, all high level logic for every callback in the entire dash app.
 
 Please do not define any html-returning functions in this file. Import them
 from modules like common, view, or an app's view submodule.
+
+Please see CONTRIBUTING.md before editing this file or callback element ids.
 """
 
 ################################################################################
@@ -39,7 +41,7 @@ app.scripts.config.serve_locally = True
 app.config.suppress_callback_exceptions = True
 app.title = "Matscholar - rediscover materials"
 app.layout = core_view_html()
-cache = Cache(app.server, config={'CACHE_TYPE': 'simple'})
+cache = Cache(app.server, config={"CACHE_TYPE": "simple"})
 
 
 ################################################################################
@@ -48,8 +50,8 @@ cache = Cache(app.server, config={'CACHE_TYPE': 'simple'})
 ################################################################################
 
 @app.callback(
-    Output('app_container', 'children'),
-    [Input('url', 'pathname')]
+    Output("core_app_container", "children"),
+    [Input("core_url", "pathname")]
 )
 def display_app(path):
     """
@@ -78,13 +80,13 @@ def display_app(path):
 # See burger.js and clientside.js for more details
 app.clientside_callback(
     ClientsideFunction(
-        namespace='clientside',
-        function_name='animateBurgerOnClickCSCallback'
+        namespace="clientside",
+        function_name="animateBurgerOnClickCSCallback"
     ),
-    Output("primary-burger-trigger", "value"),
+    Output("core_burger_trigger_cs", "value"),
     [
-        Input("primary-navbar-menu", 'id'),
-        Input("primary-burger-trigger", 'n_clicks'),
+        Input("core_navbar_menu", "id"),
+        Input("core_burger_trigger_cs", "n_clicks"),
     ]
 )
 
@@ -93,8 +95,8 @@ app.clientside_callback(
 # Search app callbacks
 ################################################################################
 @app.callback(
-    Output('text_input', 'value'),
-    [Input('example-search-btn', 'n_clicks')] +
+    Output("text_input", "value"),
+    [Input("example-search-btn", "n_clicks")] +
     get_search_field_callback_args(as_type="input"),
 )
 def search_bar_live_display(example_search_n_clicks, *ent_txts):
@@ -115,7 +117,7 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
 
 
 @app.callback(
-    Output('example-search-btn', 'n_clicks'),
+    Output("example-search-btn", "n_clicks"),
     get_search_field_callback_args(as_type="input")
 )
 def void_example_search_n_clicks_on_live_search(*ent_txts):
@@ -137,8 +139,8 @@ def void_example_search_n_clicks_on_live_search(*ent_txts):
 # @app.callback(
 #     get_search_field_callback_args(as_type="output", return_component="value"),
 #     # [Output("material_filter_input", "value")],
-#     [Input('search-btn', 'n_clicks')],
-#     [State('text_input', 'value')]
+#     [Input("search-btn", "n_clicks")],
+#     [State("text_input", "value")]
 # )
 # def something(n_clicks, text_input):
 #     print(text_input)
@@ -146,12 +148,12 @@ def void_example_search_n_clicks_on_live_search(*ent_txts):
 
 
 @app.callback(
-    Output('search-btn', 'n_clicks'),
-    [Input('text_input', 'n_submit')] +
+    Output("search-btn", "n_clicks"),
+    [Input("text_input", "n_submit")] +
     get_search_field_callback_args(
         as_type="input",
         return_component="n_submit"),
-    [State('search-btn', 'n_clicks')]
+    [State("search-btn", "n_clicks")]
 )
 def sum_all_fields_and_buttons_n_submits(*all_n_clicks):
     """
@@ -174,8 +176,8 @@ def sum_all_fields_and_buttons_n_submits(*all_n_clicks):
 
 
 @app.callback(
-    Output('search_results', 'children'),
-    [Input('search-btn', 'n_clicks')],
+    Output("search_results", "children"),
+    [Input("search-btn", "n_clicks")],
     [State("search_type_dropdown", "value"),
      State("text_input", "value")]
 )
@@ -194,7 +196,7 @@ def show_search_results(go_button_n_clicks, dropdown_value, search_text):
             and customized according to search results from the search text.
     """
     if search_text:
-        # Prevent from caching on n_clicks if the results aren't empty
+        # Prevent from caching on n_clicks if the results aren"t empty
         @cache.memoize(timeout=cache_timeout)
         def memoize_wrapper(dropdown_value, search_text):
             return sl.show_search_results(go_button_n_clicks, dropdown_value, search_text)
@@ -207,14 +209,14 @@ def show_search_results(go_button_n_clicks, dropdown_value, search_text):
 # See count.js and clientside.js for more details
 app.clientside_callback(
     ClientsideFunction(
-        namespace='clientside',
-        function_name='countSearchCSCallback'
+        namespace="clientside",
+        function_name="countSearchCSCallback"
     ),
-    Output('count-search', 'children'),
+    Output("count-search", "children"),
     [
-        Input('url', 'pathname'),
-        Input('count-search', 'id'),
-        Input('count-search-hidden-ref', 'id')
+        Input("core_url", "pathname"),
+        Input("count-search", "id"),
+        Input("count-search-hidden-ref", "id")
     ]
 )
 
@@ -222,14 +224,14 @@ app.clientside_callback(
 # Puts example searches in the search bar
 app.clientside_callback(
     ClientsideFunction(
-        namespace='clientside',
-        function_name='cycleExampleSearchesCSCallback'
+        namespace="clientside",
+        function_name="cycleExampleSearchesCSCallback"
     ),
-    Output('text_input', 'children'),
+    Output("text_input", "children"),
     [
-        Input('url', 'pathname'),
-        Input('text_input', 'id'),
-        Input('search-examples-hidden-ref', 'id')
+        Input("core_url", "pathname"),
+        Input("text_input", "id"),
+        Input("search-examples-hidden-ref", "id")
     ]
 )
 
@@ -256,7 +258,7 @@ def extracted_results(extract_button_n_clicks, text, normalize):
         (dash_html_components, str): The extracted results html block.
     """
     if text:
-        # Prevent from caching on n_clicks if the search isn't empty
+        # Prevent from caching on n_clicks if the search isn"t empty
         @cache.memoize(timeout=cache_timeout)
         def memoize_wrapper(text, normalize):
             return el.extracted_results(extract_button_n_clicks, text, normalize)
@@ -267,8 +269,8 @@ def extracted_results(extract_button_n_clicks, text, normalize):
 
 
 @app.callback(
-    Output('extract-textarea', 'value'),
-    [Input("extract-random", 'n_clicks')])
+    Output("extract-textarea", "value"),
+    [Input("extract-random", "n_clicks")])
 def get_random_abstract(random_button_n_clicks):
     """
     Get a random abstract for the random button.
@@ -290,17 +292,17 @@ def get_random_abstract(random_button_n_clicks):
 # See count.js and clientside.js for more details
 app.clientside_callback(
     ClientsideFunction(
-        namespace='clientside',
-        function_name='countStatsCSCallback'
+        namespace="clientside",
+        function_name="countStatsCSCallback"
     ),
-    Output('count-materials', 'children'),
+    Output("count-materials", "children"),
     [
-        Input('url', 'pathname'),
-        Input('count-materials', 'id'),
-        Input('count-abstracts', 'id'),
-        Input('count-entities', 'id'),
-        Input('count-materials-hidden-ref', 'id'),
-        Input('count-abstracts-hidden-ref', 'id'),
-        Input('count-entities-hidden-ref', 'id')
+        Input("core_url", "pathname"),
+        Input("count-materials", "id"),
+        Input("count-abstracts", "id"),
+        Input("count-entities", "id"),
+        Input("count-materials-hidden-ref", "id"),
+        Input("count-abstracts-hidden-ref", "id"),
+        Input("count-entities-hidden-ref", "id")
     ]
 )

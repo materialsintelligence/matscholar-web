@@ -30,7 +30,7 @@ def core_view_html():
     footer = html.Footer(footer_section, className="footer has-margin-top-50")
 
     # The container for individual apps
-    app_container = html.Div("", id="app_container",
+    app_container = html.Div("", id="core_app_container",
                              className="container is-fluid")
     app_expander = html.Div(app_container, className="msweb-is-tall")
     app_expander_container = html.Div(
@@ -47,7 +47,7 @@ def core_view_html():
         )
 
     # Location defines the linking for how to change the app.
-    location = dcc.Location(id="url", refresh=False)
+    location = dcc.Location(id="core_url", refresh=False)
 
     core_view = html.Div(
         [
@@ -91,7 +91,7 @@ def nav_html():
     buttons_item = html.Div(buttons, className="navbar-item")
     navbar_end = html.Div(buttons_item, className="navbar-end")
 
-    navbar_menu_id = "primary-navbar-menu"
+    navbar_menu_id = "core_navbar_menu"
     navbar_menu = html.Div([navbar_start, navbar_end], id=navbar_menu_id,
                            className="navbar-menu")
 
@@ -103,7 +103,7 @@ def nav_html():
                                  href="https://github.com/materialsintelligence")
 
     burger = html.Span(**{"aria-hidden": True})
-    nav_burger = html.A([burger] * 3, id="primary-burger-trigger",
+    nav_burger = html.A([burger] * 3, id="core_burger_trigger_cs",
                         role="button", className="navbar-burger",
                         **{"aria-label": "menu", "aria-expanded": False,
                            "data-target": navbar_menu_id})

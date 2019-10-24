@@ -1,5 +1,17 @@
 # Structure of the project
 
+
+## A guide to the callback element IDs:
+    
+- Only use underscores for separating words, not dashes.
+- `"core_*"`: ids on the main page, regardless of app.
+- `"search_*"`: ids on the search app
+- `"extract_*"`: ids on the extract app
+- `"about_*"`: ids on the about app
+- `"journal_*"`: ids on the journal app
+- `"*_cs"`: indicates an id is used in a clientside callback. Probably don't
+    mess with it!
+
 ## The `/` folder
 
 Running the app.
