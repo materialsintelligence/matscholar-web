@@ -5,9 +5,27 @@ from matscholar_web.search.subviews.entities import entities_results_html
 from matscholar_web.search.subviews.materials import materials_results_html
 from matscholar_web.search.common import no_results_html
 
+"""
+Functions for defining the results container when all results are desired.
+
+Please do not define callback logic in this file.
+"""
+
 
 def everything_results_html(entity_query, raw_text):
+    """
+    Get the html block for all results from the Rester-compatible
+    entity query and text. Results are concatenated.
 
+    Args:
+        entity_query (dict): The entity query, in Rester-compatible format.
+        raw_text (str, None): Any raw text to search for.
+
+    Returns:
+        (dash_html_components.Div): The results html block for all search
+            types concatenated.
+
+    """
     scroll_down_header_txt = "Scroll down for full results."
     scroll_down_header = html.Div(scroll_down_header_txt, className="is-size-3")
     scroll_down = html.Div(
