@@ -5,7 +5,20 @@ from matscholar import Rester
 
 from matscholar_web.util import load_static_data_file
 
-# Define some variables of common interest
+
+"""
+Load the static files for the dash app once, and not on import of 
+matscholar_web.
+
+Also define all constants which are used across all apps.
+"""
+
+# All static files
+db_stats = load_static_data_file("db_statistics.json")
+example_searches = load_static_data_file("example_searches.json")
+sample_abstracts = load_static_data_file("sample_abstracts.json")
+
+# The API endpoint URL defines the Rester
 endpoint = os.environ.get("MATERIALS_SCHOLAR_ENDPOINT")
 rester = Rester(endpoint=endpoint)
 
@@ -18,9 +31,9 @@ entity_shortcode_map = {
     "application": "APL",
     "descriptor": "DSC",
     "phase": "SPL",
-
 }
 
+# The mapping of entity type to color
 entity_color_map = {
     "material": "blue",
     "application": "green",
@@ -31,18 +44,15 @@ entity_color_map = {
     "descriptor": "pink"
 }
 
+# The mapping of all search filters
 search_filter_color_map = copy.deepcopy(entity_color_map)
 search_filter_color_map["text"] = "grey"
 
 # The valid entity types
 valid_entity_filters = list(entity_shortcode_map.keys())
 
+# All valid search filter keys
 valid_search_filters = valid_entity_filters + ["text"]
 
-# in seconds
+# How long before the Flask cache times out and is voided.
 cache_timeout = 60
-
-# Static files
-db_stats = load_static_data_file("db_statistics.json")
-example_searches = load_static_data_file("example_searches.json")
-sample_abstracts = load_static_data_file("sample_abstracts.json")
