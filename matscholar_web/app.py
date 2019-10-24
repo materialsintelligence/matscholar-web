@@ -50,8 +50,8 @@ cache = Cache(app.server, config={"CACHE_TYPE": "simple"})
 ################################################################################
 
 @app.callback(
-    Output("core_app_container", "children"),
-    [Input("core_url", "pathname")]
+    Output("core-app-container", "children"),
+    [Input("core-url", "pathname")]
 )
 def display_app(path):
     """
@@ -81,12 +81,12 @@ def display_app(path):
 app.clientside_callback(
     ClientsideFunction(
         namespace="clientside",
-        function_name="animateBurgerOnClickCSCallback"
+        function_name="animateBurgerOnClickClientsideFunction"
     ),
-    Output("core_burger_trigger_cs", "value"),
+    Output("core-burger-trigger-cs", "value"),
     [
-        Input("core_navbar_menu", "id"),
-        Input("core_burger_trigger_cs", "n_clicks"),
+        Input("core-navbar-menu", "id"),
+        Input("core-burger-trigger-cs", "n_clicks"),
     ]
 )
 
@@ -95,8 +95,8 @@ app.clientside_callback(
 # Search app callbacks
 ################################################################################
 @app.callback(
-    Output("text_input", "value"),
-    [Input("example-search-btn", "n_clicks")] +
+    Output("search-main-bar-input", "value"),
+    [Input("search-example-button", "n_clicks")] +
     get_search_field_callback_args(as_type="input"),
 )
 def search_bar_live_display(example_search_n_clicks, *ent_txts):
@@ -107,7 +107,7 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
     Args:
         example_search_n_clicks (int): The number of times the example search
             button was clicked.
-        *ent_txts (strs): The strings for each entity guided search field.
+        *ent_txts (strs): The strings for each guided search field.
 
     Returns:
         (str): The text to be shown in the search bar via live update.
@@ -117,7 +117,7 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
 
 
 @app.callback(
-    Output("example-search-btn", "n_clicks"),
+    Output("search-example-button", "n_clicks"),
     get_search_field_callback_args(as_type="input")
 )
 def void_example_search_n_clicks_on_live_search(*ent_txts):
@@ -139,21 +139,21 @@ def void_example_search_n_clicks_on_live_search(*ent_txts):
 # @app.callback(
 #     get_search_field_callback_args(as_type="output", return_component="value"),
 #     # [Output("material_filter_input", "value")],
-#     [Input("search-btn", "n_clicks")],
-#     [State("text_input", "value")]
+#     [Input("search-go-button", "n_clicks")],
+#     [State("search-main-bar-input", "value")]
 # )
-# def something(n_clicks, text_input):
-#     print(text_input)
+# def something(n_clicks, search-main-bar-input):
+#     print(search-main-bar-input)
 #     return ["test"]*8
 
 
 @app.callback(
-    Output("search-btn", "n_clicks"),
-    [Input("text_input", "n_submit")] +
+    Output("search-go-button", "n_clicks"),
+    [Input("search-main-bar-input", "n_submit")] +
     get_search_field_callback_args(
         as_type="input",
         return_component="n_submit"),
-    [State("search-btn", "n_clicks")]
+    [State("search-go-button", "n_clicks")]
 )
 def sum_all_fields_and_buttons_n_submits(*all_n_clicks):
     """
@@ -176,10 +176,10 @@ def sum_all_fields_and_buttons_n_submits(*all_n_clicks):
 
 
 @app.callback(
-    Output("search_results", "children"),
-    [Input("search-btn", "n_clicks")],
-    [State("search_type_dropdown", "value"),
-     State("text_input", "value")]
+    Output("search-results-container", "children"),
+    [Input("search-go-button", "n_clicks")],
+    [State("search-type-dropdown", "value"),
+     State("search-main-bar-input", "value")]
 )
 def show_search_results(go_button_n_clicks, dropdown_value, search_text):
     """
@@ -210,28 +210,28 @@ def show_search_results(go_button_n_clicks, dropdown_value, search_text):
 app.clientside_callback(
     ClientsideFunction(
         namespace="clientside",
-        function_name="countSearchCSCallback"
+        function_name="countSearchClientsideFunction"
     ),
-    Output("count-search", "children"),
+    Output("search-count-abstracts-cs", "children"),
     [
-        Input("core_url", "pathname"),
-        Input("count-search", "id"),
-        Input("count-search-hidden-ref", "id")
+        Input("core-url", "pathname"),
+        Input("search-count-abstracts-cs", "id"),
+        Input("search-count-abstracts-hidden-ref-cs", "id")
     ]
 )
 
+# Rotates example searches through the search bar
 # See example_searches.js and clientside.js for more details
-# Puts example searches in the search bar
 app.clientside_callback(
     ClientsideFunction(
         namespace="clientside",
-        function_name="cycleExampleSearchesCSCallback"
+        function_name="cycleExampleSearchesClientsideFunction"
     ),
-    Output("text_input", "children"),
+    Output("search-main-bar-input", "children"),
     [
-        Input("core_url", "pathname"),
-        Input("text_input", "id"),
-        Input("search-examples-hidden-ref", "id")
+        Input("core-url", "pathname"),
+        Input("search-main-bar-input", "id"),
+        Input("search-examples-hidden-ref-cs", "id")
     ]
 )
 
@@ -241,8 +241,8 @@ app.clientside_callback(
 @app.callback(
     Output("extract-highlighted", "children"),
     [Input("extract-button", "n_clicks")],
-    [State("extract-textarea", "value"),
-     State("dropdown_normalize", "value")])
+    [State("extract-text-area", "value"),
+     State("extract-dropdown-normalize", "value")])
 def extracted_results(extract_button_n_clicks, text, normalize):
     """
     Get the extracted results from the extract app via clicks and the entered
@@ -269,7 +269,7 @@ def extracted_results(extract_button_n_clicks, text, normalize):
 
 
 @app.callback(
-    Output("extract-textarea", "value"),
+    Output("extract-text-area", "value"),
     [Input("extract-random", "n_clicks")])
 def get_random_abstract(random_button_n_clicks):
     """
@@ -293,16 +293,16 @@ def get_random_abstract(random_button_n_clicks):
 app.clientside_callback(
     ClientsideFunction(
         namespace="clientside",
-        function_name="countStatsCSCallback"
+        function_name="countStatsClientsideFunction"
     ),
-    Output("count-materials", "children"),
+    Output("about-count-materials-cs", "children"),
     [
-        Input("core_url", "pathname"),
-        Input("count-materials", "id"),
-        Input("count-abstracts", "id"),
-        Input("count-entities", "id"),
-        Input("count-materials-hidden-ref", "id"),
-        Input("count-abstracts-hidden-ref", "id"),
-        Input("count-entities-hidden-ref", "id")
+        Input("core-url", "pathname"),
+        Input("about-count-materials-cs", "id"),
+        Input("about-count-abstracts-cs", "id"),
+        Input("about-count-entities-cs", "id"),
+        Input("about-count-materials-hidden-ref-cs", "id"),
+        Input("about-count-abstracts-hidden-ref-cs", "id"),
+        Input("about-count-entities-hidden-ref-cs", "id")
     ]
 )

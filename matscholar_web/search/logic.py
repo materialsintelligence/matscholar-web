@@ -95,7 +95,7 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
     Args:
         example_search_n_clicks (int): The number of times the example search
             button was clicked.
-        *ent_txts (strs): The strings for each entity guided search field.
+        *ent_txts (strs): The strings for each guided search field.
 
     Returns:
         (str): The text to be shown in the search bar via live update.

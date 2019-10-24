@@ -49,7 +49,7 @@ def subview_results_container_html():
         (dash_html_components.Div): The results container.
 
     """
-    my_results_html = html.Div(id="search_results")
+    my_results_html = html.Div(id="search-results-container")
     wrapper = dcc.Loading(
         type="cube",
         children=my_results_html,
@@ -100,13 +100,13 @@ def search_bar_and_buttons_html():
     n_abstracts = "{:,}".format(db_stats["abstracts"])
 
     n_abstracts_hidden_ref = html.Span(
-        id="count-search-hidden-ref",
+        id="search-count-abstracts-hidden-ref-cs",
         children=n_abstracts,
         className="is-hidden"
     )
 
     n_abstracts_link = dcc.Link(
-        id="count-search",
+        id="search-count-abstracts-cs",
         children=f"{n_abstracts}",
         href="/about",
         className="msweb-fade-in msweb-ubuntu"
@@ -124,7 +124,7 @@ def search_bar_and_buttons_html():
 
     search_bar = dcc.Input(
         placeholder=example_searches[-1],
-        id="text_input",
+        id="search-main-bar-input",
         className="input is-info is-medium",
         autoFocus=True,
     )
@@ -150,7 +150,7 @@ def search_bar_and_buttons_html():
 
     go_button = html.Button(
         "Go",
-        id="search-btn",
+        id="search-go-button",
         className="button is-info is-focused is-medium"
     )
     go_html = html.Div(
@@ -160,7 +160,7 @@ def search_bar_and_buttons_html():
 
     example_search_button = html.Button(
         "Example",
-        id="example-search-btn",
+        id="search-example-button",
         className="button is-light is-focused is-medium"
     )
     example_search_html = html.Div(
@@ -218,7 +218,7 @@ def hidden_ref_example_searches_html():
     separator = " | "
     examples_as_string = [e + separator for e in example_searches]
     examples_hidden_ref = html.Span(
-        id="search-examples-hidden-ref",
+        id="search-examples-hidden-ref-cs",
         children=examples_as_string,
         className="is-hidden"
     )
@@ -234,7 +234,7 @@ def guided_search_boxes_html():
     """
     hr = divider_html()
     dropdown = dcc.Dropdown(
-        id='search_type_dropdown',
+        id='search-type-dropdown',
         options=[
             {'label': 'Search for: Statistics (on named entities/words)',
              'value': 'entities'},
@@ -345,13 +345,13 @@ def entity_filter_box_html(field):
         endpoint=os.environ['ELASTIC_HOST'] + "/" +
                  ES_field_dict[field] + "/_search",
         defaultField='normalized',
-        id=field + "_filters_input",
+        id="search_" + field + "_filters_input",
         placeholder=placeholders[field],
         authUser=os.environ['ELASTIC_USER'],
         authPass=os.environ['ELASTIC_PASS'],
         searchField="original.edgengram",
     )
-    # esas = dcc.Input(id=field + "_filters_input")
+    # esas = dcc.Input(id="search_" + field + "_filters_input")
 
     textbox = html.Div(
         [entity_name, esas, entity_label_tooltip],

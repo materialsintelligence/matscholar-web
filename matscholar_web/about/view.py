@@ -170,7 +170,7 @@ def current_stats_html():
 
     stats_columns = []
 
-    # Warning: don't mess with this section unless you know what you're doing!
+    # WARNING: don't mess with this section unless you know what you're doing!
     # The children of these divs needs to be ints for the javascript to
     # work correctly. Do NOT change the ids without changing the corresponding
     # javascript!
@@ -180,12 +180,12 @@ def current_stats_html():
     for k, v in label_map.items():
         stat = html.Div(
             "{:,}".format(db_stats[k]),
-            id=f"count-{k}",
+            id=f"about-count-{k}-cs",
             className=f"is-size-4-desktop {common_stat_style()}"
         )
         stat_static_value = html.Div(
             "{:,}".format(db_stats[k]),
-            id=f"count-{k}-hidden-ref",
+            id=f"about-count-{k}-hidden-ref-cs",
             className="is-hidden"
         )
         stat_descriptor = html.Div(f"{v}",

@@ -43,14 +43,14 @@ def app_view_html():
                                className="has-margin-bottom-20 has-text-centered")
 
     text_area = dcc.Textarea(
-        id="extract-textarea",
+        id="extract-text-area",
         spellCheck=True,
         placeholder="Paste abstract/other text here to extract named entities.",
         className="input is-info is-medium has-min-height-250"
     )
     text_area_div = html.Div(text_area, className="has-margin-5")
 
-    convert_synonyms = dcc.Dropdown(id="dropdown_normalize",
+    convert_synonyms = dcc.Dropdown(id="extract-dropdown-normalize",
                                     options=[
                                         {'label': "No", 'value': "no"},
                                         {"label": "Yes", "value": "yes"}

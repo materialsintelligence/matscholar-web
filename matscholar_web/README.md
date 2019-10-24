@@ -4,13 +4,14 @@
 ## A guide to the callback element IDs:
     
 - Only use hyphens for separating words, not underscores. This is to make them easily searchable and replaceble in text even if a related Python variable is similarly named.
-- `"core_*"`: ids on the main page, regardless of app.
-- `"search_*"`: ids on the search app
-- `"extract_*"`: ids on the extract app
-- `"about_*"`: ids on the about app
-- `"journal_*"`: ids on the journal app
-- `"*_cs"`: indicates an id is used in a clientside callback. Probably don't
+- `"core-*"`: ids on the main page, regardless of app.
+- `"search-*"`: ids on the search app
+- `"extract-*"`: ids on the extract app
+- `"about-*"`: ids on the about app
+- `"journal-*"`: ids on the journal app
+- `"*-cs"`: indicates an id is used in a clientside callback. Probably don't
     mess with it!
+- `"*-hidden-ref*"`: A hidden reference for another id.
 
 ## The `/` folder
 
