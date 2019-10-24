@@ -16,7 +16,15 @@ View html blocks for the search app.
 Please do not define callback logic in this file.
 """
 
+
 def app_view_html():
+    """
+    The entire app view (layout) for the search app.
+
+    Returns:
+        (dash_html_components.Div): The entire view for the search app.
+    """
+
     return html.Div(
         [
             get_logo_html(),
@@ -29,7 +37,17 @@ def app_view_html():
 
 def subview_results_container_html():
     """
-    Html placeholder for results
+    The placeholder html block for results. This is updated via callback.
+
+    WANRING: for the loading animation to work correctly, it must be the direct
+    parent of an html block which is being updated via callback.
+
+    Args:
+        None
+
+    Returns:
+        (dash_html_components.Div): The results container.
+
     """
     my_results_html = html.Div(id="search_results")
     wrapper = dcc.Loading(
@@ -41,6 +59,12 @@ def subview_results_container_html():
 
 
 def no_query_warning_html():
+    """
+    The html block when no query is entered.
+
+    Returns:
+        (dash_html_components.Div): The html block when no query is entered.
+    """
     null_txt = \
         f"Please enter a query using the search bar, then hit Enter or \"Go\"."
     return common_null_warning_html(null_txt)
@@ -92,7 +116,8 @@ def search_bar_and_go_html():
     tooltip_spans = [html.Span("Keywords: ", className=sized)]
     for k in valid_search_filters:
         color = search_filter_color_map[k]
-        tooltip_span = html.Span(k, className=f"msweb-is-{color}-txt {sized} has-text-weight-bold")
+        tooltip_span = html.Span(k,
+                                 className=f"msweb-is-{color}-txt {sized} has-text-weight-bold")
         tooltip_spans.append(tooltip_span)
         tooltip_spans.append(html.Span(", "))
 
@@ -102,7 +127,9 @@ def search_bar_and_go_html():
         tooltip_spans,
         className=f"tooltip-text has-margin-0"
     )
-    search_bar_html = html.Div([label_container, search_bar, search_bar_tooltip], className="flex-column is-narrow tooltip")
+    search_bar_html = html.Div(
+        [label_container, search_bar, search_bar_tooltip],
+        className="flex-column is-narrow tooltip")
 
     go_button = html.Button(
         "Go",

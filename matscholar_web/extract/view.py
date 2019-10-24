@@ -32,7 +32,7 @@ def app_view_html():
     The entire app view (layout) for the extract app.
 
     Returns:
-        (dash_html_components.Div): The entire view for the journal app.
+        (dash_html_components.Div): The entire view for the extract app.
     """
 
     label = html.Label(
