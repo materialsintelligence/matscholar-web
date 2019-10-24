@@ -4,15 +4,31 @@ import pandas as pd
 import dash_html_components as html
 
 from matscholar_web.constants import rester
-from matscholar_web.search.util import parse_search_box
 from matscholar_web.search.common import no_results_html, \
     common_results_container_style, get_results_label_html
 
-MAX_N_MATERIALS_IN_TABLE = 100
-MAX_N_DOIS_FOR_VIEWING = 5
+"""
+Functions for defining the results container when materials summary is desired.
+
+Please do not define callback logic in this file.
+"""
+
+MAX_N_MATERIALS_IN_TABLE = 100  # the maximum number of rows shown in the table
+MAX_N_DOIS_FOR_VIEWING = 5  # The maximum number of viewable DOIs on this page.
 
 
 def materials_results_html(entity_query, raw_text):
+    """
+    Get the html block for materials summaru from the Rester-compatible
+    entity query and text.
+
+    Args:
+        entity_query (dict): The entity query, in Rester-compatible format.
+        raw_text (str, None): Any raw text to search for.
+
+    Returns:
+        (dash_html_components.Div): The materials summary html block.
+    """
     results = rester.materials_search(entity_query, text=raw_text, top_k=MAX_N_MATERIALS_IN_TABLE)
     if not results:
         return no_results_html()
@@ -31,13 +47,12 @@ def materials_results_html(entity_query, raw_text):
                 counts.append(r["count"])
                 dois.append(r["dois"])
 
-
         df = pd.DataFrame(
             {"material": materials, "count": counts, "dois": dois}
         )
 
         # Update the download link
-        link = get_csv_download_link_from_df(df)
+        link = make_download_link_from_all_dois_html(df)
 
         n_filtered_results = df.shape[0]
         if n_filtered_results >= MAX_N_MATERIALS_IN_TABLE:
@@ -49,10 +64,7 @@ def materials_results_html(entity_query, raw_text):
 
         label = html.Label(label_txt, className="has-margin-10")
 
-        # reformatted_result = [(materials[i], counts[i], dois[i]) for i in range(n_filtered_results)]
-
-
-        materials_table = get_materials_table(df, MAX_N_MATERIALS_IN_TABLE)
+        materials_table = materials_table_html(df, MAX_N_MATERIALS_IN_TABLE)
         big_results_label = get_results_label_html("materials")
         materials_html = html.Div(
             children=[big_results_label, label, link, materials_table],
@@ -61,7 +73,18 @@ def materials_results_html(entity_query, raw_text):
         return materials_html
 
 
-def get_materials_table(df, limit):
+def materials_table_html(df, limit):
+    """
+    Get the html block for materials summary table alone from the rester
+    results.
+
+    Args:
+        df (pd.DataFrame): The pandas dataframe containing all results.
+        limit (int): The maximum number of results to show in the table.
+
+    Returns:
+        (dash_html_components.Div): The materials summary table only.
+    """
     header_material = html.Th("Material")
     header_counts = html.Th("Count")
     header_clickable = html.Th(f"Clickable doi links ({MAX_N_DOIS_FOR_VIEWING} examples)")
@@ -79,7 +102,7 @@ def get_materials_table(df, limit):
         count_cell = html.Td(df["count"].iloc[i])
 
         dois = df["dois"].iloc[i]
-        doi_details, doi_html_link = get_details(dois)
+        doi_details, doi_html_link = single_materials_details_html(dois)
         dois_cell = html.Td(doi_details)
         dois_link_cell = html.Td(doi_html_link)
 
@@ -88,7 +111,21 @@ def get_materials_table(df, limit):
     table = html.Table([header] + rows, className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped")
     return html.Div(table)
 
-def get_details(dois):
+
+def single_materials_details_html(dois):
+    """
+    Get the html block for a single material, along with a download link for
+    it's full doi list.
+
+    Args:
+        dois ([str]): The list of dois for this material.
+
+    Returns:
+        details (dash_html_components.Div): The collapsible html block
+            containing the clickable doi list for this material.
+        download_link(dash_html_components.Div): The download link for all the
+            fetched dois.
+    """
     dois = dois[:MAX_N_MATERIALS_IN_TABLE]
 
     viewable_doi_links = []
@@ -104,18 +141,32 @@ def get_details(dois):
     viewable_doi_links = viewable_doi_links[:MAX_N_DOIS_FOR_VIEWING]
 
     df = pd.DataFrame({"doi": dois})
-    download_link = get_csv_download_link_from_df(
+    download_link = make_download_link_from_all_dois_html(
         df,
         f"Download dois as csv"
     )
-
     summary_txt = f'Show dois?'
     summary = html.Summary([summary_txt])
     details = html.Details([summary] + viewable_doi_links)
     doi_html_link = html.Div(download_link)
     return details, doi_html_link
 
-def get_csv_download_link_from_df(df, link_text=None):
+
+def make_download_link_from_all_dois_html(df, link_text=None):
+    """
+    Make a download link html block from the dataframe of all results.
+    This is to download all the materials results shown for all materials in
+    the results.
+
+    Args:
+        df (pd.DataFrame): The dataframe containing columns "material", "count",
+            and "dois".
+        link_text (str): The text to use as the label for hyperlinking (ie.,
+            what you click on to download).
+
+    Returns:
+        link (dash_html_components.Div): The link as an html block.
+    """
     if not link_text:
         link_text = "Fetch and download all DOIs as CSV"
 

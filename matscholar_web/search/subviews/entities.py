@@ -9,6 +9,7 @@ Functions for defining the results container when entity results are desired.
 Please do not define callback logic in this file.
 """
 
+# Maximum number of rows shown for each entity table. 10 usually looks good.
 MAX_N_ROWS_FOR_EACH_ENTITY_TABLE = 10
 
 
