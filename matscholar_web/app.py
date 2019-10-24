@@ -170,7 +170,7 @@ def show_search_results(n_clicks, dropdown_value, search_text):
 app.clientside_callback(
     ClientsideFunction(
         namespace='clientside',
-        function_name='countSearch'
+        function_name='countSearchCSCallback'
     ),
     Output('count-search', 'children'),
     [
@@ -185,7 +185,7 @@ app.clientside_callback(
 app.clientside_callback(
     ClientsideFunction(
         namespace='clientside',
-        function_name='cycleExampleSearches'
+        function_name='cycleExampleSearchesCSCallback'
     ),
     Output('text_input', 'children'),
     [
@@ -231,7 +231,7 @@ def get_random(n_clicks):
 app.clientside_callback(
     ClientsideFunction(
         namespace='clientside',
-        function_name='countStats'
+        function_name='countStatsCSCallback'
     ),
     Output('count-materials', 'children'),
     [
