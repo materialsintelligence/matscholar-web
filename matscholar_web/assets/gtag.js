@@ -1,3 +1,5 @@
+// The file for updating google analytics. Not used by any other js.
+
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());

@@ -1,4 +1,5 @@
 // Javascript for running the hamburger menu
+// Not called directly, only by Clientside callback in clientside.js
 
 function animateBurgerOnClick(activateId, triggerNClicks) {
     // See https://stackoverflow.com/questions/54848094/bulma-navbar-hamburger-menu-doesnt-expand

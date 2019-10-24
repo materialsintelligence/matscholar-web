@@ -1,3 +1,6 @@
+// The file for animating counts.
+// Not called directly, only by Clientside callback in clientside.js
+
 
 function animatedCount(id, hiddenId, duration) {
     // Count up to a number with animation

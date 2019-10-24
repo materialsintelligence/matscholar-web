@@ -1,3 +1,7 @@
+// The file for rotating example searches.
+// Not called directly, only by Clientside callback in clientside.js
+
+
 function runExampleSearches(id, exampleSearchesStringId, rotationTime){
     // Put an example search into an input textbox as placeholder
     //
