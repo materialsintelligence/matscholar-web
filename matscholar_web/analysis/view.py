@@ -34,7 +34,7 @@ entity_color_map_extended = copy.deepcopy(entity_color_map)
 entity_color_map_extended.update(entitiy_color_map_extension)
 
 
-def serve_layout():
+def app_view_html():
     label = html.Label(
         "Enter a scientific abstract's text for named entity extraction:",
         className="is-size-4"

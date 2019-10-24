@@ -6,7 +6,13 @@ from matscholar_web.common import divider_html, common_info_box_html, \
     common_header_style, common_body_style, common_title_style
 
 
-def serve_layout():
+def app_view_html():
+    """
+    The entire app view (layout) for the journal app.
+
+    Returns:
+        (dash_html_components): The entire view for the journal app.
+    """
     journals = get_journals_html()
 
     return html.Div(

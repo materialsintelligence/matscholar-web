@@ -3,12 +3,18 @@ import dash_core_components as dcc
 
 from matscholar_web.constants import db_stats
 from matscholar_web.common import common_info_box_html, \
-    common_header_style, common_body_style, common_title_style, \
-    common_stat_style
+    common_header_style, common_body_style, common_stat_style
 from matscholar_web.common import get_logo_html
 
-def serve_layout():
-    introduction = get_introduction()
+
+def app_view_html():
+    """
+    The entire app view (layout) for the about app.
+
+    Returns:
+        (dash_html_components): The entire view for the about app.
+    """
+    introduction = introduction_html()
 
     return html.Div(
         [
@@ -17,7 +23,14 @@ def serve_layout():
     )
 
 
-def get_introduction():
+def introduction_html():
+    """
+    The introduction block.
+
+    Returns:
+        (dash_html_components): The introduction html block.
+
+    """
     logo = get_logo_html()
     introduction_subheader_txt = \
         "A scholarly (AI) assistant for materials science \n"
@@ -100,7 +113,7 @@ def get_introduction():
     introduction_body2 = html.Div(introduction_body_md2,
                                   className=common_body_style())
 
-    current_stats = get_current_stats_html()
+    current_stats = current_stats_html()
 
     reference_1 = html.Div(reference_1_md, className=common_body_style())
     reference_2 = html.Div(reference_2_md, className=common_body_style())
@@ -130,7 +143,20 @@ def get_introduction():
     return container
 
 
-def get_current_stats_html():
+def current_stats_html():
+    """
+    WARNING: Do not edit this unless you know EXACTLY what you're doing.
+    This block systematically defines elements used by clientside callbacks.
+    Editing this without knowing how it works will likely result in javascript
+    headaches.
+
+    Get the html block for the current stats.
+
+    Returns:
+        (dash_html_components): The html block for the current stats, including
+            counting up animations.
+
+    """
     label_map = {
         "materials": "unique materials",
         "entities": "materials-related entities",

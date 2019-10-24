@@ -11,7 +11,7 @@ from matscholar_web.constants import valid_search_filters, \
     search_filter_color_map, db_stats, example_searches
 
 
-def serve_layout():
+def app_view_html():
     return html.Div(
         [
             get_logo_html(),

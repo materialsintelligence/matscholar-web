@@ -52,13 +52,13 @@ cache = Cache(app.server, config={'CACHE_TYPE': 'simple'})
 )
 def display_page(path):
     if str(path).strip() in ["/", "/search"] or not path:
-        return sv.serve_layout()
+        return sv.app_view_html()
     elif path == "/analyze":
-        return av.serve_layout()
+        return av.app_view_html()
     elif path == "/about":
-        return bv.serve_layout()
+        return bv.app_view_html()
     elif path == "/journals":
-        return jv.serve_layout()
+        return jv.app_view_html()
     else:
         return common_404_html()
 
