@@ -43,14 +43,33 @@ class MatScholarWebBaseTest(unittest.TestCase):
                 n_args = len(params)
                 if n_args == 0:  # this function takes no args
                     o = f()
-                    if "_html" in fname:
-                        self.assertTrue(isinstance(o, html.Div))
-                    else:
-                        self.assertFalse(isinstance(o, html.Div))
+                    self._run_basic_type_checker_on_object(fname, o)
                 else:
                     fake_args = ["arg"] * n_args
                     o = f(*fake_args)
-                    if "_html" in fname:
-                        self.assertTrue(isinstance(o, html.Div))
-                    else:
-                        self.assertFalse(isinstance(o, html.Div))
+                    self._run_basic_type_checker_on_object(fname, o)
+
+    def _run_basic_type_checker_on_function_object(self, fname, o):
+        """
+        If "_html" is in the name, make sure the function returns an html.Div
+        on the function object.
+
+        If "_style" is in the name, make sure the function returns a string
+        to use as a className style.
+
+        Otherwise, make sure the function does not return a Div.
+
+        Args:
+            fname (str): The name of the functino
+            o (object): The output object of the function with fname.
+
+        Returns:
+            None
+
+        """
+        if fname.endswith("_html"):
+            self.assertTrue(isinstance(o, html.Div))
+        elif fname.endswith("_style"):
+            self.assertTrue(isinstance(o, str))
+        else:
+            self.assertFalse(isinstance(o, html.Div))
