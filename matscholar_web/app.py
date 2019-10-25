@@ -100,7 +100,9 @@ app.clientside_callback(
 @app.callback(
     Output("search-main-bar-input", "value"),
     [Input("search-example-button", "n_clicks")]
-    + get_search_field_callback_args(as_type="input", return_component="value"),
+    + get_search_field_callback_args(
+        as_type="input", return_component="value"
+    ),
 )
 def search_bar_live_display(example_search_n_clicks, *ent_txts):
     """

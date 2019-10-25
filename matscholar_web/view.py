@@ -1,6 +1,7 @@
 import dash_core_components as dcc
 import dash_html_components as html
 
+
 """
 Defining the core view (layout) component for the entire app.
 
@@ -34,7 +35,9 @@ def core_view_html():
     app_container = html.Div(
         "", id="core-app-container", className="container is-fluid"
     )
-    app_expander = html.Div(app_container, className="msweb-is-tall has-margin-20")
+    app_expander = html.Div(
+        app_container, className="msweb-is-tall has-margin-20"
+    )
     app_expander_container = html.Div(
         app_expander,
         className="msweb-is-tall-container msweb-fade-in has-margin-top-50",
@@ -206,29 +209,32 @@ def outage_html():
     """
     common_text_size = "is-size-5"
     central_image = html.Img(src="/assets/logo.png")
-    img_link = html.A(central_image,
-                      href="https://github.com/materialsintelligence")
-    title = html.Div("Matscholar is currently down because of a power outage.",
-                     className="is-size-3 has-text-weight-bold")
+    img_link = html.A(
+        central_image, href="https://github.com/materialsintelligence"
+    )
+    title = html.Div(
+        "Matscholar is currently down because of a power outage.",
+        className="is-size-3 has-text-weight-bold",
+    )
     explanation1 = html.Div(
         "Our primary servers are run at NERSC at Lawrence Berkeley Laboratory "
         "in California, which are affected by the mandatory PG&E electrical "
         "shutoffs.",
-    className=common_text_size)
+        className=common_text_size,
+    )
     explanation2 = html.Div(
         "Please be patient while we wait for power to return!",
-    className=common_text_size)
-    contact = html.Div("Need to contact us? Please email help@matscholar.com",
-                       className=common_text_size)
+        className=common_text_size,
+    )
+    contact = html.Div(
+        "Need to contact us? Please email help@matscholar.com",
+        className=common_text_size,
+    )
 
     inner_container = html.Div(
-        [
-            img_link,
-            title,
-            explanation1,
-            explanation2,
-            contact
-        ], className="has-margin-30")
+        [img_link, title, explanation1, explanation2, contact],
+        className="has-margin-30",
+    )
 
     container = html.Div(inner_container, className="container")
     return container

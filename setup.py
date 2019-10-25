@@ -18,6 +18,6 @@ setup(
     url="https://github.com/materialsintelligence/matscholar-web",
     license=license,
     packages=find_packages(),
-    test_suite='matscholar_web',
-    tests_require='tests',
+    test_suite="matscholar_web",
+    tests_require="tests",
 )
