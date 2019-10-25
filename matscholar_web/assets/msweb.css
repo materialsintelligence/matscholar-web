@@ -57,6 +57,10 @@
   padding: 10px 20px;
 }
 
+.react-autosuggest__suggestion--highlighted {
+  background-color: #EAEAEA
+}
+
 .msweb-is-tall {
   display: flex;
   min-height: 100vh;

@@ -94,6 +94,7 @@ app.clientside_callback(
 ################################################################################
 # Search app callbacks
 ################################################################################
+
 @app.callback(
     Output("search-main-bar-input", "value"),
     [Input("search-example-button", "n_clicks")] +
