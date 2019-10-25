@@ -46,6 +46,6 @@ def get_random_abstract(random_button_n_clicks):
         (str): The text of a random abstract.
 
     """
-    if random_button_n_clicks is not None:
+    if random_button_n_clicks not in [None, 0]:
         return np.random.choice(sample_abstracts)
     return ""

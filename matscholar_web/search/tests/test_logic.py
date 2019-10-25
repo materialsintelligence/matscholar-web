@@ -3,12 +3,8 @@ from matscholar_web.constants import valid_search_filters
 from matscholar_web.search.logic import sum_all_fields_and_buttons_n_submits, search_bar_live_display
 
 """
-Tests for the main search view.
+Tests for the main search callback logic.
 """
-
-# Functions to exclude from this test
-EXCLUDE = ["guided_search_box_elastic_html"]
-
 
 class TestSearchLogic(MatScholarWebBaseTest):
     def test_show_search_results(self):
