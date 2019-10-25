@@ -10,6 +10,7 @@ import matscholar_web.common as common
 Tests for the core common dash views.
 """
 
+# Functions to exclude from this test
 EXCLUDE = ["common_null_warning_html"]
 
 
