@@ -1,15 +1,26 @@
-import re
 import copy
+import re
 
-import dash_html_components as html
 from dash.dependencies import Input, Output, State
 
 from matscholar_web.constants import valid_search_filters
-from matscholar_web.common import common_null_warning_html
-from matscholar_web.util import MatscholarWebSearchError
+
+"""
+All utility functions for search.
+"""
 
 MAX_N_PATTERNS_PER_ENTITY = 10
 MAX_N_CHARS_PER_PATTERN = 300
+
+
+class MatscholarWebSearchError(BaseException):
+    """
+    An exception to be used for search app errors.
+
+    Can also be used as a parent class for more specific exceptions.
+    """
+
+    pass
 
 
 def get_search_field_callback_args(as_type="state", return_component="value"):
@@ -27,16 +38,12 @@ def get_search_field_callback_args(as_type="state", return_component="value"):
         (list): The list of inputs, states, or outputs plotly dash dependency
             objects on the search page.
     """
-    type_dict = {
-        "state": State,
-        "output": Output,
-        "input": Input
-    }
+    type_dict = {"state": State, "output": Output, "input": Input}
     t = type_dict[as_type]
 
     filters = []
     for f in valid_search_filters:
-        filters.append(t(f + '_filters_input', return_component))
+        filters.append(t("search-" + f + "-filters-input", return_component))
     return filters
 
 
@@ -49,28 +56,8 @@ def parse_search_box(search_text):
             "material: PbTe, property: thermoelectric"
 
     Returns:
-        entity_query (dict): The entities from the search text in dict format,
-            e.g., {"material": "PbTe", "property": "thermoelectric"}
-
-    Returns:
         entity_query (dict): The entity query in rester working context
         raw_text (str): The raw text to pass into the text field
-
-    An ultra-minimal example set is:
-    example_searches = [
-        # "blahblah", # should fail
-        # "traw: Zintl", # should fail
-        "phase: diamond, application: thermoelectric, descriptor: thin film",
-        "application: thermoelectric, phase: diamond",
-        "phase: diamond application: thermoelectric",
-        "phase: diamond, heusler application: thermoelectric",
-        "phase: diamond, heusler, application: thermoelectric",
-        # "phase: diamond, phase: heusler",  # should fail
-        "characterization: x-ray diffraction, EDS, material: Pb"
-        "Application: thermoelectric CharaCterizAtion: x-ray diffraction material: PbTe"
-    ]
-
-
     """
     if not search_text.strip():
         raise MatscholarWebSearchError("No text entered!")
@@ -106,51 +93,49 @@ def parse_search_box(search_text):
         query_patterns = [qt for qt in query_patterns if qt]
         entity_query[fp] = query_patterns
 
-    if any([len(v) > MAX_N_PATTERNS_PER_ENTITY for v in entity_query.values()]):
+    if any(
+        [len(v) > MAX_N_PATTERNS_PER_ENTITY for v in entity_query.values()]
+    ):
         raise MatscholarWebSearchError
 
     for ent, query_patterns in entity_query.items():
         n_terms = len(query_patterns)
         if n_terms > MAX_N_PATTERNS_PER_ENTITY:
             raise MatscholarWebSearchError(
-                f"Length of patterns for entity {ent} ({n_terms}) exceeds maximum for an entity {MAX_N_PATTERNS_PER_ENTITY}")
+                f"Length of patterns for entity {ent} ({n_terms}) exceeds maximum for an entity {MAX_N_PATTERNS_PER_ENTITY}"
+            )
         for pattern in query_patterns:
             n_chars = len(pattern)
             if n_chars > MAX_N_CHARS_PER_PATTERN:
                 raise MatscholarWebSearchError(
-                    f"Length of pattern {pattern} ({n_chars}) exceeds maximum for a pattern ({MAX_N_CHARS_PER_PATTERN}).")
+                    f"Length of pattern {pattern} ({n_chars}) exceeds maximum for a pattern ({MAX_N_CHARS_PER_PATTERN})."
+                )
 
     if "text" in entity_query.keys():
-        raw_text = entity_query.pop("text")[0]
-        if not raw_text.strip():  # remove empty strings
+        if not entity_query["text"]:
             raw_text = None
+        else:
+            raw_text = entity_query.pop("text")[0]
+            if not raw_text.strip():  # remove empty strings
+                raw_text = None
     else:
         raw_text = None
+
+    n_entities = len(list(entity_query.values()))
+    n_raw_text = 1 if raw_text else 0
+    n_fields = n_entities + n_raw_text
+    n_fields_entered = search_text.count(":")
+    if n_fields != n_fields_entered:
+        raise MatscholarWebSearchError(
+            f"The number of parsed fields ({n_fields}) does not equal the number of entered fields ({n_fields_entered})!"
+        )
+
+    if not raw_text and not any([e_list for e_list in entity_query.values()]):
+        raise MatscholarWebSearchError(
+            f"No raw text or entities parsed for any of the entered fields: {list(entity_query.values())}"
+        )
 
     if not entity_query and not raw_text:
         raise MatscholarWebSearchError("No raw text nor entity query parsed!")
 
     return entity_query, raw_text
-
-
-def no_results_html():
-    return common_null_warning_html("No results found!")
-
-
-def results_container_class():
-    return "container has-margin-top-20 has-margin-bottom-20 msweb-fade-in"
-
-
-def get_results_label_html(result_type):
-    if result_type == "entities":
-        label_text = "Statistics (entities)"
-    elif result_type == "materials":
-        label_text = "Summary of Materials"
-    elif result_type == "abstracts":
-        label_text = "Relevant Abstracts"
-    else:
-        raise ValueError(f"Result type {result_type} not valid!")
-
-    label = html.Label(label_text, className="is-size-2 has-margin-10")
-    container = html.Div(label, className="has-margin-top-50")
-    return container

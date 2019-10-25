@@ -1,7 +1,6 @@
-from matscholar_web.index import app
+from matscholar_web.app import app
 
 server = app.server
 
-if __name__ == '__main__':
-    print("starting...")
+if __name__ == "__main__":
     app.run_server(debug=True)
