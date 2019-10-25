@@ -16,6 +16,11 @@
 
 The separation of callbacks and views allows for separate testing of the callback logic and the views.
 
+Needs tests for search subviews
+Needs tests for all rester calls
+Needs tests to make sure the base app runs correctly
+
+
 ## The `/` folder
 
 Running the app.
