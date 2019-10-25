@@ -24,19 +24,12 @@ are modular and are self contained in their app folders. All apps generally
 follow the same scheme for file naming and structure. The `matscholar_web/app.py`
 file houses all the callbacks and individual apps define the callback logic.
 
-#### View files (html-defining functions)
-- `view.py` files are for the views (html-defining functions)
-- `subviews` submodules are for if the view file gets too long
-- `common.py` files are for commonly used html views
-
-#### Callback and logic files (no html-defining functions)
-- `logic.py` the callback logic for all callbacks
-- `util.py` utils helping the callback logic or views
-
-This structure is consistent across all the apps. It is mostly consistent across the top level directory except for `logic` which is encapsulated by the little needed logic in `app.py` 
+### Naming
+- Functions defining dash html components or core components should end with `_html`
+- Functions defining styles should end with `_style`
 
 
-## Callback element IDs:
+#### Callback element IDs:
 
 Our Dash element ids are set according to a **strict** naming scheme. Please adhere to it.
 
@@ -49,6 +42,17 @@ Our Dash element ids are set according to a **strict** naming scheme. Please adh
 - `"*-cs"`: indicates an id is used in a clientside callback. Probably don't
     mess with it!
 - `"*-hidden-ref*"`: A hidden reference for another id.
+
+#### View files (html-defining functions)
+- `view.py` files are for the views (html-defining functions)
+- `subviews` submodules are for if the view file gets too long
+- `common.py` files are for commonly used html views
+
+#### Callback and logic files (no html-defining functions)
+- `logic.py` the callback logic for all callbacks
+- `util.py` utils helping the callback logic or views
+
+This structure is consistent across all the apps. It is mostly consistent across the top level directory except for `logic` which is encapsulated by the little needed logic in `app.py` 
 
 
 ## The `/` folder
@@ -79,6 +83,9 @@ matscholar_web
 └── view.py         # top-level views of the website
 ```
 
+`app` contains the core dash instance as well as all callback I/O. The actual logic
+for all callbacks can be found inside an app's `logic` modules.
+
 Please keep the functions which define dash html blocks and styles 
 (e.g., those in `common.py`) and those which do not 
 (e.g., `util.py`) **separate** and in the correct file in a logical manner.
@@ -93,7 +100,7 @@ require more than the 4 files here (outside of the subviews folder).
 
 ```
 search
-├── callbacks.py   # the callbacks
+├── logic.py       # the callbacks logic
 ├── common.py      # common html-defining functions among all views
 ├── subviews       # add a modular view here if your view.py gets too long
 ├── util.py        # non html-defining util functions
@@ -127,7 +134,7 @@ subviews
 ### Files with functions *not* defining dash HTML blocks
 ***No* functions which return html blocks should be found in these files.**
 
-#### `callbacks.py`
+#### `logic.py`
 Defines the core callback logic for the html elements laid out in this
 app's `view.py` and `subviews`. **Should not define any html elements
 itself - only reference those from view, subviews, and common.**
@@ -156,11 +163,11 @@ as possible.
 # Running this app:
 The following environment variables must be defined:
 
-- ELASTIC_HOST - The ElasticSearch host url
-- ELASTIC_PASS - The ElasticSearch host password
-- ELASTIC_USER - The ElasticSearch username
-- MATERIALS_SCHOLAR_API_KEY - The Matscholar API key to use in the rester
-- MATERIALS_SCHOLAR_ENDPOINT - The API endpoint URL for Matscholar
-- MATERIALS_SCHOLAR_WEB_USER (not needed) - for frontend-based auth
-- MATERIALS_SCHOLAR_WEB_PASS (not needed) - for frontend-based auth
-- TF_SERVING_URL - The url serving the NER tensorflow model.
+- `ELASTIC_HOST` - The ElasticSearch host url
+- `ELASTIC_PASS` - The ElasticSearch host password
+- `ELASTIC_USER` - The ElasticSearch username
+- `MATERIALS_SCHOLAR_API_KEY` - The Matscholar API key to use in the rester
+- `MATERIALS_SCHOLAR_ENDPOINT` - The API endpoint URL for Matscholar
+- `MATERIALS_SCHOLAR_WEB_USER` (not needed) - for frontend-based auth
+- `MATERIALS_SCHOLAR_WEB_PASS` (not needed) - for frontend-based auth
+- `TF_SERVING_URL` - The url serving the NER tensorflow model.
