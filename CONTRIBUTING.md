@@ -1,3 +1,21 @@
+# Contributing to matscholar_web
+
+#### Development on this repository is limited to internal collaborators at this time.
+
+### Internal collaborators: how to make a PR
+
+- Use the Google Code style for all of your code. Find an example [here.](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html)
+- Your code should have (4) spaces instead of tabs.
+- **Write tests** for new features! Good tests are 100%, absolutely necessary for good code. We use the python `unittest` framework -- see some of the other tests in this repo for examples, or review the [Hitchhiker's guide to python](https://docs.python-guide.org/writing/tests/) for some good resources on writing good tests.
+- Understand your contributions will fall under the same license as this repo.
+
+When you submit your PR, our CI service will automatically run your tests.
+We welcome good discussion on the best ways to write your code, and the comments on your PR are an excellent area for discussion.
+
+#### References
+This document was adapted from the open-source contribution guidelines for Facebook's Draft, as well as briandk's [contribution template](https://gist.github.com/briandk/3d2e8b3ec8daf5a27a62).
+
+
 # Structure of the project
 
 
