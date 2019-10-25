@@ -7,7 +7,7 @@ from matscholar_web.util import load_static_data_file
 
 
 """
-Tests for utilities.
+Tests for core utilities.
 """
 
 
