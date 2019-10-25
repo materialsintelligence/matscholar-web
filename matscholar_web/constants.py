@@ -56,4 +56,4 @@ valid_search_filters = valid_entity_filters + ["text"]
 cache_timeout = 60
 
 # whether there is an outage or not
-outage = False
+outage = True
