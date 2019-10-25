@@ -1,6 +1,5 @@
-from matscholar_web.tests.util import MatScholarWebBaseTest
-
 import matscholar_web.view as msweb_view
+from matscholar_web.tests.util import MatScholarWebBaseTest
 
 """
 Tests for the core dash view.

@@ -1,9 +1,10 @@
-from matscholar_web.tests.util import MatScholarWebBaseTest
 from matscholar_web.constants import valid_search_filters
 from matscholar_web.search.logic import (
-    sum_all_fields_and_buttons_n_submits,
     search_bar_live_display,
+    sum_all_fields_and_buttons_n_submits,
 )
+from matscholar_web.tests.util import MatScholarWebBaseTest
+
 
 """
 Tests for the main search callback logic.

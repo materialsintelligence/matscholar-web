@@ -1,5 +1,5 @@
-from matscholar_web.tests.util import MatScholarWebBaseTest
 import matscholar_web.about.view as msweb_aview
+from matscholar_web.tests.util import MatScholarWebBaseTest
 
 """
 Tests for the about app view.

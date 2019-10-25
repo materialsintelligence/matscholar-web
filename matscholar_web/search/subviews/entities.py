@@ -1,9 +1,10 @@
 import dash_html_components as html
-from matscholar_web.constants import rester, entity_color_map
+
+from matscholar_web.constants import entity_color_map, rester
 from matscholar_web.search.common import (
-    no_results_html,
-    common_results_container_style,
     big_label_and_disclaimer_html,
+    common_results_container_style,
+    no_results_html,
 )
 
 """

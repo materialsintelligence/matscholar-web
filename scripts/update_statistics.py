@@ -1,8 +1,9 @@
-import os
 import json
+import os
 from datetime import datetime
 
 from matscholar_web.constants import rester
+
 
 """
 Generates the data for showing database statistics (preventing redundant

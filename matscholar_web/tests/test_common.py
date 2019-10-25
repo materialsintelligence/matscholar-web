@@ -1,6 +1,5 @@
-from matscholar_web.tests.util import MatScholarWebBaseTest
-
 import matscholar_web.common as common
+from matscholar_web.tests.util import MatScholarWebBaseTest
 
 """
 Tests for the core common dash views.

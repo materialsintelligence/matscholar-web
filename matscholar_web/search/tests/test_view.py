@@ -1,6 +1,6 @@
-from matscholar_web.tests.util import MatScholarWebBaseTest
-from matscholar_web.constants import valid_search_filters
 import matscholar_web.search.view as msweb_view
+from matscholar_web.constants import valid_search_filters
+from matscholar_web.tests.util import MatScholarWebBaseTest
 
 """
 Tests for the main search view.

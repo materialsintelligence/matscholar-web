@@ -2,6 +2,7 @@ import dash_html_components as html
 
 from matscholar_web.common import common_null_warning_html
 
+
 """
 Common, reusable views across the search app and subviews.
 

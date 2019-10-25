@@ -1,6 +1,5 @@
-from matscholar_web.tests.util import MatScholarWebBaseTest
-
 import matscholar_web.search.common as msweb_scommon
+from matscholar_web.tests.util import MatScholarWebBaseTest
 
 """
 Tests for the search common views.

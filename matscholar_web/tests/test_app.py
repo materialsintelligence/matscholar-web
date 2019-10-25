@@ -1,7 +1,8 @@
 import dash_html_components as html
 
-from matscholar_web.tests.util import MatScholarWebBaseTest
 from matscholar_web.app import display_app_html
+from matscholar_web.tests.util import MatScholarWebBaseTest
+
 
 """
 Tests for callbacks in the main app which are not tested elsewhere.

@@ -4,10 +4,11 @@ from dash.dependencies import Input, Output, State
 
 from matscholar_web.constants import valid_search_filters
 from matscholar_web.search.util import (
-    parse_search_box,
-    get_search_field_callback_args,
     MatscholarWebSearchError,
+    get_search_field_callback_args,
+    parse_search_box,
 )
+
 
 """
 Tests for search utilities.

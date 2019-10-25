@@ -1,18 +1,19 @@
 import dash_html_components as html
 
+from matscholar_web.search.common import no_results_html
 from matscholar_web.search.subviews.abstracts import (
-    abstracts_results_html,
     abstracts_no_results_html,
+    abstracts_results_html,
 )
 from matscholar_web.search.subviews.entities import (
-    entities_results_html,
     entities_no_results_html,
+    entities_results_html,
 )
 from matscholar_web.search.subviews.materials import (
-    materials_results_html,
     materials_no_results_html,
+    materials_results_html,
 )
-from matscholar_web.search.common import no_results_html
+
 
 """
 Functions for defining the results container when all results are desired.

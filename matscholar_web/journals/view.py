@@ -1,14 +1,15 @@
-import dash_html_components as html
 import dash_core_components as dcc
+import dash_html_components as html
 
-from matscholar_web.constants import db_stats
 from matscholar_web.common import (
-    divider_html,
-    common_info_box_html,
-    common_header_style,
     common_body_style,
+    common_header_style,
+    common_info_box_html,
     common_title_style,
+    divider_html,
 )
+from matscholar_web.constants import db_stats
+
 
 """
 View html blocks for the journal app.

@@ -1,18 +1,18 @@
-import json
 import copy
+import json
 import urllib
 
-import dash_html_components as html
 import dash_core_components as dcc
-from matscholar.rest import MatScholarRestError
+import dash_html_components as html
 
-from matscholar_web.common import logo_html
+from matscholar.rest import MatScholarRestError
 from matscholar_web.common import (
     common_null_warning_html,
-    common_warning_html,
     common_rester_error_html,
+    common_warning_html,
+    logo_html,
 )
-from matscholar_web.constants import rester, entity_color_map
+from matscholar_web.constants import entity_color_map, rester
 
 """
 View html blocks for the extract app.

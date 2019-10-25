@@ -1,5 +1,5 @@
-import re
 import copy
+import re
 
 from dash.dependencies import Input, Output, State
 

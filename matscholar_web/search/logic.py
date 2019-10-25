@@ -1,19 +1,21 @@
 import random
 
 from matscholar.rest import MatScholarRestError
-
-from matscholar_web.search.util import MatscholarWebSearchError
 from matscholar_web.common import common_rester_error_html
-from matscholar_web.constants import valid_search_filters, example_searches
+from matscholar_web.constants import example_searches, valid_search_filters
+from matscholar_web.search.subviews.abstracts import abstracts_results_html
+from matscholar_web.search.subviews.entities import entities_results_html
+from matscholar_web.search.subviews.everything import everything_results_html
+from matscholar_web.search.subviews.materials import materials_results_html
+from matscholar_web.search.util import (
+    MatscholarWebSearchError,
+    parse_search_box,
+)
 from matscholar_web.search.view import (
     malformed_query_warning_html,
     no_query_warning_html,
 )
-from matscholar_web.search.subviews.abstracts import abstracts_results_html
-from matscholar_web.search.subviews.materials import materials_results_html
-from matscholar_web.search.subviews.entities import entities_results_html
-from matscholar_web.search.subviews.everything import everything_results_html
-from matscholar_web.search.util import parse_search_box
+
 
 """
 Callback logic for callbacks in the search app.

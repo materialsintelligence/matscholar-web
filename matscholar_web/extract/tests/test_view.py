@@ -1,5 +1,5 @@
-from matscholar_web.tests.util import MatScholarWebBaseTest
 import matscholar_web.extract.view as msweb_eview
+from matscholar_web.tests.util import MatScholarWebBaseTest
 
 """
 Tests for the extract app view.

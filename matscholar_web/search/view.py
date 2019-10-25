@@ -1,21 +1,22 @@
 import os
 
-import dash_html_components as html
 import dash_core_components as dcc
+import dash_html_components as html
 from dash_elasticsearch_autosuggest import ESAutosuggest
 
-from matscholar_web.common import logo_html
 from matscholar_web.common import (
-    common_warning_html,
     common_null_warning_html,
+    common_warning_html,
     divider_html,
+    logo_html,
 )
 from matscholar_web.constants import (
-    valid_search_filters,
-    search_filter_color_map,
     db_stats,
     example_searches,
+    search_filter_color_map,
+    valid_search_filters,
 )
+
 
 """
 View html blocks for the search app.

@@ -1,10 +1,8 @@
-import os
 import copy
+import os
 
 from matscholar import Rester
-
 from matscholar_web.util import load_static_data_file
-
 
 """
 Load the static files for the dash app once, and not on import of

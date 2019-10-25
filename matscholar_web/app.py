@@ -1,17 +1,17 @@
 import dash
+from dash.dependencies import ClientsideFunction, Input, Output, State
 from flask_caching import Cache
-from dash.dependencies import Input, Output, State, ClientsideFunction
 
-from matscholar_web.view import core_view_html
-from matscholar_web.constants import cache_timeout
-from matscholar_web.common import common_404_html
-from matscholar_web.search.util import get_search_field_callback_args
-import matscholar_web.search.logic as sl
-import matscholar_web.search.view as sv
+import matscholar_web.about.view as bv
 import matscholar_web.extract.logic as el
 import matscholar_web.extract.view as av
-import matscholar_web.about.view as bv
 import matscholar_web.journals.view as jv
+import matscholar_web.search.logic as sl
+import matscholar_web.search.view as sv
+from matscholar_web.common import common_404_html
+from matscholar_web.constants import cache_timeout
+from matscholar_web.search.util import get_search_field_callback_args
+from matscholar_web.view import core_view_html
 
 """
 A safe place for the dash app core instance to hang out.

@@ -2,14 +2,14 @@ import dash_html_components as html
 import pandas as pd
 
 from matscholar_web.constants import (
+    entity_color_map,
     rester,
     valid_entity_filters,
-    entity_color_map,
 )
 from matscholar_web.search.common import (
+    big_label_and_disclaimer_html,
     common_results_container_style,
     no_results_html,
-    big_label_and_disclaimer_html,
 )
 
 """

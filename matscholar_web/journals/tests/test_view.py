@@ -1,6 +1,5 @@
-from matscholar_web.tests.util import MatScholarWebBaseTest
-
 import matscholar_web.journals.view as msweb_jv
+from matscholar_web.tests.util import MatScholarWebBaseTest
 
 """
 Tests for the journals view.
