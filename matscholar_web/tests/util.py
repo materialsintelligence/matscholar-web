@@ -41,6 +41,19 @@ class MatScholarWebBaseTest(unittest.TestCase):
                     self._basic_type_check_on_function(fname, o)
 
     def test_individual_arg_combos(self, f, arg_combos):
+        """
+        Test an individual function with specified argument combinations
+        (as tuples).
+
+        Args:
+            f (python function): a python function object
+            arg_combos (tuple): the arguments to test in the function object.
+                Only works with positional arguments
+
+        Returns:
+            None
+
+        """
         fname = f.__name__
         for arg_combo in arg_combos:
             print(f"Test: {arg_combo} in {fname}")

@@ -16,6 +16,5 @@ class TestSearchViews(MatScholarWebBaseTest):
 
     def test_guided_search_box_elastic_html(self):
         f = msweb_view.guided_search_box_elastic_html
-        fname = f.__name__
         arg_combos = [(v, ) for v in valid_search_filters]
-        self.test_individual_arg_combos(fname, f, arg_combos)
+        self.test_individual_arg_combos(f, arg_combos)
