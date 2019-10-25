@@ -1,5 +1,8 @@
 import unittest
 
+from dash.dependencies import Input, Output, State
+
+from matscholar_web.constants import valid_search_filters
 from matscholar_web.search.util import parse_search_box, get_search_field_callback_args, MatscholarWebSearchError
 
 
@@ -62,3 +65,16 @@ class TestUtils(unittest.TestCase):
             with self.assertRaises(MatscholarWebSearchError):
                 entity_query, text = parse_search_box(search)
                 print(entity_query, text)
+
+    def test_get_search_field_callback_args(self):
+        args = get_search_field_callback_args(as_type="input", return_component="value")
+        self.assertEqual(len(args), len(valid_search_filters))
+        self.assertTrue(all([isinstance(arg, Input) for arg in args]))
+
+        args = get_search_field_callback_args(as_type="output", return_component="value")
+        self.assertEqual(len(args), len(valid_search_filters))
+        self.assertTrue(all([isinstance(arg, Output) for arg in args]))
+
+        args = get_search_field_callback_args(as_type="state", return_component="value")
+        self.assertEqual(len(args), len(valid_search_filters))
+        self.assertTrue(all([isinstance(arg, State) for arg in args]))
