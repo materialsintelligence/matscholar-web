@@ -168,11 +168,13 @@ The following environment variables must be defined:
 - `ELASTIC_USER` - The ElasticSearch username
 - `MATERIALS_SCHOLAR_API_KEY` - The Matscholar API key to use in the rester
 - `MATERIALS_SCHOLAR_ENDPOINT` - The API endpoint URL for Matscholar
-- `MATERIALS_SCHOLAR_WEB_USER` (not needed) - for frontend-based auth
-- `MATERIALS_SCHOLAR_WEB_PASS` (not needed) - for frontend-based auth
-- `TF_SERVING_URL` - The url serving the NER tensorflow model.
 
 
 # Formatting new contributions
 Run `source scripts/format_project.sh` from the root directory of the repo.
 If flake8 outputs any problems, the CI build is designed to fail, so definitely fix those.
+
+
+# Declaring an outage
+Change the `outage` variable in `constants` to True.
+ 

@@ -54,3 +54,6 @@ valid_search_filters = valid_entity_filters + ["text"]
 
 # How long before the Flask cache times out and is voided.
 cache_timeout = 60
+
+# whether there is an outage or not
+outage = False

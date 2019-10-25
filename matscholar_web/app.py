@@ -9,9 +9,9 @@ import matscholar_web.journals.view as jv
 import matscholar_web.search.logic as sl
 import matscholar_web.search.view as sv
 from matscholar_web.common import common_404_html
-from matscholar_web.constants import cache_timeout
+from matscholar_web.constants import cache_timeout, outage
 from matscholar_web.search.util import get_search_field_callback_args
-from matscholar_web.view import core_view_html
+from matscholar_web.view import core_view_html, outage_html
 
 """
 A safe place for the dash app core instance to hang out.
@@ -37,7 +37,11 @@ app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
 app.config.suppress_callback_exceptions = True
 app.title = "Matscholar - rediscover materials"
-app.layout = core_view_html()
+
+if outage:
+    app.layout = outage_html()
+else:
+    app.layout = core_view_html()
 cache = Cache(app.server, config={"CACHE_TYPE": "simple"})
 
 
