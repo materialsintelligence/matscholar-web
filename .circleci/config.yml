@@ -2,10 +2,10 @@ version: 2
 
 jobs:
 
-  py362:
-    working_directory: ~/py362_matscholar_web
+  py373:
+    working_directory: ~/py373_matscholar_web
     docker:
-      - image: circleci/python:3.6.2
+      - image: circleci/python:3.7.3
         environment:
           SKIP_INTENSIVE: 1
     steps:
@@ -36,9 +36,9 @@ jobs:
 
 
   code_style:
-    working_directory: ~/py362_matscholar_web
+    working_directory: ~/py373_matscholar_web
     docker:
-      - image: circleci/python:3.6.2
+      - image: circleci/python:3.7.3
     steps:
       - checkout
 
@@ -68,5 +68,5 @@ workflows:
   version: 2
   run_tests_on_commit:
     jobs:
-      - py362
+      - py373
       - code_style
