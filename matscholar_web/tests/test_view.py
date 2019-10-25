@@ -1,16 +1,15 @@
-import unittest
+from matscholar_web.tests.util import MatScholarWebBaseTest
 
-import dash_html_components as html
-
-from matscholar_web.view import core_view_html, footer_html, nav_html
+import matscholar_web.view as msweb_view
 
 """
 Tests for the core dash view.
 """
 
+# Functions to exclude from this test
+EXCLUDE = []
 
-class TestCoreView(unittest.TestCase):
+
+class TestCoreView(MatScholarWebBaseTest):
     def test_core_views(self):
-        self.assertTrue(isinstance(core_view_html(), html.Div))
-        self.assertTrue(isinstance(footer_html(), html.Div))
-        self.assertTrue(isinstance(nav_html(), html.Div))
+        self.run_test_for_all_functions_in_module(msweb_view, EXCLUDE)

@@ -1,4 +1,8 @@
 import inspect
+import unittest
+
+import dash_html_components as html
+
 
 """
 Utilities for running tests.
@@ -24,3 +28,29 @@ def get_all_functions_in_module(module):
                         inspect.getmodule(t[1]) == module]
     functions = dict(name_func_tuples)
     return functions
+
+
+class MatScholarWebBaseTest(unittest.TestCase):
+    def run_test_for_all_functions_in_module(self, module, exclude):
+        functions = get_all_functions_in_module(module)
+        for fname, f in functions.items():
+            if fname in exclude:
+                print(f"Skip: {fname}")
+                continue
+            else:
+                print(f"Test: {fname}")
+                params = inspect.signature(f).parameters
+                n_args = len(params)
+                if n_args == 0:  # this function takes no args
+                    o = f()
+                    if "_html" in fname:
+                        self.assertTrue(isinstance(o, html.Div))
+                    else:
+                        self.assertFalse(isinstance(o, html.Div))
+                else:
+                    fake_args = ["arg"] * n_args
+                    o = f(*fake_args)
+                    if "_html" in fname:
+                        self.assertTrue(isinstance(o, html.Div))
+                    else:
+                        self.assertFalse(isinstance(o, html.Div))
