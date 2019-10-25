@@ -5,6 +5,7 @@ from matscholar_web.extract.logic import extracted_results, get_random_abstract
 Tests for the extract app callback logic.
 """
 
+
 class TestExtractLogic(MatScholarWebBaseTest):
     def test_extracted_results(self):
         pass

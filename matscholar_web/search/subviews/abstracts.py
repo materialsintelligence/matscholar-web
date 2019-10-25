@@ -1,8 +1,18 @@
 import dash_html_components as html
 import pandas as pd
 
-from matscholar_web.constants import rester, valid_entity_filters, entity_color_map
-from matscholar_web.search.common import common_results_container_style, no_results_html, results_label_html, results_disclaimer_html, big_label_and_disclaimer_html
+from matscholar_web.constants import (
+    rester,
+    valid_entity_filters,
+    entity_color_map,
+)
+from matscholar_web.search.common import (
+    common_results_container_style,
+    no_results_html,
+    results_label_html,
+    results_disclaimer_html,
+    big_label_and_disclaimer_html,
+)
 
 """
 Functions for defining the results container when abstract results are desired.
@@ -31,9 +41,7 @@ def abstracts_results_html(entity_query, raw_text):
 
     """
     results = rester.abstracts_search(
-        entity_query,
-        text=raw_text,
-        top_k=MAX_N_ABSTRACTS_RETRIEVED
+        entity_query, text=raw_text, top_k=MAX_N_ABSTRACTS_RETRIEVED
     )
 
     if not results:
@@ -45,18 +53,19 @@ def abstracts_results_html(entity_query, raw_text):
         if df.empty:
             return no_results_html()
 
-        df['authors'] = df['authors'].apply(format_authors)
+        df["authors"] = df["authors"].apply(format_authors)
 
         n_formatted_results = min(len(df), MAX_N_ABSTRACTS_SHOWN)
         formatted_results = [None] * n_formatted_results
 
         if n_raw_results >= MAX_N_ABSTRACTS_SHOWN:
-            label_txt = \
-                f"Showing {n_formatted_results} of many results. For full " \
+            label_txt = (
+                f"Showing {n_formatted_results} of many results. For full "
                 f"results, use the "
+            )
             label_link = html.A(
-                'Matscholar API.',
-                href='https://github.com/materialsintelligence/matscholar'
+                "Matscholar API.",
+                href="https://github.com/materialsintelligence/matscholar",
             )
             label = html.Label([label_txt, label_link])
         else:
@@ -66,19 +75,36 @@ def abstracts_results_html(entity_query, raw_text):
         entities_keys = []
         for e in valid_entity_filters:
             color = entity_color_map[e]
-            entity_colored = html.Div(e, className=f"msweb-is-{color}-txt is-size-5 has-text-weight-bold")
-            entity_key = html.Div(entity_colored, className=f"box has-padding-5")
-            entity_key_container = html.Div(entity_key, className="flex-column is-narrow has-margin-5")
+            entity_colored = html.Div(
+                e,
+                className=f"msweb-is-{color}-txt is-size-5 has-text-weight-bold",
+            )
+            entity_key = html.Div(
+                entity_colored, className=f"box has-padding-5"
+            )
+            entity_key_container = html.Div(
+                entity_key, className="flex-column is-narrow has-margin-5"
+            )
             entities_keys.append(entity_key_container)
-        entity_key_container = html.Div(entities_keys, className="columns is-multiline has-margin-5")
+        entity_key_container = html.Div(
+            entities_keys, className="columns is-multiline has-margin-5"
+        )
 
         for i in range(n_formatted_results):
             formatted_results[i] = format_result_html(df.iloc[i])
-        paper_table = html.Table(formatted_results, className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped")
+        paper_table = html.Table(
+            formatted_results,
+            className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped",
+        )
 
         return html.Div(
-            [big_label_and_disclaimer, label, entity_key_container, paper_table],
-            className=common_results_container_style()
+            [
+                big_label_and_disclaimer,
+                label,
+                entity_key_container,
+                paper_table,
+            ],
+            className=common_results_container_style(),
         )
 
 
@@ -100,25 +126,20 @@ def format_result_html(result):
             result.
     """
 
-    title_link = html.A(
-        result['title'],
-        href=result["link"],
-        target="_blank",
-    )
+    title_link = html.A(result["title"], href=result["link"], target="_blank")
 
     title = html.Div(
-        title_link,
-        className="is-size-4 has-text-link has-text-weight-bold"
+        title_link, className="is-size-4 has-text-link has-text-weight-bold"
     )
 
     # Format the 2nd line "authors - journal, year" with ellipses for overflow
     characters_remaining = 90  # max line length
     characters_remaining -= 5  # spaces, '-', and ','
 
-    year = result['year']
+    year = result["year"]
     characters_remaining -= 4
 
-    journal = result['journal']
+    journal = result["journal"]
     if len(journal) > 20:
         journal = journal if len(journal) < 33 else journal[0:30] + "..."
     characters_remaining -= len(journal)
@@ -138,8 +159,7 @@ def format_result_html(result):
 
     ajy = "{} - {}, {}".format(authors, journal, year)
     authors_journal_and_year = html.Div(
-        ajy,
-        className="is-size-5 msweb-is-dark-green-txt"
+        ajy, className="is-size-5 msweb-is-dark-green-txt"
     )
 
     abstract_txt = result["abstract"]
@@ -152,29 +172,32 @@ def format_result_html(result):
         "phase": "SPL_summary",
         "synthesis": "SMT_summary",
         "characterization": "CMT_summary",
-        "descriptor": "DSC_summary"}
+        "descriptor": "DSC_summary",
+    }
 
     entities = []
     for f in valid_entity_filters:
         for e in result[label_mapping[f]]:
             color = entity_color_map[f]
-            ent_txt = html.Span(e, className=f"msweb-is-{color}-txt has-text-weight-semibold")
-            entity = html.Div(
-                ent_txt,
-                className="box has-padding-5"
+            ent_txt = html.Span(
+                e, className=f"msweb-is-{color}-txt has-text-weight-semibold"
             )
-            entity_container = html.Div(entity, className="flex-column is-narrow has-margin-5")
+            entity = html.Div(ent_txt, className="box has-padding-5")
+            entity_container = html.Div(
+                entity, className="flex-column is-narrow has-margin-5"
+            )
             entities.append(entity_container)
 
-    entities = html.Div(entities, className="columns is-multiline has-margin-5")
+    entities = html.Div(
+        entities, className="columns is-multiline has-margin-5"
+    )
 
     entities_label = html.Div(
-        "Extracted entities:",
-        className="has-margin-5 has-text-weight-bold"
+        "Extracted entities:", className="has-margin-5 has-text-weight-bold"
     )
     paper_div = html.Div(
         [title, authors_journal_and_year, abstract, entities_label, entities],
-        className="has-margin-10"
+        className="has-margin-10",
     )
 
     table_cell = html.Td(paper_div)

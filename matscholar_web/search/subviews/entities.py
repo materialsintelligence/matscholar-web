@@ -1,7 +1,12 @@
 import dash_html_components as html
 from matscholar_web.constants import rester, entity_color_map
-from matscholar_web.search.common import no_results_html, \
-    common_results_container_style, results_label_html, results_disclaimer_html, big_label_and_disclaimer_html
+from matscholar_web.search.common import (
+    no_results_html,
+    common_results_container_style,
+    results_label_html,
+    results_disclaimer_html,
+    big_label_and_disclaimer_html,
+)
 
 """
 Functions for defining the results container when entity results are desired.
@@ -29,15 +34,16 @@ def entities_results_html(entity_query, raw_text):
         (dash_html_components.Div): The entities results html block.
 
     """
-    results = rester.entities_search(entity_query, text=raw_text,
-                                     top_k=MAX_N_ROWS_FOR_EACH_ENTITY_TABLE)
+    results = rester.entities_search(
+        entity_query, text=raw_text, top_k=MAX_N_ROWS_FOR_EACH_ENTITY_TABLE
+    )
     if results is None or not any([v for v in results.values()]):
         return entities_no_results_html
     else:
         all_tables = all_score_tables_html(results)
         all_tables_container = html.Div(
             children=[big_label_and_disclaimer, all_tables],
-            className=common_results_container_style()
+            className=common_results_container_style(),
         )
         return all_tables_container
 
@@ -59,30 +65,41 @@ def all_score_tables_html(results_dict):
 
     row1 = html.Div(
         [
-            single_entity_score_table_html(results_dict["PRO"], "Property", half),
-            single_entity_score_table_html(results_dict["APL"], "Application",
-                                           half),
+            single_entity_score_table_html(
+                results_dict["PRO"], "Property", half
+            ),
+            single_entity_score_table_html(
+                results_dict["APL"], "Application", half
+            ),
         ],
-        className=columns_classes
+        className=columns_classes,
     )
 
     row2 = html.Div(
         [
-            single_entity_score_table_html(results_dict["CMT"], "Characterization",
-                                           half),
-            single_entity_score_table_html(results_dict["SMT"], "Synthesis", half),
+            single_entity_score_table_html(
+                results_dict["CMT"], "Characterization", half
+            ),
+            single_entity_score_table_html(
+                results_dict["SMT"], "Synthesis", half
+            ),
         ],
-        className=columns_classes
+        className=columns_classes,
     )
 
     row3 = html.Div(
         [
-            single_entity_score_table_html(results_dict["DSC"], "Descriptor",
-                                           third),
-            single_entity_score_table_html(results_dict["SPL"], "Phase", third),
-            single_entity_score_table_html(results_dict["MAT"], "Material", third)
+            single_entity_score_table_html(
+                results_dict["DSC"], "Descriptor", third
+            ),
+            single_entity_score_table_html(
+                results_dict["SPL"], "Phase", third
+            ),
+            single_entity_score_table_html(
+                results_dict["MAT"], "Material", third
+            ),
         ],
-        className=columns_classes
+        className=columns_classes,
     )
     return html.Div([row1, row2, row3])
 
@@ -110,8 +127,9 @@ def single_entity_score_table_html(most_common, entity_type, width):
         table_label = f"All {formatted_n_results} entities"
 
     color = entity_color_map[entity_type.lower()]
-    header_entity_type = html.Span(f"{entity_type}",
-                                   className=f"msweb-has-{color}-txt")
+    header_entity_type = html.Span(
+        f"{entity_type}", className=f"msweb-has-{color}-txt"
+    )
     header_table_label = html.Span(f": {table_label}")
 
     header_entity_type = html.Th([header_entity_type, header_table_label])
@@ -123,11 +141,13 @@ def single_entity_score_table_html(most_common, entity_type, width):
     row_number = 0
     for ent, count, score in most_common:
         entity = html.Td(ent, className="has-width-50")
-        score = html.Td('{:.2f}'.format(score), className="has-width-50")
+        score = html.Td("{:.2f}".format(score), className="has-width-50")
         rows[row_number] = html.Tr([entity, score])
         row_number += 1
         if row_number == MAX_N_ROWS_FOR_EACH_ENTITY_TABLE - 1:
             break
-    table = html.Table([header] + rows,
-                       className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped")
+    table = html.Table(
+        [header] + rows,
+        className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped",
+    )
     return html.Div(table, className=f"column {width}")

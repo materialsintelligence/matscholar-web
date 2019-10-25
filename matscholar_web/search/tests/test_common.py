@@ -16,10 +16,10 @@ class TestSearchCommonViews(MatScholarWebBaseTest):
 
     def test_results_label_html(self):
         f = msweb_scommon.results_label_html
-        arg_combos = [(a, ) for a in ["entities", "materials", "abstracts"]]
+        arg_combos = [(a,) for a in ["entities", "materials", "abstracts"]]
         self.run_test_for_individual_arg_combos(f, arg_combos)
 
     def test_big_label_and_disclaimer_html(self):
         f = msweb_scommon.big_label_and_disclaimer_html
-        arg_combos = [(a, ) for a in ["entities", "materials", "abstracts"]]
+        arg_combos = [(a,) for a in ["entities", "materials", "abstracts"]]
         self.run_test_for_individual_arg_combos(f, arg_combos)

@@ -17,9 +17,7 @@ def load_static_data_file(fname):
         (dict): The file loaded from json.
     """
     _topdir = os.path.abspath(os.path.dirname(__file__))
-    _target = os.path.abspath(
-        os.path.join(_topdir, f"assets/data/{fname}")
-    )
+    _target = os.path.abspath(os.path.join(_topdir, f"assets/data/{fname}"))
     with open(_target, "r") as f:
         file_as_dict = json.load(f)
     return file_as_dict

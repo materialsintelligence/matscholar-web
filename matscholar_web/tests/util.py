@@ -103,7 +103,8 @@ def get_all_functions_in_module(module):
             first-class function objects.
     """
     name_func_tuples = inspect.getmembers(module, inspect.isfunction)
-    name_func_tuples = [t for t in name_func_tuples if
-                        inspect.getmodule(t[1]) == module]
+    name_func_tuples = [
+        t for t in name_func_tuples if inspect.getmodule(t[1]) == module
+    ]
     functions = dict(name_func_tuples)
     return functions

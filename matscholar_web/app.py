@@ -32,10 +32,7 @@ external_scripts = [
     "https://www.googletagmanager.com/gtag/js?id=UA-149443072-1"
 ]
 
-app = dash.Dash(
-    __name__,
-    external_scripts=external_scripts
-)
+app = dash.Dash(__name__, external_scripts=external_scripts)
 app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
 app.config.suppress_callback_exceptions = True
@@ -49,9 +46,9 @@ cache = Cache(app.server, config={"CACHE_TYPE": "simple"})
 # callbacks for loading different apps or are present on every page
 ################################################################################
 
+
 @app.callback(
-    Output("core-app-container", "children"),
-    [Input("core-url", "pathname")]
+    Output("core-app-container", "children"), [Input("core-url", "pathname")]
 )
 def display_app_html(path):
     """
@@ -81,13 +78,13 @@ def display_app_html(path):
 app.clientside_callback(
     ClientsideFunction(
         namespace="clientside",
-        function_name="animateBurgerOnClickClientsideFunction"
+        function_name="animateBurgerOnClickClientsideFunction",
     ),
     Output("core-burger-trigger-cs", "value"),
     [
         Input("core-navbar-menu", "id"),
         Input("core-burger-trigger-cs", "n_clicks"),
-    ]
+    ],
 )
 
 
@@ -95,10 +92,11 @@ app.clientside_callback(
 # Search app callbacks
 ################################################################################
 
+
 @app.callback(
     Output("search-main-bar-input", "value"),
-    [Input("search-example-button", "n_clicks")] +
-    get_search_field_callback_args(as_type="input"),
+    [Input("search-example-button", "n_clicks")]
+    + get_search_field_callback_args(as_type="input"),
 )
 def search_bar_live_display(example_search_n_clicks, *ent_txts):
     """
@@ -119,7 +117,7 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
 
 @app.callback(
     Output("search-example-button", "n_clicks"),
-    get_search_field_callback_args(as_type="input")
+    get_search_field_callback_args(as_type="input"),
 )
 def void_example_search_n_clicks_on_live_search(*ent_txts):
     """
@@ -138,11 +136,11 @@ def void_example_search_n_clicks_on_live_search(*ent_txts):
 
 @app.callback(
     Output("search-go-button", "n_clicks"),
-    [Input("search-main-bar-input", "n_submit")] +
-    get_search_field_callback_args(
-        as_type="input",
-        return_component="n_submit"),
-    [State("search-go-button", "n_clicks")]
+    [Input("search-main-bar-input", "n_submit")]
+    + get_search_field_callback_args(
+        as_type="input", return_component="n_submit"
+    ),
+    [State("search-go-button", "n_clicks")],
 )
 def sum_all_fields_and_buttons_n_submits(*all_n_clicks):
     """
@@ -167,8 +165,10 @@ def sum_all_fields_and_buttons_n_submits(*all_n_clicks):
 @app.callback(
     Output("search-results-container", "children"),
     [Input("search-go-button", "n_clicks")],
-    [State("search-type-dropdown", "value"),
-     State("search-main-bar-input", "value")]
+    [
+        State("search-type-dropdown", "value"),
+        State("search-main-bar-input", "value"),
+    ],
 )
 def show_search_results(go_button_n_clicks, dropdown_value, search_text):
     """
@@ -188,25 +188,29 @@ def show_search_results(go_button_n_clicks, dropdown_value, search_text):
         # Prevent from caching on n_clicks if the results aren"t empty
         @cache.memoize(timeout=cache_timeout)
         def memoize_wrapper(dropdown_value, search_text):
-            return sl.show_search_results(go_button_n_clicks, dropdown_value, search_text)
+            return sl.show_search_results(
+                go_button_n_clicks, dropdown_value, search_text
+            )
+
         return memoize_wrapper(dropdown_value, search_text)
     else:
-        return sl.show_search_results(go_button_n_clicks, dropdown_value, search_text)
+        return sl.show_search_results(
+            go_button_n_clicks, dropdown_value, search_text
+        )
 
 
 # Animates the count up for the search bar
 # See count.js and clientside.js for more details
 app.clientside_callback(
     ClientsideFunction(
-        namespace="clientside",
-        function_name="countSearchClientsideFunction"
+        namespace="clientside", function_name="countSearchClientsideFunction"
     ),
     Output("search-count-abstracts-cs", "children"),
     [
         Input("core-url", "pathname"),
         Input("search-count-abstracts-cs", "id"),
-        Input("search-count-abstracts-hidden-ref-cs", "id")
-    ]
+        Input("search-count-abstracts-hidden-ref-cs", "id"),
+    ],
 )
 
 # Rotates example searches through the search bar
@@ -214,14 +218,14 @@ app.clientside_callback(
 app.clientside_callback(
     ClientsideFunction(
         namespace="clientside",
-        function_name="cycleExampleSearchesClientsideFunction"
+        function_name="cycleExampleSearchesClientsideFunction",
     ),
     Output("search-main-bar-input", "children"),
     [
         Input("core-url", "pathname"),
         Input("search-main-bar-input", "id"),
-        Input("search-examples-hidden-ref-cs", "id")
-    ]
+        Input("search-examples-hidden-ref-cs", "id"),
+    ],
 )
 
 ################################################################################
@@ -230,8 +234,11 @@ app.clientside_callback(
 @app.callback(
     Output("extract-highlighted", "children"),
     [Input("extract-button", "n_clicks")],
-    [State("extract-text-area", "value"),
-     State("extract-dropdown-normalize", "value")])
+    [
+        State("extract-text-area", "value"),
+        State("extract-dropdown-normalize", "value"),
+    ],
+)
 def extracted_results(extract_button_n_clicks, text, normalize):
     """
     Get the extracted results from the extract app via clicks and the entered
@@ -250,7 +257,9 @@ def extracted_results(extract_button_n_clicks, text, normalize):
         # Prevent from caching on n_clicks if the search isn"t empty
         @cache.memoize(timeout=cache_timeout)
         def memoize_wrapper(text, normalize):
-            return el.extracted_results(extract_button_n_clicks, text, normalize)
+            return el.extracted_results(
+                extract_button_n_clicks, text, normalize
+            )
 
         return memoize_wrapper(text, normalize)
     else:
@@ -258,8 +267,8 @@ def extracted_results(extract_button_n_clicks, text, normalize):
 
 
 @app.callback(
-    Output("extract-text-area", "value"),
-    [Input("extract-random", "n_clicks")])
+    Output("extract-text-area", "value"), [Input("extract-random", "n_clicks")]
+)
 def get_random_abstract(random_button_n_clicks):
     """
     Get a random abstract for the random button.
@@ -281,8 +290,7 @@ def get_random_abstract(random_button_n_clicks):
 # See count.js and clientside.js for more details
 app.clientside_callback(
     ClientsideFunction(
-        namespace="clientside",
-        function_name="countStatsClientsideFunction"
+        namespace="clientside", function_name="countStatsClientsideFunction"
     ),
     Output("about-count-materials-cs", "children"),
     [
@@ -292,6 +300,6 @@ app.clientside_callback(
         Input("about-count-entities-cs", "id"),
         Input("about-count-materials-hidden-ref-cs", "id"),
         Input("about-count-abstracts-hidden-ref-cs", "id"),
-        Input("about-count-entities-hidden-ref-cs", "id")
-    ]
+        Input("about-count-entities-hidden-ref-cs", "id"),
+    ],
 )

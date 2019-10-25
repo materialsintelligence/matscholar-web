@@ -34,9 +34,17 @@ def results_disclaimer_html():
     Returns:
         (dash_html_components.Div): The html block results disclaimer.
     """
-    disclaimer = html.Span("These are incomplete results determined from limited sampling of our database. For full results, use the ")
-    api_rester_link = html.A("Matscholar API", href="https://github.com/materialsintelligence/matscholar")
-    return html.Div([disclaimer, api_rester_link], className="is-size-6 has-text-weight-semibold")
+    disclaimer = html.Span(
+        "These are incomplete results determined from limited sampling of our database. For full results, use the "
+    )
+    api_rester_link = html.A(
+        "Matscholar API",
+        href="https://github.com/materialsintelligence/matscholar",
+    )
+    return html.Div(
+        [disclaimer, api_rester_link],
+        className="is-size-6 has-text-weight-semibold",
+    )
 
 
 def no_results_html(pre_label=None):
@@ -52,9 +60,13 @@ def no_results_html(pre_label=None):
 
     """
     if pre_label is None:
-        return common_null_warning_html("No results found!", alignment="center")
+        return common_null_warning_html(
+            "No results found!", alignment="center"
+        )
     else:
-        common_warning = common_null_warning_html("No results found.", alignment="left", top_margin=5)
+        common_warning = common_null_warning_html(
+            "No results found.", alignment="left", top_margin=5
+        )
         return html.Div([pre_label, common_warning])
 
 

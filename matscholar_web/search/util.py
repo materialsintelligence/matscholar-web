@@ -19,6 +19,7 @@ class MatscholarWebSearchError(BaseException):
 
     Can also be used as a parent class for more specific exceptions.
     """
+
     pass
 
 
@@ -37,16 +38,12 @@ def get_search_field_callback_args(as_type="state", return_component="value"):
         (list): The list of inputs, states, or outputs plotly dash dependency
             objects on the search page.
     """
-    type_dict = {
-        "state": State,
-        "output": Output,
-        "input": Input
-    }
+    type_dict = {"state": State, "output": Output, "input": Input}
     t = type_dict[as_type]
 
     filters = []
     for f in valid_search_filters:
-        filters.append(t("search-" + f + '-filters-input', return_component))
+        filters.append(t("search-" + f + "-filters-input", return_component))
     return filters
 
 
@@ -96,19 +93,23 @@ def parse_search_box(search_text):
         query_patterns = [qt for qt in query_patterns if qt]
         entity_query[fp] = query_patterns
 
-    if any([len(v) > MAX_N_PATTERNS_PER_ENTITY for v in entity_query.values()]):
+    if any(
+        [len(v) > MAX_N_PATTERNS_PER_ENTITY for v in entity_query.values()]
+    ):
         raise MatscholarWebSearchError
 
     for ent, query_patterns in entity_query.items():
         n_terms = len(query_patterns)
         if n_terms > MAX_N_PATTERNS_PER_ENTITY:
             raise MatscholarWebSearchError(
-                f"Length of patterns for entity {ent} ({n_terms}) exceeds maximum for an entity {MAX_N_PATTERNS_PER_ENTITY}")
+                f"Length of patterns for entity {ent} ({n_terms}) exceeds maximum for an entity {MAX_N_PATTERNS_PER_ENTITY}"
+            )
         for pattern in query_patterns:
             n_chars = len(pattern)
             if n_chars > MAX_N_CHARS_PER_PATTERN:
                 raise MatscholarWebSearchError(
-                    f"Length of pattern {pattern} ({n_chars}) exceeds maximum for a pattern ({MAX_N_CHARS_PER_PATTERN}).")
+                    f"Length of pattern {pattern} ({n_chars}) exceeds maximum for a pattern ({MAX_N_CHARS_PER_PATTERN})."
+                )
 
     if "text" in entity_query.keys():
         if not entity_query["text"]:
@@ -126,11 +127,13 @@ def parse_search_box(search_text):
     n_fields_entered = search_text.count(":")
     if n_fields != n_fields_entered:
         raise MatscholarWebSearchError(
-            f"The number of parsed fields ({n_fields}) does not equal the number of entered fields ({n_fields_entered})!")
+            f"The number of parsed fields ({n_fields}) does not equal the number of entered fields ({n_fields_entered})!"
+        )
 
     if not raw_text and not any([e_list for e_list in entity_query.values()]):
         raise MatscholarWebSearchError(
-            f"No raw text or entities parsed for any of the entered fields: {list(entity_query.values())}")
+            f"No raw text or entities parsed for any of the entered fields: {list(entity_query.values())}"
+        )
 
     if not entity_query and not raw_text:
         raise MatscholarWebSearchError("No raw text nor entity query parsed!")

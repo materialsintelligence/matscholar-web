@@ -41,7 +41,7 @@ entity_color_map = {
     "phase": "red",
     "synthesis": "turq",
     "characterization": "purple",
-    "descriptor": "pink"
+    "descriptor": "pink",
 }
 
 # The mapping of all search filters

@@ -15,20 +15,18 @@ def logo_html():
         (dash_html_components.Div): The header.
     """
 
-    logo = html.Img(
-        src="/assets/logo_header.png",
-    )
+    logo = html.Img(src="/assets/logo_header.png")
 
     header_centering = html.Div(
         [logo],
         id="header_centering",
-        className="columns is-centered is-mobile"
+        className="columns is-centered is-mobile",
     )
 
     header_container = html.Div(
         header_centering,
         id="header_container",
-        className="container has-margin-bottom-30 has-margin-top-50"
+        className="container has-margin-bottom-30 has-margin-top-50",
     )
     return header_container
 
@@ -50,11 +48,7 @@ def common_warning_html(header_txt, body_txt):
     warning_header = html.Div(header_txt, className="is-size-3")
     warning_body = html.Div(body_txt, className="is-size-6")
     warning = html.Div(
-        [
-            warning_header,
-            warning_body
-        ],
-        className="notification is-danger"
+        [warning_header, warning_body], className="notification is-danger"
     )
     warning_column = html.Div(warning, className="column is-half")
     warning_columns = html.Div(warning_column, className="columns is-centered")
@@ -77,17 +71,15 @@ def common_null_warning_html(text, alignment="center", top_margin=50):
 
     """
     if alignment in ["center", "left"]:
-        align = "has-text-centered" if alignment=="center" else ""
+        align = "has-text-centered" if alignment == "center" else ""
     else:
-        raise ValueError(f"Invalid alignment: {alignment}. Must be 'center' or 'left'.")
+        raise ValueError(
+            f"Invalid alignment: {alignment}. Must be 'center' or 'left'."
+        )
 
-    null_txt = html.Div(
-        text,
-        className="is-size-4"
-    )
+    null_txt = html.Div(text, className="is-size-4")
     null_container = html.Div(
-        null_txt,
-        className=f"container {align} has-margin-top-{top_margin}"
+        null_txt, className=f"container {align} has-margin-top-{top_margin}"
     )
     return null_container
 
@@ -107,7 +99,7 @@ def common_rester_error_html(text):
     rester_error_txt = html.Div(text, className="is-size-4 is-danger")
     rester_error = html.Div(
         rester_error_txt,
-        className="container has-text-centered has-margin-top-50"
+        className="container has-text-centered has-margin-top-50",
     )
     return rester_error
 
@@ -141,8 +133,9 @@ def common_info_box_html(elements, id=None):
     """
     box = html.Div(elements, className="box")
     column = html.Div(box, className="column is-two-thirds")
-    columns = html.Div(column,
-                       className="columns is-centered has-margin-top-50")
+    columns = html.Div(
+        column, className="columns is-centered has-margin-top-50"
+    )
     container = html.Div(columns, className="container", id=id)
     return container
 

@@ -12,13 +12,12 @@ Tests for core utilities.
 
 
 class TestCoreUtils(unittest.TestCase):
-
     def setUp(self) -> None:
         rootdir = os.path.dirname(os.path.abspath(matscholar_web.__file__))
         data_dir = os.path.join(rootdir, "assets/data/")
         self.test_fname = "test_file.json"
         self.test_fpath = os.path.join(data_dir, self.test_fname)
-        self.true_data = {"a": [1,2,3], "b": "something"}
+        self.true_data = {"a": [1, 2, 3], "b": "something"}
 
     def test_load_static_file(self):
         with open(self.test_fpath, "w") as f:

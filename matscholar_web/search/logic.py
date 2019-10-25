@@ -5,8 +5,10 @@ from matscholar.rest import MatScholarRestError
 from matscholar_web.search.util import MatscholarWebSearchError
 from matscholar_web.common import common_rester_error_html
 from matscholar_web.constants import valid_search_filters, example_searches
-from matscholar_web.search.view import malformed_query_warning_html, \
-    no_query_warning_html
+from matscholar_web.search.view import (
+    malformed_query_warning_html,
+    no_query_warning_html,
+)
 from matscholar_web.search.subviews.abstracts import abstracts_results_html
 from matscholar_web.search.subviews.materials import materials_results_html
 from matscholar_web.search.subviews.entities import entities_results_html
@@ -44,13 +46,13 @@ def show_search_results(go_button_n_clicks, dropdown_value, search_text):
                 entity_query, raw_text = parse_search_box(search_text)
             except MatscholarWebSearchError:
                 return malformed_query_warning_html(search_text)
-            if dropdown_value == 'abstracts':
+            if dropdown_value == "abstracts":
                 results = abstracts_results_html(entity_query, raw_text)
-            elif dropdown_value == 'materials':
+            elif dropdown_value == "materials":
                 results = materials_results_html(entity_query, raw_text)
-            elif dropdown_value == 'entities':
+            elif dropdown_value == "entities":
                 results = entities_results_html(entity_query, raw_text)
-            elif dropdown_value == 'everything':
+            elif dropdown_value == "everything":
                 results = everything_results_html(entity_query, raw_text)
             else:
                 raise ValueError(
@@ -58,9 +60,10 @@ def show_search_results(go_button_n_clicks, dropdown_value, search_text):
                 )
             return results
         except MatScholarRestError:
-            rester_error = \
-                "Our database had trouble with that query. We are likely " \
+            rester_error = (
+                "Our database had trouble with that query. We are likely "
                 "undergoing maintenance, please visit again later!"
+            )
             return common_rester_error_html(rester_error)
 
 
