@@ -2,12 +2,6 @@
 
 ![Matscholar Logo](matscholar_web/assets/logo.png)
 
-| Tests  |
-|:----------:|
-| [![CircleCI](https://circleci.com/gh/materialsintelligence/matscholar-web.svg?style=svg)](https://circleci.com/gh/materialsintelligence/matscholar-web) |
-
-
-
 Matscholar is a research effort based at Lawrence Berkeley National 
 Laboratory with the aim of organizing the world's materials knowlegde 
 by applying Natural Language Processing (NLP) to materials science
@@ -24,6 +18,10 @@ please see our [official support forum](https://materialsintelligence.discourse.
 
 If you have any other questions please contact our development 
 team at help@matscholar.com.
+
+| Tests  |
+|:----------:|
+| [![CircleCI](https://circleci.com/gh/materialsintelligence/matscholar-web.svg?style=svg)](https://circleci.com/gh/materialsintelligence/matscholar-web) |
 
 
 Matscholar is supported by Toyota Research Institute through the 
