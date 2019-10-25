@@ -10,7 +10,7 @@ EXCLUDE = ["highlight_entities_html"]
 
 
 class TestExtractViews(MatScholarWebBaseTest):
-    def test_search_view(self):
+    def test_extract_view(self):
         self.run_test_for_all_functions_in_module(msweb_eview, EXCLUDE)
 
     def test_highlight_entities_html(self):
