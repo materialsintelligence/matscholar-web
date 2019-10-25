@@ -21,8 +21,12 @@ jobs:
       - run:
           name: setup env and run tests
           command: |
-            source scripts/setup_env.sh
-            source scripts/run_tests.sh
+            python3 -m venv test_env
+            . test_env/bin/activate
+            pip install -q --upgrade pip
+
+            pip install -e .
+            python setup.py test
           no_output_timeout: 10m
 
       - save_cache:
@@ -48,8 +52,9 @@ jobs:
       - run:
           name: setup env and run code check
           command: |
-            source scripts/setup_env_dev.sh
-            source scripts/run_code_style_check.sh
+            python3 -m venv test_env
+            . test_env/bin/activate
+            pip install --quiet -r requirements_dev.txt
           no_output_timeout: 10m
 
       - save_cache:
