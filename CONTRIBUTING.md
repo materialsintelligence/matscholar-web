@@ -18,9 +18,28 @@ This document was adapted from the open-source contribution guidelines for Faceb
 
 # Structure of the project
 
+## General
+Views (html-defining functions) and callback logic is separated. Apps 
+are modular and are self contained in their app folders. All apps generally
+follow the same scheme for file naming and structure. The `matscholar_web/app.py`
+file houses all the callbacks and individual apps define the callback logic.
 
-## A guide to the callback element IDs:
-    
+#### View files (html-defining functions)
+- `view.py` files are for the views (html-defining functions)
+- `subviews` submodules are for if the view file gets too long
+- `common.py` files are for commonly used html views
+
+#### Callback and logic files (no html-defining functions)
+- `logic.py` the callback logic for all callbacks
+- `util.py` utils helping the callback logic or views
+
+This structure is consistent across all the apps. It is mostly consistent across the top level directory except for `logic` which is encapsulated by the little needed logic in `app.py` 
+
+
+## Callback element IDs:
+
+Our Dash element ids are set according to a **strict** naming scheme. Please adhere to it.
+
 - Only use hyphens for separating words, not underscores. This is to make them easily searchable and replaceble in text even if a related Python variable is similarly named.
 - `"core-*"`: ids on the main page, regardless of app.
 - `"search-*"`: ids on the search app
@@ -30,13 +49,6 @@ This document was adapted from the open-source contribution guidelines for Faceb
 - `"*-cs"`: indicates an id is used in a clientside callback. Probably don't
     mess with it!
 - `"*-hidden-ref*"`: A hidden reference for another id.
-
-
-The separation of callbacks and views allows for separate testing of the callback logic and the views.
-
-Needs tests for search subviews
-Needs tests for all rester calls
-Needs tests to make sure the base app runs correctly
 
 
 ## The `/` folder
@@ -54,19 +66,17 @@ The assets folder is special. The other folders are modular apps.
 The python files are common parts of the website across all apps.
 ```
 matscholar_web
-├── about          # about app
-├── analysis       # analysis app
-├── app.py         # the core dash instance. don't mess with this
-├── assets         # static assets, not an app.
-├── common.py      # common html-defining functions among all apps or main view
-├── constants.py   # constant quantities
-├── footer.py      # the footer
-├── index.py       # (IMPORTANT): all high-level callback I/Os and the main layout of the webpage.
-├── journals       # the journals app
-├── logo.py        # the logo
-├── nav.py         # the nav bar
-├── search         # the search app
-└── util.py        # non-html defining util functions
+├── about           # the about app
+├── app.py          # the file running the app and defining all high-level callback I/Os
+├── assets          # a special folder holding all static assets
+├── common.py       # common html elements reusable by all apps
+├── constants.py    # constant values to be interpreted once, not defined in __init__.py to avoid running on import
+├── extract         # the extract app
+├── journals        # the journals app
+├── search          # the search app
+├── tests           # tests for the top level modules
+├── util.py         # utilities reusable by all apps or the top level modules
+└── view.py         # top-level views of the website
 ```
 
 Please keep the functions which define dash html blocks and styles 
