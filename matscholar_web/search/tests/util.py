@@ -3,23 +3,8 @@ import unittest
 from matscholar_web.search.util import parse_search_box, get_search_field_callback_args, MatscholarWebSearchError
 
 
-#     An ultra-minimal example set is:
-#     example_searches = [
-#         # "blahblah", # should fail
-#         # "traw: Zintl", # should fail
-#         "phase: diamond, application: thermoelectric, descriptor: thin film",
-#         "application: thermoelectric, phase: diamond",
-#         "phase: diamond application: thermoelectric",
-#         "phase: diamond, heusler application: thermoelectric",
-#         "phase: diamond, heusler, application: thermoelectric",
-#         # "phase: diamond, phase: heusler",  # should fail
-#         "characterization: x-ray diffraction, EDS, material: Pb"
-#         "Application: thermoelectric CharaCterizAtion: x-ray diffraction material: PbTe"
-#     ]
-
-
 class TestUtils(unittest.TestCase):
-    def test_parse_search_box(self):
+    def test_parse_search_box_good(self):
         entity_examples = {
             "material: PbTe": ({"material": ["PbTe"]}, None),
             "application: thermoelectric": ({"application": ["thermoelectric"]}, None),
@@ -52,7 +37,7 @@ class TestUtils(unittest.TestCase):
             self.assertEqual(true_entity_query, test_entitiy_query)
             self.assertEqual(true_text, test_text)
 
-
+    def test_parse_search_box_bad(self):
         bad_example_searches = [
             "blahblah",
             "1234",
@@ -67,20 +52,13 @@ class TestUtils(unittest.TestCase):
             "!@#$#$%#$^&%*#@!",
             "!",
             ":::",
+            # todo: these are currently parsed but should not be
             # "application: thermoelectric, raw: This is some raw text",
             # "ttext: Zintl",
+            # "322asadaphase: Zintl",
         ]
 
         for search in bad_example_searches:
-            print(search)
             with self.assertRaises(MatscholarWebSearchError):
                 entity_query, text = parse_search_box(search)
                 print(entity_query, text)
-
-
-
-
-
-        # for search in bad_example_saerches:
-        #     with self.assertRaises(MatscholarWebSearchError):
-        #         parse_search_box(search)

@@ -120,6 +120,14 @@ def parse_search_box(search_text):
     else:
         raw_text = None
 
+    n_entities = len(list(entity_query.values()))
+    n_raw_text = 1 if raw_text else 0
+    n_fields = n_entities + n_raw_text
+    n_fields_entered = search_text.count(":")
+    if n_fields != n_fields_entered:
+        raise MatscholarWebSearchError(
+            f"The number of parsed fields ({n_fields}) does not equal the number of entered fields ({n_fields_entered})!")
+
     if not raw_text and not any([e_list for e_list in entity_query.values()]):
         raise MatscholarWebSearchError(
             f"No raw text or entities parsed for any of the entered fields: {list(entity_query.values())}")
