@@ -171,3 +171,8 @@ The following environment variables must be defined:
 - `MATERIALS_SCHOLAR_WEB_USER` (not needed) - for frontend-based auth
 - `MATERIALS_SCHOLAR_WEB_PASS` (not needed) - for frontend-based auth
 - `TF_SERVING_URL` - The url serving the NER tensorflow model.
+
+
+# Formatting new contributions
+Run `source scripts/format_project.sh` from the root directory of the repo.
+If flake8 outputs any problems, the CI build is designed to fail, so definitely fix those.
