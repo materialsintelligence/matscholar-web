@@ -46,7 +46,7 @@ def get_search_field_callback_args(as_type="state", return_component="value"):
 
     filters = []
     for f in valid_search_filters:
-        filters.append(t("search_" + f + '_filters_input', return_component))
+        filters.append(t("search-" + f + '-filters-input', return_component))
     return filters
 
 

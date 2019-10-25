@@ -345,7 +345,7 @@ def entity_filter_box_html(field):
         endpoint=os.environ['ELASTIC_HOST'] + "/" +
                  ES_field_dict[field] + "/_search",
         defaultField='normalized',
-        id="search_" + field + "_filters_input",
+        id="search-" + field + "-filters-input",
         placeholder=placeholders[field],
         authUser=os.environ['ELASTIC_USER'],
         authPass=os.environ['ELASTIC_PASS'],
