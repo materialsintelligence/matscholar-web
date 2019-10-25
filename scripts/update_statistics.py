@@ -43,35 +43,35 @@ def get_debug_stats():
         "entities": 525690,
         "abstracts": 4951267,
         "journals": [
-                        "Journal of Materials Chemistry, A",
-                        "Journal of Materials Chemistry, B",
-                        "Journal of Materials Chemistry, C",
-                        "Materials Horizons",
-                        "Nature",
-                        "Nature Materials",
-                        "Computational Materials Science",
-                        "Journal of Materials, Physics",
-                        "Science",
-                        "Nature Machine Intelligence",
-                        "Physical Review A",
-                        "Physical Review B",
-                        "Physical Review Letters",
-                        "Energy and Environmental Science",
-                        "Frontiers in Materials",
-                        "Joule",
-                        "Matter",
-                        "Cell",
-                        "Angewandte Chemie International Edition",
-                        "Advanced Functional Materials",
-                        "Chemistry of Materials",
-                        "Journal of Solid State Chemistry",
-                        "Apl Materials",
-                        "Nature Scientific Data",
-                        "Electrochemistry Communications",
-                        "Concurrency and Computation"
-                    ] * 10,
-        "timestamp": get_timestamp()
-
+            "Journal of Materials Chemistry, A",
+            "Journal of Materials Chemistry, B",
+            "Journal of Materials Chemistry, C",
+            "Materials Horizons",
+            "Nature",
+            "Nature Materials",
+            "Computational Materials Science",
+            "Journal of Materials, Physics",
+            "Science",
+            "Nature Machine Intelligence",
+            "Physical Review A",
+            "Physical Review B",
+            "Physical Review Letters",
+            "Energy and Environmental Science",
+            "Frontiers in Materials",
+            "Joule",
+            "Matter",
+            "Cell",
+            "Angewandte Chemie International Edition",
+            "Advanced Functional Materials",
+            "Chemistry of Materials",
+            "Journal of Solid State Chemistry",
+            "Apl Materials",
+            "Nature Scientific Data",
+            "Electrochemistry Communications",
+            "Concurrency and Computation",
+        ]
+        * 10,
+        "timestamp": get_timestamp(),
     }
     return stats
 
@@ -85,12 +85,14 @@ def get_live_stats():
 
     """
     rstats = rester.get_db_stats()
-    fstats = {"abstracts": rstats["abstract_count"],
-              "materials": rstats["materials_count"],
-              "entities": rstats["entities_count"],
-              # "journals": rester.get_journals(),
-              "journal": None,
-              "timestamp": get_timestamp()}
+    fstats = {
+        "abstracts": rstats["abstract_count"],
+        "materials": rstats["materials_count"],
+        "entities": rstats["entities_count"],
+        # "journals": rester.get_journals(),
+        "journal": None,
+        "timestamp": get_timestamp(),
+    }
 
     return fstats
 
@@ -109,8 +111,7 @@ if __name__ == "__main__":
     thisdir = os.path.abspath(os.path.dirname(__file__))
     target = os.path.abspath(
         os.path.join(
-            thisdir,
-            "../matscholar_web/assets/data/db_statistics.json"
+            thisdir, "../matscholar_web/assets/data/db_statistics.json"
         )
     )
 

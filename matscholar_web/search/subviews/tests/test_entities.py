@@ -1,6 +1,5 @@
-from matscholar_web.tests.util import MatScholarWebBaseTest
-
-import matscholar_web.search.subviews.entities as msweb_sse
+# from matscholar_web.tests.util import MatScholarWebBaseTest
+# import matscholar_web.search.subviews.entities as msweb_sse
 
 """
 Tests for the entities subview of search.

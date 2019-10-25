@@ -1,6 +1,5 @@
-from matscholar_web.tests.util import MatScholarWebBaseTest
-
-import matscholar_web.search.subviews.everything as msweb_ssev
+# from matscholar_web.tests.util import MatScholarWebBaseTest
+# import matscholar_web.search.subviews.everything as msweb_ssev
 
 """
 Tests for the abstracts subview of search.
