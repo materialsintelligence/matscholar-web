@@ -14,7 +14,7 @@ setup(
     description="The Materials Scholar Website and Apps",
     long_description=readme,
     author="Materials Scholar Development Team",
-    author_email="jdagdelen@lbl.gov, vahe@tshitoyan.com, lweston@lbl.gov",
+    author_email="jdagdelen@lbl.gov, vahe@tshitoyan.com, lweston@lbl.gov, ardunn@lbl.gov",
     url="https://github.com/materialsintelligence/matscholar-web",
     license=license,
     packages=find_packages(),
