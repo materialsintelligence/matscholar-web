@@ -40,6 +40,12 @@ class MatScholarWebBaseTest(unittest.TestCase):
                     o = f(*fake_args)
                     self._basic_type_check_on_function(fname, o)
 
+    def test_individual_arg_combos(self, fname, f, arg_combos):
+        for arg_combo in arg_combos:
+            print(f"Test: {arg_combo} in {fname}")
+            o = f(*arg_combo)
+            self._basic_type_check_on_function(fname, o)
+
     def _basic_type_check_on_function(self, fname, o):
         """
         If "_html" is in the name, make sure the function returns an html.Div
@@ -58,12 +64,13 @@ class MatScholarWebBaseTest(unittest.TestCase):
             None
 
         """
+        valid_html_types = (html.Div, html.Span, html.Table)
         if fname.endswith("_html"):
-            self.assertTrue(isinstance(o, html.Div))
+            self.assertTrue(isinstance(o, valid_html_types))
         elif fname.endswith("_style"):
             self.assertTrue(isinstance(o, str))
         else:
-            self.assertFalse(isinstance(o, html.Div))
+            self.assertFalse(isinstance(o, valid_html_types))
 
 
 def get_all_functions_in_module(module):

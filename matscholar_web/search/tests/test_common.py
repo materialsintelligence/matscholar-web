@@ -11,7 +11,7 @@ EXCLUDE = ["results_label_html", "big_label_and_disclaimer_html"]
 
 
 class TestSearchCommonViews(MatScholarWebBaseTest):
-    def test_core_views(self):
+    def test_common_views(self):
         self.run_test_for_all_functions_in_module(msweb_scommon, EXCLUDE)
 
     def test_results_label_html(self):

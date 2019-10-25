@@ -55,7 +55,7 @@ def subview_results_container_html():
         children=my_results_html,
         className="msweb-fade-in"
     )
-    return wrapper
+    return html.Div(wrapper)
 
 
 def no_query_warning_html():
@@ -252,7 +252,7 @@ def guided_search_boxes_html():
     dropdown_container = html.Div(dropdown_columns,
                                   className="container has-margin-5")
 
-    entity_filters_html = [entity_filter_box_html(f) for f in
+    entity_filters_html = [guided_search_box_elastic_html(f) for f in
                            valid_search_filters]
 
     entity_filter_row_1 = html.Div(entity_filters_html[0:3],
@@ -288,7 +288,7 @@ def guided_search_boxes_html():
     return hidden_container
 
 
-def entity_filter_box_html(field):
+def guided_search_box_elastic_html(field):
     """
     Get the html block for a single filter boxes with ESAutosuggest.
 
