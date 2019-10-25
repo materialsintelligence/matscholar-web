@@ -120,7 +120,7 @@ def divider_html():
         (dash_html_components.Div): The divider html block.
 
     """
-    return html.Hr(className="is-divider")
+    return html.Div(html.Hr(className="is-divider"))
 
 
 def common_info_box_html(elements, id=None):
