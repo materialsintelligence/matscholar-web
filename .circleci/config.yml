@@ -24,9 +24,11 @@ jobs:
             python3 -m venv test_env
             . test_env/bin/activate
             pip install -q --upgrade pip
+            pip install coverage
 
             pip install --quiet -e . -r requirements.txt
-            python setup.py test
+            coverage run --source=matscholar_web/ setup.py test
+            coverage report
           no_output_timeout: 10m
 
       - save_cache:
