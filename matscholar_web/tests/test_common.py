@@ -2,15 +2,18 @@ import unittest
 
 import dash_html_components as html
 
-from matscholar_web.view import core_view_html, footer_html, nav_html
+from matscholar_web.tests.util import get_all_functions_in_module
+import matscholar_web.common as common
 
 """
-Tests for the core dash view.
+Tests for the core common dash views.
 """
 
 
-class TestCoreView(unittest.TestCase):
-    def test_core_views(self):
-        self.assertTrue(isinstance(core_view_html(), html.Div))
-        self.assertTrue(isinstance(footer_html(), html.Div))
-        self.assertTrue(isinstance(nav_html(), html.Div))
+class TestCoreCommonViews(unittest.TestCase):
+    def test_core_common_views(self):
+        functions = get_all_functions_in_module(common)
+        for fname, f in functions.items():
+            print(f"Testing: {fname}")
+            if "_html" in
+
