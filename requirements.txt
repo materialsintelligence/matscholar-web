@@ -5,14 +5,10 @@ dash-elasticsearch-autosuggest==0.6.0
 dash-html-components==1.0.0
 dash-renderer==1.0.0
 dash-table==4.1.0
-
-plotly
-flask
-Flask-Caching
-matplotlib
-gunicorn
-pandas
-pymatgen
-pyyaml
+pymatgen==2019.9.8
+flask==1.1.1
+Flask-Caching==1.7.2
+gunicorn==19.9.0
+pandas==0.25.1
 
 -e git+https://github.com/materialsintelligence/matscholar.git#egg=matscholar
