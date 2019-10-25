@@ -341,16 +341,20 @@ def entity_filter_box_html(field):
 
     # Autosuggest is styled by CSS react classnames ONLY!
     esas = ESAutosuggest(
+        id="search-" + field + "-filters-input",
         fields=['original', 'normalized'],
         endpoint=os.environ['ELASTIC_HOST'] + "/" +
                  ES_field_dict[field] + "/_search",
-        defaultField='normalized',
-        id="search-" + field + "-filters-input",
+        defaultField='original',
+        additionalField="normalized",
         placeholder=placeholders[field],
         authUser=os.environ['ELASTIC_USER'],
         authPass=os.environ['ELASTIC_PASS'],
         searchField="original.edgengram",
-        additionalField="normalized"
+        sort=["_score"],
+        suggestions=[],
+        autoFocus=True,
+        spellCheck=False,
     )
     # esas = dcc.Input(id="search_" + field + "_filters_input")
 

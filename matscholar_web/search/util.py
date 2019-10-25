@@ -111,11 +111,18 @@ def parse_search_box(search_text):
                     f"Length of pattern {pattern} ({n_chars}) exceeds maximum for a pattern ({MAX_N_CHARS_PER_PATTERN}).")
 
     if "text" in entity_query.keys():
-        raw_text = entity_query.pop("text")[0]
-        if not raw_text.strip():  # remove empty strings
+        if not entity_query["text"]:
             raw_text = None
+        else:
+            raw_text = entity_query.pop("text")[0]
+            if not raw_text.strip():  # remove empty strings
+                raw_text = None
     else:
         raw_text = None
+
+    if not raw_text and not any([e_list for e_list in entity_query.values()]):
+        raise MatscholarWebSearchError(
+            f"No raw text or entities parsed for any of the entered fields: {list(entity_query.values())}")
 
     if not entity_query and not raw_text:
         raise MatscholarWebSearchError("No raw text nor entity query parsed!")
