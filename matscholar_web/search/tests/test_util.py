@@ -5,6 +5,9 @@ from dash.dependencies import Input, Output, State
 from matscholar_web.constants import valid_search_filters
 from matscholar_web.search.util import parse_search_box, get_search_field_callback_args, MatscholarWebSearchError
 
+"""
+Tests for search utilities.
+"""
 
 class TestUtils(unittest.TestCase):
     def test_parse_search_box_good(self):
@@ -65,6 +68,7 @@ class TestUtils(unittest.TestCase):
             with self.assertRaises(MatscholarWebSearchError):
                 entity_query, text = parse_search_box(search)
                 print(entity_query, text)
+
 
     def test_get_search_field_callback_args(self):
         args = get_search_field_callback_args(as_type="input", return_component="value")
