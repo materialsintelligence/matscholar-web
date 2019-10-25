@@ -21,8 +21,8 @@ jobs:
       - run:
           name: setup env and run tests
           command: |
-            source dev_scripts/setup_env.sh
-            source dev_scripts/run_tests.sh
+            source scripts/setup_env.sh
+            source scripts/run_tests.sh
           no_output_timeout: 10m
 
       - save_cache:
@@ -41,21 +41,21 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
+            - v1-dependencies-{{ checksum "requirements_dev.txt" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run:
-          name: setup env and run tests
+          name: setup env and run code check
           command: |
-            source dev_scripts/setup_env_dev.sh
-            source dev_scripts/run_code_style_check.sh
+            source scripts/setup_env_dev.sh
+            source scripts/run_code_style_check.sh
           no_output_timeout: 10m
 
       - save_cache:
           paths:
             - ./test_env
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
+          key: v1-dependencies-{{ checksum "requirements_dev.txt" }}
 
 
 
