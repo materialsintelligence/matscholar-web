@@ -15,15 +15,11 @@ class TestSearchCommonViews(MatScholarWebBaseTest):
         self.run_test_for_all_functions_in_module(msweb_scommon, EXCLUDE)
 
     def test_results_label_html(self):
-        fname = "results_label_html"
-        for arg in ["entities", "materials", "abstracts"]:
-            print(f"Test: {arg} in {fname}")
-            o = msweb_scommon.results_label_html(arg)
-            self._basic_type_check_on_function(fname, o)
+        f = msweb_scommon.results_label_html
+        arg_combos = [(a, ) for a in ["entities", "materials", "abstracts"]]
+        self.run_test_for_individual_arg_combos(f, arg_combos)
 
     def test_big_label_and_disclaimer_html(self):
-        fname = "big_label_and_disclaimer_html"
-        for arg in ["entities", "materials", "abstracts"]:
-            print(f"Test: {arg} in {fname}")
-            o = msweb_scommon.big_label_and_disclaimer_html(arg)
-            self._basic_type_check_on_function(fname, o)
+        f = msweb_scommon.big_label_and_disclaimer_html
+        arg_combos = [(a, ) for a in ["entities", "materials", "abstracts"]]
+        self.run_test_for_individual_arg_combos(f, arg_combos)

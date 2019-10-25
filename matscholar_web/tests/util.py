@@ -7,6 +7,7 @@ import dash_html_components as html
 Utilities for running tests.
 """
 
+
 class MatScholarWebBaseTest(unittest.TestCase):
     def run_test_for_all_functions_in_module(self, module, exclude):
         """
@@ -40,14 +41,14 @@ class MatScholarWebBaseTest(unittest.TestCase):
                     o = f(*fake_args)
                     self._basic_type_check_on_function(fname, o)
 
-    def test_individual_arg_combos(self, f, arg_combos):
+    def run_test_for_individual_arg_combos(self, f, arg_combos):
         """
         Test an individual function with specified argument combinations
         (as tuples).
 
         Args:
             f (python function): a python function object
-            arg_combos (tuple): the arguments to test in the function object.
+            arg_combos ([tuple]): the arguments to test in the function object.
                 Only works with positional arguments
 
         Returns:
