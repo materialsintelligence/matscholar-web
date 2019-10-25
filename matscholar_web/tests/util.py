@@ -40,7 +40,8 @@ class MatScholarWebBaseTest(unittest.TestCase):
                     o = f(*fake_args)
                     self._basic_type_check_on_function(fname, o)
 
-    def test_individual_arg_combos(self, fname, f, arg_combos):
+    def test_individual_arg_combos(self, f, arg_combos):
+        fname = f.__name__
         for arg_combo in arg_combos:
             print(f"Test: {arg_combo} in {fname}")
             o = f(*arg_combo)

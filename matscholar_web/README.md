@@ -13,6 +13,9 @@
     mess with it!
 - `"*-hidden-ref*"`: A hidden reference for another id.
 
+
+The separation of callbacks and views allows for separate testing of the callback logic and the views.
+
 ## The `/` folder
 
 Running the app.

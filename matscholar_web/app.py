@@ -53,7 +53,7 @@ cache = Cache(app.server, config={"CACHE_TYPE": "simple"})
     Output("core-app-container", "children"),
     [Input("core-url", "pathname")]
 )
-def display_app(path):
+def display_app_html(path):
     """
     Updates which app is shown.
 
