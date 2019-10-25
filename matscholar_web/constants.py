@@ -7,7 +7,7 @@ from matscholar_web.util import load_static_data_file
 
 
 """
-Load the static files for the dash app once, and not on import of 
+Load the static files for the dash app once, and not on import of
 matscholar_web.
 
 Also define all constants which are used across all apps.

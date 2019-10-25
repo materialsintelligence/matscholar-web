@@ -4,7 +4,7 @@ import dash_html_components as html
 """
 Defining the core view (layout) component for the entire app.
 
-Please do not define any callback logic in this file. 
+Please do not define any callback logic in this file.
 """
 
 

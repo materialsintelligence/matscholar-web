@@ -1,5 +1,7 @@
 from matscholar_web.tests.util import MatScholarWebBaseTest
-from matscholar_web.extract.logic import extracted_results, get_random_abstract
+from matscholar_web.extract.logic import get_random_abstract
+
+# from matscholar_web.extract.logic import extracted_results
 
 """
 Tests for the extract app callback logic.

@@ -3,8 +3,6 @@ from matscholar_web.constants import rester, entity_color_map
 from matscholar_web.search.common import (
     no_results_html,
     common_results_container_style,
-    results_label_html,
-    results_disclaimer_html,
     big_label_and_disclaimer_html,
 )
 

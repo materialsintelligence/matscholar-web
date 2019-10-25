@@ -9,8 +9,6 @@ from matscholar_web.constants import (
 from matscholar_web.search.common import (
     common_results_container_style,
     no_results_html,
-    results_label_html,
-    results_disclaimer_html,
     big_label_and_disclaimer_html,
 )
 
