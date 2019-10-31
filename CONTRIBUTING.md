@@ -168,6 +168,7 @@ The following environment variables must be defined:
 - `ELASTIC_USER` - The ElasticSearch username
 - `MATERIALS_SCHOLAR_API_KEY` - The Matscholar API key to use in the rester
 - `MATERIALS_SCHOLAR_ENDPOINT` - The API endpoint URL for Matscholar
+- `MATERIALS_SCHOLAR_OUTAGE` - Whether or not there is an outage (1) or not (0). 
 
 
 # Formatting new contributions
