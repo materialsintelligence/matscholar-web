@@ -24,7 +24,7 @@ def core_view_html():
     """
 
     # The nav bar for all apps
-    nav = nav_html()
+    nav = html.Div(id="core-nav-container")
 
     # The footer for all apps
     footer_interior = footer_html()
@@ -60,7 +60,7 @@ def core_view_html():
     return core_view
 
 
-def nav_html():
+def nav_html(page="/"):
     """
     Get the plotly html block for the nav bar.
 
@@ -68,18 +68,45 @@ def nav_html():
         (dash_html_components.Div): The nav bar.
 
     """
+    common_nav_item_style = "navbar-item"
+
+    # Styles for the navbar elements, by their texts
+    style_ids = [
+        "extract",
+        "about",
+        "search",
+        "info",
+        "journals"
+    ]
+    styles = {k: common_nav_item_style for k in style_ids}
+    styles["info"] = "navbar-link"
+
+    highlighted_style = " msweb-is-underlined"
+    if page in ["/", "/search"]:
+        styles["search"] += highlighted_style
+    elif page=="/extract":
+        styles["extract"] += highlighted_style
+    elif page == "/about":
+        styles["about"] += highlighted_style
+        styles["info"] += highlighted_style
+    elif page == "/journals":
+        styles["journals"] += highlighted_style
+        styles["info"] += highlighted_style
+    else:
+        raise ValueError("Invalid page for highlighting.")
+
     search = dcc.Link(
-        "Search for Materials", href="/search", className="navbar-item"
+        "Search for Materials", href="/search", className=styles["search"]
     )
     extract = dcc.Link(
-        "Analyze an Abstract", href="/extract", className="navbar-item"
+        "Analyze an Abstract", href="/extract", className=styles["extract"]
     )
-    introduction = dcc.Link("About", href="/about", className="navbar-item")
-    journals = dcc.Link("Journals", href="/journals", className="navbar-item")
+    about = dcc.Link("About", href="/about", className=styles["about"])
+    journals = dcc.Link("Journals", href="/journals", className=styles["journals"])
     dropdown_items = html.Div(
-        [introduction, journals], className="navbar-dropdown"
+        [about, journals], className="navbar-dropdown"
     )
-    dropdown_link = html.Div("Info", className="navbar-link")
+    dropdown_link = html.Div("Info", className=styles["info"])
     dropdown = html.Div(
         [dropdown_link, dropdown_items],
         className="navbar-item has-dropdown is-hoverable",

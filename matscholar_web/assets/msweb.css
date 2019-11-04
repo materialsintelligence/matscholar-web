@@ -169,3 +169,16 @@ details[open] summary ~ * {
 .msweb-ubuntu {
     font-family: Ubuntu, "sans-serif"
 }
+
+
+.navbar-item:hover {
+    transition: 0.5s;
+}
+
+.navbar-link:hover {
+    transition: 0.3s;
+}
+
+.msweb-is-underlined {
+    text-decoration: underline;
+}

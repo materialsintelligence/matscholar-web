@@ -11,7 +11,7 @@ import matscholar_web.search.view as sv
 from matscholar_web.common import common_404_html
 from matscholar_web.constants import cache_timeout, outage
 from matscholar_web.search.util import get_search_field_callback_args
-from matscholar_web.view import core_view_html, outage_html
+from matscholar_web.view import core_view_html, outage_html, nav_html
 
 """
 A safe place for the dash app core instance to hang out.
@@ -75,6 +75,13 @@ def display_app_html(path):
         return jv.app_view_html()
     else:
         return common_404_html()
+
+
+@app.callback(
+    Output("core-nav-container", "children"), [Input("core-url", "pathname")]
+)
+def update_nav_bar_highlight(path):
+    return nav_html(path)
 
 
 # Animates the burger menu expansion on mobile
