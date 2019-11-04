@@ -1,5 +1,4 @@
 import dash
-import dash_html_components as html
 from dash.dependencies import ClientsideFunction, Input, Output, State
 from flask_caching import Cache
 
@@ -67,16 +66,15 @@ def display_app_html(path):
         (dash_html_components.Div): The app being shown, or a 404.
     """
     if str(path).strip() in ["/", "/search"] or not path:
-        app_html = sv.app_view_html()
+        return sv.app_view_html()
     elif path == "/extract":
-        app_html = av.app_view_html()
+        return av.app_view_html()
     elif path == "/about":
-        app_html = bv.app_view_html()
+        return bv.app_view_html()
     elif path == "/journals":
-        app_html = jv.app_view_html()
+        return jv.app_view_html()
     else:
-        app_html = common_404_html()
-    return html.Div(app_html, className="msweb-fade-in")
+        return common_404_html()
 
 
 @app.callback(
