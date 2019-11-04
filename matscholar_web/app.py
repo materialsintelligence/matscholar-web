@@ -81,6 +81,18 @@ def display_app_html(path):
     Output("core-nav-container", "children"), [Input("core-url", "pathname")]
 )
 def update_nav_bar_highlight(path):
+    """
+    Update the navigation bar highlight according to the current path.
+
+    E.g., if you're on the search page, the navbar is appropriately highlighted.
+
+    Args:
+        path (str): The path the browser is currently showing. For example,
+            "/search". Must be a valid search path for nav_html.
+
+    Returns:
+        (dash_html_components.Div): The app being shown, or a 404.
+    """
     return nav_html(path)
 
 

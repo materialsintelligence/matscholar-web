@@ -5,13 +5,12 @@ from matscholar_web.tests.util import MatScholarWebBaseTest, VALID_PAGES
 Tests for the core dash view.
 """
 
-# Functions to exclude from this test
-EXCLUDE = []
-
-
 class TestCoreView(MatScholarWebBaseTest):
     def test_core_views(self):
-        self.run_test_for_all_functions_in_module(msweb_view, EXCLUDE)
+        self.run_test_for_all_functions_in_module(
+            msweb_view,
+            exclude=["nav_html"]
+        )
 
     def test_nav_bar(self):
         f = msweb_view.nav_html
@@ -19,4 +18,4 @@ class TestCoreView(MatScholarWebBaseTest):
         self.run_test_for_individual_arg_combos(f, arg_combos)
 
         with self.assertRaises(ValueError):
-            html = f("/not_a_real_valid_web_url_path")
+            f("/not_a_real_valid_web_url_path")
