@@ -108,7 +108,7 @@ def materials_table_html(df, limit):
         (dash_html_components.Div): The materials summary table only.
     """
     header_material = html.Th("Material")
-    header_counts = html.Th("Count")
+    header_counts = html.Th("Fraction of Papers")
     header_clickable = html.Th(
         f"Clickable doi links ({MAX_N_DOIS_FOR_VIEWING} examples)"
     )
