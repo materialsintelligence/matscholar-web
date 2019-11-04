@@ -88,4 +88,4 @@ def journal_info_html():
     ]
 
     container = common_info_box_html(elements, id="journals")
-    return html.Div(container, className="msweb-fade-in")
+    return container
