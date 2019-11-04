@@ -68,7 +68,7 @@ def nav_html(page="/"):
         (dash_html_components.Div): The nav bar.
 
     """
-    common_nav_item_style = "navbar-item"
+    common_nav_item_style = "navbar-item has-text-weight-semibold"
 
     # Styles for the navbar elements, by their texts
     style_ids = [
@@ -79,7 +79,7 @@ def nav_html(page="/"):
         "journals"
     ]
     styles = {k: common_nav_item_style for k in style_ids}
-    styles["info"] = "navbar-link"
+    styles["info"] = "navbar-link has-text-weight-semibold"
 
     highlighted_style = " msweb-is-underlined"
     if page in ["/", "/search"]:
@@ -87,13 +87,15 @@ def nav_html(page="/"):
     elif page=="/extract":
         styles["extract"] += highlighted_style
     elif page == "/about":
-        styles["about"] += highlighted_style
+        # styles["about"] += highlighted_style
         styles["info"] += highlighted_style
     elif page == "/journals":
-        styles["journals"] += highlighted_style
+        # styles["journals"] += highlighted_style
         styles["info"] += highlighted_style
+    elif page is None:
+        pass
     else:
-        raise ValueError("Invalid page for highlighting.")
+        raise ValueError(f"Invalid page for highlighting: '{page}'")
 
     search = dcc.Link(
         "Search for Materials", href="/search", className=styles["search"]

@@ -180,5 +180,6 @@ details[open] summary ~ * {
 }
 
 .msweb-is-underlined {
-    text-decoration: underline;
+   text-decoration: none;
+    border-bottom: 4px solid white;
 }
