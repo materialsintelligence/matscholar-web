@@ -39,7 +39,8 @@ def app_view_html():
             search_bar_and_buttons_html(),
             guided_search_boxes_html(),
             subview_results_container_html(),
-        ]
+        ],
+        className="msweb-fade-in",
     )
 
 

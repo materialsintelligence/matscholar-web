@@ -3,12 +3,12 @@ import unittest
 
 import dash_html_components as html
 
-
 """
 Utilities for running tests.
 """
 
 VALID_PAGES = ["/search", "/extract", "/", "/about", "/journals"]
+
 
 class MatScholarWebBaseTest(unittest.TestCase):
     def run_test_for_all_functions_in_module(self, module, exclude):

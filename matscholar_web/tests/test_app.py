@@ -1,7 +1,7 @@
 import dash_html_components as html
 
 from matscholar_web.app import display_app_html
-from matscholar_web.tests.util import MatScholarWebBaseTest, VALID_PAGES
+from matscholar_web.tests.util import VALID_PAGES, MatScholarWebBaseTest
 
 
 """

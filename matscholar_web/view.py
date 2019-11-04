@@ -55,7 +55,7 @@ def core_view_html():
 
     core_view = html.Div(
         [external_stylesheets, location, nav, app_expander_container, footer],
-        className="msweb-background",
+        className="msweb-background msweb-fade-in",
     )
     return core_view
 
@@ -71,20 +71,14 @@ def nav_html(page="/"):
     common_nav_item_style = "navbar-item has-text-weight-semibold"
 
     # Styles for the navbar elements, by their texts
-    style_ids = [
-        "extract",
-        "about",
-        "search",
-        "info",
-        "journals"
-    ]
+    style_ids = ["extract", "about", "search", "info", "journals"]
     styles = {k: common_nav_item_style for k in style_ids}
     styles["info"] = "navbar-link has-text-weight-semibold"
 
     highlighted_style = " msweb-is-underlined"
     if page in ["/", "/search"]:
         styles["search"] += highlighted_style
-    elif page=="/extract":
+    elif page == "/extract":
         styles["extract"] += highlighted_style
     elif page == "/about":
         # styles["about"] += highlighted_style
@@ -104,10 +98,10 @@ def nav_html(page="/"):
         "Analyze an Abstract", href="/extract", className=styles["extract"]
     )
     about = dcc.Link("About", href="/about", className=styles["about"])
-    journals = dcc.Link("Journals", href="/journals", className=styles["journals"])
-    dropdown_items = html.Div(
-        [about, journals], className="navbar-dropdown"
+    journals = dcc.Link(
+        "Journals", href="/journals", className=styles["journals"]
     )
+    dropdown_items = html.Div([about, journals], className="navbar-dropdown")
     dropdown_link = html.Div("Info", className=styles["info"])
     dropdown = html.Div(
         [dropdown_link, dropdown_items],
@@ -148,7 +142,7 @@ def nav_html(page="/"):
             "aria-label": "menu",
             "aria-expanded": False,
             "data-target": navbar_menu_id,
-        }
+        },
     )
     navbar_brand = html.Div(
         [nav_image_container, nav_burger], className="navbar-brand"
@@ -158,7 +152,7 @@ def nav_html(page="/"):
         [navbar_brand, navbar_menu],
         className="navbar is-link is-fixed-top",
         role="navigation",
-        **{"aria-label": "main navigation"}
+        **{"aria-label": "main navigation"},
     )
     nav_with_padding = html.Div(nav_menu, className="has-navbar-fixed-top")
     return nav_with_padding

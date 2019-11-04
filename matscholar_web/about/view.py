@@ -164,7 +164,7 @@ def introduction_html():
         funding_body,
     ]
     container = common_info_box_html(elements)
-    return container
+    return html.Div(container, className="msweb-fade-in")
 
 
 def current_stats_html():

@@ -11,7 +11,7 @@ import matscholar_web.search.view as sv
 from matscholar_web.common import common_404_html
 from matscholar_web.constants import cache_timeout, outage
 from matscholar_web.search.util import get_search_field_callback_args
-from matscholar_web.view import core_view_html, outage_html, nav_html
+from matscholar_web.view import core_view_html, nav_html, outage_html
 
 """
 A safe place for the dash app core instance to hang out.
