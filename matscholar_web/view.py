@@ -231,7 +231,9 @@ def outage_html():
 
     """
     common_text_size = "is-size-5"
-    central_image = html.Img(src="/assets/logo.png")
+    central_image = html.Img(
+        src="/assets/logo.png", style={"height": 150, "width": 400}
+    )
     img_link = html.A(
         central_image, href="https://github.com/materialsintelligence"
     )

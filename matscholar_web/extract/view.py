@@ -117,8 +117,7 @@ def app_view_html():
     )
 
     layout = html.Div(
-        [logo, main_app_columns],
-        className="container has-margin-top-50",
+        [logo, main_app_columns], className="container has-margin-top-50"
     )
     return layout
 
