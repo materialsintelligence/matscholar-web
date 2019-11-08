@@ -16,7 +16,9 @@ def logo_html():
         (dash_html_components.Div): The header.
     """
 
-    logo = html.Img(src="/assets/logo_header.png")
+    logo = html.Img(
+        src="/assets/logo.png", style={"width": "400px", "height": "65px"}
+    )
 
     header_centering = html.Div(
         [logo],
