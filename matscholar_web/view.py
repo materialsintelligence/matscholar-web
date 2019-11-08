@@ -113,7 +113,7 @@ def nav_html(page="/"):
 
     log_in = html.A(
         "Official Support Forum",
-        href="https://materialsintelligence.discourse.group",
+        href="https://discuss.matsci.org",
         className="button is-dark is-small",
     )
     buttons = html.Div(log_in, className="buttons")

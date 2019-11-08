@@ -14,7 +14,7 @@ This repo houses the code for the [website](https://www.matscholar.com),
 which is built with Plotly Dash.
 
 If you would like to submit feedback to help us improve the app, 
-please see our [official support forum](https://materialsintelligence.discourse.group). 
+please see the Matscholar category on our [official support forum](https://dicuss.matsci.org). 
 
 If you have any other questions please contact our development 
 team at help@matscholar.com.
