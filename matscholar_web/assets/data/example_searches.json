@@ -10,5 +10,6 @@
   "application: semiconductor, synthesis: CVD",
   "application: thermoelectric",
   "application: battery, phase: spinel",
-  "descriptor: thin film, text: deposition"
+  "descriptor: thin film, text: deposition",
+  "phase: diamond, perovskite, property: dielectric constant"
 ]
