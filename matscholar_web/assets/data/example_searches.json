@@ -1,15 +1,13 @@
 [
   "material: Bi2Te3, property: thermoelectrics",
+  "phase: diamond, perovskite, property: dielectric constant",
   "material: gold, descriptor: nanoparticle, characterization: SEM",
   "material: graphite, application: anode",
   "phase: perovskite, synthesis: firing",
   "application: spintronics, descriptor: doped",
-  "phase: diamond",
-  "phase: perovskite",
   "phase: cubic, characterization: x-ray diffraction, descriptor: doped",
   "application: semiconductor, synthesis: CVD",
   "application: thermoelectric",
   "application: battery, phase: spinel",
-  "descriptor: thin film, text: deposition",
-  "phase: diamond, perovskite, property: dielectric constant"
+  "descriptor: thin film, text: deposition"
 ]
