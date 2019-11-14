@@ -78,13 +78,8 @@ def nav_html(page="/"):
     highlighted_style = " msweb-is-underlined"
     if page in ["/", "/search"]:
         styles["search"] += highlighted_style
-    elif page == "/extract":
-        styles["extract"] += highlighted_style
     elif page == "/about":
         # styles["about"] += highlighted_style
-        styles["info"] += highlighted_style
-    elif page == "/journals":
-        # styles["journals"] += highlighted_style
         styles["info"] += highlighted_style
     elif page is None:
         pass
@@ -92,27 +87,21 @@ def nav_html(page="/"):
         raise ValueError(f"Invalid page for highlighting: '{page}'")
 
     search = dcc.Link(
-        "Search for Materials", href="/search", className=styles["search"]
-    )
-    extract = dcc.Link(
-        "Analyze an Abstract", href="/extract", className=styles["extract"]
+        "Search for Symposia", href="/search", className=styles["search"]
     )
     about = dcc.Link("About", href="/about", className=styles["about"])
-    journals = dcc.Link(
-        "Journals", href="/journals", className=styles["journals"]
-    )
-    dropdown_items = html.Div([about, journals], className="navbar-dropdown")
+    dropdown_items = html.Div([about], className="navbar-dropdown")
     dropdown_link = html.Div("Info", className=styles["info"])
     dropdown = html.Div(
         [dropdown_link, dropdown_items],
         className="navbar-item has-dropdown is-hoverable",
     )
     navbar_start = html.Div(
-        [search, extract, dropdown], className="navbar-start"
+        [search, dropdown], className="navbar-start"
     )
 
     log_in = html.A(
-        "Official Support Forum",
+        "Matscholar Support Forum",
         href="https://discuss.matsci.org",
         className="button is-dark is-small",
     )
@@ -169,8 +158,8 @@ def footer_html():
     note_div = html.Div(
         [
             html.Span(
-                "Note: This is an alpha release of Matscholar for the purpose "
-                "of collecting feedback."
+                "This site was built by the team behind Matscholar (matscholar.com) as a showcase for the"
+                "Materials Research Society Fall 2019 meeting."
             )
         ]
     )
@@ -209,7 +198,7 @@ def footer_html():
     )
 
     footer_copyright = html.Div(
-        html.Span("Copyright © 2019 - Materials Intelligence")
+        html.Span("Copyright © 2019 - Lawrence Berkeley National Laboratory")
     )
 
     footer = html.Div(

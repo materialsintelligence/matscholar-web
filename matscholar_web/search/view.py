@@ -113,7 +113,7 @@ def search_bar_and_buttons_html():
         className="is-hidden",
     )
 
-    n_abstracts_link = dcc.Link(
+    n_symposia_link = dcc.Link(
         id="search-count-abstracts-cs",
         children=f"{n_abstracts}",
         href="/about",
@@ -123,18 +123,25 @@ def search_bar_and_buttons_html():
     label = html.Label(
         [
             "Search ",
-            n_abstracts_link,
-            " materials science abstracts with named entity recognition",
+            n_symposia_link,
+            " symoposia at MRS Fall 2019 with the aid of materials-aware artificial intelligence",
         ],
         className="is-size-4-desktop has-margin-5",
     )
     label_container = html.Div(label, className="has-text-centered")
 
+    text_search_bar = dcc.Input(
+        placeholder="",
+        id="text-search-main-bar-input",
+        className="input is-info is-medium",
+        autoFocus=True,
+    )
+
     search_bar = dcc.Input(
         placeholder=example_searches[-1],
         id="search-main-bar-input",
         className="input is-info is-medium",
-        autoFocus=True,
+        autoFocus=False,
     )
 
     sized = "is-size-7"
@@ -152,6 +159,7 @@ def search_bar_and_buttons_html():
     search_bar_tooltip = html.Div(
         tooltip_spans, className=f"tooltip-text has-margin-0"
     )
+
     search_bar_html = html.Div(
         [label_container, search_bar, search_bar_tooltip],
         className="flex-column is-narrow tooltip",
@@ -162,6 +170,7 @@ def search_bar_and_buttons_html():
         id="search-go-button",
         className="button is-info is-focused is-medium",
     )
+
     go_html = html.Div(
         go_button,
         className="flex-column is-narrow has-margin-left-10 has-margin-right-10",
@@ -172,6 +181,7 @@ def search_bar_and_buttons_html():
         id="search-example-button",
         className="button is-light is-focused is-medium",
     )
+
     example_search_html = html.Div(
         example_search_button,
         className="flex-column is-narrow has-margin-left-10 has-margin-right-10",
