@@ -4,7 +4,7 @@ from matscholar_web.constants import sample_abstracts
 from matscholar_web.extract.view import (
     extract_entities_results_html,
     no_abstract_warning_html,
-    journal_suggestions_html
+    journal_suggestions_html,
 )
 
 """
@@ -14,24 +14,25 @@ Please do not define any html blocks in this file.
 """
 
 
-def extracted_results(extract_button_n_clicks, suggest_button_n_clicks, text, normalize):
+def extracted_results(
+    extract_button_n_clicks, suggest_button_n_clicks, text, normalize
+):
     """
-    Get the extracted results from the extract app via clicks and the entered
-    text, along with the normalize dropdown.
+    Get the extracted entities or the journal suggestion results from the
+    extract app via clicks and the entered text, along with the
+    normalize dropdown.
 
     Args:
         extract_button_n_clicks (int): The number of clicks of the extract
             button.
+        suggest_button_n_clicks (int): the number of clicks of the suggest
+            button
         text (str): The text entered in the text box, to extract.
         normalize (bool): The normalize string to pass to the rester.
 
     Returns:
         (dash_html_components, str): The extracted results html block.
     """
-
-    print(f"extract n clicks is {extract_button_n_clicks}")
-    print(f"suggest n clicks is {suggest_button_n_clicks}")
-
     if extract_button_n_clicks is None and suggest_button_n_clicks is None:
         return ""
     else:
@@ -39,9 +40,15 @@ def extracted_results(extract_button_n_clicks, suggest_button_n_clicks, text, no
         if stripped in [None, ""]:
             return no_abstract_warning_html()
         else:
-            if extract_button_n_clicks is not None and extract_button_n_clicks > 0:
+            if (
+                extract_button_n_clicks is not None
+                and extract_button_n_clicks > 0
+            ):
                 return extract_entities_results_html(text, normalize)
-            elif suggest_button_n_clicks is not None and suggest_button_n_clicks > 0:
+            elif (
+                suggest_button_n_clicks is not None
+                and suggest_button_n_clicks > 0
+            ):
                 return journal_suggestions_html(text)
             else:
                 return ""

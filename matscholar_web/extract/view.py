@@ -93,9 +93,7 @@ def app_view_html():
 
     loading = dcc.Loading(
         id="loading-extract",
-        children=[
-            html.Div(id="extract-results"),
-        ],
+        children=[html.Div(id="extract-results")],
         type="cube",
         color="#21ff0d",
         className="msweb-fade-in",
@@ -128,7 +126,6 @@ def app_view_html():
     return layout
 
 
-
 def journal_suggestions_html(text):
     """
     Get an html block of the results for a journal suggestion.
@@ -151,16 +148,20 @@ def journal_suggestions_html(text):
         return common_rester_error_html(rester_error_txt)
     label = html.Label("Suggested journals (Top 10 shown)")
     label_container = html.Div(label, className="is-size-4")
-    explanation = html.Div("Your abstract is most similar to abstracts found in the following journals.", className="is-size-6")
-    label_and_explanation = html.Div([label_container, explanation], className="has-margin-top-30 has-margin-bottom-20")
+    explanation = html.Div(
+        "Your abstract is most similar to abstracts found in the following journals.",
+        className="is-size-6",
+    )
+    label_and_explanation = html.Div(
+        [label_container, explanation],
+        className="has-margin-top-30 has-margin-bottom-20",
+    )
 
     common_size = "is-size-5"
     header_jname = html.Th("Journal Name", className=common_size)
     header_confidence = html.Th("Confidence Level", className=common_size)
 
-    header = html.Tr(
-        [header_jname, header_confidence]
-    )
+    header = html.Tr([header_jname, header_confidence])
     n_results = len(results)
 
     rows = [None] * n_results
@@ -170,8 +171,12 @@ def journal_suggestions_html(text):
         confidence = "{0:.2f}%".format(result[1] * 100)
         rows[i] = html.Tr(
             [
-                html.Td(journal,  className=common_size + " msweb-clicker-green"),
-                html.Td(confidence,  className=common_size + " msweb-clicker-green")
+                html.Td(
+                    journal, className=common_size + " msweb-clicker-green"
+                ),
+                html.Td(
+                    confidence, className=common_size + " msweb-clicker-green"
+                ),
             ]
         )
 
