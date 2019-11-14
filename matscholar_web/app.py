@@ -258,7 +258,7 @@ app.clientside_callback(
 # Extract app callbacks
 ################################################################################
 @app.callback(
-    Output("extract-highlighted", "children"),
+    Output("extract-results", "children"),
     [Input("extract-button", "n_clicks")],
     [
         State("extract-text-area", "value"),

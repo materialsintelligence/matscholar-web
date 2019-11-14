@@ -4,8 +4,8 @@ from matscholar_web.constants import sample_abstracts
 from matscholar_web.extract.view import (
     extract_entities_results_html,
     no_abstract_warning_html,
+    journal_suggestions_html
 )
-
 
 """
 Callback logic for callbacks in the extract app.
@@ -33,7 +33,8 @@ def extracted_results(extract_button_n_clicks, text, normalize):
         if stripped in [None, ""]:
             return no_abstract_warning_html()
         else:
-            return extract_entities_results_html(text, normalize)
+            return journal_suggestions_html(text)
+            # return extract_entities_results_html(text, normalize)
     else:
         return ""
 

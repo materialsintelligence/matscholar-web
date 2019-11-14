@@ -79,6 +79,12 @@ def app_view_html():
         className=f"{common_button_styling} is-link",
     )
 
+    suggest_button = html.Button(
+        "Suggest a journal",
+        id="extract-suggest-button",
+        className=f"{common_button_styling} is-danger",
+    )
+
     random_abstract_button = html.Button(
         "Example",
         id="extract-random",
@@ -88,8 +94,7 @@ def app_view_html():
     loading = dcc.Loading(
         id="loading-extract",
         children=[
-            html.Div(id="extract-highlighted"),
-            html.Div(id="extracted"),
+            html.Div(id="extract-results"),
         ],
         type="cube",
         color="#21ff0d",
@@ -106,6 +111,7 @@ def app_view_html():
             text_area_div,
             convert_synonyms_container,
             extract_button,
+            suggest_button,
             random_abstract_button,
             loading_container,
         ],
@@ -120,6 +126,61 @@ def app_view_html():
         [logo, main_app_columns], className="container has-margin-top-50"
     )
     return layout
+
+
+
+def journal_suggestions_html(text):
+    """
+    Get an html block of the results for a journal suggestion.
+
+    Args:
+        text (the abstract text)
+
+    Returns:
+        (dash_html_components.Div): The html block for the journal suggestion
+            results.
+
+    """
+    try:
+        results = rester.get_journal_suggestion(text)
+    except MatScholarRestError:
+        rester_error_txt = (
+            "Our server is having trouble making a suggestion for that "
+            "abstract. We are likely undergoing maintenance, check back soon!"
+        )
+        return common_rester_error_html(rester_error_txt)
+    label = html.Label("Suggested journals (Top 10 shown)")
+    label_container = html.Div(label, className="is-size-4")
+    explanation = html.Div("Your abstract is most similar to abstracts found in the following journals.", className="is-size-6")
+    label_and_explanation = html.Div([label_container, explanation], className="has-margin-top-30 has-margin-bottom-20")
+
+    common_size = "is-size-5"
+    header_jname = html.Th("Journal Name", className=common_size)
+    header_confidence = html.Th("Confidence Level", className=common_size)
+
+    header = html.Tr(
+        [header_jname, header_confidence]
+    )
+    n_results = len(results)
+
+    rows = [None] * n_results
+    for i in range(n_results):
+        result = results[i]
+        journal = result[0]
+        confidence = "{0:.2f}%".format(result[1] * 100)
+        rows[i] = html.Tr(
+            [
+                html.Td(journal,  className=common_size + " msweb-clicker-red"),
+                html.Td(confidence,  className=common_size + " msweb-clicker-red")
+            ]
+        )
+
+    table = html.Table(
+        [header] + rows,
+        className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped",
+    )
+
+    return html.Div([label_and_explanation, table])
 
 
 def extract_entities_results_html(text, normalize):

@@ -184,3 +184,15 @@ details[open] summary ~ * {
    text-decoration: none;
     border-bottom: 4px solid white;
 }
+
+
+.msweb-clicker-red {
+    -moz-transition: all .2s ease-in;
+    -o-transition: all .2s ease-in;
+    -webkit-transition: all .2s ease-in;
+    transition: all .2s ease-in;
+}
+
+.msweb-clicker-red:hover {
+    color: #ff0f0f;
+}
