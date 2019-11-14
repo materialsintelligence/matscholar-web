@@ -82,7 +82,7 @@ def app_view_html():
     suggest_button = html.Button(
         "Suggest a journal",
         id="extract-suggest-button",
-        className=f"{common_button_styling} is-danger",
+        className=f"{common_button_styling} is-info",
     )
 
     random_abstract_button = html.Button(
@@ -170,8 +170,8 @@ def journal_suggestions_html(text):
         confidence = "{0:.2f}%".format(result[1] * 100)
         rows[i] = html.Tr(
             [
-                html.Td(journal,  className=common_size + " msweb-clicker-red"),
-                html.Td(confidence,  className=common_size + " msweb-clicker-red")
+                html.Td(journal,  className=common_size + " msweb-clicker-green"),
+                html.Td(confidence,  className=common_size + " msweb-clicker-green")
             ]
         )
 
