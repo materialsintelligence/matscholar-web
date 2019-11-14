@@ -14,7 +14,7 @@ Please do not define any html blocks in this file.
 """
 
 
-def extracted_results(extract_button_n_clicks, text, normalize):
+def extracted_results(extract_button_n_clicks, suggest_button_n_clicks, text, normalize):
     """
     Get the extracted results from the extract app via clicks and the entered
     text, along with the normalize dropdown.
@@ -28,15 +28,23 @@ def extracted_results(extract_button_n_clicks, text, normalize):
     Returns:
         (dash_html_components, str): The extracted results html block.
     """
-    if extract_button_n_clicks is not None:
+
+    print(f"extract n clicks is {extract_button_n_clicks}")
+    print(f"suggest n clicks is {suggest_button_n_clicks}")
+
+    if extract_button_n_clicks is None and suggest_button_n_clicks is None:
+        return ""
+    else:
         stripped = text if not text else text.strip()
         if stripped in [None, ""]:
             return no_abstract_warning_html()
         else:
-            return journal_suggestions_html(text)
-            # return extract_entities_results_html(text, normalize)
-    else:
-        return ""
+            if extract_button_n_clicks is not None and extract_button_n_clicks > 0:
+                return extract_entities_results_html(text, normalize)
+            elif suggest_button_n_clicks is not None and suggest_button_n_clicks > 0:
+                return journal_suggestions_html(text)
+            else:
+                return ""
 
 
 def get_random_abstract(random_button_n_clicks):
