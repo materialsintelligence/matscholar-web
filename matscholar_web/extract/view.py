@@ -80,7 +80,7 @@ def app_view_html():
     )
 
     suggest_button = html.Button(
-        "Suggest a journal",
+        "Suggest a journal (beta)",
         id="extract-suggest-button",
         className=f"{common_button_styling} is-info",
     )
@@ -152,8 +152,12 @@ def journal_suggestions_html(text):
         "Your abstract is most similar to abstracts found in the following journals.",
         className="is-size-6",
     )
+    beta_label = html.Div(
+        "Journal suggestion is a beta feature of Matscholar. Please stay tuned for improvements.",
+        className="is-size-6",
+    )
     label_and_explanation = html.Div(
-        [label_container, explanation],
+        [label_container, explanation, beta_label],
         className="has-margin-top-30 has-margin-bottom-20",
     )
 
