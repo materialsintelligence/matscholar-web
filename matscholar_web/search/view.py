@@ -94,7 +94,7 @@ def malformed_query_warning_html(bad_search_txt):
         f'value1, entity2: value2. For example: "material: PbTe, '
         f'property: thermoelectric"'
     )
-    return common_warning_html(warning_header_txt, warning_body_txt)
+    return common_warning_html(warning_header_txt, warning_body_txt, "is-half")
 
 
 def search_bar_and_buttons_html():

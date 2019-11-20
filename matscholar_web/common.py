@@ -34,7 +34,7 @@ def logo_html():
     return header_container
 
 
-def common_warning_html(header_txt, body_txt):
+def common_warning_html(header_txt, body_txt, width):
     """
     Get a warning box which can be used across all apps.
 
@@ -43,6 +43,7 @@ def common_warning_html(header_txt, body_txt):
     Args:
         header_txt (str): The text to include in the big header of the warning.
         body_txt (str): The main warning text body.
+        width (str): The width of the warning, in column bulma syntax
 
     Returns:
         (dash_html_components.Div): The common warning box html block.
@@ -53,7 +54,7 @@ def common_warning_html(header_txt, body_txt):
     warning = html.Div(
         [warning_header, warning_body], className="notification is-danger"
     )
-    warning_column = html.Div(warning, className="column is-half")
+    warning_column = html.Div(warning, className=f"column {width}")
     warning_columns = html.Div(warning_column, className="columns is-centered")
     warning_container = html.Div(warning_columns, className="container")
     return warning_container

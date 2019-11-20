@@ -226,7 +226,9 @@ def extract_entities_results_html(text, normalize):
             "inorganic materials science. Expect lower than optimum "
             "performance."
         )
-        warning = common_warning_html(warning_header_txt, warning_body_txt)
+        warning = common_warning_html(
+            warning_header_txt, warning_body_txt, "is-fullwidth"
+        )
     else:
         warning = html.Div("")
 
@@ -324,8 +326,16 @@ def highlight_entities_html(tagged_doc):
         "O": "other",
     }
 
+    all_tags = []
     for i, tagged_token in enumerate(tagged_doc):
         token, tag = tagged_token[0], tagged_token[1]
+
+        # todo: remove when backend internal NER is fixed.
+        # it is the source of these I-* tags which crash the callback
+        if "I-" in tag:
+            tag = "O"
+
+        all_tags.append(tag)
         color = entity_color_map_extended[local_entity_shortcode_map[tag]]
 
         if color is None:
@@ -348,6 +358,10 @@ def highlight_entities_html(tagged_doc):
     entities = html.Div(
         entities_containers, className="columns is-multiline has-margin-5"
     )
+
+    if all([t == "O" for t in all_tags]):
+        return html.Div("No entities found!", className="is-size-5")
+
     return entities
 
 
