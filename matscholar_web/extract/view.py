@@ -163,7 +163,7 @@ def journal_suggestions_html(text):
 
     common_size = "is-size-5"
     header_jname = html.Th("Journal Name", className=common_size)
-    header_confidence = html.Th("Confidence Level", className=common_size)
+    header_confidence = html.Th("Score", className=common_size)
 
     header = html.Tr([header_jname, header_confidence])
     n_results = len(results)
@@ -172,7 +172,7 @@ def journal_suggestions_html(text):
     for i in range(n_results):
         result = results[i]
         journal = result[0]
-        confidence = "{0:.2f}%".format(result[1] * 100)
+        confidence = "{0:.1f}%".format(result[1] * 100)
         rows[i] = html.Tr(
             [
                 html.Td(
