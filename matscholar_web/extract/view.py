@@ -39,7 +39,7 @@ def app_view_html():
     """
 
     label = html.Label(
-        "Enter a scientific abstract's text for named entity extraction:",
+        "Enter a scientific abstract's text for analysis:",
         className="is-size-4",
     )
     label_container = html.Div(
