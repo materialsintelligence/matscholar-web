@@ -171,7 +171,7 @@ def footer_html():
     note_div = html.Div(
         [
             html.Span(
-                "Note: This is an alpha release of Matscholar for the purpose "
+                "Note: This is a beta release of Matscholar for the purpose "
                 "of collecting feedback."
             )
         ]
