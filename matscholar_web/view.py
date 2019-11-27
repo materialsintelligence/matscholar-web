@@ -195,7 +195,7 @@ def footer_html():
 
     submit_feedback = html.A(
         "Submit Feedback",
-        href="https://materialsintelligence.discourse.group",
+        href="https://discuss.matsci.org/c/matscholar",
         target="_blank",
         className=common_footer_style,
     )
