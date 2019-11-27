@@ -122,7 +122,7 @@ def nav_html(page="/"):
 
     navbar_menu_id = "core-navbar-menu"
     navbar_menu = html.Div(
-        [navbar_start, navbar_end], id=navbar_menu_id, className="navbar-menu"
+        [navbar_start, navbar_end], id=navbar_menu_id, className="navbar-menu is-active"
     )
 
     nav_image = html.Img(src="/assets/logo_inverted.png", height=200)
@@ -137,7 +137,7 @@ def nav_html(page="/"):
         [burger] * 3,
         id="core-burger-trigger-cs",
         role="button",
-        className="navbar-burger",
+        className="navbar-burger is-active",
         **{
             "aria-label": "menu",
             "aria-expanded": False,
