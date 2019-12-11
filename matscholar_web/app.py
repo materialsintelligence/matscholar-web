@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import dash
 from dash.dependencies import ClientsideFunction, Input, Output, State
 from flask_caching import Cache
