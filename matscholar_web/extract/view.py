@@ -39,7 +39,7 @@ def app_view_html():
     """
 
     label = html.Label(
-        "Enter a scientific abstract's text for named entity extraction:",
+        "Enter a scientific abstract's text for analysis:",
         className="is-size-4",
     )
     label_container = html.Div(
@@ -79,6 +79,12 @@ def app_view_html():
         className=f"{common_button_styling} is-link",
     )
 
+    suggest_button = html.Button(
+        "Suggest a journal (beta)",
+        id="extract-suggest-button",
+        className=f"{common_button_styling} is-info",
+    )
+
     random_abstract_button = html.Button(
         "Example",
         id="extract-random",
@@ -87,10 +93,7 @@ def app_view_html():
 
     loading = dcc.Loading(
         id="loading-extract",
-        children=[
-            html.Div(id="extract-highlighted"),
-            html.Div(id="extracted"),
-        ],
+        children=[html.Div(id="extract-results")],
         type="cube",
         color="#21ff0d",
         className="msweb-fade-in",
@@ -106,6 +109,7 @@ def app_view_html():
             text_area_div,
             convert_synonyms_container,
             extract_button,
+            suggest_button,
             random_abstract_button,
             loading_container,
         ],
@@ -120,6 +124,72 @@ def app_view_html():
         [logo, main_app_columns], className="container has-margin-top-50"
     )
     return layout
+
+
+def journal_suggestions_html(text):
+    """
+    Get an html block of the results for a journal suggestion.
+
+    Args:
+        text (the abstract text)
+
+    Returns:
+        (dash_html_components.Div): The html block for the journal suggestion
+            results.
+
+    """
+    try:
+        results = rester.get_journal_suggestion(text)
+    except MatScholarRestError:
+        rester_error_txt = (
+            "Our server is having trouble making a suggestion for that "
+            "abstract. We are likely undergoing maintenance, check back soon!"
+        )
+        return common_rester_error_html(rester_error_txt)
+    label = html.Label("Suggested journals (Top 10 shown)")
+    label_container = html.Div(label, className="is-size-4")
+    explanation = html.Div(
+        "Your abstract is most similar to abstracts found in the following journals.",
+        className="is-size-6",
+    )
+    beta_label = html.Div(
+        "Journal suggestion is a beta feature of Matscholar. Please stay tuned for improvements.",
+        className="is-size-6",
+    )
+    label_and_explanation = html.Div(
+        [label_container, explanation, beta_label],
+        className="has-margin-top-30 has-margin-bottom-20",
+    )
+
+    common_size = "is-size-5"
+    header_jname = html.Th("Journal Name", className=common_size)
+    header_confidence = html.Th("Score", className=common_size)
+
+    header = html.Tr([header_jname, header_confidence])
+    n_results = len(results)
+
+    rows = [None] * n_results
+    for i in range(n_results):
+        result = results[i]
+        journal = result[0]
+        confidence = "{0:.1f}%".format(result[1] * 100)
+        rows[i] = html.Tr(
+            [
+                html.Td(
+                    journal, className=common_size + " msweb-clicker-green"
+                ),
+                html.Td(
+                    confidence, className=common_size + " msweb-clicker-green"
+                ),
+            ]
+        )
+
+    table = html.Table(
+        [header] + rows,
+        className="table is-fullwidth is-bordered is-hoverable is-narrow is-striped",
+    )
+
+    return html.Div([label_and_explanation, table])
 
 
 def extract_entities_results_html(text, normalize):
@@ -156,7 +226,9 @@ def extract_entities_results_html(text, normalize):
             "inorganic materials science. Expect lower than optimum "
             "performance."
         )
-        warning = common_warning_html(warning_header_txt, warning_body_txt)
+        warning = common_warning_html(
+            warning_header_txt, warning_body_txt, "is-fullwidth"
+        )
     else:
         warning = html.Div("")
 
@@ -254,8 +326,16 @@ def highlight_entities_html(tagged_doc):
         "O": "other",
     }
 
+    all_tags = []
     for i, tagged_token in enumerate(tagged_doc):
         token, tag = tagged_token[0], tagged_token[1]
+
+        # todo: remove when backend internal NER is fixed.
+        # it is the source of these I-* tags which crash the callback
+        if "I-" in tag:
+            tag = "O"
+
+        all_tags.append(tag)
         color = entity_color_map_extended[local_entity_shortcode_map[tag]]
 
         if color is None:
@@ -278,6 +358,10 @@ def highlight_entities_html(tagged_doc):
     entities = html.Div(
         entities_containers, className="columns is-multiline has-margin-5"
     )
+
+    if all([t == "O" for t in all_tags]):
+        return html.Div("No entities found!", className="is-size-5")
+
     return entities
 
 

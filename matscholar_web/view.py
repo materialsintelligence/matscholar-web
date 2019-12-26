@@ -24,7 +24,7 @@ def core_view_html():
     """
 
     # The nav bar for all apps
-    nav = nav_html()
+    nav = html.Div(id="core-nav-container")
 
     # The footer for all apps
     footer_interior = footer_html()
@@ -55,12 +55,12 @@ def core_view_html():
 
     core_view = html.Div(
         [external_stylesheets, location, nav, app_expander_container, footer],
-        className="msweb-background",
+        className="msweb-background msweb-fade-in",
     )
     return core_view
 
 
-def nav_html():
+def nav_html(page="/"):
     """
     Get the plotly html block for the nav bar.
 
@@ -68,18 +68,41 @@ def nav_html():
         (dash_html_components.Div): The nav bar.
 
     """
+    common_nav_item_style = "navbar-item has-text-weight-semibold"
+
+    # Styles for the navbar elements, by their texts
+    style_ids = ["extract", "about", "search", "info", "journals"]
+    styles = {k: common_nav_item_style for k in style_ids}
+    styles["info"] = "navbar-link has-text-weight-semibold"
+
+    highlighted_style = " msweb-is-underlined"
+    if page in ["/", "/search"]:
+        styles["search"] += highlighted_style
+    elif page == "/extract":
+        styles["extract"] += highlighted_style
+    elif page == "/about":
+        # styles["about"] += highlighted_style
+        styles["info"] += highlighted_style
+    elif page == "/journals":
+        # styles["journals"] += highlighted_style
+        styles["info"] += highlighted_style
+    elif page is None:
+        pass
+    else:
+        raise ValueError(f"Invalid page for highlighting: '{page}'")
+
     search = dcc.Link(
-        "Search for Materials", href="/search", className="navbar-item"
+        "Search for Materials", href="/search", className=styles["search"]
     )
     extract = dcc.Link(
-        "Analyze an Abstract", href="/extract", className="navbar-item"
+        "Analyze an Abstract", href="/extract", className=styles["extract"]
     )
-    introduction = dcc.Link("About", href="/about", className="navbar-item")
-    journals = dcc.Link("Journals", href="/journals", className="navbar-item")
-    dropdown_items = html.Div(
-        [introduction, journals], className="navbar-dropdown"
+    about = dcc.Link("About", href="/about", className=styles["about"])
+    journals = dcc.Link(
+        "Journals", href="/journals", className=styles["journals"]
     )
-    dropdown_link = html.Div("Info", className="navbar-link")
+    dropdown_items = html.Div([about, journals], className="navbar-dropdown")
+    dropdown_link = html.Div("Info", className=styles["info"])
     dropdown = html.Div(
         [dropdown_link, dropdown_items],
         className="navbar-item has-dropdown is-hoverable",
@@ -90,7 +113,7 @@ def nav_html():
 
     log_in = html.A(
         "Official Support Forum",
-        href="https://materialsintelligence.discourse.group",
+        href="https://discuss.matsci.org",
         className="button is-dark is-small",
     )
     buttons = html.Div(log_in, className="buttons")
@@ -99,7 +122,9 @@ def nav_html():
 
     navbar_menu_id = "core-navbar-menu"
     navbar_menu = html.Div(
-        [navbar_start, navbar_end], id=navbar_menu_id, className="navbar-menu"
+        [navbar_start, navbar_end],
+        id=navbar_menu_id,
+        className="navbar-menu is-active",
     )
 
     nav_image = html.Img(src="/assets/logo_inverted.png", height=200)
@@ -114,12 +139,12 @@ def nav_html():
         [burger] * 3,
         id="core-burger-trigger-cs",
         role="button",
-        className="navbar-burger",
+        className="navbar-burger is-active",
         **{
             "aria-label": "menu",
             "aria-expanded": False,
             "data-target": navbar_menu_id,
-        }
+        },
     )
     navbar_brand = html.Div(
         [nav_image_container, nav_burger], className="navbar-brand"
@@ -129,7 +154,7 @@ def nav_html():
         [navbar_brand, navbar_menu],
         className="navbar is-link is-fixed-top",
         role="navigation",
-        **{"aria-label": "main navigation"}
+        **{"aria-label": "main navigation"},
     )
     nav_with_padding = html.Div(nav_menu, className="has-navbar-fixed-top")
     return nav_with_padding
@@ -146,7 +171,7 @@ def footer_html():
     note_div = html.Div(
         [
             html.Span(
-                "Note: This is an alpha release of Matscholar for the purpose "
+                "Note: This is a beta release of Matscholar for the purpose "
                 "of collecting feedback."
             )
         ]
@@ -170,7 +195,7 @@ def footer_html():
 
     submit_feedback = html.A(
         "Submit Feedback",
-        href="https://materialsintelligence.discourse.group",
+        href="https://discuss.matsci.org/c/matscholar",
         target="_blank",
         className=common_footer_style,
     )
@@ -208,7 +233,9 @@ def outage_html():
 
     """
     common_text_size = "is-size-5"
-    central_image = html.Img(src="/assets/logo.png")
+    central_image = html.Img(
+        src="/assets/logo.png", style={"width": "400px", "height": "65px"}
+    )
     img_link = html.A(
         central_image, href="https://github.com/materialsintelligence"
     )

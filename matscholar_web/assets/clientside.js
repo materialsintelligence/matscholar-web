@@ -2,7 +2,7 @@
 // This is the top level file for all custom js functions.
 
 
-var rotationTime = 2000;  // the time between rotating example searches in the bar
+var rotationTime = 10000;  // the time between rotating example searches in the bar
 var countTime = 1500;  // the time needed to count up to all numbers in the app animations
 
 

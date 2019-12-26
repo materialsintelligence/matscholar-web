@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import dash
 from dash.dependencies import ClientsideFunction, Input, Output, State
 from flask_caching import Cache
@@ -11,7 +13,7 @@ import matscholar_web.search.view as sv
 from matscholar_web.common import common_404_html
 from matscholar_web.constants import cache_timeout, outage
 from matscholar_web.search.util import get_search_field_callback_args
-from matscholar_web.view import core_view_html, outage_html
+from matscholar_web.view import core_view_html, nav_html, outage_html
 
 """
 A safe place for the dash app core instance to hang out.
@@ -75,6 +77,25 @@ def display_app_html(path):
         return jv.app_view_html()
     else:
         return common_404_html()
+
+
+@app.callback(
+    Output("core-nav-container", "children"), [Input("core-url", "pathname")]
+)
+def update_nav_bar_highlight(path):
+    """
+    Update the navigation bar highlight according to the current path.
+
+    E.g., if you're on the search page, the navbar is appropriately highlighted.
+
+    Args:
+        path (str): The path the browser is currently showing. For example,
+            "/search". Must be a valid search path for nav_html.
+
+    Returns:
+        (dash_html_components.Div): The app being shown, or a 404.
+    """
+    return nav_html(path)
 
 
 # Animates the burger menu expansion on mobile
@@ -239,38 +260,70 @@ app.clientside_callback(
 # Extract app callbacks
 ################################################################################
 @app.callback(
-    Output("extract-highlighted", "children"),
-    [Input("extract-button", "n_clicks")],
+    Output("extract-results", "children"),
+    [
+        Input("extract-button", "n_clicks"),
+        Input("extract-suggest-button", "n_clicks"),
+    ],
     [
         State("extract-text-area", "value"),
         State("extract-dropdown-normalize", "value"),
     ],
 )
-def extracted_results(extract_button_n_clicks, text, normalize):
+def extracted_results(
+    extract_button_n_clicks, suggest_button_n_clicks, text, normalize
+):
     """
-    Get the extracted results from the extract app via clicks and the entered
-    text, along with the normalize dropdown.
+    Get the extracted entities or the journal suggestion results from the
+    extract app via clicks and the entered text, along with the
+    normalize dropdown.
 
     Args:
         extract_button_n_clicks (int): The number of clicks of the extract
             button.
+        suggest_button_n_clicks (int): the number of clicks of the suggest
+            button
         text (str): The text entered in the text box, to extract.
         normalize (bool): The normalize string to pass to the rester.
 
     Returns:
         (dash_html_components, str): The extracted results html block.
     """
-    if text:
-        # Prevent from caching on n_clicks if the search isn"t empty
-        @cache.memoize(timeout=cache_timeout)
-        def memoize_wrapper(text, normalize):
-            return el.extracted_results(
-                extract_button_n_clicks, text, normalize
-            )
+    # if text:
+    #     # Prevent from caching on n_clicks if the search isn"t empty
+    #     @cache.memoize(timeout=cache_timeout)
+    #     def memoize_wrapper(text, normalize):
+    #         return el.extracted_results(
+    #             extract_button_n_clicks, text, normalize
+    #         )
+    #
+    #     return memoize_wrapper(text, normalize)
+    # else:
+    #     return el.extracted_results(extract_button_n_clicks, text, normalize)
+    return el.extracted_results(
+        extract_button_n_clicks, suggest_button_n_clicks, text, normalize
+    )
 
-        return memoize_wrapper(text, normalize)
-    else:
-        return el.extracted_results(extract_button_n_clicks, text, normalize)
+
+@app.callback(
+    Output("extract-button", "n_clicks"),
+    [Input("extract-suggest-button", "n_clicks")],
+)
+def void_extract_button_on_suggest(suggest_button_n_clicks):
+    """
+    Void the number of clicks of the extract button when the suggest button
+    gets hit. This is so that you can keep clicking the extract and suggest
+    button alternating and have it still pull up the correct info.
+
+    Args:
+        suggest_button_n_clicks (int): The number of clicks of the suggest
+            button.
+
+    Returns:
+        (int): The number of clicks of the extract button.
+
+    """
+    return 0
 
 
 @app.callback(

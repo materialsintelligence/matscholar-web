@@ -169,3 +169,30 @@ details[open] summary ~ * {
 .msweb-ubuntu {
     font-family: Ubuntu, "sans-serif"
 }
+
+
+.navbar-item:hover {
+    transition: 0.5s;
+}
+
+.navbar-link:hover {
+    transition: 0.5s;
+}
+
+.msweb-is-underlined {
+    transition: 0.5s;
+   text-decoration: none;
+    border-bottom: 4px solid white;
+}
+
+
+.msweb-clicker-green {
+    -moz-transition: all .2s ease-in;
+    -o-transition: all .2s ease-in;
+    -webkit-transition: all .2s ease-in;
+    transition: all .2s ease-in;
+}
+
+.msweb-clicker-green:hover {
+    color: #099e1d;
+}

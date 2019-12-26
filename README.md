@@ -1,6 +1,7 @@
 # Materials Scholar Website
 
-![Matscholar Logo](matscholar_web/assets/logo.png)
+
+<img src="matscholar_web/assets/logo.png" alt="logo" width="350"/>
 
 Matscholar is a research effort based at Lawrence Berkeley National 
 Laboratory with the aim of organizing the world's materials knowlegde 
@@ -14,7 +15,7 @@ This repo houses the code for the [website](https://www.matscholar.com),
 which is built with Plotly Dash.
 
 If you would like to submit feedback to help us improve the app, 
-please see our [official support forum](https://materialsintelligence.discourse.group). 
+please see the Matscholar category on our [official support forum](https://discuss.matsci.org/c/matscholar). 
 
 If you have any other questions please contact our development 
 team at help@matscholar.com.
