@@ -7,6 +7,7 @@ from matscholar_web.search.subviews.abstracts import abstracts_results_html
 from matscholar_web.search.subviews.entities import entities_results_html
 from matscholar_web.search.subviews.everything import everything_results_html
 from matscholar_web.search.subviews.materials import materials_results_html
+from matscholar_web.search.common import cobalt_warning_html
 from matscholar_web.search.util import (
     MatscholarWebSearchError,
     parse_search_box,
@@ -60,6 +61,8 @@ def show_search_results(go_button_n_clicks, dropdown_value, search_text):
                 raise ValueError(
                     f"Dropdown selection {dropdown_value} not valid!"
                 )
+            if is_cobalt_search(entity_query, raw_text):
+                results = cobalt_warning_html(results)
             return results
         except MatScholarRestError:
             rester_error = (
@@ -115,3 +118,16 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
         return entry
     else:
         return random.choice(example_searches)
+
+
+def is_cobalt_search(entity_query, raw_text):
+    if raw_text is not None:
+        if 'Co' in raw_text.split() or 'cobalt' in raw_text.lower().split():
+            return True
+
+    if entity_query is not None:
+        if 'material' in entity_query.keys():
+            if any(['Co' in m for m in entity_query['material']]) or any(['cobalt' in m.lower() for m in entity_query['material']]):
+                return True
+
+    return False
