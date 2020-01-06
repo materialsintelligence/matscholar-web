@@ -1,4 +1,5 @@
 import random
+import regex as re
 
 from matscholar.rest import MatScholarRestError
 from matscholar_web.common import common_rester_error_html
@@ -125,9 +126,10 @@ def is_cobalt_search(entity_query, raw_text):
         if 'Co' in raw_text.split() or 'cobalt' in raw_text.lower().split():
             return True
 
+    cobalt_regex = re.compile('Co[A-Z0-9]')
     if entity_query is not None:
         if 'material' in entity_query.keys():
-            if any(['Co' in m for m in entity_query['material']]) or any(['cobalt' in m.lower() for m in entity_query['material']]):
+            if any([cobalt_regex.search(m) is not None for m in entity_query['material']]) or any(['cobalt' in m.lower() for m in entity_query['material']]):
                 return True
 
     return False
