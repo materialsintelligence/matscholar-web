@@ -14,6 +14,12 @@ from matscholar_web.common import (
 )
 from matscholar_web.constants import entity_color_map, rester
 
+RESTER_ERROR_TEXT = (
+    "Our machine learning functionality is currently down for scheduled maintenence. "
+    "Please try again after January 15th, 2020. "
+)
+
+
 """
 View html blocks for the extract app.
 
@@ -146,10 +152,7 @@ def journal_suggestions_html(text):
 #             "abstract. We are likely undergoing maintenance, check back soon!"
 #         )
 
-        rester_error_txt = (
-            "Our machine learning functionality is currently down for scheduled maintenence. "
-            "Please try again after January 15th, 2020. "
-        )
+        rester_error_txt = RESTER_ERROR_TEXT
                 
         return common_rester_error_html(rester_error_txt)
     label = html.Label("Suggested journals (Top 10 shown)")
@@ -215,10 +218,11 @@ def extract_entities_results_html(text, normalize):
             text, concatenate=True, normalize=normalize
         )
     except MatScholarRestError:
-        rester_error_txt = (
-            "Our server is having trouble with that abstract. We are likely "
-            "undergoing maintenance, check back soon!"
-        )
+#         rester_error_txt = (
+#             "Our server is having trouble with that abstract. We are likely "
+#             "undergoing maintenance, check back soon!"
+#         )
+        rester_error_txt = RESTER_ERROR_TEXT
         return common_rester_error_html(rester_error_txt)
     tagged_doc = result["tags"]
     relevance = result["relevance"]
