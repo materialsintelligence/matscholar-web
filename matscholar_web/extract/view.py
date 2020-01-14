@@ -141,10 +141,16 @@ def journal_suggestions_html(text):
     try:
         results = rester.get_journal_suggestion(text)
     except MatScholarRestError:
+#         rester_error_txt = (
+#             "Our server is having trouble making a suggestion for that "
+#             "abstract. We are likely undergoing maintenance, check back soon!"
+#         )
+
         rester_error_txt = (
-            "Our server is having trouble making a suggestion for that "
-            "abstract. We are likely undergoing maintenance, check back soon!"
+            "Our search functionality is currently down for scheduled maintenence. "
+            "Please try again after January 15th, 2020. "
         )
+                
         return common_rester_error_html(rester_error_txt)
     label = html.Label("Suggested journals (Top 10 shown)")
     label_container = html.Div(label, className="is-size-4")
