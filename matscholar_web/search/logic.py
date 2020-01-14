@@ -67,9 +67,8 @@ def show_search_results(go_button_n_clicks, dropdown_value, search_text):
 #                 "undergoing maintenance, please visit again later!"
 #             )
             rester_error = (
-                "Our search functionality is currently not available due "
-                "to the Community File System rollout at NERSC. "
-                "Please try again later. "
+                "Our search functionality is currently down for scheduled maintenence."
+                "Please try again after January 15th, 2020. "
             )
             return common_rester_error_html(rester_error)
 
