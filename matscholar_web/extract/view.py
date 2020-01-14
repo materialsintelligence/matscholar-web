@@ -147,7 +147,7 @@ def journal_suggestions_html(text):
 #         )
 
         rester_error_txt = (
-            "Our search functionality is currently down for scheduled maintenence. "
+            "Our machine learning functionality is currently down for scheduled maintenence. "
             "Please try again after January 15th, 2020. "
         )
                 
