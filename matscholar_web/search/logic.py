@@ -62,13 +62,9 @@ def show_search_results(go_button_n_clicks, dropdown_value, search_text):
                 )
             return results
         except MatScholarRestError:
-#             rester_error = (
-#                 "Our database had trouble with that query. We are likely "
-#                 "undergoing maintenance, please visit again later!"
-#             )
             rester_error = (
-                "Our server is having trouble making a suggestion for that "
-                "abstract. We are likely undergoing maintenance, check back soon!"
+                "Our database had trouble with that query. We are likely "
+                "undergoing maintenance, please visit again later!"
             )
             return common_rester_error_html(rester_error)
 
