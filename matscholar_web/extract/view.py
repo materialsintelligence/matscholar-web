@@ -16,7 +16,7 @@ from matscholar_web.constants import entity_color_map, rester
 
 RESTER_ERROR_TEXT = (
     "Our machine learning functionality is currently down for scheduled maintenence. "
-    "Please try again after January 15th, 2020. "
+    "Please try again after January 16th, 2020. "
 )
 
 
