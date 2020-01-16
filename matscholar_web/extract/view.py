@@ -15,10 +15,9 @@ from matscholar_web.common import (
 from matscholar_web.constants import entity_color_map, rester
 
 RESTER_ERROR_TEXT = (
-    "Our machine learning functionality is currently down for scheduled maintenence. "
-    "Please try again after January 16th, 2020. "
+    "Our server is having trouble making a suggestion for that "
+    "abstract. We are likely undergoing maintenance, check back soon!"
 )
-
 
 """
 View html blocks for the extract app.
@@ -147,11 +146,6 @@ def journal_suggestions_html(text):
     try:
         results = rester.get_journal_suggestion(text)
     except MatScholarRestError:
-#         rester_error_txt = (
-#             "Our server is having trouble making a suggestion for that "
-#             "abstract. We are likely undergoing maintenance, check back soon!"
-#         )
-
         rester_error_txt = RESTER_ERROR_TEXT
                 
         return common_rester_error_html(rester_error_txt)
