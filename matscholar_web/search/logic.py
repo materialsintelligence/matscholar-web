@@ -68,7 +68,7 @@ def show_search_results(go_button_n_clicks, dropdown_value, search_text):
 #             )
             rester_error = (
                 "Our search functionality is currently down for scheduled maintenence. "
-                "Please try again after January 15th, 2020. "
+                "Please try again after January 16th, 2020. "
             )
             return common_rester_error_html(rester_error)
 
