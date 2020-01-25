@@ -12,3 +12,6 @@ gunicorn==19.9.0
 pandas==0.25.1
 
 -e git+https://github.com/materialsintelligence/matscholar.git#egg=matscholar
+
+## because installing matscholar sucks
+pyyaml
