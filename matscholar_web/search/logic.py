@@ -122,14 +122,34 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
 
 
 def is_cobalt_search(entity_query, raw_text):
+    """
+    Determine is Cobalt is contained within a search. Used because using Cobalt
+    in materials is bad!
+
+    Args:
+        entity_query (dict): Keys are string fields, e.g. "materials". Values
+            are lists of string search terms.
+        raw_text (str): The raw text query.
+
+    Returns:
+        (bool): If True, there is cobalt in the search.
+
+    """
     if raw_text is not None:
-        if 'Co' in raw_text.split() or 'cobalt' in raw_text.lower().split():
+        if "Co" in raw_text.split() or "cobalt" in raw_text.lower().split():
             return True
 
-    cobalt_regex = re.compile('Co[A-Z0-9]')
+    cobalt_regex = re.compile("Co[A-Z0-9]")
     if entity_query is not None:
-        if 'material' in entity_query.keys():
-            if any([cobalt_regex.search(m) is not None for m in entity_query['material']]) or any(['cobalt' in m.lower() for m in entity_query['material']]):
+        if "material" in entity_query.keys():
+            if any(
+                [
+                    cobalt_regex.search(m) is not None
+                    for m in entity_query["material"]
+                ]
+            ) or any(
+                ["cobalt" in m.lower() for m in entity_query["material"]]
+            ):
                 return True
 
     return False

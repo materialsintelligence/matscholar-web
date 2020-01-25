@@ -119,15 +119,14 @@ def cobalt_warning_html(results):
 
     cobalt_warning_txt = "60% of the world's cobalt is mined in the DRC, often using forced, compulsory, or child labour in highly unsafe conditions. No current oversight of the cobalt supply chain exists which would allow the sourcing of guaranteed ethically mined cobalt. Please consider using alternatives to cobalt wherever possible."
 
-    cobalt_warning_header = html.Div(
-        cobalt_warning_txt, className="is-size-0"
-    )
+    cobalt_warning_header = html.Div(cobalt_warning_txt, className="is-size-0")
     cobalt_warning = html.Div(
         [cobalt_warning_header],
         className="has-background-grey-lighter has-text-centered",
     )
     cobalt_warning_column = html.Div(
-        cobalt_warning, className="column is-half")
+        cobalt_warning, className="column is-half"
+    )
     cobalt_warning_columns = html.Div(
         cobalt_warning_column, className="columns is-centered"
     )
@@ -136,5 +135,6 @@ def cobalt_warning_html(results):
     )
 
     wrapped_results = html.Div(
-        [cobalt_warning_container, results], className="container")
+        [cobalt_warning_container, results], className="container"
+    )
     return wrapped_results
