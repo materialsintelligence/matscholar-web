@@ -1,5 +1,4 @@
 import random
-import regex as re
 
 from matscholar.rest import MatScholarRestError
 from matscholar_web.common import common_rester_error_html
@@ -8,7 +7,6 @@ from matscholar_web.search.subviews.abstracts import abstracts_results_html
 from matscholar_web.search.subviews.entities import entities_results_html
 from matscholar_web.search.subviews.everything import everything_results_html
 from matscholar_web.search.subviews.materials import materials_results_html
-from matscholar_web.search.common import cobalt_warning_html
 from matscholar_web.search.util import (
     MatscholarWebSearchError,
     parse_search_box,
@@ -62,8 +60,6 @@ def show_search_results(go_button_n_clicks, dropdown_value, search_text):
                 raise ValueError(
                     f"Dropdown selection {dropdown_value} not valid!"
                 )
-            if is_cobalt_search(entity_query, raw_text):
-                results = cobalt_warning_html(results)
             return results
         except MatScholarRestError:
             rester_error = (
@@ -119,7 +115,6 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
         return entry
     else:
         return random.choice(example_searches)
-
 
 def is_cobalt_search(entity_query, raw_text):
     if raw_text is not None:
