@@ -104,3 +104,37 @@ def common_results_container_style():
         (str): The common results container style.
     """
     return "container has-margin-top-20 has-margin-bottom-20 msweb-fade-in"
+
+
+def cobalt_warning_html(results):
+    """
+    Add a warning to results on searches for cobalt/cobalt containing materials
+
+    Args:
+        results (dash_html_components.Div): The results div
+    Returns:
+        (dash_html_components.Div): The html block for the cobalt warning
+        label
+    """
+
+    cobalt_warning_txt = "60% of the world's cobalt is mined in the DRC, often using forced, compulsory, or child labour in highly unsafe conditions. No current oversight of the cobalt supply chain exists which would allow the sourcing of guaranteed ethically mined cobalt. Please consider using alternatives to cobalt wherever possible."
+
+    cobalt_warning_header = html.Div(
+        cobalt_warning_txt, className="is-size-0 has-margin-5"
+    )
+    cobalt_warning = html.Div(
+        [cobalt_warning_header],
+        className="has-background-grey-lighter has-text-centered",
+    )
+    cobalt_warning_column = html.Div(
+        cobalt_warning, className="column is-half")
+    cobalt_warning_columns = html.Div(
+        cobalt_warning_column, className="columns is-centered"
+    )
+    cobalt_warning_container = html.Div(
+        cobalt_warning_columns, className="container"
+    )
+
+    wrapped_results = html.Div(
+        [cobalt_warning_container, results], className="container")
+    return wrapped_results
