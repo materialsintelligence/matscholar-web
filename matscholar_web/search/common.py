@@ -36,7 +36,8 @@ def results_disclaimer_html():
         (dash_html_components.Div): The html block results disclaimer.
     """
     disclaimer = html.Span(
-        "These are incomplete results determined from limited sampling of our database. For full results, use the "
+        "These are incomplete results determined from limited sampling of our "
+        "database. For full results, use the "
     )
     api_rester_link = html.A(
         "Matscholar API",
@@ -117,7 +118,13 @@ def cobalt_warning_html(results):
         label
     """
 
-    cobalt_warning_txt = "60% of the world's cobalt is mined in the DRC, often using forced, compulsory, or child labour in highly unsafe conditions. No current oversight of the cobalt supply chain exists which would allow the sourcing of guaranteed ethically mined cobalt. Please consider using alternatives to cobalt wherever possible."
+    cobalt_warning_txt = (
+        "60% of the world's cobalt is mined in the DRC, often using forced, "
+        "compulsory, or child labour in highly unsafe conditions. No current "
+        "oversight of the cobalt supply chain exists which would allow the "
+        "sourcing of guaranteed ethically mined cobalt. Please consider "
+        "using alternatives to cobalt wherever possible."
+    )
 
     cobalt_warning_header = html.Div(
         cobalt_warning_txt, className="is-size-0 has-margin-5"
@@ -127,7 +134,8 @@ def cobalt_warning_html(results):
         className="has-background-grey-lighter has-text-centered",
     )
     cobalt_warning_column = html.Div(
-        cobalt_warning, className="column is-half")
+        cobalt_warning, className="column is-half"
+    )
     cobalt_warning_columns = html.Div(
         cobalt_warning_column, className="columns is-centered"
     )
@@ -136,5 +144,6 @@ def cobalt_warning_html(results):
     )
 
     wrapped_results = html.Div(
-        [cobalt_warning_container, results], className="container")
+        [cobalt_warning_container, results], className="container"
+    )
     return wrapped_results

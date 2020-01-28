@@ -1,15 +1,18 @@
-import matscholar_web.search.common as msweb_scommon
-from matscholar_web.tests.util import MatScholarWebBaseTest
 import dash_html_components as html
 
+import matscholar_web.search.common as msweb_scommon
+from matscholar_web.tests.util import MatScholarWebBaseTest
 
 """
 Tests for the search common views.
 """
 
 # Functions to exclude from this test
-EXCLUDE = ["results_label_html",
-           "big_label_and_disclaimer_html", "cobalt_warning_html"]
+EXCLUDE = [
+    "results_label_html",
+    "big_label_and_disclaimer_html",
+    "cobalt_warning_html",
+]
 
 
 class TestSearchCommonViews(MatScholarWebBaseTest):

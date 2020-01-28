@@ -1,11 +1,12 @@
+from itertools import product
+
 from matscholar_web.constants import valid_search_filters
 from matscholar_web.search.logic import (
+    is_cobalt_search,
     search_bar_live_display,
     sum_all_fields_and_buttons_n_submits,
-    is_cobalt_search
 )
 from matscholar_web.tests.util import MatScholarWebBaseTest
-from itertools import product
 
 
 """
@@ -57,44 +58,69 @@ class TestSearchLogic(MatScholarWebBaseTest):
 
     def test_is_cobalt_search(self):
         raw_text_cobalt_searches = [
-            "cobalt", "characteristics of cObAlT", "Co"]
+            "cobalt",
+            "characteristics of cObAlT",
+            "Co",
+        ]
 
         for raw_text in raw_text_cobalt_searches:
-            self.assertTrue(is_cobalt_search(
-                entity_query=None, raw_text=raw_text), msg="{} tested false instead of true".format(raw_text))
+            self.assertTrue(
+                is_cobalt_search(entity_query=None, raw_text=raw_text),
+                msg="{} tested false instead of true".format(raw_text),
+            )
 
-        entity_cobalt_searches = [{"material": ["Co"]},
-                                  {"material": ["CoMnO2"]},
-                                  {"material": ["MnCoO2"],
-                                      "application": ["cathode"]},
-                                  {"material": ["cobalt boride"]},
-                                  {"material": ["TiO2", "MnCoO2"]}]
+        entity_cobalt_searches = [
+            {"material": ["Co"]},
+            {"material": ["CoMnO2"]},
+            {"material": ["MnCoO2"], "application": ["cathode"]},
+            {"material": ["cobalt boride"]},
+            {"material": ["TiO2", "MnCoO2"]},
+        ]
 
         for entity_query in entity_cobalt_searches:
-            self.assertTrue(is_cobalt_search(
-                entity_query=entity_query, raw_text=None), msg="{} tested false instead of true".format(entity_query))
+            self.assertTrue(
+                is_cobalt_search(entity_query=entity_query, raw_text=None),
+                msg="{} tested false instead of true".format(entity_query),
+            )
 
-        raw_text_not_cobalt_searches = [
-            "corpse", "4-ACo-DMT", "Colour"]
+        raw_text_not_cobalt_searches = ["corpse", "4-ACo-DMT", "Colour"]
 
         for raw_text in raw_text_not_cobalt_searches:
-            self.assertFalse(is_cobalt_search(
-                entity_query=None, raw_text=raw_text), msg="{} tested true instead of false".format(raw_text))
+            self.assertFalse(
+                is_cobalt_search(entity_query=None, raw_text=raw_text),
+                msg="{} tested true instead of false".format(raw_text),
+            )
 
-        entity_not_cobalt_searches = [{"material": ["TiO2"]},
-                                      {"material": []},
-                                      None,
-                                      {"material": ["colloidal silver"]},
-                                      {"characterization": ["colourful"]}]
+        entity_not_cobalt_searches = [
+            {"material": ["TiO2"]},
+            {"material": []},
+            None,
+            {"material": ["colloidal silver"]},
+            {"characterization": ["colourful"]},
+        ]
 
         for entity_query in entity_not_cobalt_searches:
-            self.assertFalse(is_cobalt_search(
-                entity_query=entity_query, raw_text=None), msg="{} tested true instead of false".format(entity_query))
+            self.assertFalse(
+                is_cobalt_search(entity_query=entity_query, raw_text=None),
+                msg="{} tested true instead of false".format(entity_query),
+            )
 
-        for entity_query, raw_text in product(entity_not_cobalt_searches, raw_text_cobalt_searches):
-            self.assertTrue(is_cobalt_search(
-                entity_query=entity_query, raw_text=raw_text), msg="{},{} tested false instead of true".format(entity_query, raw_text))
+        for entity_query, raw_text in product(
+            entity_not_cobalt_searches, raw_text_cobalt_searches
+        ):
+            self.assertTrue(
+                is_cobalt_search(entity_query=entity_query, raw_text=raw_text),
+                msg="{},{} tested false instead of true".format(
+                    entity_query, raw_text
+                ),
+            )
 
-        for entity_query, raw_text in product(entity_cobalt_searches, raw_text_not_cobalt_searches):
-            self.assertTrue(is_cobalt_search(
-                entity_query=entity_query, raw_text=raw_text), msg="{},{} tested false instead of true".format(entity_query, raw_text))
+        for entity_query, raw_text in product(
+            entity_cobalt_searches, raw_text_not_cobalt_searches
+        ):
+            self.assertTrue(
+                is_cobalt_search(entity_query=entity_query, raw_text=raw_text),
+                msg="{},{} tested false instead of true".format(
+                    entity_query, raw_text
+                ),
+            )

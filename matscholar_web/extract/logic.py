@@ -3,9 +3,10 @@ import numpy as np
 from matscholar_web.constants import sample_abstracts
 from matscholar_web.extract.view import (
     extract_entities_results_html,
-    no_abstract_warning_html,
     journal_suggestions_html,
+    no_abstract_warning_html,
 )
+
 
 """
 Callback logic for callbacks in the extract app.

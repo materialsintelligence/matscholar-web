@@ -1,14 +1,14 @@
-import re
 import random
+import re
 
 from matscholar.rest import MatScholarRestError
 from matscholar_web.common import common_rester_error_html
 from matscholar_web.constants import example_searches, valid_search_filters
+from matscholar_web.search.common import cobalt_warning_html
 from matscholar_web.search.subviews.abstracts import abstracts_results_html
 from matscholar_web.search.subviews.entities import entities_results_html
 from matscholar_web.search.subviews.everything import everything_results_html
 from matscholar_web.search.subviews.materials import materials_results_html
-from matscholar_web.search.common import cobalt_warning_html
 from matscholar_web.search.util import (
     MatscholarWebSearchError,
     parse_search_box,
@@ -123,15 +123,27 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
 
 def is_cobalt_search(entity_query, raw_text):
     if raw_text is not None:
-        if 'Co' in raw_text.split() or 'cobalt' in raw_text.lower().split():
+        if "Co" in raw_text.split() or "cobalt" in raw_text.lower().split():
             return True
 
-    cobalt_regex = re.compile('Co[A-Z0-9]')
+    cobalt_regex = re.compile("Co[A-Z0-9]")
     if entity_query is not None:
-        if 'material' in entity_query.keys():
-            if any([m.lower() in ["co", "cobalt"] for m in entity_query['material']]):
+        if "material" in entity_query.keys():
+            if any(
+                [
+                    m.lower() in ["co", "cobalt"]
+                    for m in entity_query["material"]
+                ]
+            ):
                 return True
-            if any([cobalt_regex.search(m) is not None for m in entity_query['material']]) or any(['cobalt' in m.lower() for m in entity_query['material']]):
+            if any(
+                [
+                    cobalt_regex.search(m) is not None
+                    for m in entity_query["material"]
+                ]
+            ) or any(
+                ["cobalt" in m.lower() for m in entity_query["material"]]
+            ):
                 return True
 
     return False
