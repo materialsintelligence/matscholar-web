@@ -115,3 +115,18 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
         return entry
     else:
         return random.choice(example_searches)
+
+def is_cobalt_search(entity_query, raw_text):
+    if raw_text is not None:
+        if 'Co' in raw_text.split() or 'cobalt' in raw_text.lower().split():
+            return True
+
+    cobalt_regex = re.compile('Co[A-Z0-9]')
+    if entity_query is not None:
+        if 'material' in entity_query.keys():
+            if any([m.lower() in ["co", "cobalt"] for m in entity_query['material']]):
+                return True
+            if any([cobalt_regex.search(m) is not None for m in entity_query['material']]) or any(['cobalt' in m.lower() for m in entity_query['material']]):
+                return True
+
+    return False
