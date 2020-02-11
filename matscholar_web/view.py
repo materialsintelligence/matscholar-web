@@ -240,17 +240,16 @@ def outage_html():
         central_image, href="https://github.com/materialsintelligence"
     )
     title = html.Div(
-        "Matscholar is currently down because of a power outage.",
+        "Matscholar is currently down because of a server outage.",
         className="is-size-3 has-text-weight-bold",
     )
     explanation1 = html.Div(
         "Our primary servers are run at NERSC at Lawrence Berkeley Laboratory "
-        "in California, which are affected by the mandatory PG&E electrical "
-        "shutoffs.",
+        "and are currently undergoing extended maintenance.",
         className=common_text_size,
     )
     explanation2 = html.Div(
-        "Please be patient while we wait for power to return!",
+        "Please be patient while we wait for our servers to come back online!",
         className=common_text_size,
     )
     contact = html.Div(
