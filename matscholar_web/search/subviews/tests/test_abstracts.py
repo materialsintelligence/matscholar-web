@@ -2,7 +2,10 @@ import unittest
 
 import matscholar_web.search.subviews.abstracts as msweb_ssa
 from matscholar_web.search.subviews.tests.util import common_arg_combos
-from matscholar_web.tests.util import MatScholarWebBaseTest, all_rester_requirements_defined
+from matscholar_web.tests.util import (
+    MatScholarWebBaseTest,
+    all_rester_requirements_defined,
+)
 
 
 """

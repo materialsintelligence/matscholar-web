@@ -6,4 +6,3 @@ common_arg_combos = [
     ({"material": ["graphene"], "descriptor": ["doped"]}, None),
     ({}, "Ceder"),
 ]
-
