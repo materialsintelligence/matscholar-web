@@ -40,10 +40,10 @@ class MatScholarWebBaseTest(unittest.TestCase):
         functions = get_all_functions_in_module(module)
         for fname, f in functions.items():
             if fname in exclude:
-                print(f"Skip: {fname}")
+                print(f"Autotest Skip: {fname}")
                 continue
             else:
-                print(f"Test: {fname}")
+                print(f"Autotest Test: {fname}")
                 params = inspect.signature(f).parameters
                 n_args = len(params)
                 if n_args == 0:  # this function takes no args
