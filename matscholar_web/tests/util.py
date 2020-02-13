@@ -59,7 +59,7 @@ class MatScholarWebBaseTest(unittest.TestCase):
         """
         fname = f.__name__
         for arg_combo in arg_combos:
-            print(f"Test: {arg_combo} in {fname}")
+            print(f"\t{fname} testing: {arg_combo}")
             o = f(*arg_combo)
             self._basic_type_check_on_function(fname, o)
 
