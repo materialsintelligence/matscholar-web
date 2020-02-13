@@ -1,3 +1,5 @@
+# Argument combinations valid for all subviews test functions.
+
 common_arg_combos = \
     [
         ({"material": ["PbTe", "SnSe"]}, None),
