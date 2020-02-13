@@ -116,10 +116,8 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
             ent_txt = ent_txts[i]
             if ent_txt not in [None, "", " "]:
                 entry += f"{ent}: {ent_txt}, "
-        print(entry)
         return entry
     else:
-        print("n_clicks is zero?")
         return random.choice(example_searches)
 
 
