@@ -16,9 +16,24 @@ db_stats = load_static_data_file("db_statistics.json")
 example_searches = load_static_data_file("example_searches.json")
 sample_abstracts = load_static_data_file("sample_abstracts.json")
 
+
+# Artifacts for making tests run easier
+fake_endpoint = "not_a_real_endpoint"
+fake_api_key = "not_a_real_api_key"
+
 # The API endpoint URL defines the Rester
-endpoint = os.environ.get("MATERIALS_SCHOLAR_ENDPOINT")
-rester = Rester(endpoint=endpoint)
+endpoint = os.environ.get("MATERIALS_SCHOLAR_ENDPOINT", fake_endpoint)
+api_key = os.environ.get("MATERIALS_SCHOLAR_API_KEY", fake_api_key)
+rester = Rester(endpoint=endpoint, api_key=api_key)
+
+
+# Artifacts for elastic testing
+fake_elastic_credential = "not_a_real_elastic_credential"
+
+# Elasticsearch credentials
+elastic_host = os.environ.get("ELASTIC_HOST", fake_elastic_credential)
+elastic_user = os.environ.get("ELASTIC_USER", fake_elastic_credential)
+elastic_pass = os.environ.get("ELASTIC_PASS", fake_elastic_credential)
 
 # The mapping of entity type to shortcode
 entity_shortcode_map = {

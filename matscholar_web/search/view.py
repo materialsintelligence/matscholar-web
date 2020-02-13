@@ -12,6 +12,9 @@ from matscholar_web.common import (
 )
 from matscholar_web.constants import (
     db_stats,
+    elastic_host,
+    elastic_pass,
+    elastic_user,
     example_searches,
     search_filter_color_map,
     valid_search_filters,
@@ -349,15 +352,12 @@ def guided_search_box_elastic_html(field):
     esas = ESAutosuggest(
         id="search-" + field + "-filters-input",
         fields=["original", "normalized"],
-        endpoint=os.environ["ELASTIC_HOST"]
-        + "/"
-        + ES_field_dict[field]
-        + "/_search",
+        endpoint=elastic_host + "/" + ES_field_dict[field] + "/_search",
         defaultField="original",
         additionalField="normalized",
         placeholder=placeholders[field],
-        authUser=os.environ["ELASTIC_USER"],
-        authPass=os.environ["ELASTIC_PASS"],
+        authUser=elastic_user,
+        authPass=elastic_pass,
         searchField="original.edgengram",
         sort=["_score"],
         suggestions=[],

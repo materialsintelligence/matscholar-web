@@ -3,6 +3,17 @@ import unittest
 
 import dash_html_components as html
 
+from matscholar_web.constants import (
+    api_key,
+    elastic_host,
+    elastic_pass,
+    elastic_user,
+    endpoint,
+    fake_api_key,
+    fake_elastic_credential,
+    fake_endpoint,
+)
+
 """
 Utilities for running tests.
 """
@@ -29,10 +40,10 @@ class MatScholarWebBaseTest(unittest.TestCase):
         functions = get_all_functions_in_module(module)
         for fname, f in functions.items():
             if fname in exclude:
-                print(f"Skip: {fname}")
+                print(f"Autotest Skip: {fname}")
                 continue
             else:
-                print(f"Test: {fname}")
+                print(f"Autotest Test: {fname}")
                 params = inspect.signature(f).parameters
                 n_args = len(params)
                 if n_args == 0:  # this function takes no args
@@ -59,7 +70,7 @@ class MatScholarWebBaseTest(unittest.TestCase):
         """
         fname = f.__name__
         for arg_combo in arg_combos:
-            print(f"Test: {arg_combo} in {fname}")
+            print(f"\t{fname} testing: {arg_combo}")
             o = f(*arg_combo)
             self._basic_type_check_on_function(fname, o)
 
@@ -110,3 +121,20 @@ def get_all_functions_in_module(module):
     ]
     functions = dict(name_func_tuples)
     return functions
+
+
+all_rester_requirements_defined = (
+    api_key
+    and endpoint
+    and api_key != fake_api_key
+    and endpoint != fake_endpoint
+)
+
+elastic_host_defined = (
+    elastic_host
+    and elastic_host != fake_elastic_credential
+    and elastic_user
+    and elastic_user != fake_elastic_credential
+    and elastic_pass
+    and elastic_pass != fake_elastic_credential
+)
