@@ -3,6 +3,13 @@ import unittest
 
 import dash_html_components as html
 
+from matscholar_web.constants import (
+    api_key,
+    endpoint,
+    fake_api_key,
+    fake_endpoint,
+)
+
 """
 Utilities for running tests.
 """
@@ -110,3 +117,11 @@ def get_all_functions_in_module(module):
     ]
     functions = dict(name_func_tuples)
     return functions
+
+
+all_rester_requirements_defined = (
+    api_key
+    and endpoint
+    and api_key != fake_api_key
+    and endpoint != fake_endpoint
+)

@@ -212,10 +212,6 @@ def extract_entities_results_html(text, normalize):
             text, concatenate=True, normalize=normalize
         )
     except MatScholarRestError:
-        #         rester_error_txt = (
-        #             "Our server is having trouble with that abstract. We are likely "
-        #             "undergoing maintenance, check back soon!"
-        #         )
         rester_error_txt = RESTER_ERROR_TEXT
         return common_rester_error_html(rester_error_txt)
     tagged_doc = result["tags"]
