@@ -5,8 +5,12 @@ import dash_html_components as html
 
 from matscholar_web.constants import (
     api_key,
+    elastic_host,
+    elastic_pass,
+    elastic_user,
     endpoint,
     fake_api_key,
+    fake_elastic_credential,
     fake_endpoint,
 )
 
@@ -124,4 +128,13 @@ all_rester_requirements_defined = (
     and endpoint
     and api_key != fake_api_key
     and endpoint != fake_endpoint
+)
+
+elastic_host_defined = (
+    elastic_host
+    and elastic_host != fake_elastic_credential
+    and elastic_user
+    and elastic_user != fake_elastic_credential
+    and elastic_pass
+    and elastic_pass != fake_elastic_credential
 )
