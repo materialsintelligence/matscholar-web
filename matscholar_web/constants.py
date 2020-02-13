@@ -18,8 +18,8 @@ sample_abstracts = load_static_data_file("sample_abstracts.json")
 
 
 # The API endpoint URL defines the Rester
-endpoint = os.environ.get("MATERIALS_SCHOLAR_ENDPOINT")
-api_key = os.environ.get("MATERIALS_SCHOLAR_API_KEY")
+endpoint = os.environ.get("MATERIALS_SCHOLAR_ENDPOINT", "not_a_real_endpoint")
+api_key = os.environ.get("MATERIALS_SCHOLAR_API_KEY", "not_a_real_api_key")
 rester = Rester(endpoint=endpoint, api_key=api_key)
 
 # The mapping of entity type to shortcode

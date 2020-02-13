@@ -1,9 +1,10 @@
 import unittest
 
-from matscholar_web.tests.util import MatScholarWebBaseTest
-from matscholar_web.search.subviews.tests.util import common_arg_combos
 import matscholar_web.search.subviews.everything as msweb_ssv
 from matscholar_web.constants import api_key, endpoint
+from matscholar_web.search.subviews.tests.util import common_arg_combos
+from matscholar_web.tests.util import MatScholarWebBaseTest
+
 
 """
 Tests for the everything subview of search.
@@ -11,7 +12,9 @@ Tests for the everything subview of search.
 
 
 class TestSearchEverythingSubview(MatScholarWebBaseTest):
-    @unittest.skipIf(not api_key and not endpoint, "API access and endpoint not set.")
+    @unittest.skipIf(
+        not api_key and not endpoint, "API access and endpoint not set."
+    )
     def test_everything_results_html(self):
         """
         This generally tests everything in the subview since all functions are
