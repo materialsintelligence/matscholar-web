@@ -1,8 +1,7 @@
 import unittest
 
 import matscholar_web.search.subviews.entities as msweb_sse
-from matscholar_web.constants import api_key, endpoint
-from matscholar_web.search.subviews.tests.util import common_arg_combos
+from matscholar_web.search.subviews.tests.util import common_arg_combos, all_rester_requirements_defined
 from matscholar_web.tests.util import MatScholarWebBaseTest
 
 
@@ -13,7 +12,7 @@ Tests for the entities subview of search.
 
 class TestSearchEntitiesSubview(MatScholarWebBaseTest):
     @unittest.skipIf(
-        not api_key and not endpoint, "API access and endpoint not set."
+        not all_rester_requirements_defined, "API access and endpoint not set."
     )
     def test_entities_results_html(self):
         """
