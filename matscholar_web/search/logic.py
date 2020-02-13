@@ -116,12 +116,24 @@ def search_bar_live_display(example_search_n_clicks, *ent_txts):
             ent_txt = ent_txts[i]
             if ent_txt not in [None, "", " "]:
                 entry += f"{ent}: {ent_txt}, "
+        print(entry)
         return entry
     else:
+        print("n_clicks is zero?")
         return random.choice(example_searches)
 
 
 def is_cobalt_search(entity_query, raw_text):
+    """
+    Determines whether this search contains Cobalt or not.
+
+    Args:
+        entity_query (dict): Entities in format readable by rester.
+        raw_text (str): The raw text field, readable as text input by rester.
+
+    Returns:
+
+    """
     if raw_text is not None:
         if "Co" in raw_text.split() or "cobalt" in raw_text.lower().split():
             return True
