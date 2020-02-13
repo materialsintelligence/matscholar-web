@@ -132,6 +132,7 @@ def is_cobalt_search(entity_query, raw_text):
         raw_text (str): The raw text field, readable as text input by rester.
 
     Returns:
+        (bool): Whether this search contains cobalt.
 
     """
     if raw_text is not None:
