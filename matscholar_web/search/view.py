@@ -1,4 +1,5 @@
 import os
+import copy
 
 import dash_core_components as dcc
 import dash_html_components as html
@@ -18,6 +19,7 @@ from matscholar_web.constants import (
     example_searches,
     search_filter_color_map,
     valid_search_filters,
+entity_color_map
 )
 
 
@@ -154,7 +156,7 @@ def search_bar_and_buttons_html():
     endpoint_multi = elastic_host + "/" + esdb_name_query + "/_search?search_type=dfs_query_then_fetch"
 
     search_bar = ESAutosuggest(
-            id='input',
+            id='search-input-unibox',
             value='',
             endpoint=endpoint_multi,
             fields=["original", "normalized"],
@@ -163,7 +165,7 @@ def search_bar_and_buttons_html():
             sectionMap=index_name_map,
             numSuggestions=20,
             sort=["_score"],
-            placeholder='',
+            placeholder="",
             suggestions=[],
             authUser=elastic_user,
             authPass=elastic_pass,
@@ -172,24 +174,28 @@ def search_bar_and_buttons_html():
             spellCheck=False
         )
 
-    sized = "is-size-7"
-    tooltip_spans = [html.Span("Keywords: ", className=sized)]
-    for k in valid_search_filters:
-        color = search_filter_color_map[k]
-        tooltip_span = html.Span(
-            k, className=f"msweb-is-{color}-txt {sized} has-text-weight-bold"
-        )
-        tooltip_spans.append(tooltip_span)
-        tooltip_spans.append(html.Span(", "))
+    current_query_hidden = html.Div(id="search-current-query-hidden", children="blahblah", className="is-hidden")
 
-    tooltip_spans.pop(-1)
+    # sized = "is-size-7"
+    # tooltip_spans = [html.Span("Keywords: ", className=sized)]
+    # for k in valid_search_filters:
+    #     color = search_filter_color_map[k]
+    #     tooltip_span = html.Span(
+    #         k, className=f"msweb-is-{color}-txt {sized} has-text-weight-bold"
+    #     )
+    #     tooltip_spans.append(tooltip_span)
+    #     tooltip_spans.append(html.Span(", "))
+    #
+    # tooltip_spans.pop(-1)
 
-    search_bar_tooltip = html.Div(
-        tooltip_spans, className=f"tooltip-text has-margin-0"
-    )
+    # search_bar_tooltip = html.Div(
+    #     tooltip_spans, className=f"tooltip-text has-margin-0"
+    # )
+
+    query_display = html.Div(id="search-query-display", children="")
     search_bar_html = html.Div(
-        [label_container, search_bar, search_bar_tooltip],
-        className="flex-column is-narrow tooltip",
+        [label_container, search_bar, query_display, current_query_hidden],
+        className="flex-column is-narrow",
     )
 
     go_button = html.Button(
@@ -255,6 +261,27 @@ def hidden_ref_example_searches_html():
     )
     return examples_hidden_ref
 
+
+def query_display_html(entity_query):
+    print("generating query display")
+    entity_colormap_key = copy.deepcopy(entity_color_map)
+    entities_keys = []
+    for e, color in entity_colormap_key.items():
+        # don't need the "other" label
+        if e == "other":
+            continue
+        entity_key = html.Div(
+            e, className=f"is-size-4 msweb-is-{color}-txt has-text-weight-bold"
+        )
+        entity_key_container = html.Div(
+            entity_key, className="flex-column is-narrow has-margin-5 box"
+        )
+        entities_keys.append(entity_key_container)
+
+    entity_key_container = html.Div(
+        entities_keys, className="columns is-multiline has-margin-5"
+    )
+    return entity_key_container
 
 # def guided_search_boxes_html():
 #     """
