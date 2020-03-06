@@ -156,6 +156,17 @@ def common_404_html():
     return html.Div("404", className="has-text-centered")
 
 
+def empty_div_html():
+    """
+    Return an empty div with no id.
+
+    Returns:
+        (dash_html_components.Div): The empty div.
+
+    """
+    return html.Div("")
+
+
 def common_stat_style():
     """
     The common style for info statistics.
