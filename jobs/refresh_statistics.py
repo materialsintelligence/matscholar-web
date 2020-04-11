@@ -21,14 +21,9 @@ To be run by either:
 sched = BlockingScheduler()
 
 
-@sched.scheduled_job('interval', minutes=3)
-def timed_job():
-    print('This job is run every three minutes.')
-
-
-@sched.scheduled_job('cron', day_of_week='mon-fri', hour=17)
+@sched.scheduled_job('cron', hour=17)
 def scheduled_job():
-    print('This job is run every weekday at 5pm.')
+    update_live_stats()
 
 
 def get_timestamp():
@@ -103,8 +98,8 @@ def get_live_stats():
         "abstracts": rstats["abstract_count"],
         "materials": rstats["materials_count"],
         "entities": rstats["entities_count"],
-        # "journals": rester.get_journals(),
-        "journal": None,
+        "journals": rester.get_journals(),
+        # "journal": None,
         "timestamp": get_timestamp(),
     }
 
@@ -132,7 +127,7 @@ def update_live_stats(debug=False):
 
 if __name__ == "__main__":
     # Have server deployment run automatically
-    sched.start()
+    # sched.start()
 
     # Generate it locally, manually
-    # update_live_stats()
+    update_live_stats()
