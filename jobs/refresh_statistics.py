@@ -127,7 +127,7 @@ def update_live_stats(debug=False):
 
 if __name__ == "__main__":
     # Have server deployment run automatically
-    # sched.start()
+    sched.start()
 
     # Generate it locally, manually
-    update_live_stats()
+    # update_live_stats()
