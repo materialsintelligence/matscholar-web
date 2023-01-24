@@ -11,13 +11,11 @@ data from over 5 million materials abstracts and it is freely
 accessible via our [website](https://www.matscholar.com) and 
 [public API](https://github.com/materialsintelligence/matscholar). 
 
-This repo houses the code for the [website](https://www.matscholar.com),
-which is built with Plotly Dash.
+This repo houses code for an early version of the matscholar website, which 
+which was built with Plotly Dash. Please note that the live website
+is no longer using this codebase.
 
-If you would like to submit feedback to help us improve the app, 
-please see the Matscholar category on our [official support forum](https://discuss.matsci.org/c/matscholar). 
-
-If you have any other questions please contact our development 
+If you have any questions please contact our development 
 team at help@matscholar.com.
 
 | Tests  |
