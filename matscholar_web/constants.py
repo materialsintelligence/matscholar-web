@@ -16,7 +16,6 @@ db_stats = load_static_data_file("db_statistics.json")
 example_searches = load_static_data_file("example_searches.json")
 sample_abstracts = load_static_data_file("sample_abstracts.json")
 
-
 # Artifacts for making tests run easier
 fake_endpoint = "not_a_real_endpoint"
 fake_api_key = "not_a_real_api_key"
@@ -25,7 +24,6 @@ fake_api_key = "not_a_real_api_key"
 endpoint = os.environ.get("MATERIALS_SCHOLAR_ENDPOINT", fake_endpoint)
 api_key = os.environ.get("MATERIALS_SCHOLAR_API_KEY", fake_api_key)
 rester = Rester(endpoint=endpoint, api_key=api_key)
-
 
 # Artifacts for elastic testing
 fake_elastic_credential = "not_a_real_elastic_credential"

@@ -118,75 +118,92 @@ app.clientside_callback(
 ################################################################################
 
 
-@app.callback(
-    Output("search-main-bar-input", "value"),
-    [Input("search-example-button", "n_clicks")]
-    + get_search_field_callback_args(
-        as_type="input", return_component="value"
-    ),
-)
-def search_bar_live_display(example_search_n_clicks, *ent_txts):
-    """
-    Update the main search bar text live from the example search button and the
-    entity fields being typed in.
-
-    Args:
-        example_search_n_clicks (int): The number of times the example search
-            button was clicked.
-        *ent_txts (strs): The strings for each guided search field.
-
-    Returns:
-        (str): The text to be shown in the search bar via live update.
-
-    """
-    return sl.search_bar_live_display(example_search_n_clicks, *ent_txts)
-
-
-@app.callback(
-    Output("search-example-button", "n_clicks"),
-    get_search_field_callback_args(as_type="input"),
-)
-def void_example_search_n_clicks_on_live_search(*ent_txts):
-    """
-    Reset the number of example search button clicks when any search is changed
-    via the guided search fields.
-
-    Args:
-        *ent_txts: The entity texts, though it does not matter what they
-            actually are.
-    Returns:
-        (int): The number of clicks to set the example search button n_clicks
-            to.
-    """
-    return 0
+# @app.callback(
+#     Output("search-main-bar-input", "value"),
+#     [Input("search-example-button", "n_clicks")]
+#     + get_search_field_callback_args(
+#         as_type="input", return_component="value"
+#     ),
+# )
+# def search_bar_live_display(example_search_n_clicks, *ent_txts):
+#     """
+#     Update the main search bar text live from the example search button and the
+#     entity fields being typed in.
+#
+#     Args:
+#         example_search_n_clicks (int): The number of times the example search
+#             button was clicked.
+#         *ent_txts (strs): The strings for each guided search field.
+#
+#     Returns:
+#         (str): The text to be shown in the search bar via live update.
+#
+#     """
+#     return sl.search_bar_live_display(example_search_n_clicks, *ent_txts)
 
 
 @app.callback(
-    Output("search-go-button", "n_clicks"),
-    [Input("search-main-bar-input", "n_submit")]
-    + get_search_field_callback_args(
-        as_type="input", return_component="n_submit"
-    ),
-    [State("search-go-button", "n_clicks")],
+    Output("search-query-display", "children"),
+    [Input("search-input-unibox", "n_submit")],
+    [State("search-input-unibox", "input"),
+     State("search-current-query-hidden", "value")]
 )
-def sum_all_fields_and_buttons_n_submits(*all_n_clicks):
-    """
-    Sum the guided search fields and main search field and "Go" button n_submits
-    and n_clicks to a single n_clicks number for the Go button. Thus the user
-    can hit enter on any guided search field or the main box and the app will
-    act like you are hitting the go button.
+def update_query_display(unibox_n_submit, unibox_input, current_query):
+    print("triggered in app.py")
+    return sl.update_query_display(unibox_input, unibox_n_submit, current_query)
 
-    Args:
-        *all_n_clicks (ints): Integers representing the number of times each
-            guided search field or main search bar or Go button was
-            clicked/entered.
 
-    Returns:
-        n_times_searched (int): The total number of times a search was executed.
-            If this is voided correctly in another callback, it will be either
-            0 or 1.
-    """
-    return sl.sum_all_fields_and_buttons_n_submits(*all_n_clicks)
+# @app.callback(
+#     Output("search-current-query-hidden", "value"),
+#     [Input("")]
+# )
+
+
+# @app.callback(
+#     Output("search-example-button", "n_clicks"),
+#     get_search_field_callback_args(as_type="input"),
+# )
+# def void_example_search_n_clicks_on_live_search(*ent_txts):
+#     """
+#     Reset the number of example search button clicks when any search is changed
+#     via the guided search fields.
+#
+#     Args:
+#         *ent_txts: The entity texts, though it does not matter what they
+#             actually are.
+#     Returns:
+#         (int): The number of clicks to set the example search button n_clicks
+#             to.
+#     """
+#     return 0
+
+
+# @app.callback(
+#     Output("search-go-button", "n_clicks"),
+#     [Input("search-main-bar-input", "n_submit")]
+#     + get_search_field_callback_args(
+#         as_type="input", return_component="n_submit"
+#     ),
+#     [State("search-go-button", "n_clicks")],
+# )
+# def sum_all_fields_and_buttons_n_submits(*all_n_clicks):
+#     """
+#     Sum the guided search fields and main search field and "Go" button n_submits
+#     and n_clicks to a single n_clicks number for the Go button. Thus the user
+#     can hit enter on any guided search field or the main box and the app will
+#     act like you are hitting the go button.
+#
+#     Args:
+#         *all_n_clicks (ints): Integers representing the number of times each
+#             guided search field or main search bar or Go button was
+#             clicked/entered.
+#
+#     Returns:
+#         n_times_searched (int): The total number of times a search was executed.
+#             If this is voided correctly in another callback, it will be either
+#             0 or 1.
+#     """
+#     return sl.sum_all_fields_and_buttons_n_submits(*all_n_clicks)
 
 
 @app.callback(
@@ -242,18 +259,18 @@ app.clientside_callback(
 
 # Rotates example searches through the search bar
 # See example_searches.js and clientside.js for more details
-app.clientside_callback(
-    ClientsideFunction(
-        namespace="clientside",
-        function_name="cycleExampleSearchesClientsideFunction",
-    ),
-    Output("search-main-bar-input", "children"),
-    [
-        Input("core-url", "pathname"),
-        Input("search-main-bar-input", "id"),
-        Input("search-examples-hidden-ref-cs", "id"),
-    ],
-)
+# app.clientside_callback(
+#     ClientsideFunction(
+#         namespace="clientside",
+#         function_name="cycleExampleSearchesClientsideFunction",
+#     ),
+#     Output("search-main-bar-input", "children"),
+#     [
+#         Input("core-url", "pathname"),
+#         Input("search-main-bar-input", "id"),
+#         Input("search-examples-hidden-ref-cs", "id"),
+#     ],
+# )
 
 
 ################################################################################

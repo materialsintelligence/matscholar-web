@@ -2,7 +2,7 @@ import random
 import re
 
 from matscholar.rest import MatScholarRestError
-from matscholar_web.common import common_rester_error_html
+from matscholar_web.common import common_rester_error_html, empty_div_html
 from matscholar_web.constants import example_searches, valid_search_filters
 from matscholar_web.search.common import cobalt_warning_html
 from matscholar_web.search.subviews.abstracts import abstracts_results_html
@@ -16,6 +16,7 @@ from matscholar_web.search.util import (
 from matscholar_web.search.view import (
     malformed_query_warning_html,
     no_query_warning_html,
+    query_display_html
 )
 
 
@@ -71,6 +72,15 @@ def show_search_results(go_button_n_clicks, dropdown_value, search_text):
                 "undergoing maintenance, please visit again later!"
             )
             return common_rester_error_html(rester_error)
+
+
+def update_query_display(unibox_input, unibox_n_submit, current_query):
+    print("triggered in logic")
+
+    if unibox_n_submit in [None, 0]:
+        return empty_div_html()
+    else:
+        return query_display_html("nothing...")
 
 
 def sum_all_fields_and_buttons_n_submits(*all_n_clicks):
