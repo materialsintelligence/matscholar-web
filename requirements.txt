@@ -10,6 +10,7 @@ flask==1.1.1
 Flask-Caching==1.7.2
 gunicorn==19.9.0
 pandas==0.25.1
+APScheduler==3.6.3
 
 -e git+https://github.com/materialsintelligence/matscholar.git#egg=matscholar
 
